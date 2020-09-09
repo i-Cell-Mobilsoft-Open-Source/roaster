@@ -1,0 +1,91 @@
+= REDIS
+
+A REDIS modul használatához csak be kell hivatkozni a pom.xml-ben
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-redis</artifactId>
+</dependency>
+----
+
+== REDIS Konfigurációs paraméterek
+
+A microprofile-config segítségével paraméterezhetőek a REDIS eléréséhez szükséges adatok.
+
+Példák:
+
+[source,properties]
+.META-INF/microprofile-config.properties
+----
+coffee.redis.default.host=hubphq-nejp-sandbox-d001.icellmobilsoft.hu
+coffee.redis.default.port=6379
+coffee.redis.default.password=redispass
+coffee.redis.default.database=0
+coffee.redis.default.pool.maxtotal=128
+coffee.redis.default.pool.maxidle=32
+----
+
+[source,yml]
+.META-INF/roaster-defaults.yml
+----
+coffee:
+    redis:
+        default:
+            host: hubphq-nejp-sandbox-d001.icellmobilsoft.hu
+            port: 6379
+            password: redispass
+            database: 0
+            pool:
+                maxtotal: 128
+                maxidle: 32
+----
+
+IMPORTANT: Majd abban az osztályban ahol a `BaseConfigurableWeldIT` vagy a `BaseWeldUnitType` van kiterjesztve felül kell definiálni a weld konfigurációját a szükséges osztályok megadásával, amik megtalálhatóak a RedisHandler.REDIS_CLASSES_NEEDED_FOR_WELD-ben felsorolva.
+
+[source,java]
+.Weld konfiguráció kiegészítése
+----
+    @Override
+    protected void configureWeld(Weld weld) {
+        weld.addBeanClasses(RedisHandler.REDIS_CLASSES_NEEDED_FOR_WELD);
+        super.configureWeld(weld);
+    }
+----
+
+== REDIS használata
+
+Először is injektálni kell a handler osztályt.
+
+[source,java]
+.Handler injektálása
+----
+    @Inject
+    private RedisHandler redisHandler;
+----
+
+=== RedisHandler műveletei
+A RedisHandler-en keresztül érhetőek el a műveletek, amik meghívásakor mindig létrejon CDI-t használva, a redisConfigKey által meghatározott adatokkal egy RedisService, aminek továbbítva vannak a műveletek.
+
+A redisConfigKey a microprofile-config.properties-ben megadott kulcsokban szereplő harmadik tag, pl:
+coffee.redis.default.host -> default
+
+RedisService-től átvett műveletek:
+
+* getRedisData(redisConfigKey, valueKey, class)
+* getRedisDataOpt(redisConfigKey, valueKey, class)
+* setRedisData(redisConfigKey, valueKey, redisData)
+* setRedisDataExp(redisConfigKey, valueKey, secondsToExpire, redisData)
+* removeRedisData(redisConfigKey, valueKey)
+* removeAllRedisData(redisConfigKey, List<valueKey>)
+* removeAllRedisData(redisConfigKey)
+
+[source,java]
+.művelet hívásokra példa
+----
+String data = redisHandler.getRedisData("default", "1234", String.class);
+String newData = redisHandler.getRedisData("default", "1234", "new data");
+redisHandler.removeAllRedisData("default");
+----

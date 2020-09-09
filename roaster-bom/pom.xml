@@ -1,0 +1,175 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>hu.icellmobilsoft.roaster</groupId>
+		<artifactId>roaster</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>roaster-bom</artifactId>
+	<packaging>pom</packaging>
+
+	<properties>
+		<version.apache.deltaspike>1.9.1</version.apache.deltaspike>
+		<version.org.eclipse.microprofile>3.3</version.org.eclipse.microprofile>
+		<version.hu.icellmobilsoft.coffee>1.1.0</version.hu.icellmobilsoft.coffee>
+		<version.org.junit>5.6.2</version.org.junit>
+
+		<version.org.apache.commons.commons-text>1.8</version.org.apache.commons.commons-text>
+		<version.org.jboss.weld.weld-junit5>2.0.1.Final</version.org.jboss.weld.weld-junit5>
+		<!-- rest-assured 4.0.0+ bug https://github.com/rest-assured/rest-assured/issues/1175 -->
+		<version.io.rest-assured>3.3.0</version.io.rest-assured>
+		<version.io.smallrye.config>1.8.5</version.io.smallrye.config>
+		<version.jakarta.xml.bind-api>2.3.3</version.jakarta.xml.bind-api>
+		<version.org.mockito.mockito-core>3.3.3</version.org.mockito.mockito-core>
+		<version.com.fasterxml.jackson.datatype.jackson-datatype-jsr310>2.11.1</version.com.fasterxml.jackson.datatype.jackson-datatype-jsr310>
+
+		<version.com.oracle.ojdbc>19.3.0.0</version.com.oracle.ojdbc>
+
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- Project modules -->
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-oracle</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-redis</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-restassured</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-common-test</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-weldunit</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-common-config</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- bom imports -->
+			<dependency>
+				<groupId>hu.icellmobilsoft.coffee</groupId>
+				<artifactId>coffee-bom</artifactId>
+				<version>${version.hu.icellmobilsoft.coffee}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.coffee</groupId>
+				<artifactId>coffee-module-redis</artifactId>
+				<version>${version.hu.icellmobilsoft.coffee}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>hu.icellmobilsoft.coffee</groupId>
+						<artifactId>coffee-dto-gen</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.deltaspike.distribution</groupId>
+				<artifactId>distributions-bom</artifactId>
+				<version>${version.apache.deltaspike}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.microprofile</groupId>
+				<artifactId>microprofile</artifactId>
+				<version>${version.org.eclipse.microprofile}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>${version.org.junit}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- common imports -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-text</artifactId>
+				<version>${version.org.apache.commons.commons-text}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.weld</groupId>
+				<artifactId>weld-junit5</artifactId>
+				<version>${version.org.jboss.weld.weld-junit5}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.rest-assured</groupId>
+				<artifactId>rest-assured</artifactId>
+				<version>${version.io.rest-assured}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.rest-assured</groupId>
+				<artifactId>json-schema-validator</artifactId>
+				<version>${version.io.rest-assured}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.smallrye.config</groupId>
+				<artifactId>smallrye-config</artifactId>
+				<version>${version.io.smallrye.config}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.smallrye.config</groupId>
+				<artifactId>smallrye-config-source-yaml</artifactId>
+				<version>${version.io.smallrye.config}</version>
+			</dependency>
+			<dependency>
+				<groupId>jakarta.xml.bind</groupId>
+				<artifactId>jakarta.xml.bind-api</artifactId>
+				<version>${version.jakarta.xml.bind-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>${version.org.mockito.mockito-core}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.datatype</groupId>
+				<artifactId>jackson-datatype-jsr310</artifactId>
+				<version>${version.com.fasterxml.jackson.datatype.jackson-datatype-jsr310}</version>
+			</dependency>
+
+			<!-- Oracle Driver -->
+			<dependency>
+				<groupId>com.oracle.ojdbc</groupId>
+				<artifactId>ojdbc10</artifactId>
+				<version>${version.com.oracle.ojdbc}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.oracle.ojdbc</groupId>
+				<artifactId>orai18n</artifactId>
+				<version>${version.com.oracle.ojdbc}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+</project>

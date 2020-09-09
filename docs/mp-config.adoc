@@ -1,0 +1,76 @@
+= Konfigurációs paraméterek
+
+A tesztek microprofile-config segítségével paraméterezhetőek,
+ehhez elegendő, ha a teszt osztály kiterjeszti a `BaseConfigurableWeldIT` vagy a `BaseWeldUnitType` absztrakt osztályt;
+majd a megszokott módon CDI-on keresztül inject-eljük a kívánt konfig paramétert.
+A konfigurációs paraméterek `META-INF/roaster-defaults.yml` konfigurációs yaml fájlon keresztül beállíthatóak.
+A `roaster-defaults.yml` yaml mellé létrehozhatunk külön profile-okra alkalmazandó yml-oket is `roaster-{profile}.yml` néven,
+a futtandó profil(oka)t valamely default mp-config forráson keresztül állíthatjuk be a `profile` kulccsal.
+Megadható több profil is vesszővel (`,`) elválasztva. Ilyenkor a konfig kulcsok felolvasása
+mindig a legelső profil-al kezdődik és az utolsó találatig tart.
+
+NOTE: Amennyiben szükséges a mp-config megengedi uj config-source-ok felvételét.
+Így ha a projekt igényli lehetséges az ETCD-ből vagy DB-ből felolvasott konfigok használata.
+
+Példa:
+[source,yaml]
+.META-INF/roaster-defaults.yml
+----
+roaster:
+    test:
+        sample:
+            url: http://roaster-default.hu
+            port: 8083
+            pass: secret
+----
+
+[source,yaml]
+.META-INF/roaster-local.yml
+----
+roaster:
+    test:
+        sample:
+            url: http://localhost
+            port: 8084
+----
+
+[source,yaml]
+.META-INF/roaster-sandbox.yml
+----
+roaster:
+    test:
+        sample:
+            url: http://roaster-sandbox.hu
+----
+
+[source,java]
+.GetSampleIT.java
+----
+@DisplayName("Testing Sample Rest")
+@Tag(TestSuiteGroup.RESTASSURED)
+public class GetSampleIT extends BaseConfigurableWeldIT {
+
+    @Inject
+    @ConfigProperty(name = "roaster.test.sample.url")
+    private String sampleUrl;
+    @Inject
+    @ConfigProperty(name = "roaster.test.sample.port")
+    private Integer samplePort;
+    @Inject
+    @ConfigProperty(name = "roaster.test.sample.pass")
+    private Integer samplePass;
+----
+
+
+[source,bash]
+.Profile futtatás
+----
+~/project-backend/project-testsuite$ mvn verify -Dprofile=sandbox,local #<1>
+----
+<1> profile futtatás: beolvasott yaml-ok sorrendje: roaster-sandbox.yml, roaster-local.yml, roaster-defaults.yml
++
+Felolvasott értékek:
++
+* `sampleUrl = http://roaster-sandbox.hu` (`roaster-sandbox.yml` konfigból)
+* `samplePort = 8084` (`roaster-sandbox.yml`-ben nincs, ezért `roaster-local.yml` konfigból)
+* `samplePass = secret` (`roaster-sandbox.yml` és `roaster-local.yml`-ben nincs, ezért `roaster-defaults.yml` konfigból)

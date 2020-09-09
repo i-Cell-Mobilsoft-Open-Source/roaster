@@ -1,0 +1,110 @@
+= Oracle DB
+
+A Oracle DB modul használatához csak be kell hivatkozni a pom.xml-ben
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-oracle</artifactId>
+</dependency>
+----
+
+== Oracle DB Konfigurációs paraméterek
+
+A microprofile-config segítségével paraméterezhetőek az Oracle DB eléréséhez szükséges adatok.
+
+Példák:
+
+[source,properties]
+.META-INF/microprofile-config.properties
+----
+roaster.datasource.oracle.application.url=jdbc:oracle:thin:@//oracle.icellmobilsoft.hu:1521/sample
+roaster.datasource.oracle.application.user=db_user
+roaster.datasource.oracle.application.password=db_pass
+----
+
+[source,yml]
+.META-INF/roaster-defaults.yml
+----
+roaster:
+    datasource:
+        oracle:
+            application:
+                url: jdbc:oracle:thin:@//oracle.icellmobilsoft.hu:1521/sample
+                user: db_user
+                password: db_pass
+
+----
+
+IMPORTANT: Majd abban az osztályban ahol a `BaseConfigurableWeldIT` vagy a `BaseWeldUnitType` van kiterjesztve
+felül kell definiálni a weld konfigurációját a szükséges osztályok megadásával,
+amik megtalálhatóak a OracleJDBCSelectorService.ORACLE_JDBC_CLASSES_NEEDED_FOR_WELD-ben felsorolva.
+
+[source,java]
+.Weld konfiguráció kiegészítése
+----
+    @Override
+    protected void configureWeld(Weld weld) {
+        weld.addBeanClasses(OracleJDBCSelectorService.ORACLE_JDBC_CLASSES_NEEDED_FOR_WELD);
+        super.configureWeld(weld);
+    }
+----
+
+== OracleJDBCSelectorService használata
+
+Először is injektálni kell a service osztályt.
+
+[source,java]
+.OracleJDBCSelectorService injektálása
+----
+    @Inject
+    @DBConnection(configKey = DBConstants.Schema.APPLICATION)
+    private OracleJDBCSelectorService service;
+----
+
+=== OracleJDBCSelectorService műveletei
+
+A OracleJDBCSelectorService-en keresztül érhetőek el a műveletek, amik meghívásakor, ha még nem létezik nyitott kapcsolat, létrehoz egy újat az adatbázissal, majd a művelet végén be is zárja azt.
+
+IMPORTANT: A selecttel kezdődő metódusok, csak SELECT-tel kezdődő sql utasításokat fogadnak be!
+A selectFirst pedig, ha több találat jön DBből, akkor csak az első sort adja vissza.
+
+* selectFirstStringValue(sql select string, columnName)
+* selectFirstIntegerValue(sql select string, columnName)
+* selectFirstBooleanValue(sql select string, columnName)
+* selectFirstBigDecimalValue(sql select string, columnName)
+* selectFirstDateValue(sql select string, columnName)
+* selectRowCount(sql select string)
+* selectFirstObject(sql select string, converter)
+* selectAllObjects(sql select string, converter)
+
+[source,java]
+.művelet hívásokra példa
+----
+String name = service.selectFirstStringValue("SELECT * FROM EXAMPLE WHERE X__ID = '0'", "NAME");
+int rowCount = service.selectRowCount("SELECT * FROM EXAMPLE WHERE X__ID = '0'");
+List<Example> exampleList = service.selectAllObjects("SELECT * FROM EXAMPLE", exampleConverter::convert);
+----
+
+[source,java]
+.Converter-re példa
+----
+private T convert(ResultSet rs) throws BaseException {
+    try {
+        T t = new T();
+        t.setId(rs.getString("X__ID"));
+        t.setName(rs.getString("NAME"));
+        return t;
+    } catch (SQLException e) {
+        throw new TechnicalException(e.getLocalizedMessage());
+    }
+}
+----
+
+=== Kapcsolat kezeléshez szükséges metódusok
+
+* getJdbcConnection()
+* setJdbcConnection(JDBCConnection)
+* close

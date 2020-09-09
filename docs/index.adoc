@@ -1,0 +1,23 @@
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectnumlevels: 4
+= Roaster testsuite dokumentáció
+
+A projekt célja a fejlesztői tesztek segítése RestAssured + Weld + JUnit 5 használatával.
+
+Előnyök:
+
+* Java alapok, fejlesztőknek egyszerű, ismert környezet.
+* Használhatóak a projekt által kigenerált DTO osztályok.
+** Nem szükséges kézzel összeállítani a request XML/JSON body-t.
+** Tesztek aktív állapotban tartása.
+* Futtatható IDE-ből vagy maven-en keresztül konzolon és CI toolon.
+
+Hátrányok:
+
+* Elsőre bonyorultabb teszt struktúrát követel
+
+include::maven-structure.adoc[leveloffset=+1]
+include::mp-config.adoc[leveloffset=+1]
+include::modules/modules.adoc[leveloffset=+1]
