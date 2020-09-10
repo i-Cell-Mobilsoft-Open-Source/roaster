@@ -25,22 +25,39 @@ import hu.icellmobilsoft.coffee.dto.exception.BaseException;
  * DB configuration values
  *
  * @author balazs.joo
- * @since 0.0.2
  */
 public interface DBConfig {
 
     /**
-     * <p>getUrl.</p>
+     * <p>
+     * getUrl.
+     * </p>
+     * 
+     * @return url value
+     * @throws BaseException
+     *             exception
      */
     String getUrl() throws BaseException;
 
     /**
-     * <p>getUser.</p>
+     * <p>
+     * getUser.
+     * </p>
+     * 
+     * @return user value
+     * @throws BaseException
+     *             exception
      */
     String getUser() throws BaseException;
 
     /**
-     * <p>getPassword.</p>
+     * <p>
+     * getPassword.
+     * </p>
+     * 
+     * @return password value
+     * @throws BaseException
+     *             exception
      */
     String getPassword() throws BaseException;
 

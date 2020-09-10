@@ -28,9 +28,6 @@ import hu.icellmobilsoft.roaster.api.Condition;
 /**
  * Class to get private field values from outside of the class.
  *
- * NEJP-ről átemelve
- * 
- * @since 0.2.0
  */
 public class Getter {
 

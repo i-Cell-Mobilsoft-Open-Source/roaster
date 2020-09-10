@@ -33,7 +33,6 @@ import io.restassured.specification.RequestSpecification;
  * Producer class for RestAssured RequestSpecification
  * 
  * @author imre.scheffer
- * @since 0.0.1
  */
 @ApplicationScoped
 public class RequestSpecificationProducer {

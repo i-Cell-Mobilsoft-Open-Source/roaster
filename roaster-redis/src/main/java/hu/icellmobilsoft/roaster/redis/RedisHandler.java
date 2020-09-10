@@ -41,7 +41,6 @@ import hu.icellmobilsoft.coffee.module.redis.service.RedisService;
  * Class representing REDIS functionality
  *
  * @author balazs.joo
- * @since 0.0.1
  */
 @Model
 public class RedisHandler {
@@ -50,13 +49,12 @@ public class RedisHandler {
      * In case of REDIS functionality usage, this Classes are needed to pass for Weld configuration
      * <p>
      * {@code
-     * <p>
+     * 
+    <p>
      * &#64;Override
      * protected void configureWeld(Weld weld) {
      * weld.addBeanClasses(RedisHandler.REDIS_CLASSES_NEEDED_FOR_WELD);
-     * super.configureWeld(weld);
-     * }
-     * }
+     * super.configureWeld(weld); } }
      */
     public static final Class<?>[] REDIS_CLASSES_NEEDED_FOR_WELD = { RedisHandler.class, JedisConnectionProducer.class, JedisPoolProducer.class,
             RedisService.class, RedisServiceProducer.class, RedisConfigProducer.class, ManagedRedisConfig.class };
@@ -64,11 +62,17 @@ public class RedisHandler {
     /**
      * Gets data from REDIS, identified by {@code redisConfigKey}, for given {@code valueKey}, and responses with given class
      *
-     * @param redisConfigKey REDIS db configuration key
-     * @param valueKey       key for value
-     * @param c              response class
+     * @param <T>
+     *            generic type
+     * @param redisConfigKey
+     *            REDIS db configuration key
+     * @param valueKey
+     *            key for value
+     * @param c
+     *            response class
      * @return data if found
-     * @throws BaseException if data not found
+     * @throws BaseException
+     *             if data not found
      */
     public <T> T getRedisData(String redisConfigKey, String valueKey, Class<T> c) throws BaseException {
         RedisService service = getRedisService(redisConfigKey);
@@ -76,13 +80,20 @@ public class RedisHandler {
     }
 
     /**
-     * Gets data from REDIS, identified by {@code redisConfigKey}, for given {@code valueKey}, and responses with given class wrapped in {@link Optional}
+     * Gets data from REDIS, identified by {@code redisConfigKey}, for given {@code valueKey}, and responses with given class wrapped in
+     * {@link Optional}
      *
-     * @param redisConfigKey REDIS db configuration key
-     * @param valueKey       key for value
-     * @param c              response class
+     * @param <T>
+     *            generic type
+     * @param redisConfigKey
+     *            REDIS db configuration key
+     * @param valueKey
+     *            key for value
+     * @param c
+     *            response class
      * @return data if found wrapped in Optional, if not found, then Optional.empty()
      * @throws BaseException
+     *             exception
      */
     public <T> Optional<T> getRedisDataOpt(String redisConfigKey, String valueKey, Class<T> c) throws BaseException {
         RedisService service = getRedisService(redisConfigKey);
@@ -92,11 +103,17 @@ public class RedisHandler {
     /**
      * Puts data in given REDIS db
      *
-     * @param redisConfigKey REDIS db configuration key
-     * @param valueKey       key for value
-     * @param redisData      data to store
-     * @return
+     * @param <T>
+     *            generic type
+     * @param redisConfigKey
+     *            REDIS db configuration key
+     * @param valueKey
+     *            key for value
+     * @param redisData
+     *            data to store
+     * @return Status code reply
      * @throws BaseException
+     *             exception
      */
     public <T> String setRedisData(String redisConfigKey, String valueKey, T redisData) throws BaseException {
         RedisService service = getRedisService(redisConfigKey);
@@ -106,12 +123,19 @@ public class RedisHandler {
     /**
      * Puts data in given REDIS db, with expiration time
      *
-     * @param redisConfigKey  REDIS db configuration key
-     * @param valueKey        key for value
-     * @param secondsToExpire expire time in seconds
-     * @param redisData       data to store
-     * @return
+     * @param <T>
+     *            generic type
+     * @param redisConfigKey
+     *            REDIS db configuration key
+     * @param valueKey
+     *            key for value
+     * @param secondsToExpire
+     *            expire time in seconds
+     * @param redisData
+     *            data to store
+     * @return Status code reply
      * @throws BaseException
+     *             exception
      */
     public <T> String setRedisDataExp(String redisConfigKey, String valueKey, int secondsToExpire, T redisData) throws BaseException {
         RedisService service = getRedisService(redisConfigKey);
@@ -121,9 +145,12 @@ public class RedisHandler {
     /**
      * Removes data from given REDIS db, with given key
      *
-     * @param redisConfigKey REDIS db configuration key
-     * @param valueKey       key for value
+     * @param redisConfigKey
+     *            REDIS db configuration key
+     * @param valueKey
+     *            key for value
      * @throws BaseException
+     *             exception
      */
     public void removeRedisData(String redisConfigKey, String valueKey) throws BaseException {
         RedisService service = getRedisService(redisConfigKey);
@@ -133,9 +160,12 @@ public class RedisHandler {
     /**
      * Removes data from given REDIS db, with given keys
      *
-     * @param redisConfigKey REDIS db configuration key
-     * @param valueKeys      key list for values
+     * @param redisConfigKey
+     *            REDIS db configuration key
+     * @param valueKeys
+     *            key list for values
      * @throws BaseException
+     *             exception
      */
     public void removeAllRedisData(String redisConfigKey, List<String> valueKeys) throws BaseException {
         RedisService service = getRedisService(redisConfigKey);
@@ -145,7 +175,10 @@ public class RedisHandler {
     /**
      * Erases all data from given REDIS db
      *
-     * @param redisConfigKey REDIS db configuration key
+     * @param redisConfigKey
+     *            REDIS db configuration key
+     * @throws BaseException
+     *             exception
      */
     public void removeAllRedisData(String redisConfigKey) throws BaseException {
         RedisService service = getRedisService(redisConfigKey);

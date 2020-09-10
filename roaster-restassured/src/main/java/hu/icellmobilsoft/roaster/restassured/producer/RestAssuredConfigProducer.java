@@ -42,7 +42,6 @@ import io.restassured.mapper.factory.Jackson2ObjectMapperFactory;
  *
  * @author mark.petrenyi
  * @author imre.scheffer
- * @since 0.0.1
  */
 @ApplicationScoped
 public class RestAssuredConfigProducer {

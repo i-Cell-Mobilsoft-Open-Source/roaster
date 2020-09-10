@@ -35,7 +35,6 @@ import javax.inject.Qualifier;
  * JSON tagged annotation
  * 
  * @author imre.scheffer
- * @since 0.0.1
  */
 @Qualifier
 @Retention(RUNTIME)
@@ -46,7 +45,6 @@ public @interface JSON {
 	 * Supports inline instantiation of the {@link JSON} annotation.
 	 *
 	 * @author imre.scheffer
-	 * @since 0.0.1
 	 */
 	public final static class Literal extends AnnotationLiteral<JSON> implements JSON {
 

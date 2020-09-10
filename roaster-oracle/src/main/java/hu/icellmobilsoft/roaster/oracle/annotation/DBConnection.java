@@ -33,7 +33,6 @@ import javax.inject.Qualifier;
  * Qualifier for instantiating {@link Connection}
  *
  * @author balazs.joo
- * @since 0.0.2
  */
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
@@ -42,11 +41,13 @@ public @interface DBConnection {
 
     /**
      * Config key of the desired DB schema. <br>
-     * ie. if connection details are defined in the project-*.yml by the keys: {@code roaster.oracle.employee.*=...} then configKey should be "employee"
+     * ie. if connection details are defined in the project-*.yml by the keys: {@code roaster.oracle.employee.*=...} then configKey should be
+     * "employee"
      *
-     * @return
+     * @return config key value
      */
-    @Nonbinding String configKey();
+    @Nonbinding
+    String configKey();
 
     /**
      * Supports inline instantiation of the {@link DBConnection} qualifier.

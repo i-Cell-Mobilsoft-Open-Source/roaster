@@ -42,7 +42,6 @@ import hu.icellmobilsoft.roaster.oracle.service.OracleJDBCSelectorService;
  * Producer for OracleJDBCService
  *
  * @author balazs.joo
- * @since 0.0.2
  */
 @ApplicationScoped
 public class OracleJDBCServiceProducer {
@@ -53,6 +52,10 @@ public class OracleJDBCServiceProducer {
      * Produces OracleJDBCService for the DB connection specified by the given configKey
      *
      * @param injectionPoint
+     *            CDI injection point
+     * @return created object
+     * @throws BaseException
+     *             exception
      */
     @Dependent
     @Produces
@@ -75,6 +78,9 @@ public class OracleJDBCServiceProducer {
 
     /**
      * Close connection when disposed
+     * 
+     * @param oracleJDBCSelectorService
+     *            disposed object
      */
     public void returnResource(@Disposes @DBConnection(configKey = "") OracleJDBCSelectorService oracleJDBCSelectorService) {
         if (oracleJDBCSelectorService != null) {

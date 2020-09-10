@@ -37,9 +37,6 @@ import hu.icellmobilsoft.roaster.api.Condition;
 /**
  * Class to hold any XSD related Any method (like random request id).
  *
- * NEJP-ről átemelve
- * 
- * @since 0.2.0
  */
 public abstract class AnyDto {
 
@@ -151,6 +148,8 @@ public abstract class AnyDto {
     /**
      * build an array with maximum {@value #MAXIMUM_ARRAY_ELEMENT_NUMBER} element
      *
+     * @param <T>
+     *            generic type
      * @param clazz
      *            the base type of the elements
      * @return an newly created list.

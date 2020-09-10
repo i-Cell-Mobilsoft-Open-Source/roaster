@@ -37,13 +37,18 @@ import hu.icellmobilsoft.roaster.oracle.config.ManagedDBConfig;
  * Producer for creating ManagedDBConfig
  *
  * @author balazs.joo
- * @since 0.0.2
  */
 @ApplicationScoped
 public class DBConfigProducer {
 
     /**
      * Creates ManagedDBConfig for the injected configKey
+     * 
+     * @param injectionPoint
+     *            CDI injection point
+     * @return created class
+     * @throws BaseException
+     *             exception
      */
     @Produces
     @Dependent

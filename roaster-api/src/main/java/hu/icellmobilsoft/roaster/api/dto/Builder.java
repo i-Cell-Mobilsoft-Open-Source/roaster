@@ -48,16 +48,13 @@ import hu.icellmobilsoft.roaster.api.Condition;
 /**
  * Class to hold all the builder methods.
  *
- * NEJP-ről átemelve
- * 
- * @since 0.2.0
  */
 public class Builder {
 
     /**
      * The root package of the builder classes.
      */
-    private static final String BUILDER_ROOT_PACKAGE = "hu.icellmobilsoft.nejp.common.test";
+    private static final String BUILDER_ROOT_PACKAGE = "hu.icellmobilsoft.roaster.common.test";
 
     private static final Object builderListLock = new Object();
 
@@ -72,6 +69,8 @@ public class Builder {
     /**
      * return the builder for the given class ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
      *
+     * @param <T>
+     *            generic class
      * @param targetClazz
      *            class to instantiate.
      * @return the builder for the target class
@@ -115,6 +114,8 @@ public class Builder {
     }
 
     /**
+     * @param <T>
+     *            generic class
      * @param targetClazz
      *            class to instantiate.
      * @return true if the target class has registered builder.

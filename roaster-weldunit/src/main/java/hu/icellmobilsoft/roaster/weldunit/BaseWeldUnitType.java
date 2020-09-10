@@ -33,10 +33,6 @@ import io.smallrye.config.inject.ConfigExtension;
 
 /**
  * Abstract class to hold all generic and base test class functionality
- * <p>
- * NEJP-ről átemelve
- *
- * @since 0.2.0
  */
 @EnableWeld
 public abstract class BaseWeldUnitType {

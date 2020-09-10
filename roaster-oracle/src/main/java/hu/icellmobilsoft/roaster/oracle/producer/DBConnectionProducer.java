@@ -44,7 +44,6 @@ import hu.icellmobilsoft.roaster.oracle.connection.JDBCConnection;
  * Producer for creating or obtaining {@link Connection}
  *
  * @author balazs.joo
- * @since 0.0.2
  */
 @ApplicationScoped
 public class DBConnectionProducer {
@@ -55,6 +54,12 @@ public class DBConnectionProducer {
 
     /**
      * Creates or gets Connection for the given configKey
+     * 
+     * @param injectionPoint
+     *            CDI injection point
+     * @return created object
+     * @throws BaseException
+     *             exception
      */
     @Produces
     @Dependent
@@ -71,7 +76,8 @@ public class DBConnectionProducer {
      * pools for the same connection.
      *
      * @param configKey
-     * @return
+     *            config key
+     * @return connection handler object
      */
     private synchronized JDBCConnection getInstance(String configKey) {
         if (!connectionInstances.containsKey(configKey) || connectionInstances.get(configKey).isClosed()) {

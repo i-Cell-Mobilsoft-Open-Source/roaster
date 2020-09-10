@@ -35,7 +35,6 @@ import javax.inject.Qualifier;
  * XML tagged annotation
  * 
  * @author imre.scheffer
- * @since 0.0.1
  */
 @Qualifier
 @Retention(RUNTIME)
@@ -46,7 +45,6 @@ public @interface XML {
 	 * Supports inline instantiation of the {@link XML} annotation.
 	 *
 	 * @author imre.scheffer
-	 * @since 0.0.1
 	 */
 	public final static class Literal extends AnnotationLiteral<XML> implements XML {
 

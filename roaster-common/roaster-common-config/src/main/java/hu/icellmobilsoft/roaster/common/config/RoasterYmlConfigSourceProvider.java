@@ -41,7 +41,6 @@ import io.smallrye.config.source.yaml.YamlConfigSource;
  * Config source provider roaster-*.yml konfig fájlok beolvasásához. Inspired by {@link io.smallrye.config.source.yaml.YamlConfigSourceProvider}
  *
  * @author mark.petrenyi
- * @since 0.0.1
  */
 public class RoasterYmlConfigSourceProvider implements ConfigSourceProvider {
 

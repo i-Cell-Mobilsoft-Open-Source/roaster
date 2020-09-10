@@ -40,72 +40,71 @@ import hu.icellmobilsoft.roaster.api.TestException;
  * File utils for test environment
  * 
  * @author imre.scheffer
- * @since 0.0.1
  */
 @Vetoed
 public class FileUtil {
 
-	private static final Logger LOG = Logger.getLogger(FileUtil.class.getName());
+    private static final Logger LOG = Logger.getLogger(FileUtil.class.getName());
 
-	public static final String SRC_TEST_RESOURCES = "src/test/resources/";
+    public static final String SRC_TEST_RESOURCES = "src/test/resources/";
 
-	/**
-	 * Read file by java.nio (java 11+)
-	 * 
-	 * @param first first the path string or initial part of the path string
-	 * @param more  more additional strings to be joined to form the path string
-	 * @return file content
-	 * 
-	 * @see {@link Path#of(String, String...)}
-	 */
-	public static String readFile(String first, String... more) {
-		Path path = Path.of(first, more);
-		return readFile(path);
-	}
+    /**
+     * Read file by java.nio (java 11+)
+     * 
+     * @param first
+     *            first the path string or initial part of the path string
+     * @param more
+     *            more additional strings to be joined to form the path string
+     * @return file content
+     * 
+     * @see based on {@link Path#of(String, String...)}
+     */
+    public static String readFile(String first, String... more) {
+        Path path = Path.of(first, more);
+        return readFile(path);
+    }
 
-	/**
-	 * Read file by java.nio (java 11+) from ClassLoader.getSystemResourceAsStream
-	 * 
-	 * @param fileName filename like token.xml, in src/main/resources source
-	 *                 directory
-	 * @return file content
-	 * @see {@link ClassLoader#getSystemResourceAsStream(String)}
-	 */
-	public static String readFileFromResource(String fileName) {
-		if (StringUtils.isBlank(fileName)) {
-			return null;
-		}
-		try (InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName)) {
-			String file = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines()
-					.collect(Collectors.joining("\n"));
-			LOG.info(() -> MessageFormat.format("File [{0}] from resources readed!",
-					ClassLoader.getSystemResource(fileName)));
-			return file;
-		} catch (IOException e) {
-			throw new TestException(MessageFormat.format("Unable to read File [{0}] from resource", fileName), e);
-		}
-	}
+    /**
+     * Read file by java.nio (java 11+) from ClassLoader.getSystemResourceAsStream
+     * 
+     * @param fileName
+     *            filename like token.xml, in src/main/resources source directory
+     * @return file content
+     * @see based on {@link ClassLoader#getSystemResourceAsStream(String)}
+     */
+    public static String readFileFromResource(String fileName) {
+        if (StringUtils.isBlank(fileName)) {
+            return null;
+        }
+        try (InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName)) {
+            String file = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+            LOG.info(() -> MessageFormat.format("File [{0}] from resources readed!", ClassLoader.getSystemResource(fileName)));
+            return file;
+        } catch (IOException e) {
+            throw new TestException(MessageFormat.format("Unable to read File [{0}] from resource", fileName), e);
+        }
+    }
 
-	/**
-	 * Read file by java.nio (java 11+)
-	 * 
-	 * @param path the path to the file
-	 * @return file content
-	 * 
-	 * @see {@link Files#readString(Path)}
-	 */
-	public static String readFile(Path path) {
-		if (path == null) {
-			throw new TestException("path is null!");
-		}
-		try {
-			String file = Files.readString(path);
-			LOG.info(() -> MessageFormat.format("File from path [{0}] readed!", path.toAbsolutePath()));
-			return file;
-		} catch (IOException e) {
-			throw new TestException(MessageFormat.format("Unable to read File from path: [{0}]", path.toAbsolutePath()),
-					e);
-		}
-	}
+    /**
+     * Read file by java.nio (java 11+)
+     * 
+     * @param path
+     *            the path to the file
+     * @return file content
+     * 
+     * @see based on {@link Files#readString(Path)}
+     */
+    public static String readFile(Path path) {
+        if (path == null) {
+            throw new TestException("path is null!");
+        }
+        try {
+            String file = Files.readString(path);
+            LOG.info(() -> MessageFormat.format("File from path [{0}] readed!", path.toAbsolutePath()));
+            return file;
+        } catch (IOException e) {
+            throw new TestException(MessageFormat.format("Unable to read File from path: [{0}]", path.toAbsolutePath()), e);
+        }
+    }
 
 }

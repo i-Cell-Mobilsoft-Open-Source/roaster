@@ -29,9 +29,6 @@ import hu.icellmobilsoft.roaster.api.TestException;
 /**
  * Class to set private field values from outside of the class.
  *
- * NEJP-ről átemelve
- * 
- * @since 0.2.0
  */
 public class Setter {
     /**
@@ -269,6 +266,8 @@ public class Setter {
      *            the value to set the field
      * @param <E>
      *            the type of the entity
+     * @param <V>
+     *            the type of the value
      */
     public static <E, V> void setValue(final E entity, final Field field, final V value) {
         setValue(entity, field, field::set, value);

@@ -27,7 +27,6 @@ import org.apache.commons.lang3.StringUtils;
  * Types of databases can be handled by Roaster
  *
  * @author balazs.joo
- * @since 0.0.2
  */
 public enum DBTypeEnum {
 

@@ -35,7 +35,6 @@ import io.restassured.specification.ResponseSpecification;
  * Helper class for /health endpoint restassured testing
  * 
  * @author mark.petrenyi
- * @since 0.0.1
  */
 @Dependent
 public class HealthCheckTestHelper {

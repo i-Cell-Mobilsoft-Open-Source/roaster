@@ -58,7 +58,6 @@ import hu.icellmobilsoft.roaster.oracle.constatns.DBTypeEnum;
  * </pre>
  *
  * @author balazs.joo
- * @since 0.0.2
  */
 @Dependent
 public class ManagedDBConfig implements DBConfig {
@@ -120,20 +119,10 @@ public class ManagedDBConfig implements DBConfig {
         return config.getOptionalValue(joinKey(PASSWORD), String.class).orElse(null);
     }
 
-    /**
-     * <p>
-     * Getter for the field <code>configKey</code>.
-     * </p>
-     */
     public String getConfigKey() {
         return configKey;
     }
 
-    /**
-     * <p>
-     * Setter for the field <code>configKey</code>.
-     * </p>
-     */
     public void setConfigKey(String configKey) {
         this.configKey = configKey;
     }

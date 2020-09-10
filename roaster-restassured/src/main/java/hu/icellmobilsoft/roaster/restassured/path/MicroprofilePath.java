@@ -23,7 +23,6 @@ package hu.icellmobilsoft.roaster.restassured.path;
  * Constants for mp endpoint paths
  * 
  * @author mark.petrenyi
- * @since 0.0.1
  */
 public class MicroprofilePath {
 

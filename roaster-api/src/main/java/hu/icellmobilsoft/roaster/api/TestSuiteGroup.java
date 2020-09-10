@@ -23,7 +23,6 @@ package hu.icellmobilsoft.roaster.api;
  * Constants holder for testsuite test groups
  *
  * @author mark.petrenyi
- * @since 0.0.1
  */
 public interface TestSuiteGroup {
 

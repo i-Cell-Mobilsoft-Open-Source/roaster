@@ -50,7 +50,6 @@ import hu.icellmobilsoft.roaster.oracle.producer.OracleJDBCServiceProducer;
  * Class representing Oracle JDBC functionality
  *
  * @author balazs.joo
- * @since 0.0.2
  */
 @Dependent
 public class OracleJDBCSelectorService {
@@ -88,6 +87,7 @@ public class OracleJDBCSelectorService {
      *            column name
      * @return column String value
      * @throws BaseException
+     *             exception
      */
     public String selectFirstStringValue(String sql, String columnName) throws BaseException {
         return getFirstValue(sql, columnName, this::getStringColumnValue);
@@ -102,6 +102,7 @@ public class OracleJDBCSelectorService {
      *            column name
      * @return column Integer value
      * @throws BaseException
+     *             exception
      */
     public Integer selectFirstIntegerValue(String sql, String columnName) throws BaseException {
         return getFirstValue(sql, columnName, this::getIntegerColumnValue);
@@ -116,6 +117,7 @@ public class OracleJDBCSelectorService {
      *            column name
      * @return column Boolean value
      * @throws BaseException
+     *             exception
      */
     public Boolean selectFirstBooleanValue(String sql, String columnName) throws BaseException {
         return getFirstValue(sql, columnName, this::getBooleanColumnValue);
@@ -130,6 +132,7 @@ public class OracleJDBCSelectorService {
      *            column name
      * @return column BigDecimal value
      * @throws BaseException
+     *             exception
      */
     public BigDecimal selectFirstBigDecimalValue(String sql, String columnName) throws BaseException {
         return getFirstValue(sql, columnName, this::getBigDecimalColumnValue);
@@ -144,6 +147,7 @@ public class OracleJDBCSelectorService {
      *            column name
      * @return column Date value
      * @throws BaseException
+     *             exception
      */
     public Date selectFirstDateValue(String sql, String columnName) throws BaseException {
         return getFirstValue(sql, columnName, this::getDateColumnValue);
@@ -156,6 +160,7 @@ public class OracleJDBCSelectorService {
      *            sql command
      * @return row count
      * @throws BaseException
+     *             exception
      */
     public Integer selectRowCount(String sql) throws BaseException {
         if (StringUtils.isBlank(sql)) {
@@ -195,6 +200,7 @@ public class OracleJDBCSelectorService {
      *            type of return object
      * @return converted object
      * @throws BaseException
+     *             exception
      */
     public <T> T selectFirstObject(String sql, FunctionalInterfaces.BaseExceptionFunction<ResultSet, T> converter) throws BaseException {
         if (StringUtils.isBlank(sql)) {
@@ -240,6 +246,7 @@ public class OracleJDBCSelectorService {
      *            type of return objects
      * @return list of converted objects
      * @throws BaseException
+     *             exception
      */
     public <T> List<T> selectAllObjects(String sql, FunctionalInterfaces.BaseExceptionFunction<ResultSet, T> converter) throws BaseException {
         if (StringUtils.isBlank(sql)) {
@@ -327,20 +334,10 @@ public class OracleJDBCSelectorService {
         }
     }
 
-    /**
-     * <p>
-     * Getter for the field <code>connection</code>.
-     * </p>
-     */
     protected JDBCConnection getJdbcConnection() {
         return jdbcConnection;
     }
 
-    /**
-     * <p>
-     * Setter for the field <code>connection</code>.
-     * </p>
-     */
     public void setJdbcConnection(JDBCConnection jdbcConnection) {
         this.jdbcConnection = jdbcConnection;
     }

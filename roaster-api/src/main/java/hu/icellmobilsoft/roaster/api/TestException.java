@@ -22,10 +22,6 @@ package hu.icellmobilsoft.roaster.api;
 /**
  * The base test framework exception
  *
- * NEJP-ről átemelve
- *
- * @since 0.2
- *
  */
 public class TestException extends RuntimeException {
 

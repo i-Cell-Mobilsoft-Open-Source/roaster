@@ -30,10 +30,12 @@ import hu.icellmobilsoft.coffee.tool.common.FunctionalInterfaces;
 import hu.icellmobilsoft.roaster.api.Condition;
 
 /**
- * NEJP-ről átemelve
+ * Base mock proxy
  * 
  * @param <S>
+ *            service class
  * @param <D>
+ *            self class
  */
 public abstract class BaseMockProxy<S, D extends BaseMockProxy> {
 
@@ -60,9 +62,15 @@ public abstract class BaseMockProxy<S, D extends BaseMockProxy> {
      * <p>
      * If the supplier is not null, than it will be preferred. If the supplier null than the provided entity will be the result.
      *
+     * @param <E>
+     *            generic type
      * @param supplier
      *            the supplier method
+     * @param entity
+     *            entity
      * @return the result entity.
+     * @throws BaseException
+     *             exception
      */
     protected final <E> E getEntityResult(final FunctionalInterfaces.BaseExceptionSupplier<E> supplier, final E entity) throws BaseException {
         Condition.expected(entity != null,
@@ -75,9 +83,15 @@ public abstract class BaseMockProxy<S, D extends BaseMockProxy> {
      * <p>
      * If the supplier is not null, than it will be preferred. If the supplier null than the captured argument will be the result.
      *
+     * @param <E>
+     *            generic type
      * @param supplier
      *            the supplier method
+     * @param entityCaptor
+     *            entity captor
      * @return the result entity.
+     * @throws BaseException
+     *             exception
      */
     protected final <E> E getCapturedEntityResult(final FunctionalInterfaces.BaseExceptionSupplier<E> supplier, final ArgumentCaptor<E> entityCaptor)
             throws BaseException {
@@ -90,9 +104,15 @@ public abstract class BaseMockProxy<S, D extends BaseMockProxy> {
      * If the supplier is not null, than it will be preferred. If the supplier null than the provided entity will be the only element in the result
      * list.
      *
+     * @param <E>
+     *            generic type
      * @param supplier
      *            the supplier method
+     * @param entity
+     *            entity
      * @return the result list.
+     * @throws BaseException
+     *             exception
      */
     protected final <E> List<E> getEntityListResult(final FunctionalInterfaces.BaseExceptionSupplier<List<E>> supplier, final E entity)
             throws BaseException {

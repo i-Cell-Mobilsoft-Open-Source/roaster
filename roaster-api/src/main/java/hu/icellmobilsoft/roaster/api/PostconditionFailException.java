@@ -22,9 +22,6 @@ package hu.icellmobilsoft.roaster.api;
 /**
  * This exception should be thrown if the postcondition check fails.
  *
- * NEJP-ről átemelve
- *
- * @since 0.2.0
  */
 public class PostconditionFailException extends TestException {
 

@@ -38,7 +38,6 @@ import hu.icellmobilsoft.roaster.oracle.config.ManagedDBConfig;
  * Connection container with configuration
  *
  * @author balazs.joo
- * @since 0.0.2
  */
 @Dependent
 public class JDBCConnection implements Closeable {
@@ -57,8 +56,9 @@ public class JDBCConnection implements Closeable {
     /**
      * Creates connection, using given configuration
      *
-     * @return
+     * @return JDBC connection
      * @throws BaseException
+     *             exception
      */
     public Connection getConnection() throws BaseException {
         if (Objects.isNull(config)) {
@@ -78,8 +78,9 @@ public class JDBCConnection implements Closeable {
     /**
      * Set configuration
      *
-     * @param config configuration
-     * @return
+     * @param config
+     *            configuration
+     * @return this
      */
     public JDBCConnection withConfig(ManagedDBConfig config) {
         this.config = config;

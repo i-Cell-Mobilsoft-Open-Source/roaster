@@ -27,9 +27,6 @@ import java.util.function.Supplier;
 /**
  * Base class to build new entities.
  *
- * NEJP-ről átemelve
- * 
- * @since 0.2.0
  */
 public abstract class BaseTypeBuilder<T> implements IBaseBuilder<T> {
 
@@ -90,7 +87,7 @@ public abstract class BaseTypeBuilder<T> implements IBaseBuilder<T> {
      * <ul>
      * <li>empty entity created</li>
      * <li>entity filled with the #fillEntity method (Exact builder specific behaviour)</li>
-     * <li>entity filled with the custom, provided values from the specific unit test ({@link BaseTypeBuilder#fill(Consumer<T>)}))</li>
+     * <li>entity filled with the custom, provided values from the specific unit test ({@link BaseTypeBuilder#fill(Consumer)})</li>
      * </ul>
      */
     @Override

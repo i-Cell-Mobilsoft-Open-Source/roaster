@@ -35,7 +35,6 @@ import io.restassured.specification.ResponseSpecification;
  * Helper class for /versionInfo endpoint restassured testing
  * 
  * @author mark.petrenyi
- * @since 0.0.1
  */
 @Dependent
 public class VersionInfoTestHelper {

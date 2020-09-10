@@ -45,11 +45,8 @@ import hu.icellmobilsoft.roaster.api.reflect.Setter;
 /**
  * Generic class to build an dto object based on the XML annotations.
  *
- * NEJP-ről átemelve
- * 
  * @param <T>
  *            the xsd type
- * @since 0.2.0
  */
 public class GenericTypeBuilder<T> extends BaseTypeBuilder<T> {
 

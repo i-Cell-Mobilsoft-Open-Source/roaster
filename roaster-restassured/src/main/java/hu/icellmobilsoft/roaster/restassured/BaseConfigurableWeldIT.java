@@ -39,7 +39,6 @@ import io.smallrye.config.inject.ConfigExtension;
  *
  * @author mark.petrenyi
  * @author imre.scheffer
- * @since 0.0.1
  */
 @EnableWeld
 public abstract class BaseConfigurableWeldIT {

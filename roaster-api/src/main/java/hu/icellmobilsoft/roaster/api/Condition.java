@@ -32,9 +32,6 @@ import hu.icellmobilsoft.roaster.api.reflect.Getter;
 /**
  * Condition checks for the test framework.
  *
- * NEJP-ről átemelve
- * 
- * @since 0.20
  */
 public class Condition {
 
@@ -121,6 +118,8 @@ public class Condition {
     /**
      * Throws an PreconditionFailException with the message parameter if the object is null.
      *
+     * @param <T>
+     *            genetic type
      * @param object
      *            object to check conditon.
      * @param errorMessage
@@ -134,6 +133,8 @@ public class Condition {
     /**
      * Throws an PreconditionFailException with the error message supplied by the message supplier if the object is null.
      *
+     * @param <T>
+     *            genetic type
      * @param object
      *            object to check conditon.
      * @param errorMessageSupplier
@@ -148,6 +149,8 @@ public class Condition {
     /**
      * Throws an PreconditionFailException with the message parameter if any of the provided objects is null.
      *
+     * @param <T>
+     *            genetic type
      * @param objects
      *            variadic list of the objects to check conditon.
      * @param errorMessage
@@ -161,6 +164,8 @@ public class Condition {
     /**
      * Throws an PreconditionFailException with the error message supplied by the message supplier if any of the provided objects is null.
      *
+     * @param <T>
+     *            genetic type
      * @param objects
      *            variadic list of the objects to check conditon.
      * @param errorMessageSupplier
@@ -175,6 +180,8 @@ public class Condition {
     /**
      * Throws an PreconditionFailException with the error message supplied by the message supplier if the list contains null element.
      *
+     * @param <T>
+     *            genetic type
      * @param list
      *            the list to check for null element.
      * @param errorMessage
@@ -188,6 +195,8 @@ public class Condition {
     /**
      * Throws an PreconditionFailException with the message parameter if the list contains null element.
      *
+     * @param <T>
+     *            genetic type
      * @param list
      *            the list to check for null element.
      * @param errorMessageSupplier
@@ -202,6 +211,8 @@ public class Condition {
     /**
      * Throws an PreconditionFailException with the error message supplied by the message supplier if the list contains null element.
      *
+     * @param <T>
+     *            genetic type
      * @param list
      *            the list to check for null element.
      * @param errorMessage
@@ -215,6 +226,8 @@ public class Condition {
     /**
      * Throws an PreconditionFailException with the message parameter if the list contains null element.
      *
+     * @param <T>
+     *            genetic type
      * @param list
      *            the list to check for null element.
      * @param errorMessageSupplier

@@ -32,9 +32,6 @@ import hu.icellmobilsoft.coffee.tool.common.FunctionalInterfaces.BaseExceptionCo
 /**
  * Class to extend the interface of {@link Assertions} class.
  *
- * NEJP-ről átemelve
- * 
- * @since 0.2.0
  */
 public final class Assert {
 
@@ -46,6 +43,10 @@ public final class Assert {
     /**
      * Aggregated assertion to assert the BaseException type of the company
      *
+     * @param <T>
+     *            BaseException type
+     * @param <E>
+     *            Enum type
      * @param expectedType
      *            the type of the exception
      * @param faultCode
@@ -68,6 +69,10 @@ public final class Assert {
     /**
      * Aggregated assertion to assert the BaseException type of the company
      *
+     * @param <T>
+     *            BaseException type
+     * @param <E>
+     *            Enum type
      * @param expectedType
      *            the type of the exception
      * @param faultCode

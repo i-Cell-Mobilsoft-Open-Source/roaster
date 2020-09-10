@@ -44,7 +44,8 @@ public class JSONSpecificationHelper {
      * gets the default json request specification and adds the serviceBaseUri
      * 
      * @param serviceBaseUri
-     * @return
+     *            base uri
+     * @return restassured request spec
      */
     public static RequestSpecification defaultRequestSpecification(String serviceBaseUri) {
         RequestSpecification requestSpecification = CDI.current().select(RequestSpecification.class, new JSON.Literal()).get();
@@ -55,9 +56,13 @@ public class JSONSpecificationHelper {
     /**
      * adds session headers to the request
      * 
+     * @param serviceBaseUri
+     *            base uri
      * @param login
+     *            login value
      * @param sessionToken
-     * @return
+     *            session token value
+     * @return restassured request spec
      */
     public static RequestSpecification loggedinRequestSpecification(String serviceBaseUri, String login, String sessionToken) {
         RequestSpecification requestSpecification = defaultRequestSpecification(serviceBaseUri);

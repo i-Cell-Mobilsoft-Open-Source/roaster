@@ -45,9 +45,6 @@ import hu.icellmobilsoft.roaster.api.reflect.Getter;
 /**
  * Collector class to hold all generic method to generate entity field values and test data.
  * 
- * NEJP-ről átemelve
- *
- * @since 0.2.0
  */
 public abstract class Any {
 
@@ -157,6 +154,8 @@ public abstract class Any {
      *
      * @param count
      *            the max number of characters in the result string;
+     * @param randomStringType
+     *            random string type
      * @return an printable random string
      */
     public static String string(int count, RandomStringType randomStringType) {
@@ -218,7 +217,6 @@ public abstract class Any {
      * @param time
      *            bound time
      * @return a new time point before the input time
-     * @since 0.4
      */
     public static Date timeBefore(Date time) {
         Condition.notNull(time, "time should not be null.");
@@ -230,7 +228,6 @@ public abstract class Any {
      * @param time
      *            origin time
      * @return a new time point after the input time
-     * @since 0.4
      */
     public static Date timeAfter(Date time) {
         Condition.notNull(time, "time should not be null.");
@@ -246,7 +243,6 @@ public abstract class Any {
      * @param bound
      *            bound time
      * @return an Date object between origin and bound
-     * @since 0.4
      */
     public static Date time(Date origin, Date bound) {
         Condition.notNull(origin, "origin should not be null.");
@@ -284,7 +280,6 @@ public abstract class Any {
      * @param bound
      *            the bound date
      * @return an timestamp before bound
-     * @since 0.4
      */
     public static XMLGregorianCalendar timestampBefore(Date bound) {
         return DateXmlUtil.toXMLGregorianCalendar(Any.timeBefore(bound));
@@ -294,7 +289,6 @@ public abstract class Any {
      * @param origin
      *            the origin date
      * @return an timestamp after origin
-     * @since 0.4
      */
     public static XMLGregorianCalendar timestampAfter(Date origin) {
         return DateXmlUtil.toXMLGregorianCalendar(Any.timeAfter(origin));
@@ -306,13 +300,14 @@ public abstract class Any {
      * @param bound
      *            the bound date
      * @return a timestamp between origin and bound
-     * @since 0.4
      */
     public static XMLGregorianCalendar timestamp(Date origin, Date bound) {
         return DateXmlUtil.toXMLGregorianCalendar(Any.time(origin, bound));
     }
 
     /**
+     * @param <T>
+     *            generic type
      * @param items
      *            variadic list of the possible items
      * @return one of the item from the input
@@ -480,6 +475,8 @@ public abstract class Any {
     }
 
     /**
+     * @param <T>
+     *            generic type
      * @param enums
      *            variadic list of the enum values from an given enum type.
      * @return one random chosen enum object from the list.
@@ -576,7 +573,7 @@ public abstract class Any {
      *            the type of the field
      * @param <I>
      *            the type of the interface
-     * @return a random value what is not equals with any of the static field of {@code ifaceClass} with type {@clode fieldType}
+     * @return a random value what is not equals with any of the static field of {@code ifaceClass} with type {@code fieldType}
      */
     public static <T, I> T butValue(Class<I> ifaceClass, Class<T> fieldType, Supplier<T> randomSupplier) {
         Condition.notNull(ifaceClass, "IfaceClass should not be null.");

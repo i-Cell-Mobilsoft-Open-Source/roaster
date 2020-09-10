@@ -24,10 +24,8 @@ import java.util.function.Consumer;
 /**
  * Interface to support the global builder operations.
  *
- * NEJP-ről átemelve
- * 
- * @since 0.2.0
  * @param <T>
+ *            generic type
  */
 public interface IBaseBuilder<T> {
     /**

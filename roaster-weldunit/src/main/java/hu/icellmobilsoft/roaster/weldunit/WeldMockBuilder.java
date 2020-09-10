@@ -39,10 +39,6 @@ import hu.icellmobilsoft.roaster.weldunit.mock.BaseMockProxy;
 
 /**
  * Class to help setup weld unit with our mocked classes.
- *
- * NEJP-ről átemelve
- * 
- * @see 0.2.0
  */
 public class WeldMockBuilder {
 
@@ -175,10 +171,14 @@ public class WeldMockBuilder {
          * Create a mocked bean with the help of {@code builder} function with the given qualifiers
          *
          * @param builder
+         *            the function to mock the the Bean through Mockito
          * @param clazz
+         *            the type of the bean
          * @param qualifiers
+         *            annotation
          * @param <T>
-         * @return
+         *            the bean type
+         * @return the bean created by the {@link MockBean#builder()}
          */
         private static <T> Bean<Object> createBeanWithQualifiers(Function<Class<T>, T> builder, Class<T> clazz, Annotation... qualifiers) {
             return MockBean.builder().types(clazz).scope(ApplicationScoped.class).creating(builder.apply(clazz)).qualifiers(qualifiers).build();
@@ -226,8 +226,10 @@ public class WeldMockBuilder {
          * This method will directly add a mocked bean
          *
          * @param clazz
+         *            mocked class
          * @param mockBean
-         * @return
+         *            mocked bean
+         * @return weld builder
          */
         public final WeldBuilder addMockBean(Class<?> clazz, Object mockBean) {
             Condition.notNullAll("Mocked class should not be null", clazz);
@@ -240,8 +242,10 @@ public class WeldMockBuilder {
          * This method will call {@link WeldInitiator.Builder#addBeans(Bean[])} method after creating the necessary mocking around the bean class.
          *
          * @param clazz
+         *            mocked class
          * @param qualifiers
-         * @return
+         *            annotations
+         * @return weld builder
          */
         public final WeldBuilder addMockBeanWithQualifiers(Class<?> clazz, Annotation... qualifiers) {
             Condition.notNull(clazz, "Mocked class should not be empty");
@@ -270,7 +274,8 @@ public class WeldMockBuilder {
          * Activate contexts for the given normal scopes for each test method execution.
          * 
          * @param scopes
-         * @return
+         *            cdi scopes
+         * @return weld builder
          */
         @SafeVarargs
         public final WeldBuilder activate(Class<? extends Annotation>... scopes) {

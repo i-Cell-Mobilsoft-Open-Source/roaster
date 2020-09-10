@@ -22,10 +22,6 @@ package hu.icellmobilsoft.roaster.api;
 /**
  * This exception should be thrown if an unexpected exception occours.
  *
- * NEJP-ről átemelve
- * 
- * @since 0.2
- *
  */
 public class UnexpectedException extends TestException {
     private static final long serialVersionUID = 1L;
