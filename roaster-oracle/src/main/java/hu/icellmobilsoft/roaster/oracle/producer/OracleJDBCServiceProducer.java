@@ -79,7 +79,6 @@ public class OracleJDBCServiceProducer {
     public void returnResource(@Disposes @DBConnection(configKey = "") OracleJDBCSelectorService oracleJDBCSelectorService) {
         if (oracleJDBCSelectorService != null) {
             log.trace("Closing OracleJDBCSelectorService...");
-            oracleJDBCSelectorService.close();
         }
     }
 
