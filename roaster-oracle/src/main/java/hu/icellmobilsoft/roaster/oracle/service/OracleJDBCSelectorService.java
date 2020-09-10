@@ -19,7 +19,6 @@
  */
 package hu.icellmobilsoft.roaster.oracle.service;
 
-import java.io.Closeable;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -31,7 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -53,20 +52,18 @@ import hu.icellmobilsoft.roaster.oracle.producer.OracleJDBCServiceProducer;
  * @author balazs.joo
  * @since 0.0.2
  */
-@ApplicationScoped
-public class OracleJDBCSelectorService implements Closeable {
+@Dependent
+public class OracleJDBCSelectorService {
 
     /**
      * In case of Oracle JDBC functionality usage, this Classes are needed to pass for Weld configuration
      * <p>
      * {@code
-     * <p>
+     * 
+    <p>
      * &#64;Override
-     * protected void configureWeld(Weld weld) {
-     * weld.addBeanClasses(OracleJDBCSelectorService.ORACLE_JDBC_CLASSES_NEEDED_FOR_WELD);
-     * super.configureWeld(weld);
-     * }
-     * }
+     * protected void configureWeld(Weld weld) { weld.addBeanClasses(OracleJDBCSelectorService.ORACLE_JDBC_CLASSES_NEEDED_FOR_WELD);
+     * super.configureWeld(weld); } }
      */
     public static final Class<?>[] ORACLE_JDBC_CLASSES_NEEDED_FOR_WELD = { OracleJDBCSelectorService.class, OracleJDBCServiceProducer.class,
             ManagedDBConfig.class, DBConfigProducer.class, JDBCConnection.class, DBConnectionProducer.class };
@@ -85,8 +82,10 @@ public class OracleJDBCSelectorService implements Closeable {
     /**
      * Run sql select command, and return given column String value
      *
-     * @param sql        sql command
-     * @param columnName column name
+     * @param sql
+     *            sql command
+     * @param columnName
+     *            column name
      * @return column String value
      * @throws BaseException
      */
@@ -97,8 +96,10 @@ public class OracleJDBCSelectorService implements Closeable {
     /**
      * Run sql select command, and return given column Integer value
      *
-     * @param sql        sql command
-     * @param columnName column name
+     * @param sql
+     *            sql command
+     * @param columnName
+     *            column name
      * @return column Integer value
      * @throws BaseException
      */
@@ -109,8 +110,10 @@ public class OracleJDBCSelectorService implements Closeable {
     /**
      * Run sql select command, and return given column Boolean value
      *
-     * @param sql        sql command
-     * @param columnName column name
+     * @param sql
+     *            sql command
+     * @param columnName
+     *            column name
      * @return column Boolean value
      * @throws BaseException
      */
@@ -121,8 +124,10 @@ public class OracleJDBCSelectorService implements Closeable {
     /**
      * Run sql select command, and return given column BigDecimal value
      *
-     * @param sql        sql command
-     * @param columnName column name
+     * @param sql
+     *            sql command
+     * @param columnName
+     *            column name
      * @return column BigDecimal value
      * @throws BaseException
      */
@@ -133,8 +138,10 @@ public class OracleJDBCSelectorService implements Closeable {
     /**
      * Run sql select command, and return given column Date value
      *
-     * @param sql        sql command
-     * @param columnName column name
+     * @param sql
+     *            sql command
+     * @param columnName
+     *            column name
      * @return column Date value
      * @throws BaseException
      */
@@ -145,7 +152,8 @@ public class OracleJDBCSelectorService implements Closeable {
     /**
      * Run sql select command, and return row count
      *
-     * @param sql sql command
+     * @param sql
+     *            sql command
      * @return row count
      * @throws BaseException
      */
@@ -154,7 +162,7 @@ public class OracleJDBCSelectorService implements Closeable {
             throw new BaseException(CoffeeFaultType.INVALID_INPUT, ERROR_MSG_SQL_STRING_IS_BLANK);
         }
         try (Connection connection = jdbcConnection.getConnection();
-                Statement stmt = connection.createStatement();
+                Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 ResultSet rs = stmt.executeQuery(sql)) {
             rs.last();
             return rs.getRow();
@@ -166,8 +174,7 @@ public class OracleJDBCSelectorService implements Closeable {
     /**
      * Run sql select command, and return desired result object, converted by given converter
      * <p>
-     * Example for converter:
-     * <code>
+     * Example for converter: <code>
      * private T convert(ResultSet rs) {
      * try {
      * T t = new T();
@@ -180,9 +187,12 @@ public class OracleJDBCSelectorService implements Closeable {
      * }
      * </code>
      *
-     * @param sql       sql command
-     * @param converter converter for desired result object
-     * @param <T>       type of return object
+     * @param sql
+     *            sql command
+     * @param converter
+     *            converter for desired result object
+     * @param <T>
+     *            type of return object
      * @return converted object
      * @throws BaseException
      */
@@ -209,8 +219,7 @@ public class OracleJDBCSelectorService implements Closeable {
     /**
      * Run sql select command, and return list of desired result objects, converted by given converter
      * <p>
-     * Example for converter:
-     * <code>
+     * Example for converter: <code>
      * private T convert(ResultSet rs) {
      * try {
      * T t = new T();
@@ -223,9 +232,12 @@ public class OracleJDBCSelectorService implements Closeable {
      * }
      * </code>
      *
-     * @param sql       sql command
-     * @param converter converter for desired result objects
-     * @param <T>       type of return objects
+     * @param sql
+     *            sql command
+     * @param converter
+     *            converter for desired result objects
+     * @param <T>
+     *            type of return objects
      * @return list of converted objects
      * @throws BaseException
      */
@@ -316,29 +328,20 @@ public class OracleJDBCSelectorService implements Closeable {
     }
 
     /**
-     * <p>Getter for the field <code>connection</code>.</p>
+     * <p>
+     * Getter for the field <code>connection</code>.
+     * </p>
      */
     protected JDBCConnection getJdbcConnection() {
         return jdbcConnection;
     }
 
     /**
-     * <p>Setter for the field <code>connection</code>.</p>
+     * <p>
+     * Setter for the field <code>connection</code>.
+     * </p>
      */
     public void setJdbcConnection(JDBCConnection jdbcConnection) {
         this.jdbcConnection = jdbcConnection;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void close() {
-        if (Objects.nonNull(jdbcConnection) && !jdbcConnection.isClosed()) {
-            log.trace("Closing OracleJDBCSelectorService...");
-            jdbcConnection.close();
-        }
-        jdbcConnection = null;
-    }
-
 }

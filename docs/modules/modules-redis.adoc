@@ -86,6 +86,6 @@ RedisService-től átvett műveletek:
 .művelet hívásokra példa
 ----
 String data = redisHandler.getRedisData("default", "1234", String.class);
-String newData = redisHandler.getRedisData("default", "1234", "new data");
+String newData = redisHandler.setRedisData("default", "1234", "new data");
 redisHandler.removeAllRedisData("default");
 ----
