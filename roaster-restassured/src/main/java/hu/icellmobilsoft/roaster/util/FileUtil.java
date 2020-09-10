@@ -57,7 +57,7 @@ public class FileUtil {
      *            more additional strings to be joined to form the path string
      * @return file content
      * 
-     * @see based on {@link Path#of(String, String...)}
+     * @see Path#of(String, String...)
      */
     public static String readFile(String first, String... more) {
         Path path = Path.of(first, more);
@@ -70,7 +70,7 @@ public class FileUtil {
      * @param fileName
      *            filename like token.xml, in src/main/resources source directory
      * @return file content
-     * @see based on {@link ClassLoader#getSystemResourceAsStream(String)}
+     * @see ClassLoader#getSystemResourceAsStream(String)
      */
     public static String readFileFromResource(String fileName) {
         if (StringUtils.isBlank(fileName)) {
@@ -92,7 +92,7 @@ public class FileUtil {
      *            the path to the file
      * @return file content
      * 
-     * @see based on {@link Files#readString(Path)}
+     * @see Files#readString(Path)
      */
     public static String readFile(Path path) {
         if (path == null) {
