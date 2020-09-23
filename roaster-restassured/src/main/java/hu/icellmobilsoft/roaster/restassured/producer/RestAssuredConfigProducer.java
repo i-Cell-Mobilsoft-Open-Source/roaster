@@ -19,26 +19,20 @@
  */
 package hu.icellmobilsoft.roaster.restassured.producer;
 
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.enterprise.inject.spi.CDI;
 
 import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
 import hu.icellmobilsoft.roaster.restassured.annotation.XML;
 import io.restassured.config.EncoderConfig;
 import io.restassured.config.ObjectMapperConfig;
 import io.restassured.config.RestAssuredConfig;
-import io.restassured.mapper.factory.Jackson2ObjectMapperFactory;
 
 /**
- * Producer class for RestAssured config
+ * Producer class for RestAssured config<br>
  *
  * @author mark.petrenyi
  * @author imre.scheffer
@@ -47,45 +41,26 @@ import io.restassured.mapper.factory.Jackson2ObjectMapperFactory;
 public class RestAssuredConfigProducer {
 
     /**
-     * Produce JSON content setting config
+     * Produce JSON content setting config<br>
+     * Ha igény van egy saját ObjectMapperConfig-ra, mint ami a ObjectMapperConfigProducer-ben keletkezik, akkor minta megoldásnak használható
+     * például:
+     * 
+     * <pre>
+     * &#64;Inject
+     * &#64;JSON
+     * private RestAssuredConfig restAssuredConfig;
+     * 
+     * ((Jackson2ObjectMapperFactoryImpl) restAssuredConfig.getObjectMapperConfig().jackson2ObjectMapperFactory()).getObjectMapper()
+     *         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+     * </pre>
      * 
      * @return JSON based RestAssuredConfig
      */
     @Produces
     @JSON
     private RestAssuredConfig produceJSONRestAssuredConfig() {
-        return RestAssuredConfig.config().objectMapperConfig(new ObjectMapperConfig().jackson2ObjectMapperFactory(new Jackson2ObjectMapperFactory() {
-            @Override
-            public ObjectMapper create(Type cls, String charset) {
-                ObjectMapper om = new ObjectMapper().findAndRegisterModules();
-                om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-                // isSet...() miatt nem tudja szépen kezelni a jackson (vagy bekerül plusz
-                // propertyként az isSet éstéke, vagy nem kerülnek bele a
-                // primitív típusok)
-                om.setVisibility(PropertyAccessor.IS_GETTER, JsonAutoDetect.Visibility.NONE);
-                om.setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE);
-                om.setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.NONE);
-                om.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-                return om;
-            }
-        }));
-    }
-
-    /**
-     * @return JSON based RestAssuredConfig
-     * @deprecated use inject with JSON Qualifier
-     * 
-     *             <pre>
-     * &#64;Inject
-     * &#64;JSON
-     * private RestAssuredConfig restAssuredConfig
-     *             </pre>
-     */
-    @Produces
-    @Deprecated(forRemoval = true, since = "0.0.1")
-    private RestAssuredConfig produceRestAssuredConfig() {
-        return produceJSONRestAssuredConfig();
+        ObjectMapperConfig objectMapperConfig = CDI.current().select(ObjectMapperConfig.class, new JSON.Literal()).get();
+        return RestAssuredConfig.config().objectMapperConfig(objectMapperConfig);
     }
 
     /**

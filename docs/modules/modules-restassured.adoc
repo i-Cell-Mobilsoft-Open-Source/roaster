@@ -1,0 +1,104 @@
+= RestAssured
+
+A RestAssured modul használatához csak be kell hivatkozni a pom.xml-ben
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-restassured</artifactId>
+</dependency>
+----
+
+== RestAssured használata
+
+A teszt fájlok a következő mintát követik:
+
+[source,java]
+----
+@DisplayName("Testing XY service hu.icellmobilsoft.project.sample.service.rest.test.ISampleTestRest.postSampleRquest")
+@Tag(TestSuiteGroup.RESTASSURED)
+public class PostSampleRequestIT extends BaseConfigurableWeldIT {
+
+    @Inject
+    @ConfigProperty(name = "service.sample.uri")
+    private String baseUri;
+
+    @Inject
+    @JSON
+    private RequestSpecification requestSpecification;
+
+    @Inject
+    @JSON
+    private ResponseSpecification responseSpecification;
+
+    @Override
+    protected void configureWeld(Weld weld) {
+        super.configureWeld(weld);
+        weld.addBeanClass(ObjectMapperConfigProducer.class);
+        weld.addBeanClass(Jackson2ObjectMapperFactoryImpl.class);
+    }
+
+    @Test
+    @DisplayName("Testing opg generator json rest")
+    void testSampleRest() {
+        SampleRequest body = new SampleRequest();
+
+        SampleResponse actual = RestAssured
+                // given
+                .given()//
+                .spec(requestSpecification)//
+                .config(restAssuredConfig).body(body) //
+                .baseUri(baseUri) //
+                // when
+                .when()//
+                .log().all()//
+                .post("/sample")
+                // then
+                .then()//
+                .log().all()//
+                .spec(responseSpecification)//
+                .extract().response().getBody().as(SampleResponse.class);
+        Assertions.assertEquals(FunctionCodeType.OK, actual.getFuncCode());
+    }
+}
+----
+
+=== RestAssured default beállításai
+
+Alapértelmezetten XML vagy JSON formátumra van támogatás a rendszerben.
+A beállításokat a következő osztályok kezelik:
+
+* RestAssuredConfigProducer
+* RequestSpecificationProducer
+* ResponseSpecificationProducer
+
+Mind szabadon módosíthatóak az implementáló projekten.
+
+==== JSON default beállításai
+
+* A request content-type és accept "application/json".
+* A response HTTP status 200 és "application/json" accept.
+* A default beállításokat a Jackson2ObjectMapperFactoryImpl foglalja össze.
+
+Ha igény van egy saját ObjectMapperConfig-ra,
+mint ami a ObjectMapperConfigProducer-ben keletkezik,
+akkor minta megoldásnak használható például:
+
+[source,java]
+----
+@Inject
+@JSON
+private RestAssuredConfig restAssuredConfig;
+ 
+((Jackson2ObjectMapperFactoryImpl) restAssuredConfig.getObjectMapperConfig().jackson2ObjectMapperFactory()).getObjectMapper()
+        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+       objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+----
+
+==== XML default beállításai
+
+* Kódolás UTF-8.
+* A request content-type és accept "application/xml".
+* A response HTTP status 200 és "application/xml" accept.
