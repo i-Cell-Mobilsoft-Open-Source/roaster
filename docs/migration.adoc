@@ -1,0 +1,30 @@
+= Migrációs leírás
+
+Következő szekció a verzió kiadások közötti változásokat írja le.
+
+== 0.1.0 -> 0.2.0
+
+=== Újdonságok
+
+-
+
+=== Változások
+==== roaster-restassured
+* A default JSON object mapper az idő értékeket ISO formátumra serializálja az eddigi "1600871093.907000000" helyett.
+
+* Megszünt a deprecated lehetőség 
+
+[source,java]
+----
+@Inject
+private RestAssuredConfig restAssuredConfig;
+----
+
+Ezentúl már csak @JSON qualifier-el lehet használni
+
+[source,java]
+----
+@Inject
+@JSON
+private RestAssuredConfig restAssuredConfig;
+----
