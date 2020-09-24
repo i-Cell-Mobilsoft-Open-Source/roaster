@@ -32,7 +32,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import io.restassured.mapper.factory.Jackson2ObjectMapperFactory;
 
 /**
- * CDI Jackson2ObjectMapperFactory implementáció
+ * CDI Jackson2ObjectMapperFactory implementáció.<br>
+ * 
+ * @apiNote Nagyobb scope kell rajta mint @Đependent, mert akkor nem lessz meg az objectMapper lekerésdezés lehetősége és azon állítása
  * 
  * @author imre.scheffer
  * @since 0.2.0

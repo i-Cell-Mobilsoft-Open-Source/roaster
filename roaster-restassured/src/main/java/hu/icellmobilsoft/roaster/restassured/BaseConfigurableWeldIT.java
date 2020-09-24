@@ -29,6 +29,8 @@ import org.jboss.weld.junit5.WeldSetup;
 import hu.icellmobilsoft.coffee.cdi.logger.AppLoggerImpl;
 import hu.icellmobilsoft.coffee.cdi.logger.LogContainer;
 import hu.icellmobilsoft.coffee.cdi.logger.LogProducer;
+import hu.icellmobilsoft.roaster.restassured.producer.Jackson2ObjectMapperFactoryImpl;
+import hu.icellmobilsoft.roaster.restassured.producer.ObjectMapperConfigProducer;
 import hu.icellmobilsoft.roaster.restassured.producer.RequestSpecificationProducer;
 import hu.icellmobilsoft.roaster.restassured.producer.ResponseSpecificationProducer;
 import hu.icellmobilsoft.roaster.restassured.producer.RestAssuredConfigProducer;
@@ -50,8 +52,11 @@ public abstract class BaseConfigurableWeldIT {
         @SuppressWarnings("unchecked")
         Weld weld = WeldInitiator.createWeld()//
                 .addExtensions(ConfigExtension.class)//
+                // roaster-restassured
                 .addBeanClasses(RestAssuredConfigProducer.class, RequestSpecificationProducer.class, ResponseSpecificationProducer.class,
-                        LogContainer.class, AppLoggerImpl.class, LogProducer.class);
+                        ObjectMapperConfigProducer.class, Jackson2ObjectMapperFactoryImpl.class) //
+                // coffee dependency
+                .addBeanClasses(LogContainer.class, AppLoggerImpl.class, LogProducer.class);
         configureWeld(weld);
 
         WeldInitiator.Builder weldInitiatorBuilder = WeldInitiator.from(weld);
@@ -63,7 +68,8 @@ public abstract class BaseConfigurableWeldIT {
     /**
      * Overridable method for configuring weld
      *
-     * @param weld input weld instance for additional settings
+     * @param weld
+     *            input weld instance for additional settings
      */
     protected void configureWeld(Weld weld) {
 
@@ -72,8 +78,8 @@ public abstract class BaseConfigurableWeldIT {
     /**
      * Overridable method extending weld through builder
      *
-     * @param weldInitiatorBuilder input WeldInitiator.Builder instance for
-     *                             additional settings
+     * @param weldInitiatorBuilder
+     *            input WeldInitiator.Builder instance for additional settings
      */
     protected void configureWeldInitiatorBuilder(WeldInitiator.Builder weldInitiatorBuilder) {
 

@@ -21,3 +21,4 @@ Hátrányok:
 include::maven-structure.adoc[leveloffset=+1]
 include::mp-config.adoc[leveloffset=+1]
 include::modules/modules.adoc[leveloffset=+1]
+include::migration.adoc[leveloffset=+1]

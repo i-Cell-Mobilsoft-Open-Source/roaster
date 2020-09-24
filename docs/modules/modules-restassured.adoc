@@ -94,7 +94,6 @@ private RestAssuredConfig restAssuredConfig;
  
 ((Jackson2ObjectMapperFactoryImpl) restAssuredConfig.getObjectMapperConfig().jackson2ObjectMapperFactory()).getObjectMapper()
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-       objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 ----
 
 ==== XML default beállításai
