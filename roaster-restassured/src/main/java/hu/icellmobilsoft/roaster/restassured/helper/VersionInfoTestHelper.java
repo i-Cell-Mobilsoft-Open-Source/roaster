@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import org.junit.jupiter.api.Assertions;
 
+import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -42,6 +43,7 @@ public class VersionInfoTestHelper {
     private static final String STATUS_JSON_PATH = "status";
 
     @Inject
+    @JSON
     private RestAssuredConfig restAssuredConfig;
 
     public void testVersionInfo(String baseUri) {
