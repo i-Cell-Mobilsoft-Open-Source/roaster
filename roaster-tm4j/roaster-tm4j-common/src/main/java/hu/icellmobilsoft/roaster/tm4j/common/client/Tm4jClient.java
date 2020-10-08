@@ -29,6 +29,14 @@ import retrofit2.http.Path;
 
 import java.util.List;
 
+/**
+ * Interface for the Retrofit rest client.
+ * <br><br>
+ * For details see the <a href="https://support.smartbear.com/tm4j-server/api-docs/v1/">TM4J rest API documentation</a>
+ *
+ * @author martin.nagy
+ * @since 0.2.0
+ */
 interface Tm4jClient {
 
     @GET("testcase/{testCaseKey}")

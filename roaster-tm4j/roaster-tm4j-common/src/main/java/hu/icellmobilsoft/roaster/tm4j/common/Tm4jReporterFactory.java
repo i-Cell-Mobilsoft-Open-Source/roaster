@@ -24,7 +24,37 @@ import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
+/**
+ * Creates a {@code Tm4jReporter} based on the Roaster configuration.
+ * @see Tm4jReporterFactory#createReporter()
+ *
+ * @author martin.nagy
+ * @since 0.2.0
+ */
 public class Tm4jReporterFactory {
+
+    /**
+     * Creates a {@code Tm4jReporter} based on the Roaster configuration.
+     * <br><br>
+     * Example yaml configuration:
+     * <pre>{@code
+     * roaster:
+     *   tm4j:
+     *     enabled: true    # The reporting can be turned of using this flag
+     *     projectKey: ABC      # The project key. This is the prefix for the Jira issues also
+     *     testCycleKey: ABC-C1
+     *     server:
+     *       url: https://jira.acme.com     # Jira server url
+     *       basicAuthToken: ZXhhbXBsZS11c2VyOnNlY3JldA==       # base64(userName + ":" + password)
+     *       userName: # To set the credentials the basicAuthToken or the userName + password can be used
+     *       password:
+     * }</pre>
+     *
+     * For security reasons it's recommended to set the password with command line arguments.
+     * (e.g. using maven: {@code mvn test -Droaster.tm4j.server.password=secret})
+     *
+     * @return configured {@code Tm4jReporter} implementation
+     */
     public Tm4jReporter createReporter() {
         Config roasterConfig = ConfigProvider.getConfig();
 

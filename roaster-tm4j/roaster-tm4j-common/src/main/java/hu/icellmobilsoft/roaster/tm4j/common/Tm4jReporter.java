@@ -23,12 +23,31 @@ import hu.icellmobilsoft.roaster.tm4j.common.spi.Tm4jRecord;
 
 import java.util.Optional;
 
+/**
+ *
+ * @author martin.nagy
+ * @since 0.2.0
+ */
 public interface Tm4jReporter {
 
-    void reportSuccess(Tm4jRecord tm4jRecord);
+    /**
+     *
+     * @param record
+     */
+    void reportSuccess(Tm4jRecord record);
 
-    void reportFail(Tm4jRecord tm4jRecord, Throwable cause);
+    /**
+     *
+     * @param record
+     * @param cause
+     */
+    void reportFail(Tm4jRecord record, Throwable cause);
 
-    void reportDisabled(Tm4jRecord tm4jRecord, Optional<String> reason);
+    /**
+     *
+     * @param record
+     * @param reason {@code Optional} {@code String}
+     */
+    void reportDisabled(Tm4jRecord record, Optional<String> reason);
 
 }

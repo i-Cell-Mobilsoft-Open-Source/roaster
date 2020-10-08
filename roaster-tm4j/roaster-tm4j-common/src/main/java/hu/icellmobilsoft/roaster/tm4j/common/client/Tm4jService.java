@@ -26,8 +26,9 @@ import java.io.IOException;
 import java.util.Collections;
 
 /**
- * TODO
- * https://support.smartbear.com/tm4j-server/api-docs/v1/
+ *
+ * @author martin.nagy
+ * @since 0.2.0
  */
 public class Tm4jService {
     private final Tm4jClient tm4jClient;
@@ -36,6 +37,11 @@ public class Tm4jService {
         tm4jClient = new Tm4jClientFactory().createClient(config);
     }
 
+    /**
+     *
+     * @param key
+     * @return
+     */
     public boolean isTestRunExist(String key) {
         try {
             int code = tm4jClient.getTestRun(key).execute().code();
@@ -45,6 +51,11 @@ public class Tm4jService {
         }
     }
 
+    /**
+     *
+     * @param key
+     * @return
+     */
     public boolean isTestCaseExist(String key) {
         try {
             int code = tm4jClient.getTestCase(key).execute().code();
@@ -54,6 +65,11 @@ public class Tm4jService {
         }
     }
 
+    /**
+     *
+     * @param testRunKey
+     * @param execution
+     */
     public void postResult(String testRunKey, Execution execution) {
         try {
             tm4jClient.postExecutionsForTestRun(testRunKey, Collections.singletonList(execution)).execute();

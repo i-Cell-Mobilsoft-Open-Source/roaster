@@ -34,6 +34,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+ *
+ * @author martin.nagy
+ * @since 0.2.0
+ */
 class DefaultTm4jReporter implements Tm4jReporter {
     private final Logger log = Logger.getLogger(DefaultTm4jReporter.class);
 

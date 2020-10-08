@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ package hu.icellmobilsoft.roaster.tm4j.junit5;
 
 import hu.icellmobilsoft.roaster.tm4j.common.Tm4jReporter;
 import hu.icellmobilsoft.roaster.tm4j.common.Tm4jReporterFactory;
+import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
 import hu.icellmobilsoft.roaster.tm4j.common.spi.Tm4jRecord;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -31,6 +32,28 @@ import org.junit.jupiter.api.extension.TestWatcher;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+/**
+ * JUnit 5 extension to publish the test result to a TM4J server.
+ * The test case id should be mapped with the test method via the {@link TestCaseId} annotation.
+ * <br><br>
+ * Example:
+ * <pre>{@code
+ * @ExtendWith(Tm4jExtension.class)
+ * class ExampleTest {
+ *     @Test
+ *     @TestCaseId("ABC-T1")
+ *     void testOne() {
+ *         assertTrue(1 == 1);
+ *     }
+ * }
+ * }</pre>
+ *
+ * For configuration see: {@link Tm4jReporterFactory#createReporter}
+ *
+ * @see TestCaseId
+ * @author martin.nagy
+ * @since 0.2.0
+ */
 public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback {
     private static final String START_TIME = "START_TIME";
 

@@ -19,6 +19,11 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.config;
 
+/**
+ *
+ * @author martin.nagy
+ * @since 0.2.0
+ */
 public class Tm4jReporterConfig {
     private Tm4jReporterServerConfig server;
     private boolean enabled = true;

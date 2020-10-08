@@ -25,9 +25,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ *
+ * @author martin.nagy
+ * @since 0.2.0
+ */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Repeatable(TestCaseIds.class)
 public @interface TestCaseId {
+
+    /**
+     *
+     */
     String value();
 }
