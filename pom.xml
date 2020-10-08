@@ -25,7 +25,8 @@
 		<module>roaster-redis</module>
 		<module>roaster-restassured</module>
 		<module>roaster-weldunit</module>
-	</modules>
+        <module>roaster-tm4j</module>
+    </modules>
 
 	<properties>
 		<project.scm.id>icell-github-server</project.scm.id>

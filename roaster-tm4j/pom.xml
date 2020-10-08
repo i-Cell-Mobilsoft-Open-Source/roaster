@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>roaster</artifactId>
+        <groupId>hu.icellmobilsoft.roaster</groupId>
+        <version>0.2.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>roaster-tm4j</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>roaster-tm4j-junit5</module>
+        <module>roaster-tm4j-common</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>hu.icellmobilsoft.roaster</groupId>
+                <artifactId>roaster-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>hu.icellmobilsoft.roaster</groupId>
+            <artifactId>roaster-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

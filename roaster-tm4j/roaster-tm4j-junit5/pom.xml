@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>roaster-tm4j</artifactId>
+        <groupId>hu.icellmobilsoft.roaster</groupId>
+        <version>0.2.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>hu.icellmobilsoft.roaster.roaster-tm4j</groupId>
+    <artifactId>roaster-tm4j-junit5</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>hu.icellmobilsoft.roaster.roaster-tm4j</groupId>
+            <artifactId>roaster-tm4j-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+</project>

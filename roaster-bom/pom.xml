@@ -23,6 +23,7 @@
 		<version.jakarta.xml.bind-api>2.3.3</version.jakarta.xml.bind-api>
 		<version.org.mockito.mockito-core>3.3.3</version.org.mockito.mockito-core>
 		<version.com.fasterxml.jackson.datatype.jackson-datatype-jsr310>2.11.1</version.com.fasterxml.jackson.datatype.jackson-datatype-jsr310>
+		<version.retrofit>2.9.0</version.retrofit>
 
 		<version.com.oracle.ojdbc>19.3.0.0</version.com.oracle.ojdbc>
 
@@ -154,6 +155,16 @@
 				<groupId>com.fasterxml.jackson.datatype</groupId>
 				<artifactId>jackson-datatype-jsr310</artifactId>
 				<version>${version.com.fasterxml.jackson.datatype.jackson-datatype-jsr310}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.squareup.retrofit2</groupId>
+				<artifactId>retrofit</artifactId>
+				<version>${version.retrofit}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.squareup.retrofit2</groupId>
+				<artifactId>converter-jackson</artifactId>
+				<version>${version.retrofit}</version>
 			</dependency>
 
 			<!-- Oracle Driver -->
