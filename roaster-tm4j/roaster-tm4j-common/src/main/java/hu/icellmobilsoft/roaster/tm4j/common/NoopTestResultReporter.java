@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,35 +19,31 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
-import hu.icellmobilsoft.roaster.tm4j.common.spi.Tm4jRecord;
+import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.common.api.TestResultReporter;
 
 import java.util.Optional;
 
 /**
+ * {@code TestResultReporter} implementation that does nothing on callback calls.
+ * Can be used for disabling the default functionality for example the configuration says so.
  *
  * @author martin.nagy
  * @since 0.2.0
  */
-public interface Tm4jReporter {
+class NoopTestResultReporter implements TestResultReporter {
+    @Override
+    public void reportSuccess(TestCaseData testCaseData) {
+        // do nothing
+    }
 
-    /**
-     *
-     * @param record
-     */
-    void reportSuccess(Tm4jRecord record);
+    @Override
+    public void reportFail(TestCaseData testCaseData, Throwable cause) {
+        // do nothing
+    }
 
-    /**
-     *
-     * @param record
-     * @param cause
-     */
-    void reportFail(Tm4jRecord record, Throwable cause);
-
-    /**
-     *
-     * @param record
-     * @param reason {@code Optional} {@code String}
-     */
-    void reportDisabled(Tm4jRecord record, Optional<String> reason);
-
+    @Override
+    public void reportDisabled(TestCaseData testCaseData, Optional<String> reason) {
+        // do nothing
+    }
 }

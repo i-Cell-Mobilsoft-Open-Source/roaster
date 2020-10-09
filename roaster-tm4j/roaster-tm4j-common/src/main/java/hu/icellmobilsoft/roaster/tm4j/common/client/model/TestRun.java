@@ -27,6 +27,10 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * @author martin.nagy
+ * @since 0.2.0
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TestRun {
 

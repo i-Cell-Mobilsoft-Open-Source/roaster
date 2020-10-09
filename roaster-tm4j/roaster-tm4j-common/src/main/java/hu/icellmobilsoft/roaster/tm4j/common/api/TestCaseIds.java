@@ -25,7 +25,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Wrapper for {@code TestCaseId} so multiple ones can be used in one method.
  *
+ * @see TestCaseId
  * @author martin.nagy
  * @since 0.2.0
  */
@@ -34,7 +36,8 @@ import java.lang.annotation.Target;
 public @interface TestCaseIds {
 
     /**
-     *
+     * Collection of {@code TestCaseId} annotations
+     * @return Collection of {@code TestCaseId} annotations
      */
     TestCaseId[] value();
 }

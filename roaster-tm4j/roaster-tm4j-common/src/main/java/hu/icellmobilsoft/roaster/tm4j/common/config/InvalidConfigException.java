@@ -20,6 +20,7 @@
 package hu.icellmobilsoft.roaster.tm4j.common.config;
 
 /**
+ * Exception class indicating errors regarding the Roaster TM4J configuration.
  *
  * @author martin.nagy
  * @since 0.2.0

@@ -22,6 +22,10 @@ package hu.icellmobilsoft.roaster.tm4j.common.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author martin.nagy
+ * @since 0.2.0
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ScriptResult {
 

@@ -17,40 +17,41 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.tm4j.common.spi;
+package hu.icellmobilsoft.roaster.tm4j.common.api;
 
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 
 /**
+ * Defines the common data describing a test case and run parameters.
  *
  * @author martin.nagy
  * @since 0.2.0
  */
-public class Tm4jRecord {
+public class TestCaseData {
 
     /**
-     *
+     * Unique identifier for the test case. Should contain the test class and method name.
      */
     private String id;
 
     /**
-     *
+     * The display name of the test case.
      */
     private String displayName;
 
     /**
-     *
+     * The {@code Method} instance for further annotation processing.
      */
     private Method testMethod;
 
     /**
-     *
+     * The time the test run started.
      */
     private LocalDateTime startTime;
 
     /**
-     *
+     * The time the test run finished.
      */
     private LocalDateTime endTime;
 

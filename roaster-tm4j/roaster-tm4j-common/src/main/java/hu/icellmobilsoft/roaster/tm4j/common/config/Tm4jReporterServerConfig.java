@@ -20,6 +20,7 @@
 package hu.icellmobilsoft.roaster.tm4j.common.config;
 
 /**
+ * Configuration class defining the TM4J server access parameters.
  *
  * @author martin.nagy
  * @since 0.2.0

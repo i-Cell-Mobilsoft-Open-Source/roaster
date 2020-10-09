@@ -20,13 +20,14 @@
 package hu.icellmobilsoft.roaster.tm4j.common.config;
 
 /**
+ * Configuration class for the TM4J reporter behaviour.
  *
  * @author martin.nagy
  * @since 0.2.0
  */
 public class Tm4jReporterConfig {
     private Tm4jReporterServerConfig server;
-    private boolean enabled = true;
+    private boolean enabled;
     private String projectKey;
     private String testCycleKey;
     private String environment;

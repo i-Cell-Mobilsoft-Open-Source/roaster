@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 /**
+ * Class for handling the TM4J client calls
  *
  * @author martin.nagy
  * @since 0.2.0
@@ -33,14 +34,29 @@ import java.util.Collections;
 public class Tm4jService {
     private final Tm4jClient tm4jClient;
 
+    /**
+     * Creates an instance using the given configuration and the default TM4J client
+     *
+     * @param config configuration used for creating the TM4J client
+     */
     public Tm4jService(Tm4jReporterServerConfig config) {
-        tm4jClient = new Tm4jClientFactory().createClient(config);
+        this(new Tm4jClientFactory().createClient(config));
     }
 
     /**
+     * Creates an instance using the given TM4J client
      *
-     * @param key
-     * @return
+     * @param tm4jClient TM4J client used for rest calls
+     */
+    public Tm4jService(Tm4jClient tm4jClient) {
+        this.tm4jClient = tm4jClient;
+    }
+
+    /**
+     * Returns {@code true} if the test run exists with the given key on the server
+     *
+     * @param key test run key used at the search on the server
+     * @return {@code true} if the test run exists with the given key on the server
      */
     public boolean isTestRunExist(String key) {
         try {
@@ -52,9 +68,10 @@ public class Tm4jService {
     }
 
     /**
+     * Returns {@code true} if the test case exists with the given key on the server
      *
-     * @param key
-     * @return
+     * @param key test case key used at the search on the server
+     * @return {@code true} if the test case exists with the given key on the server
      */
     public boolean isTestCaseExist(String key) {
         try {
@@ -66,9 +83,10 @@ public class Tm4jService {
     }
 
     /**
+     * Posts the execution data to the server with the given test run key
      *
-     * @param testRunKey
-     * @param execution
+     * @param testRunKey the test run key
+     * @param execution the {@code Execution} to be published
      */
     public void postResult(String testRunKey, Execution execution) {
         try {

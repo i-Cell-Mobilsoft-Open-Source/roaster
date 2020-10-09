@@ -20,6 +20,7 @@
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
 /**
+ * Exception class indicating rest call errors.
  *
  * @author martin.nagy
  * @since 0.2.0

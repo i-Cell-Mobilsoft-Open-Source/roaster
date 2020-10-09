@@ -35,8 +35,20 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Factory class for creating {@code Tm4jClient} implementation.
+ *
+ * @author martin.nagy
+ * @since 0.2.0
+ */
 class Tm4jClientFactory {
 
+    /**
+     * Creates a {@code Tm4jClient} Retrofit proxy implementation based on the configuration parameter.
+     *
+     * @param config configuration used for creating the rest client used for the Tm4jClient implementation
+     * @return {@code Tm4jClient} implementation
+     */
     Tm4jClient createClient(Tm4jReporterServerConfig config) {
         validateConfig(config);
 
@@ -72,7 +84,7 @@ class Tm4jClientFactory {
     private OkHttpClient createHttpClient(Tm4jReporterServerConfig config) {
         return new OkHttpClient.Builder()
                 .readTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(chain -> createAuthInterceptor(chain, config))
+                .addInterceptor(chain -> addAuthHeader(chain, config))
                 .build();
     }
 
@@ -84,7 +96,7 @@ class Tm4jClientFactory {
         ) + "rest/atm/1.0/";
     }
 
-    private Response createAuthInterceptor(Interceptor.Chain chain, Tm4jReporterServerConfig config) throws IOException {
+    private Response addAuthHeader(Interceptor.Chain chain, Tm4jReporterServerConfig config) throws IOException {
         return chain.proceed(
                 chain.request().newBuilder()
                         .addHeader("Authorization", getAuthHeader(config))

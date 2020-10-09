@@ -19,13 +19,14 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
+import hu.icellmobilsoft.roaster.tm4j.common.api.TestResultReporter;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
 /**
- * Creates a {@code Tm4jReporter} based on the Roaster configuration.
+ * Creates a {@code TestResultReporter} based on the Roaster configuration.
  * @see Tm4jReporterFactory#createReporter()
  *
  * @author martin.nagy
@@ -34,7 +35,7 @@ import org.eclipse.microprofile.config.ConfigProvider;
 public class Tm4jReporterFactory {
 
     /**
-     * Creates a {@code Tm4jReporter} based on the Roaster configuration.
+     * Creates a {@code TestResultReporter} based on the Roaster configuration.
      * <br><br>
      * Example yaml configuration:
      * <pre>{@code
@@ -46,23 +47,23 @@ public class Tm4jReporterFactory {
      *     server:
      *       url: https://jira.acme.com     # Jira server url
      *       basicAuthToken: ZXhhbXBsZS11c2VyOnNlY3JldA==       # base64(userName + ":" + password)
-     *       userName: # To set the credentials the basicAuthToken or the userName + password can be used
+     *       userName: # To set the credentials the basicAuthToken or the userName + password can be used (not both)
      *       password:
      * }</pre>
      *
      * For security reasons it's recommended to set the password with command line arguments.
      * (e.g. using maven: {@code mvn test -Droaster.tm4j.server.password=secret})
      *
-     * @return configured {@code Tm4jReporter} implementation
+     * @return configured {@code TestResultReporter} implementation
      */
-    public Tm4jReporter createReporter() {
+    public TestResultReporter createReporter() {
         Config roasterConfig = ConfigProvider.getConfig();
 
         Tm4jReporterConfig config = mapConfig(roasterConfig);
 
         return config.isEnabled() ?
                 new DefaultTm4jReporter(config) :
-                new NoopTm4jReporter();
+                new NoopTestResultReporter();
     }
 
     private Tm4jReporterConfig mapConfig(Config roasterConfig) {

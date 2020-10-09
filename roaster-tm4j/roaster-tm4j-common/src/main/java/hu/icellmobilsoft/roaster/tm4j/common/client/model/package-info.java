@@ -17,30 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.tm4j.common;
-
-import hu.icellmobilsoft.roaster.tm4j.common.spi.Tm4jRecord;
-
-import java.util.Optional;
-
 /**
+ * Contains the DTO classes for the TM4J rest calls.
  *
  * @author martin.nagy
  * @since 0.2.0
  */
-class NoopTm4jReporter implements Tm4jReporter {
-    @Override
-    public void reportSuccess(Tm4jRecord tm4jRecord) {
-        // do nothing
-    }
-
-    @Override
-    public void reportFail(Tm4jRecord tm4jRecord, Throwable cause) {
-        // do nothing
-    }
-
-    @Override
-    public void reportDisabled(Tm4jRecord tm4jRecord, Optional<String> reason) {
-        // do nothing
-    }
-}
+package hu.icellmobilsoft.roaster.tm4j.common.client.model;

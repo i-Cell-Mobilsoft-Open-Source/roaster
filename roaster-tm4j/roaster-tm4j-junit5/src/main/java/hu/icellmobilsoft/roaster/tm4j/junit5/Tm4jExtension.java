@@ -19,10 +19,10 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.junit5;
 
-import hu.icellmobilsoft.roaster.tm4j.common.Tm4jReporter;
+import hu.icellmobilsoft.roaster.tm4j.common.api.TestResultReporter;
 import hu.icellmobilsoft.roaster.tm4j.common.Tm4jReporterFactory;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
-import hu.icellmobilsoft.roaster.tm4j.common.spi.Tm4jRecord;
+import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseData;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
@@ -37,16 +37,16 @@ import java.util.Optional;
  * The test case id should be mapped with the test method via the {@link TestCaseId} annotation.
  * <br><br>
  * Example:
- * <pre>{@code
- * @ExtendWith(Tm4jExtension.class)
+ * <pre>
+ *{@literal @}ExtendWith(Tm4jExtension.class)
  * class ExampleTest {
- *     @Test
- *     @TestCaseId("ABC-T1")
+ *    {@literal @}Test
+ *    {@literal @}TestCaseId("ABC-T1")
  *     void testOne() {
  *         assertTrue(1 == 1);
  *     }
  * }
- * }</pre>
+ * </pre>
  *
  * For configuration see: {@link Tm4jReporterFactory#createReporter}
  *
@@ -55,9 +55,27 @@ import java.util.Optional;
  * @since 0.2.0
  */
 public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback {
-    private static final String START_TIME = "START_TIME";
+    /**
+     * Constant used as JUnit storage key for test run start time
+     */
+    protected static final String START_TIME = "START_TIME";
 
-    private final Tm4jReporter reporter = new Tm4jReporterFactory().createReporter();
+    private final TestResultReporter reporter;
+
+    /**
+     * Creates an instance with a {@code TestResultReporter} using the {@code Tm4jReporterFactory} with the Roaster config.
+     */
+    public Tm4jExtension() {
+        this(new Tm4jReporterFactory().createReporter());
+    }
+
+    /**
+     * Creates an instance with a {@code TestResultReporter} passed as a parameter.
+     * @param reporter {@code TestResultReporter} defining callbacks for test lifecycle events
+     */
+    public Tm4jExtension(TestResultReporter reporter) {
+        this.reporter = reporter;
+    }
 
     @Override
     public void beforeTestExecution(ExtensionContext context) {
@@ -79,11 +97,11 @@ public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback {
         reporter.reportDisabled(createTm4jRecord(context), reason);
     }
 
-    private Tm4jRecord createTm4jRecord(ExtensionContext context) {
+    private TestCaseData createTm4jRecord(ExtensionContext context) {
         LocalDateTime startTime = getStore(context).remove(START_TIME, LocalDateTime.class);
         LocalDateTime endTime = LocalDateTime.now();
 
-        Tm4jRecord record = new Tm4jRecord();
+        TestCaseData record = new TestCaseData();
         record.setId(context.getUniqueId());
         record.setDisplayName(context.getDisplayName());
         record.setTestMethod(context.getRequiredTestMethod());

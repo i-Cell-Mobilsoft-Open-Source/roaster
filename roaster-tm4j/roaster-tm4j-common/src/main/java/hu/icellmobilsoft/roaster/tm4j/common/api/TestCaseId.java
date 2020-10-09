@@ -26,6 +26,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Annotation for test methods defining the TM4J test case ID
  *
  * @author martin.nagy
  * @since 0.2.0
@@ -36,7 +37,8 @@ import java.lang.annotation.Target;
 public @interface TestCaseId {
 
     /**
-     *
+     * Test case id value
+     * @return Test case id value
      */
     String value();
 }

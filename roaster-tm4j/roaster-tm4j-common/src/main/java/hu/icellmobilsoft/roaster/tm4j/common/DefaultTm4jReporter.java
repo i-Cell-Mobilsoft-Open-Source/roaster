@@ -21,11 +21,12 @@ package hu.icellmobilsoft.roaster.tm4j.common;
 
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
+import hu.icellmobilsoft.roaster.tm4j.common.api.TestResultReporter;
 import hu.icellmobilsoft.roaster.tm4j.common.client.Tm4jService;
 import hu.icellmobilsoft.roaster.tm4j.common.client.model.Execution;
 import hu.icellmobilsoft.roaster.tm4j.common.config.InvalidConfigException;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
-import hu.icellmobilsoft.roaster.tm4j.common.spi.Tm4jRecord;
+import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseData;
 
 import java.lang.reflect.Method;
 import java.time.temporal.ChronoUnit;
@@ -35,19 +36,37 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
+ * Default implementation of the {@code TestResultReporter}.
+ * It published test result data to the configured TM4J server
+ * for every test method which annotated with a valid {@code TestCaseId}.
  *
  * @author martin.nagy
  * @since 0.2.0
  */
-class DefaultTm4jReporter implements Tm4jReporter {
+class DefaultTm4jReporter implements TestResultReporter {
     private final Logger log = Logger.getLogger(DefaultTm4jReporter.class);
 
     private final Tm4jReporterConfig config;
     private final Tm4jService tm4JService;
 
+    /**
+     * Creates an instance using the given configuration and the default TM4J service
+     *
+     * @param config configuration used for creating this class and the TM4J service
+     */
     public DefaultTm4jReporter(Tm4jReporterConfig config) {
+        this(config, new Tm4jService(config.getServer()));
+    }
+
+    /**
+     * Creates an instance using the given configuration and TM4J service.
+     *
+     * @param config configuration used for creating this class
+     * @param tm4JService TM4J services used for rest calls
+     */
+    public DefaultTm4jReporter(Tm4jReporterConfig config, Tm4jService tm4JService) {
         this.config = config;
-        this.tm4JService = new Tm4jService(config.getServer());
+        this.tm4JService = tm4JService;
         validateConfig();
     }
 
@@ -64,24 +83,24 @@ class DefaultTm4jReporter implements Tm4jReporter {
     }
 
     @Override
-    public void reportSuccess(Tm4jRecord tm4jRecord) {
-        getTestCaseIds(tm4jRecord.getTestMethod())
+    public void reportSuccess(TestCaseData testCaseData) {
+        getTestCaseIds(testCaseData.getTestMethod())
                 .forEach(testCaseKey -> {
-                    Execution execution = createExecution(tm4jRecord, testCaseKey);
+                    Execution execution = createExecution(testCaseData, testCaseKey);
                     execution.setStatus("Pass");
-                    execution.setComment(createCommentBase(tm4jRecord.getId()));
+                    execution.setComment(createCommentBase(testCaseData.getId()));
                     publishResult(execution);
                 });
     }
 
     @Override
-    public void reportFail(Tm4jRecord tm4jRecord, Throwable cause) {
-        getTestCaseIds(tm4jRecord.getTestMethod())
+    public void reportFail(TestCaseData testCaseData, Throwable cause) {
+        getTestCaseIds(testCaseData.getTestMethod())
                 .forEach(testCaseKey -> {
-                    Execution execution = createExecution(tm4jRecord, testCaseKey);
+                    Execution execution = createExecution(testCaseData, testCaseKey);
                     execution.setStatus("Fail");
                     execution.setComment(
-                            createCommentBase(tm4jRecord.getId()) +
+                            createCommentBase(testCaseData.getId()) +
                                     createFailureComment(cause)
                     );
                     publishResult(execution);
@@ -89,13 +108,13 @@ class DefaultTm4jReporter implements Tm4jReporter {
     }
 
     @Override
-    public void reportDisabled(Tm4jRecord tm4jRecord, Optional<String> reason) {
-        getTestCaseIds(tm4jRecord.getTestMethod())
+    public void reportDisabled(TestCaseData testCaseData, Optional<String> reason) {
+        getTestCaseIds(testCaseData.getTestMethod())
                 .forEach(testCaseKey -> {
-                    Execution execution = createExecution(tm4jRecord, testCaseKey);
+                    Execution execution = createExecution(testCaseData, testCaseKey);
                     execution.setStatus("Blocked");
                     execution.setComment(
-                            createCommentBase(tm4jRecord.getId()) +
+                            createCommentBase(testCaseData.getId()) +
                                     createDisabledTestComment(reason)
                     );
                     publishResult(execution);
@@ -121,18 +140,18 @@ class DefaultTm4jReporter implements Tm4jReporter {
                 .filter(Objects::nonNull);
     }
 
-    private Execution createExecution(Tm4jRecord tm4jRecord, String testCaseKey) {
+    private Execution createExecution(TestCaseData testCaseData, String testCaseKey) {
         Execution execution = new Execution();
         execution.setProjectKey(config.getProjectKey());
         execution.setTestCaseKey(testCaseKey);
-        execution.setActualStartDate(tm4jRecord.getStartTime());
-        execution.setActualEndDate(tm4jRecord.getEndTime());
-        execution.setExecutionTime(getDurationInMillis(tm4jRecord));
+        execution.setActualStartDate(testCaseData.getStartTime());
+        execution.setActualEndDate(testCaseData.getEndTime());
+        execution.setExecutionTime(getDurationInMillis(testCaseData));
         return execution;
     }
 
-    private long getDurationInMillis(Tm4jRecord tm4jRecord) {
-        return tm4jRecord.getStartTime().until(tm4jRecord.getEndTime(), ChronoUnit.MILLIS);
+    private long getDurationInMillis(TestCaseData testCaseData) {
+        return testCaseData.getStartTime().until(testCaseData.getEndTime(), ChronoUnit.MILLIS);
     }
 
     private String createCommentBase(String uniqueId) {
