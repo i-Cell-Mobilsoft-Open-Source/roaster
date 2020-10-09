@@ -15,6 +15,10 @@
     <dependencies>
         <dependency>
             <groupId>hu.icellmobilsoft.roaster</groupId>
+            <artifactId>roaster-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.roaster</groupId>
             <artifactId>roaster-common-config</artifactId>
         </dependency>
 
@@ -31,6 +35,11 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>

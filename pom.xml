@@ -25,7 +25,7 @@
 		<module>roaster-redis</module>
 		<module>roaster-restassured</module>
 		<module>roaster-weldunit</module>
-        <module>roaster-tm4j</module>
+		<module>roaster-tm4j</module>
     </modules>
 
 	<properties>

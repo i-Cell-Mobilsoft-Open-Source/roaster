@@ -33,6 +33,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -50,6 +51,7 @@ class Tm4jClientFactory {
      * @return {@code Tm4jClient} implementation
      */
     Tm4jClient createClient(Tm4jReporterServerConfig config) {
+        Objects.requireNonNull(config);
         validateConfig(config);
 
         return new Retrofit.Builder()

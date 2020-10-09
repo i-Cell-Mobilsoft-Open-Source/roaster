@@ -19,17 +19,15 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.config;
 
+import hu.icellmobilsoft.roaster.api.TestException;
+
 /**
  * Exception class indicating errors regarding the Roaster TM4J configuration.
  *
  * @author martin.nagy
  * @since 0.2.0
  */
-public class InvalidConfigException extends RuntimeException {
-    public InvalidConfigException() {
-        super();
-    }
-
+public class InvalidConfigException extends TestException {
     public InvalidConfigException(String message) {
         super(message);
     }

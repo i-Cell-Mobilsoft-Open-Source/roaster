@@ -28,12 +28,12 @@ import hu.icellmobilsoft.roaster.tm4j.common.config.InvalidConfigException;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseData;
 
-import java.lang.reflect.Method;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 /**
  * Default implementation of the {@code TestResultReporter}.
@@ -43,7 +43,12 @@ import java.util.stream.Stream;
  * @author martin.nagy
  * @since 0.2.0
  */
-class DefaultTm4jReporter implements TestResultReporter {
+public class DefaultTm4jReporter implements TestResultReporter {
+    private static final String PASS = "Pass";
+    private static final String FAIL = "Fail";
+    private static final String BLOCKED = "Blocked";
+    private static final String BR = "<br>";
+
     private final Logger log = Logger.getLogger(DefaultTm4jReporter.class);
 
     private final Tm4jReporterConfig config;
@@ -61,12 +66,12 @@ class DefaultTm4jReporter implements TestResultReporter {
     /**
      * Creates an instance using the given configuration and TM4J service.
      *
-     * @param config configuration used for creating this class
+     * @param config      configuration used for creating this class
      * @param tm4JService TM4J services used for rest calls
      */
     public DefaultTm4jReporter(Tm4jReporterConfig config, Tm4jService tm4JService) {
-        this.config = config;
-        this.tm4JService = tm4JService;
+        this.config = Objects.requireNonNull(config);
+        this.tm4JService = Objects.requireNonNull(tm4JService);
         validateConfig();
     }
 
@@ -84,41 +89,38 @@ class DefaultTm4jReporter implements TestResultReporter {
 
     @Override
     public void reportSuccess(TestCaseData testCaseData) {
-        getTestCaseIds(testCaseData.getTestMethod())
-                .forEach(testCaseKey -> {
-                    Execution execution = createExecution(testCaseData, testCaseKey);
-                    execution.setStatus("Pass");
-                    execution.setComment(createCommentBase(testCaseData.getId()));
-                    publishResult(execution);
-                });
+        for (String testCaseId : getTestCaseIds(testCaseData)) {
+            Execution execution = createExecution(testCaseData, testCaseId);
+            execution.setStatus(PASS);
+            execution.setComment(createCommentBase(testCaseData.getId()));
+            publishResult(execution);
+        }
     }
 
     @Override
     public void reportFail(TestCaseData testCaseData, Throwable cause) {
-        getTestCaseIds(testCaseData.getTestMethod())
-                .forEach(testCaseKey -> {
-                    Execution execution = createExecution(testCaseData, testCaseKey);
-                    execution.setStatus("Fail");
-                    execution.setComment(
-                            createCommentBase(testCaseData.getId()) +
-                                    createFailureComment(cause)
-                    );
-                    publishResult(execution);
-                });
+        for (String testCaseId : getTestCaseIds(testCaseData)) {
+            Execution execution = createExecution(testCaseData, testCaseId);
+            execution.setStatus(FAIL);
+            execution.setComment(
+                    createCommentBase(testCaseData.getId()) +
+                            createFailureComment(cause)
+            );
+            publishResult(execution);
+        }
     }
 
     @Override
     public void reportDisabled(TestCaseData testCaseData, Optional<String> reason) {
-        getTestCaseIds(testCaseData.getTestMethod())
-                .forEach(testCaseKey -> {
-                    Execution execution = createExecution(testCaseData, testCaseKey);
-                    execution.setStatus("Blocked");
-                    execution.setComment(
-                            createCommentBase(testCaseData.getId()) +
-                                    createDisabledTestComment(reason)
-                    );
-                    publishResult(execution);
-                });
+        for (String testCaseId : getTestCaseIds(testCaseData)) {
+            Execution execution = createExecution(testCaseData, testCaseId);
+            execution.setStatus(BLOCKED);
+            execution.setComment(
+                    createCommentBase(testCaseData.getId()) +
+                            createDisabledTestComment(reason)
+            );
+            publishResult(execution);
+        }
     }
 
     private void publishResult(Execution execution) {
@@ -126,8 +128,8 @@ class DefaultTm4jReporter implements TestResultReporter {
         log.info("Test result published to TM4J: [{0}]", execution.getTestCaseKey());
     }
 
-    private Stream<String> getTestCaseIds(Method testMethod) {
-        return Arrays.stream(testMethod.getAnnotationsByType(TestCaseId.class))
+    private List<String> getTestCaseIds(TestCaseData testCaseData) {
+        return Arrays.stream(testCaseData.getTestMethod().getAnnotationsByType(TestCaseId.class))
                 .map(TestCaseId::value)
                 .map(testCaseId -> {
                     if (tm4JService.isTestCaseExist(testCaseId)) {
@@ -137,7 +139,8 @@ class DefaultTm4jReporter implements TestResultReporter {
                         return null;
                     }
                 })
-                .filter(Objects::nonNull);
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     private Execution createExecution(TestCaseData testCaseData, String testCaseKey) {
@@ -156,12 +159,12 @@ class DefaultTm4jReporter implements TestResultReporter {
 
     private String createCommentBase(String uniqueId) {
         return "Environment: " + config.getEnvironment().toUpperCase() +
-                "</br></br>" +
+                BR + BR +
                 "Test method: " + uniqueId;
     }
 
     private String createFailureComment(Throwable cause) {
-        return "</br></br>Reason of failure: " + htmlEscape(cause.toString());
+        return BR + BR + "Reason of failure: " + htmlEscape(cause.toString());
     }
 
     private String htmlEscape(String string) {
@@ -171,7 +174,7 @@ class DefaultTm4jReporter implements TestResultReporter {
     }
 
     private String createDisabledTestComment(Optional<String> reason) {
-        return reason.map(s -> "</br></br>Test case has been skipped by: " + s)
+        return reason.map(s -> BR + BR + "Test case has been skipped by: " + s)
                 .orElse("");
     }
 

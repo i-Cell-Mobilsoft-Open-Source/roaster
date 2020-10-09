@@ -24,6 +24,7 @@ import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Objects;
 
 /**
  * Class for handling the TM4J client calls
@@ -49,7 +50,7 @@ public class Tm4jService {
      * @param tm4jClient TM4J client used for rest calls
      */
     public Tm4jService(Tm4jClient tm4jClient) {
-        this.tm4jClient = tm4jClient;
+        this.tm4jClient = Objects.requireNonNull(tm4jClient);
     }
 
     /**
@@ -59,11 +60,12 @@ public class Tm4jService {
      * @return {@code true} if the test run exists with the given key on the server
      */
     public boolean isTestRunExist(String key) {
+        Objects.requireNonNull(key);
         try {
             int code = tm4jClient.getTestRun(key).execute().code();
             return isEntityExistsBasedOnHttpResponseCode(code);
         } catch (IOException e) {
-            throw new ClientException(e);
+            throw new Tm4jClientException(e);
         }
     }
 
@@ -74,11 +76,12 @@ public class Tm4jService {
      * @return {@code true} if the test case exists with the given key on the server
      */
     public boolean isTestCaseExist(String key) {
+        Objects.requireNonNull(key);
         try {
             int code = tm4jClient.getTestCase(key).execute().code();
             return isEntityExistsBasedOnHttpResponseCode(code);
         } catch (IOException e) {
-            throw new ClientException(e);
+            throw new Tm4jClientException(e);
         }
     }
 
@@ -89,10 +92,12 @@ public class Tm4jService {
      * @param execution the {@code Execution} to be published
      */
     public void postResult(String testRunKey, Execution execution) {
+        Objects.requireNonNull(testRunKey);
+        Objects.requireNonNull(execution);
         try {
             tm4jClient.postExecutionsForTestRun(testRunKey, Collections.singletonList(execution)).execute();
         } catch (IOException e) {
-            throw new ClientException(e);
+            throw new Tm4jClientException(e);
         }
     }
 
@@ -103,6 +108,6 @@ public class Tm4jService {
         if (code == 404) {
             return false;
         }
-        throw new ClientException("Rest endpoint responded with: " + code);
+        throw new Tm4jClientException("Rest endpoint responded with: " + code);
     }
 }

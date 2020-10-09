@@ -99,7 +99,7 @@ class Tm4jServiceTest {
         Executable executable = () -> testObj.isTestCaseExist(testCaseKey);
 
         // then
-        assertThrows(ClientException.class, executable);
+        assertThrows(Tm4jClientException.class, executable);
     }
 
     @Test
@@ -116,7 +116,7 @@ class Tm4jServiceTest {
         Executable executable = () -> testObj.isTestCaseExist(testCaseKey);
 
         // then
-        assertThrows(ClientException.class, executable);
+        assertThrows(Tm4jClientException.class, executable);
     }
 
     @Test
@@ -150,7 +150,7 @@ class Tm4jServiceTest {
         Executable executable = () -> testObj.isTestRunExist(testRunKey);
 
         // then
-        assertThrows(ClientException.class, executable);
+        assertThrows(Tm4jClientException.class, executable);
     }
 
     @Test
@@ -184,7 +184,7 @@ class Tm4jServiceTest {
         Executable executable = () -> testObj.postResult(testRunKey, execution);
 
         // then
-        assertThrows(ClientException.class, executable);
+        assertThrows(Tm4jClientException.class, executable);
     }
 
 }

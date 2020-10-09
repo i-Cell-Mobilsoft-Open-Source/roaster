@@ -19,26 +19,24 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
+import hu.icellmobilsoft.roaster.api.TestException;
+
 /**
  * Exception class indicating rest call errors.
  *
  * @author martin.nagy
  * @since 0.2.0
  */
-public class ClientException extends RuntimeException {
-    public ClientException() {
-        super();
-    }
-
-    public ClientException(String message) {
+public class Tm4jClientException extends TestException {
+    public Tm4jClientException(String message) {
         super(message);
     }
 
-    public ClientException(String message, Throwable cause) {
+    public Tm4jClientException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ClientException(Throwable cause) {
+    public Tm4jClientException(Throwable cause) {
         super(cause);
     }
 }

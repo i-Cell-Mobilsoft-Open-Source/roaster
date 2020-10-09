@@ -20,6 +20,7 @@
 package hu.icellmobilsoft.roaster.tm4j.common;
 
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestResultReporter;
+import hu.icellmobilsoft.roaster.tm4j.common.config.RoasterConfigKeys;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 import org.eclipse.microprofile.config.Config;
@@ -71,20 +72,20 @@ public class Tm4jReporterFactory {
 
         config.setServer(createServerConfig(roasterConfig));
 
-        config.setEnabled(roasterConfig.getOptionalValue("roaster.tm4j.enabled", Boolean.class).orElse(true));
-        config.setProjectKey(roasterConfig.getOptionalValue("roaster.tm4j.projectKey", String.class).orElse(null));
-        config.setTestCycleKey(roasterConfig.getOptionalValue("roaster.tm4j.testCycleKey", String.class).orElse(null));
-        config.setEnvironment(roasterConfig.getOptionalValue("roaster.tm4j.environment", String.class).orElse("N/A"));
+        config.setEnabled(roasterConfig.getOptionalValue(RoasterConfigKeys.ENABLED, Boolean.class).orElse(true));
+        config.setProjectKey(roasterConfig.getOptionalValue(RoasterConfigKeys.PROJECT_KEY, String.class).orElse(null));
+        config.setTestCycleKey(roasterConfig.getOptionalValue(RoasterConfigKeys.TEST_CYCLE_KEY, String.class).orElse(null));
+        config.setEnvironment(roasterConfig.getOptionalValue(RoasterConfigKeys.ENVIRONMENT, String.class).orElse("N/A"));
 
         return config;
     }
 
     private Tm4jReporterServerConfig createServerConfig(Config roasterConfig) {
         Tm4jReporterServerConfig serverConfig = new Tm4jReporterServerConfig();
-        serverConfig.setBaseUrl(roasterConfig.getOptionalValue("roaster.tm4j.server.url", String.class).orElse(null));
-        serverConfig.setBasicAuthToken(roasterConfig.getOptionalValue("roaster.tm4j.server.basicAuthToken", String.class).orElse(null));
-        serverConfig.setUserName(roasterConfig.getOptionalValue("roaster.tm4j.server.userName", String.class).orElse(null));
-        serverConfig.setPassword(roasterConfig.getOptionalValue("roaster.tm4j.server.password", String.class).orElse(null));
+        serverConfig.setBaseUrl(roasterConfig.getOptionalValue(RoasterConfigKeys.URL, String.class).orElse(null));
+        serverConfig.setBasicAuthToken(roasterConfig.getOptionalValue(RoasterConfigKeys.BASIC_AUTH_TOKEN, String.class).orElse(null));
+        serverConfig.setUserName(roasterConfig.getOptionalValue(RoasterConfigKeys.USER_NAME, String.class).orElse(null));
+        serverConfig.setPassword(roasterConfig.getOptionalValue(RoasterConfigKeys.PASSWORD, String.class).orElse(null));
         return serverConfig;
     }
 }
