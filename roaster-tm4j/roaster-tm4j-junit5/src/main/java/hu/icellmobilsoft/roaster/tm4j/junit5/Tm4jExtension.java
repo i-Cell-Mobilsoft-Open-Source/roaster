@@ -98,16 +98,17 @@ public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback {
     }
 
     private TestCaseData createTm4jRecord(ExtensionContext context) {
-        LocalDateTime startTime = getStore(context).remove(START_TIME, LocalDateTime.class);
-        LocalDateTime endTime = LocalDateTime.now();
-
         TestCaseData record = new TestCaseData();
         record.setId(context.getUniqueId());
         record.setDisplayName(context.getDisplayName());
         record.setTestMethod(context.getRequiredTestMethod());
-        record.setStartTime(startTime);
-        record.setEndTime(endTime);
+        record.setStartTime(getStartTime(context));
+        record.setEndTime(LocalDateTime.now());
         return record;
+    }
+
+    private LocalDateTime getStartTime(ExtensionContext context) {
+        return getStore(context).remove(START_TIME, LocalDateTime.class);
     }
 
     private Store getStore(ExtensionContext context) {
