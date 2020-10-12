@@ -31,7 +31,7 @@ import java.util.Optional;
  * @author martin.nagy
  * @since 0.2.0
  */
-class NoopTestResultReporter implements TestResultReporter {
+public class NoopTestResultReporter implements TestResultReporter {
     @Override
     public void reportSuccess(TestCaseData testCaseData) {
         // do nothing
