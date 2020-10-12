@@ -27,6 +27,7 @@ import hu.icellmobilsoft.roaster.tm4j.common.client.model.Execution;
 import hu.icellmobilsoft.roaster.tm4j.common.config.InvalidConfigException;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseData;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -168,9 +169,7 @@ public class DefaultTm4jReporter implements TestResultReporter {
     }
 
     private String htmlEscape(String string) {
-        return string
-                .replace("<", "&lt;")
-                .replace(">", "&gt;");
+        return StringEscapeUtils.escapeHtml4(string);
     }
 
     private String createDisabledTestComment(Optional<String> reason) {
