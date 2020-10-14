@@ -19,9 +19,10 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseData;
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestResultReporter;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
 
+import javax.enterprise.inject.Vetoed;
 import java.util.Optional;
 
 /**
@@ -31,6 +32,7 @@ import java.util.Optional;
  * @author martin.nagy
  * @since 0.2.0
  */
+@Vetoed
 public class NoopTestResultReporter implements TestResultReporter {
     @Override
     public void reportSuccess(TestCaseData testCaseData) {

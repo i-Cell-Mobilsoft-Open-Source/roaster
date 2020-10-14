@@ -19,12 +19,16 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
-import hu.icellmobilsoft.roaster.tm4j.common.client.model.Execution;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
+import hu.icellmobilsoft.roaster.dto.tm4j.test_execution.Execution;
 
-import java.io.IOException;
+import javax.inject.Inject;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.Response.Status.Family;
+import javax.ws.rs.core.Response.StatusType;
 import java.util.Collections;
-import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Class for handling the TM4J client calls
@@ -32,25 +36,18 @@ import java.util.Objects;
  * @author martin.nagy
  * @since 0.2.0
  */
-public class Tm4jService {
-    private final Tm4jClient tm4jClient;
+public class RestTm4jService {
 
-    /**
-     * Creates an instance using the given configuration and the default TM4J client
-     *
-     * @param config configuration used for creating the TM4J client
-     */
-    public Tm4jService(Tm4jReporterServerConfig config) {
-        this(new Tm4jClientFactory().createClient(config));
-    }
+    private final Tm4jRestClient tm4jClient;
 
     /**
      * Creates an instance using the given TM4J client
      *
      * @param tm4jClient TM4J client used for rest calls
      */
-    public Tm4jService(Tm4jClient tm4jClient) {
-        this.tm4jClient = Objects.requireNonNull(tm4jClient);
+    @Inject
+    public RestTm4jService(Tm4jRestClient tm4jClient) {
+        this.tm4jClient = requireNonNull(tm4jClient);
     }
 
     /**
@@ -60,13 +57,8 @@ public class Tm4jService {
      * @return {@code true} if the test run exists with the given key on the server
      */
     public boolean isTestRunExist(String key) {
-        Objects.requireNonNull(key);
-        try {
-            int code = tm4jClient.getTestRun(key).execute().code();
-            return isEntityExistsBasedOnHttpResponseCode(code);
-        } catch (IOException e) {
-            throw new Tm4jClientException(e);
-        }
+        Response response = tm4jClient.headTestRun(requireNonNull(key));
+        return isEntityExistsBasedOnResponseStatus(response.getStatusInfo());
     }
 
     /**
@@ -76,38 +68,30 @@ public class Tm4jService {
      * @return {@code true} if the test case exists with the given key on the server
      */
     public boolean isTestCaseExist(String key) {
-        Objects.requireNonNull(key);
-        try {
-            int code = tm4jClient.getTestCase(key).execute().code();
-            return isEntityExistsBasedOnHttpResponseCode(code);
-        } catch (IOException e) {
-            throw new Tm4jClientException(e);
-        }
+        Response response = tm4jClient.headTestCase(requireNonNull(key));
+        return isEntityExistsBasedOnResponseStatus(response.getStatusInfo());
     }
 
     /**
-     * Posts the execution data to the server with the given test run key
+     * Posts the test execution data to the server with the given test run key
      *
      * @param testRunKey the test run key
      * @param execution the {@code Execution} to be published
      */
     public void postResult(String testRunKey, Execution execution) {
-        Objects.requireNonNull(testRunKey);
-        Objects.requireNonNull(execution);
-        try {
-            tm4jClient.postExecutionsForTestRun(testRunKey, Collections.singletonList(execution)).execute();
-        } catch (IOException e) {
-            throw new Tm4jClientException(e);
-        }
+        requireNonNull(testRunKey);
+        requireNonNull(execution);
+
+        tm4jClient.postExecutions(testRunKey, Collections.singletonList(execution));
     }
 
-    private boolean isEntityExistsBasedOnHttpResponseCode(int code) {
-        if (code >= 200 && code < 300) {
+    private boolean isEntityExistsBasedOnResponseStatus(StatusType statusType) {
+        if (statusType.getFamily() == Family.SUCCESSFUL) {
             return true;
         }
-        if (code == 404) {
+        if (statusType.toEnum() == Status.NOT_FOUND) {
             return false;
         }
-        throw new Tm4jClientException("Rest endpoint responded with: " + code);
+        throw new Tm4jClientException("Rest endpoint responded with: " + statusType);
     }
 }

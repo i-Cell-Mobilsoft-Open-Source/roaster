@@ -1,0 +1,86 @@
+/*-
+ * #%L
+ * Coffee
+ * %%
+ * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+package hu.icellmobilsoft.roaster.tm4j.common.client;
+
+import hu.icellmobilsoft.roaster.tm4j.common.config.InvalidConfigException;
+import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
+import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
+import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
+
+import javax.enterprise.inject.Vetoed;
+import javax.enterprise.inject.spi.CDI;
+import javax.ws.rs.core.MultivaluedMap;
+import java.util.Base64;
+import java.util.Objects;
+
+/**
+ * Sets the {@literal Authorization} header for the TM4J rest client
+ *
+ * @author martin.nagy
+ * @since 0.2.0
+ */
+@Vetoed
+public class AuthHeadersFactory implements ClientHeadersFactory {
+
+    private final Tm4jReporterConfig config;
+
+    /**
+     * Instantiate this class using CDI to resolve the {@code Tm4jReporterConfig} dependency.<br>
+     * The default constructor is needed for the mp-rest-client.
+     */
+    public AuthHeadersFactory() {
+        this(CDI.current().select(Tm4jReporterConfig.class).get());
+    }
+
+    /**
+     * Instantiate this class using the {@code Tm4jReporterConfig} passed as an argument.
+     * @param config used for getting the TM4J server credentials
+     */
+    public AuthHeadersFactory(Tm4jReporterConfig config) {
+        this.config = Objects.requireNonNull(config);
+        validateConfig(config.getServer());
+    }
+
+    @Override
+    public MultivaluedMap<String, String> update(MultivaluedMap<String, String> incomingHeaders, MultivaluedMap<String, String> clientOutgoingHeaders) {
+        incomingHeaders.add("Authorization", "Basic " + getBasicAuthToken(config.getServer()));
+
+        return incomingHeaders;
+    }
+
+    private void validateConfig(Tm4jReporterServerConfig config) {
+        if (config.getBasicAuthToken() == null && (config.getUserName() == null || config.getPassword() == null)) {
+            throw new InvalidConfigException("userName and password should be set if basicAuthToken is missing");
+        }
+        if (config.getBasicAuthToken() != null && (config.getUserName() != null || config.getPassword() != null)) {
+            throw new InvalidConfigException("userName and password should be empty if basicAuthToken is supplied");
+        }
+    }
+
+    private String getBasicAuthToken(Tm4jReporterServerConfig config) {
+        return config.getBasicAuthToken() != null && !config.getBasicAuthToken().isBlank() ?
+                config.getBasicAuthToken() :
+                base64Encode(config.getUserName() + ":" + config.getPassword());
+    }
+
+    private String base64Encode(String input) {
+        return Base64.getEncoder().encodeToString(input.getBytes());
+    }
+}

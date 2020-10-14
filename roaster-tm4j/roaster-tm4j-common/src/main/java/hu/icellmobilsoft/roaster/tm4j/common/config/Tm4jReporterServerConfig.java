@@ -26,18 +26,9 @@ package hu.icellmobilsoft.roaster.tm4j.common.config;
  * @since 0.2.0
  */
 public class Tm4jReporterServerConfig {
-    private String baseUrl;
     private String userName;
     private String password;
     private String basicAuthToken;
-
-    public String getBaseUrl() {
-        return baseUrl;
-    }
-
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
 
     public String getUserName() {
         return userName;

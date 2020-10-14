@@ -17,19 +17,23 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.tm4j.common.client.model;
+package hu.icellmobilsoft.roaster.tm4j.common;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.inject.Qualifier;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * @author martin.nagy
- * @since 0.2.0
+ *
  */
-public class ExecutionSummary {
-
-    @JsonProperty("Pass")
-    private Integer pass;
-
-    @JsonProperty("Fail")
-    private Integer fail;
+@Target({ TYPE, METHOD, PARAMETER, FIELD })
+@Retention(RUNTIME)
+@Qualifier
+public @interface Rest {
 }

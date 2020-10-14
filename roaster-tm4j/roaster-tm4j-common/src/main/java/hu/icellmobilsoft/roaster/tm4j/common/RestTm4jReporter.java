@@ -20,15 +20,17 @@
 package hu.icellmobilsoft.roaster.tm4j.common;
 
 import hu.icellmobilsoft.coffee.se.logging.Logger;
+import hu.icellmobilsoft.roaster.dto.tm4j.test_execution.Execution;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestResultReporter;
-import hu.icellmobilsoft.roaster.tm4j.common.client.Tm4jService;
-import hu.icellmobilsoft.roaster.tm4j.common.client.model.Execution;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
+import hu.icellmobilsoft.roaster.tm4j.common.client.RestTm4jService;
 import hu.icellmobilsoft.roaster.tm4j.common.config.InvalidConfigException;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseData;
 import org.apache.commons.text.StringEscapeUtils;
 
+import javax.inject.Inject;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
@@ -44,35 +46,28 @@ import java.util.stream.Collectors;
  * @author martin.nagy
  * @since 0.2.0
  */
-public class DefaultTm4jReporter implements TestResultReporter {
+@Rest
+public class RestTm4jReporter implements TestResultReporter {
     private static final String PASS = "Pass";
     private static final String FAIL = "Fail";
     private static final String BLOCKED = "Blocked";
     private static final String BR = "<br>";
 
-    private final Logger log = Logger.getLogger(DefaultTm4jReporter.class);
+    private final Logger log = Logger.getLogger(RestTm4jReporter.class);
 
     private final Tm4jReporterConfig config;
-    private final Tm4jService tm4JService;
-
-    /**
-     * Creates an instance using the given configuration and the default TM4J service
-     *
-     * @param config configuration used for creating this class and the TM4J service
-     */
-    public DefaultTm4jReporter(Tm4jReporterConfig config) {
-        this(config, new Tm4jService(config.getServer()));
-    }
+    private final RestTm4jService restTm4JService;
 
     /**
      * Creates an instance using the given configuration and TM4J service.
      *
-     * @param config      configuration used for creating this class
-     * @param tm4JService TM4J services used for rest calls
+     * @param config          configuration used for creating this class
+     * @param restTm4JService TM4J services used for rest calls
      */
-    public DefaultTm4jReporter(Tm4jReporterConfig config, Tm4jService tm4JService) {
+    @Inject
+    public RestTm4jReporter(Tm4jReporterConfig config, RestTm4jService restTm4JService) {
         this.config = Objects.requireNonNull(config);
-        this.tm4JService = Objects.requireNonNull(tm4JService);
+        this.restTm4JService = Objects.requireNonNull(restTm4JService);
         validateConfig();
     }
 
@@ -83,7 +78,7 @@ public class DefaultTm4jReporter implements TestResultReporter {
         if (config.getTestCycleKey() == null) {
             throw new InvalidConfigException("testCycleKey parameter is missing");
         }
-        if (!tm4JService.isTestRunExist(config.getTestCycleKey())) {
+        if (!restTm4JService.isTestRunExist(config.getTestCycleKey())) {
             throw new InvalidConfigException("supplied testCycleKey not found: " + config.getTestCycleKey());
         }
     }
@@ -125,7 +120,7 @@ public class DefaultTm4jReporter implements TestResultReporter {
     }
 
     private void publishResult(Execution execution) {
-        tm4JService.postResult(config.getTestCycleKey(), execution);
+        restTm4JService.postResult(config.getTestCycleKey(), execution);
         log.info("Test result published to TM4J: [{0}]", execution.getTestCaseKey());
     }
 
@@ -133,7 +128,7 @@ public class DefaultTm4jReporter implements TestResultReporter {
         return Arrays.stream(testCaseData.getTestMethod().getAnnotationsByType(TestCaseId.class))
                 .map(TestCaseId::value)
                 .map(testCaseId -> {
-                    if (tm4JService.isTestCaseExist(testCaseId)) {
+                    if (restTm4JService.isTestCaseExist(testCaseId)) {
                         return testCaseId;
                     } else {
                         log.warn("Test case ID not found: [{0}]", testCaseId);
@@ -148,8 +143,8 @@ public class DefaultTm4jReporter implements TestResultReporter {
         Execution execution = new Execution();
         execution.setProjectKey(config.getProjectKey());
         execution.setTestCaseKey(testCaseKey);
-        execution.setActualStartDate(testCaseData.getStartTime());
-        execution.setActualEndDate(testCaseData.getEndTime());
+        execution.setActualStartDate(testCaseData.getStartTime().atOffset(ZoneOffset.UTC));
+        execution.setActualEndDate(testCaseData.getEndTime().atOffset(ZoneOffset.UTC));
         execution.setExecutionTime(getDurationInMillis(testCaseData));
         return execution;
     }

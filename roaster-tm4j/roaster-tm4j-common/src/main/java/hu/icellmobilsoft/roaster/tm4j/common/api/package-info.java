@@ -17,29 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.tm4j.common.client;
-
-import hu.icellmobilsoft.roaster.api.TestException;
+@Vetoed
+package hu.icellmobilsoft.roaster.tm4j.common.api;
 
 import javax.enterprise.inject.Vetoed;
-
-/**
- * Exception class indicating rest call errors.
- *
- * @author martin.nagy
- * @since 0.2.0
- */
-@Vetoed
-public class Tm4jClientException extends TestException {
-    public Tm4jClientException(String message) {
-        super(message);
-    }
-
-    public Tm4jClientException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public Tm4jClientException(Throwable cause) {
-        super(cause);
-    }
-}

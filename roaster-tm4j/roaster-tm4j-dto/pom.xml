@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>roaster-tm4j</artifactId>
+        <groupId>hu.icellmobilsoft.roaster</groupId>
+        <version>0.2.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>hu.icellmobilsoft.roaster.roaster-tm4j</groupId>
+    <artifactId>roaster-tm4j-dto</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>hu.icellmobilsoft.coffee</groupId>
+            <artifactId>coffee-dto-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.microprofile.openapi</groupId>
+            <artifactId>microprofile-openapi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>0.14.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <!-- mas fajta megkozelites, csak igy akkor kezzel kell extra definialas a xsd-kben
+                https://stackoverflow.com/questions/35359260/springfox-swagger-make-definition-properties-required-with-xsd-model -->
+                <configuration>
+                    <schemaDirectory>src/main/resources</schemaDirectory>
+                    <strict>false</strict>
+                    <!-- https://github.com/highsource/maven-jaxb2-plugin/wiki/Catalogs-in-Strict-Mode-->
+                    <catalog>src/main/resources/xsd/hu/icellmobilsoft/roaster/tm4j/dto/super.catalog.xml</catalog>
+                    <schemaIncludes>
+                        <include>xsd/hu/icellmobilsoft/roaster/tm4j/dto/super.xsd</include>
+                    </schemaIncludes>
+                    <bindingIncludes>
+                        <include>xsd/hu/icellmobilsoft/roaster/tm4j/dto/bindings.xjb</include>
+                    </bindingIncludes>
+                    <generateDirectory>${project.build.directory}/generated-sources/src/main/java</generateDirectory>
+                    <args>
+                        <arguments>-openapify</arguments>
+                        <arguments>-Xfluent-api</arguments>
+                        <arguments>-Xannotate</arguments>
+                    </args>
+                    <plugins>
+                        <plugin>
+                            <groupId>hu.icellmobilsoft.jaxb</groupId>
+                            <artifactId>openapi-jaxb</artifactId>
+                            <version>1.1.0</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>net.java.dev.jaxb2-commons</groupId>
+                            <artifactId>jaxb-fluent-api</artifactId>
+                            <version>2.1.8</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.jvnet.jaxb2_commons</groupId>
+                            <artifactId>jaxb2-basics-annotate</artifactId>
+                            <version>1.0.4</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>com.fasterxml.jackson.core</groupId>
+                            <artifactId>jackson-databind</artifactId>
+                        </plugin>
+                    </plugins>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <failOnWarnings>false</failOnWarnings>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

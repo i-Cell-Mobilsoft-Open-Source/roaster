@@ -19,9 +19,9 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.junit5;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestResultReporter;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -55,7 +55,7 @@ class Tm4jExtensionTest {
     void setUp() throws Exception {
         testResultReporter = mock(TestResultReporter.class);
         recordCaptor = ArgumentCaptor.forClass(TestCaseData.class);
-        testObj = new Tm4jExtension(testResultReporter);
+        testObj = new Tm4jExtension(() -> testResultReporter);
 
         extensionContext = mock(ExtensionContext.class);
         when(extensionContext.getUniqueId())

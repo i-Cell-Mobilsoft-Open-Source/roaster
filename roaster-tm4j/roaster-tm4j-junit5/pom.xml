@@ -24,6 +24,13 @@
             <version>${project.version}</version>
         </dependency>
 
+
+        <dependency> <!-- TODO REMOVE-->
+            <groupId>hu.icellmobilsoft.roaster</groupId>
+            <artifactId>roaster-weldunit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>

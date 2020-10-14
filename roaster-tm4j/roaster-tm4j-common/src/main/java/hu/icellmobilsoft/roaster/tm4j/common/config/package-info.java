@@ -17,10 +17,7 @@
  * limitations under the License.
  * #L%
  */
-/**
- * Contains the DTO classes for the TM4J rest calls.
- *
- * @author martin.nagy
- * @since 0.2.0
- */
-package hu.icellmobilsoft.roaster.tm4j.common.client.model;
+@Vetoed
+package hu.icellmobilsoft.roaster.tm4j.common.config;
+
+import javax.enterprise.inject.Vetoed;

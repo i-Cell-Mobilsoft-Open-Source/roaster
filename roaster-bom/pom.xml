@@ -22,8 +22,7 @@
 		<version.io.smallrye.config>1.8.5</version.io.smallrye.config>
 		<version.jakarta.xml.bind-api>2.3.3</version.jakarta.xml.bind-api>
 		<version.org.mockito.mockito-core>3.3.3</version.org.mockito.mockito-core>
-		<version.com.fasterxml.jackson.datatype.jackson-datatype-jsr310>2.11.1</version.com.fasterxml.jackson.datatype.jackson-datatype-jsr310>
-		<version.retrofit>2.9.0</version.retrofit>
+		<version.com.fasterxml.jackson>2.11.3</version.com.fasterxml.jackson>
 
 		<version.com.oracle.ojdbc>19.3.0.0</version.com.oracle.ojdbc>
 
@@ -151,20 +150,21 @@
 				<artifactId>mockito-core</artifactId>
 				<version>${version.org.mockito.mockito-core}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>com.fasterxml.jackson.datatype</groupId>
 				<artifactId>jackson-datatype-jsr310</artifactId>
-				<version>${version.com.fasterxml.jackson.datatype.jackson-datatype-jsr310}</version>
+				<version>${version.com.fasterxml.jackson}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.squareup.retrofit2</groupId>
-				<artifactId>retrofit</artifactId>
-				<version>${version.retrofit}</version>
+				<groupId>com.fasterxml.jackson.jaxrs</groupId>
+				<artifactId>jackson-jaxrs-json-provider</artifactId>
+				<version>${version.com.fasterxml.jackson}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.squareup.retrofit2</groupId>
-				<artifactId>converter-jackson</artifactId>
-				<version>${version.retrofit}</version>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${version.com.fasterxml.jackson}</version>
 			</dependency>
 
 			<!-- Oracle Driver -->

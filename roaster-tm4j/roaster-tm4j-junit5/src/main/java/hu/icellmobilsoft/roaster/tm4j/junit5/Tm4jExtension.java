@@ -19,18 +19,22 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.junit5;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestResultReporter;
-import hu.icellmobilsoft.roaster.tm4j.common.Tm4jReporterFactory;
+import hu.icellmobilsoft.roaster.tm4j.common.Tm4jReporterProducer;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.jupiter.api.extension.TestWatcher;
 
+import javax.enterprise.inject.Vetoed;
+import javax.enterprise.inject.spi.CDI;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * JUnit 5 extension to publish the test result to a TM4J server.
@@ -48,33 +52,35 @@ import java.util.Optional;
  * }
  * </pre>
  *
- * For configuration see: {@link Tm4jReporterFactory#createReporter}
+ * For configuration see: {@link Tm4jReporterProducer#createReporter}
  *
  * @see TestCaseId
  * @author martin.nagy
  * @since 0.2.0
  */
+@Vetoed
 public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback {
     /**
      * Constant used as JUnit storage key for test run start time
      */
     protected static final String START_TIME = "START_TIME";
 
-    private final TestResultReporter reporter;
+    private final Supplier<TestResultReporter> reporterSupplier;
 
     /**
-     * Creates an instance with a {@code TestResultReporter} using the {@code Tm4jReporterFactory} with the Roaster config.
+     * Creates an instance with a {@code TestResultReporter} using CDI to get the {@code TestResultReporter} dependency.
      */
     public Tm4jExtension() {
-        this(new Tm4jReporterFactory().createReporter());
+        this(() -> CDI.current().select(TestResultReporter.class).get());
     }
 
     /**
-     * Creates an instance with a {@code TestResultReporter} passed as a parameter.
-     * @param reporter {@code TestResultReporter} defining callbacks for test lifecycle events
+     * Creates an instance with a {@code TestResultReporter} supplier passed as a parameter.
+     *
+     * @param reporterSupplier {@code TestResultReporter} supplier defining callbacks for test lifecycle events
      */
-    public Tm4jExtension(TestResultReporter reporter) {
-        this.reporter = reporter;
+    public Tm4jExtension(Supplier<TestResultReporter> reporterSupplier) {
+        this.reporterSupplier = Objects.requireNonNull(reporterSupplier);
     }
 
     @Override
@@ -84,17 +90,21 @@ public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback {
 
     @Override
     public void testSuccessful(ExtensionContext context) {
-        reporter.reportSuccess(createTm4jRecord(context));
+        getReporter().reportSuccess(createTm4jRecord(context));
     }
 
     @Override
     public void testFailed(ExtensionContext context, Throwable cause) {
-        reporter.reportFail(createTm4jRecord(context), cause);
+        getReporter().reportFail(createTm4jRecord(context), cause);
     }
 
     @Override
     public void testDisabled(ExtensionContext context, Optional<String> reason) {
-        reporter.reportDisabled(createTm4jRecord(context), reason);
+        getReporter().reportDisabled(createTm4jRecord(context), reason);
+    }
+
+    private TestResultReporter getReporter() {
+        return reporterSupplier.get();
     }
 
     private TestCaseData createTm4jRecord(ExtensionContext context) {

@@ -1,0 +1,19 @@
+<xs:schema xmlns="http://tm4j.dto.roaster.icellmobilsoft.hu/test-execution"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://tm4j.dto.roaster.icellmobilsoft.hu/test-execution"
+           elementFormDefault="qualified">
+
+    <xs:element name="Execution">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="projectKey" type="xs:string"/>
+                <xs:element name="testCaseKey" type="xs:string"/>
+                <xs:element name="status" type="xs:string"/>
+                <xs:element name="comment" type="xs:string"/>
+                <xs:element name="executionTime" type="xs:long"/>
+                <xs:element name="actualStartDate" type="xs:dateTime"/>
+                <xs:element name="actualEndDate" type="xs:dateTime"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

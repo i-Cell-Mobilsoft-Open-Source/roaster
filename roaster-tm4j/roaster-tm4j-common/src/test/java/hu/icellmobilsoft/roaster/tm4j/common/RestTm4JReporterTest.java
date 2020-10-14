@@ -19,12 +19,12 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
+import hu.icellmobilsoft.roaster.dto.tm4j.test_execution.Execution;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
-import hu.icellmobilsoft.roaster.tm4j.common.client.Tm4jService;
-import hu.icellmobilsoft.roaster.tm4j.common.client.model.Execution;
+import hu.icellmobilsoft.roaster.tm4j.common.client.RestTm4jService;
 import hu.icellmobilsoft.roaster.tm4j.common.config.InvalidConfigException;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -32,6 +32,8 @@ import org.mockito.ArgumentCaptor;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,14 +44,14 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class DefaultTm4jReporterTest {
+class RestTm4JReporterTest {
 
-    private Tm4jService tm4JService;
+    private RestTm4jService restTm4JService;
     private ArgumentCaptor<Execution> executionArgumentCaptor;
 
     @BeforeEach
     void setUp() {
-        tm4JService = mock(Tm4jService.class);
+        restTm4JService = mock(RestTm4jService.class);
         executionArgumentCaptor = ArgumentCaptor.forClass(Execution.class);
     }
 
@@ -59,7 +61,7 @@ class DefaultTm4jReporterTest {
         Tm4jReporterConfig config = new Tm4jReporterConfig();
 
         // when
-        Executable executable = () -> new DefaultTm4jReporter(config, tm4JService);
+        Executable executable = () -> new RestTm4jReporter(config, restTm4JService);
 
         // then
         assertThrows(InvalidConfigException.class, executable);
@@ -72,7 +74,7 @@ class DefaultTm4jReporterTest {
         config.setProjectKey("pk");
 
         // when
-        Executable executable = () -> new DefaultTm4jReporter(config, tm4JService);
+        Executable executable = () -> new RestTm4jReporter(config, restTm4JService);
 
         // then
         assertThrows(InvalidConfigException.class, executable);
@@ -86,7 +88,7 @@ class DefaultTm4jReporterTest {
         config.setTestCycleKey("test_cycle");
 
         // when
-        Executable executable = () -> new DefaultTm4jReporter(config, tm4JService);
+        Executable executable = () -> new RestTm4jReporter(config, restTm4JService);
 
         // then
         assertThrows(InvalidConfigException.class, executable);
@@ -96,43 +98,43 @@ class DefaultTm4jReporterTest {
     void shouldNotCallTm4jServiceWhenTestCaseKeyMissing() throws Exception {
         // given
         Tm4jReporterConfig config = createValidConfig();
-        when(tm4JService.isTestRunExist("test_cycle"))
+        when(restTm4JService.isTestRunExist("test_cycle"))
                 .thenReturn(true);
-        when(tm4JService.isTestCaseExist("ABC-T1"))
+        when(restTm4JService.isTestCaseExist("ABC-T1"))
                 .thenReturn(false);
-        DefaultTm4jReporter testObj = new DefaultTm4jReporter(config, tm4JService);
+        RestTm4jReporter testObj = new RestTm4jReporter(config, restTm4JService);
         TestCaseData record = createRecord();
 
         // when
         testObj.reportSuccess(record);
 
         // then
-        verify(tm4JService, never()).postResult(any(), any());
+        verify(restTm4JService, never()).postResult(any(), any());
     }
 
     @Test
     void shouldCallTm4jServiceProperlyOnSuccessReport() throws Exception {
         // given
         Tm4jReporterConfig config = createValidConfig();
-        when(tm4JService.isTestRunExist("test_cycle"))
+        when(restTm4JService.isTestRunExist("test_cycle"))
                 .thenReturn(true);
-        when(tm4JService.isTestCaseExist("ABC-T1"))
+        when(restTm4JService.isTestCaseExist("ABC-T1"))
                 .thenReturn(true);
-        DefaultTm4jReporter testObj = new DefaultTm4jReporter(config, tm4JService);
+        RestTm4jReporter testObj = new RestTm4jReporter(config, restTm4JService);
         TestCaseData record = createRecord();
 
         // when
         testObj.reportSuccess(record);
 
         // then
-        verify(tm4JService).postResult(eq("test_cycle"), executionArgumentCaptor.capture());
+        verify(restTm4JService).postResult(eq("test_cycle"), executionArgumentCaptor.capture());
 
         Execution execution = executionArgumentCaptor.getValue();
         assertAll(
                 () -> assertEquals("pk", execution.getProjectKey()),
                 () -> assertEquals("ABC-T1", execution.getTestCaseKey()),
-                () -> assertEquals(LocalDateTime.of(1970, Month.JANUARY, 1, 10, 0, 0), execution.getActualStartDate()),
-                () -> assertEquals(LocalDateTime.of(1970, Month.JANUARY, 1, 10, 4, 20), execution.getActualEndDate()),
+                () -> assertEquals(OffsetDateTime.of(1970, 1, 1, 10, 0, 0, 0, ZoneOffset.UTC), execution.getActualStartDate()),
+                () -> assertEquals(OffsetDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.UTC), execution.getActualEndDate()),
                 () -> assertEquals((4 * 60 + 20) * 1000, execution.getExecutionTime()),
                 () -> assertEquals("Pass", execution.getStatus()),
                 () -> assertNotNull(execution.getComment())
@@ -144,11 +146,11 @@ class DefaultTm4jReporterTest {
     void shouldCallTm4jServiceProperlyOnFailReport() throws Exception {
         // given
         Tm4jReporterConfig config = createValidConfig();
-        when(tm4JService.isTestRunExist("test_cycle"))
+        when(restTm4JService.isTestRunExist("test_cycle"))
                 .thenReturn(true);
-        when(tm4JService.isTestCaseExist("ABC-T1"))
+        when(restTm4JService.isTestCaseExist("ABC-T1"))
                 .thenReturn(true);
-        DefaultTm4jReporter testObj = new DefaultTm4jReporter(config, tm4JService);
+        RestTm4jReporter testObj = new RestTm4jReporter(config, restTm4JService);
         TestCaseData record = createRecord();
         AssertionError error = new AssertionError("error foo bar <x>");
 
@@ -156,14 +158,14 @@ class DefaultTm4jReporterTest {
         testObj.reportFail(record, error);
 
         // then
-        verify(tm4JService).postResult(eq("test_cycle"), executionArgumentCaptor.capture());
+        verify(restTm4JService).postResult(eq("test_cycle"), executionArgumentCaptor.capture());
 
         Execution execution = executionArgumentCaptor.getValue();
         assertAll(
                 () -> assertEquals("pk", execution.getProjectKey()),
                 () -> assertEquals("ABC-T1", execution.getTestCaseKey()),
-                () -> assertEquals(LocalDateTime.of(1970, Month.JANUARY, 1, 10, 0, 0), execution.getActualStartDate()),
-                () -> assertEquals(LocalDateTime.of(1970, Month.JANUARY, 1, 10, 4, 20), execution.getActualEndDate()),
+                () -> assertEquals(OffsetDateTime.of(1970, 1, 1, 10, 0, 0, 0, ZoneOffset.UTC), execution.getActualStartDate()),
+                () -> assertEquals(OffsetDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.UTC), execution.getActualEndDate()),
                 () -> assertEquals((4 * 60 + 20) * 1000, execution.getExecutionTime()),
                 () -> assertEquals("Fail", execution.getStatus()),
                 () -> assertTrue(execution.getComment().contains("error foo bar &lt;x&gt;"))
@@ -174,11 +176,11 @@ class DefaultTm4jReporterTest {
     void shouldCallTm4jServiceProperlyOnDisabledReport() throws Exception {
         // given
         Tm4jReporterConfig config = createValidConfig();
-        when(tm4JService.isTestRunExist("test_cycle"))
+        when(restTm4JService.isTestRunExist("test_cycle"))
                 .thenReturn(true);
-        when(tm4JService.isTestCaseExist("ABC-T1"))
+        when(restTm4JService.isTestCaseExist("ABC-T1"))
                 .thenReturn(true);
-        DefaultTm4jReporter testObj = new DefaultTm4jReporter(config, tm4JService);
+        RestTm4jReporter testObj = new RestTm4jReporter(config, restTm4JService);
         TestCaseData record = createRecord();
         Optional<String> reason = Optional.of("xxx");
 
@@ -186,14 +188,14 @@ class DefaultTm4jReporterTest {
         testObj.reportDisabled(record, reason);
 
         // then
-        verify(tm4JService).postResult(eq("test_cycle"), executionArgumentCaptor.capture());
+        verify(restTm4JService).postResult(eq("test_cycle"), executionArgumentCaptor.capture());
 
         Execution execution = executionArgumentCaptor.getValue();
         assertAll(
                 () -> assertEquals("pk", execution.getProjectKey()),
                 () -> assertEquals("ABC-T1", execution.getTestCaseKey()),
-                () -> assertEquals(LocalDateTime.of(1970, Month.JANUARY, 1, 10, 0, 0), execution.getActualStartDate()),
-                () -> assertEquals(LocalDateTime.of(1970, Month.JANUARY, 1, 10, 4, 20), execution.getActualEndDate()),
+                () -> assertEquals(OffsetDateTime.of(1970, 1, 1, 10, 0, 0, 0, ZoneOffset.UTC), execution.getActualStartDate()),
+                () -> assertEquals(OffsetDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.UTC), execution.getActualEndDate()),
                 () -> assertEquals((4 * 60 + 20) * 1000, execution.getExecutionTime()),
                 () -> assertEquals("Blocked", execution.getStatus()),
                 () -> assertTrue(execution.getComment().contains("skipped by: xxx"))

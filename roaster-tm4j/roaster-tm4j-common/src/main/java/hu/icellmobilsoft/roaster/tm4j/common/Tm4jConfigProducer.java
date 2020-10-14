@@ -19,52 +19,28 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestResultReporter;
 import hu.icellmobilsoft.roaster.tm4j.common.config.RoasterConfigKeys;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
+import javax.enterprise.inject.Produces;
+
 /**
- * Creates a {@code TestResultReporter} based on the Roaster configuration.
- * @see Tm4jReporterFactory#createReporter()
- *
- * @author martin.nagy
- * @since 0.2.0
+ * TODO
  */
-public class Tm4jReporterFactory {
+public class Tm4jConfigProducer {
 
     /**
-     * Creates a {@code TestResultReporter} based on the Roaster configuration.
-     * <br><br>
-     * Example yaml configuration:
-     * <pre>{@code
-     * roaster:
-     *   tm4j:
-     *     enabled: true    # The reporting can be turned of using this flag
-     *     projectKey: ABC      # The project key. This is the prefix for the Jira issues also
-     *     testCycleKey: ABC-C1
-     *     server:
-     *       url: https://jira.acme.com     # Jira server url
-     *       basicAuthToken: ZXhhbXBsZS11c2VyOnNlY3JldA==       # base64(userName + ":" + password)
-     *       userName: # To set the credentials the basicAuthToken or the userName + password can be used (not both)
-     *       password:
-     * }</pre>
      *
-     * For security reasons it's recommended to set the password with command line arguments.
-     * (e.g. using maven: {@code mvn test -Droaster.tm4j.server.password=secret})
-     *
-     * @return configured {@code TestResultReporter} implementation
+     * @return TODO
      */
-    public TestResultReporter createReporter() {
+    @Produces
+    public Tm4jReporterConfig createConfig() {
         Config roasterConfig = ConfigProvider.getConfig();
 
-        Tm4jReporterConfig config = mapConfig(roasterConfig);
-
-        return config.isEnabled() ?
-                new DefaultTm4jReporter(config) :
-                new NoopTestResultReporter();
+        return mapConfig(roasterConfig);
     }
 
     private Tm4jReporterConfig mapConfig(Config roasterConfig) {
@@ -82,10 +58,9 @@ public class Tm4jReporterFactory {
 
     private Tm4jReporterServerConfig createServerConfig(Config roasterConfig) {
         Tm4jReporterServerConfig serverConfig = new Tm4jReporterServerConfig();
-        serverConfig.setBaseUrl(roasterConfig.getOptionalValue(RoasterConfigKeys.URL, String.class).orElse(null));
-        serverConfig.setBasicAuthToken(roasterConfig.getOptionalValue(RoasterConfigKeys.BASIC_AUTH_TOKEN, String.class).orElse(null));
-        serverConfig.setUserName(roasterConfig.getOptionalValue(RoasterConfigKeys.USER_NAME, String.class).orElse(null));
-        serverConfig.setPassword(roasterConfig.getOptionalValue(RoasterConfigKeys.PASSWORD, String.class).orElse(null));
+        serverConfig.setBasicAuthToken(roasterConfig.getOptionalValue(RoasterConfigKeys.Server.BASIC_AUTH_TOKEN, String.class).orElse(null));
+        serverConfig.setUserName(roasterConfig.getOptionalValue(RoasterConfigKeys.Server.USER_NAME, String.class).orElse(null));
+        serverConfig.setPassword(roasterConfig.getOptionalValue(RoasterConfigKeys.Server.PASSWORD, String.class).orElse(null));
         return serverConfig;
     }
 }

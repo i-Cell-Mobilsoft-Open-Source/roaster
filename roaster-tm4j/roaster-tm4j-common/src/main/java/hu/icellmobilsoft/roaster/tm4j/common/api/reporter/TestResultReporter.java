@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.tm4j.common.api;
+package hu.icellmobilsoft.roaster.tm4j.common.api.reporter;
 
 import java.util.Optional;
 

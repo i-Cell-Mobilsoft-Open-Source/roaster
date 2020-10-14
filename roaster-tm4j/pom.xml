@@ -15,6 +15,7 @@
     <modules>
         <module>roaster-tm4j-junit5</module>
         <module>roaster-tm4j-common</module>
+        <module>roaster-tm4j-dto</module>
     </modules>
 
     <dependencyManagement>
