@@ -17,6 +17,7 @@
  * limitations under the License.
  * #L%
  */
+
 /**
  * The common TM4J server handling logic is located here.
  * <br><br>
@@ -28,13 +29,16 @@
  *       projectKey: ABC      # The project key. This is the prefix for the Jira issues also
  *       testCycleKey: ABC-C1   # TM4J test cycle key. E.g. ABC-C1 where ABC is the project key.
  *       environment: sandbox    # (Optional) The name of the current environment where the tests are running
- *       server:
- *          basicAuthToken: ZXhhbXBsZS11c2VyOnNlY3JldA==       # base64(userName + ":" + password)
- *          userName: # To set the credentials the basicAuthToken or the userName + password can be used (not both)
- *          password:
+ *       server/mp-rest/url: https://jira.example.com   # TM4J server url
+ *       server/basicAuthToken: ZXhhbXBsZS11c2VyOnNlY3JldA==       # base64(userName + ":" + password)
+ *       server/userName: # To set the credentials the basicAuthToken or the userName + password can be used (not both)
+ *       server/password:
  * }</pre>
  *
  * For security reasons it's recommended to set the password with command line arguments.
  * (e.g. using maven: {@code mvn test -Droaster.tm4j.server.password=secret})
+ *
+ * @author martin.nagy
+ * @since 0.2.0
  */
 package hu.icellmobilsoft.roaster.tm4j.common;

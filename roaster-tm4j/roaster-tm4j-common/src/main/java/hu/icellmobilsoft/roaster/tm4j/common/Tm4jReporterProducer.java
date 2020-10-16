@@ -31,7 +31,6 @@ import java.util.Objects;
  * Creates a {@code TestResultReporter} based on the Roaster configuration.
  *
  * @author martin.nagy
- * @see Tm4jReporterProducer#createReporter(Tm4jReporterConfig)
  * @since 0.2.0
  */
 public class Tm4jReporterProducer {

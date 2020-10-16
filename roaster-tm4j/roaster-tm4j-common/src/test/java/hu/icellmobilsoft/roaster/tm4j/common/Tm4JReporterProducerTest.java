@@ -37,16 +37,30 @@ class Tm4JReporterProducerTest {
     @Test
     void shouldCreateNoopReporterIfTm4jDisabled() {
         // given
-        Config mockConfig = mock(Config.class);
-        when(mockConfig.getOptionalValue("roaster.tm4j.enabled", Boolean.class))
-                .thenReturn(Optional.of(false));
-        ConfigProviderResolver.instance().registerConfig(mockConfig, null);
+        Tm4jReporterConfig config = new Tm4jReporterConfig();
+        config.setEnabled(false);
+        TestResultReporter testResultReporter = mock(TestResultReporter.class);
 
         // when
-        TestResultReporter reporter = new Tm4jReporterProducer(mock(Provider.class))
-                .createReporter(new Tm4jReporterConfig());
+        TestResultReporter reporter = new Tm4jReporterProducer(() -> testResultReporter)
+                .createReporter(config);
 
         // then
         assertEquals(NoopTestResultReporter.class, reporter.getClass());
+    }
+
+    @Test
+    void shouldUseReporterProducerIfTm4jEnabled() {
+        // given
+        Tm4jReporterConfig config = new Tm4jReporterConfig();
+        config.setEnabled(true);
+        TestResultReporter testResultReporter = mock(TestResultReporter.class);
+
+        // when
+        TestResultReporter reporter = new Tm4jReporterProducer(() -> testResultReporter)
+                .createReporter(config);
+
+        // then
+        assertEquals(testResultReporter, reporter);
     }
 }

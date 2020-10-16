@@ -30,7 +30,9 @@ import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import org.apache.commons.text.StringEscapeUtils;
 
 import javax.inject.Inject;
-import java.time.ZoneOffset;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
@@ -143,10 +145,14 @@ public class RestTm4jReporter implements TestResultReporter {
         Execution execution = new Execution();
         execution.setProjectKey(config.getProjectKey());
         execution.setTestCaseKey(testCaseKey);
-        execution.setActualStartDate(testCaseData.getStartTime().atOffset(ZoneOffset.UTC));
-        execution.setActualEndDate(testCaseData.getEndTime().atOffset(ZoneOffset.UTC));
+        execution.setActualStartDate(toOffsetDateTime(testCaseData.getStartTime()));
+        execution.setActualEndDate(toOffsetDateTime(testCaseData.getEndTime()));
         execution.setExecutionTime(getDurationInMillis(testCaseData));
         return execution;
+    }
+
+    private OffsetDateTime toOffsetDateTime(LocalDateTime localDateTime) {
+        return localDateTime.atZone(ZoneId.systemDefault()).toOffsetDateTime();
     }
 
     private long getDurationInMillis(TestCaseData testCaseData) {

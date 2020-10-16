@@ -24,8 +24,7 @@ import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
 
-import javax.enterprise.inject.Vetoed;
-import javax.enterprise.inject.spi.CDI;
+import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
 import java.util.Base64;
 import java.util.Objects;
@@ -36,23 +35,15 @@ import java.util.Objects;
  * @author martin.nagy
  * @since 0.2.0
  */
-@Vetoed
 public class AuthHeadersFactory implements ClientHeadersFactory {
 
     private final Tm4jReporterConfig config;
 
     /**
-     * Instantiate this class using CDI to resolve the {@code Tm4jReporterConfig} dependency.<br>
-     * The default constructor is needed for the mp-rest-client.
-     */
-    public AuthHeadersFactory() {
-        this(CDI.current().select(Tm4jReporterConfig.class).get());
-    }
-
-    /**
      * Instantiate this class using the {@code Tm4jReporterConfig} passed as an argument.
      * @param config used for getting the TM4J server credentials
      */
+    @Inject
     public AuthHeadersFactory(Tm4jReporterConfig config) {
         this.config = Objects.requireNonNull(config);
         validateConfig(config.getServer());
@@ -60,7 +51,7 @@ public class AuthHeadersFactory implements ClientHeadersFactory {
 
     @Override
     public MultivaluedMap<String, String> update(MultivaluedMap<String, String> incomingHeaders, MultivaluedMap<String, String> clientOutgoingHeaders) {
-        incomingHeaders.add("Authorization", "Basic " + getBasicAuthToken(config.getServer()));
+        incomingHeaders.putSingle("Authorization", "Basic " + getBasicAuthToken(config.getServer()));
 
         return incomingHeaders;
     }

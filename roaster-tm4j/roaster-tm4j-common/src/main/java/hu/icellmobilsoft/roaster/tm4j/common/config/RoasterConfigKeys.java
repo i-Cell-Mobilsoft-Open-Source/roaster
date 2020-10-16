@@ -59,16 +59,16 @@ public interface RoasterConfigKeys {
          * <a href="https://tools.ietf.org/html/rfc2617">RFC 2617</a><br>
          * To set the credentials the basicAuthToken or the userName + password can be used (not both).
          */
-        String BASIC_AUTH_TOKEN = "roaster.tm4j.server.basicAuthToken";
+        String BASIC_AUTH_TOKEN = "roaster.tm4j.server/basicAuthToken";
 
         /**
          * TM4J server user name
          */
-        String USER_NAME = "roaster.tm4j.server.userName";
+        String USER_NAME = "roaster.tm4j.server/userName";
 
         /**
          * TM4J server user password
          */
-        String PASSWORD = "roaster.tm4j.server.password";
+        String PASSWORD = "roaster.tm4j.server/password";
     }
 }

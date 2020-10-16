@@ -43,7 +43,7 @@ import java.util.List;
  * @author martin.nagy
  * @since 0.2.0
  */
-@RegisterRestClient
+@RegisterRestClient(configKey = "roaster.tm4j.server")
 @RegisterProvider(JacksonJaxbJsonProvider.class)
 @RegisterClientHeaders(AuthHeadersFactory.class)
 public interface Tm4jRestClient {

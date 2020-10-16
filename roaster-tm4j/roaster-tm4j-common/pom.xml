@@ -36,34 +36,17 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
 
-<!--        TODO-->
-<!--        <dependency>-->
-<!--            <groupId>io.smallrye</groupId>-->
-<!--            <artifactId>smallrye-rest-client</artifactId>-->
-<!--            <version>1.2.2</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client-microprofile</artifactId>
-            <version>4.5.8.Final</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-core-impl</artifactId>
-            <version>3.0.5.Final</version>
         </dependency>
-
-        <!--        TODO-->
-        <dependency>
-            <groupId>org.reactivestreams</groupId>
-            <artifactId>reactive-streams</artifactId>
-            <version>1.0.3</version>
-        </dependency>
-        <!--        TODO-->
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
         </dependency>
 
         <dependency>

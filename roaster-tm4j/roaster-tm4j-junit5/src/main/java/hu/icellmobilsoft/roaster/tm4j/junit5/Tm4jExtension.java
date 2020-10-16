@@ -43,7 +43,7 @@ import java.util.function.Supplier;
  * Example:
  * <pre>
  *{@literal @}ExtendWith(Tm4jExtension.class)
- * class ExampleTest {
+ * class ExampleTest extends BaseWeldUnitType {
  *    {@literal @}Test
  *    {@literal @}TestCaseId("ABC-T1")
  *     void testOne() {

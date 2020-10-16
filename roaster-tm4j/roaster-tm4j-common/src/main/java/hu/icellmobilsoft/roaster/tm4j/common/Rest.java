@@ -30,7 +30,10 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
+ * CDI qualifier for rest implementations
  *
+ * @author martin.nagy
+ * @since 0.2.0
  */
 @Target({ TYPE, METHOD, PARAMETER, FIELD })
 @Retention(RUNTIME)

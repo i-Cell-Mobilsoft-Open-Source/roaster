@@ -34,6 +34,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -133,8 +134,8 @@ class RestTm4JReporterTest {
         assertAll(
                 () -> assertEquals("pk", execution.getProjectKey()),
                 () -> assertEquals("ABC-T1", execution.getTestCaseKey()),
-                () -> assertEquals(OffsetDateTime.of(1970, 1, 1, 10, 0, 0, 0, ZoneOffset.UTC), execution.getActualStartDate()),
-                () -> assertEquals(OffsetDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.UTC), execution.getActualEndDate()),
+                () -> assertEquals(ZonedDateTime.of(1970, 1, 1, 10, 0, 0, 0, ZoneOffset.systemDefault()).toOffsetDateTime(), execution.getActualStartDate()),
+                () -> assertEquals(ZonedDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.systemDefault()).toOffsetDateTime(), execution.getActualEndDate()),
                 () -> assertEquals((4 * 60 + 20) * 1000, execution.getExecutionTime()),
                 () -> assertEquals("Pass", execution.getStatus()),
                 () -> assertNotNull(execution.getComment())
@@ -164,8 +165,8 @@ class RestTm4JReporterTest {
         assertAll(
                 () -> assertEquals("pk", execution.getProjectKey()),
                 () -> assertEquals("ABC-T1", execution.getTestCaseKey()),
-                () -> assertEquals(OffsetDateTime.of(1970, 1, 1, 10, 0, 0, 0, ZoneOffset.UTC), execution.getActualStartDate()),
-                () -> assertEquals(OffsetDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.UTC), execution.getActualEndDate()),
+                () -> assertEquals(ZonedDateTime.of(1970, 1, 1, 10, 0, 0, 0, ZoneOffset.systemDefault()).toOffsetDateTime(), execution.getActualStartDate()),
+                () -> assertEquals(ZonedDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.systemDefault()).toOffsetDateTime(), execution.getActualEndDate()),
                 () -> assertEquals((4 * 60 + 20) * 1000, execution.getExecutionTime()),
                 () -> assertEquals("Fail", execution.getStatus()),
                 () -> assertTrue(execution.getComment().contains("error foo bar &lt;x&gt;"))
@@ -194,8 +195,8 @@ class RestTm4JReporterTest {
         assertAll(
                 () -> assertEquals("pk", execution.getProjectKey()),
                 () -> assertEquals("ABC-T1", execution.getTestCaseKey()),
-                () -> assertEquals(OffsetDateTime.of(1970, 1, 1, 10, 0, 0, 0, ZoneOffset.UTC), execution.getActualStartDate()),
-                () -> assertEquals(OffsetDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.UTC), execution.getActualEndDate()),
+                () -> assertEquals(ZonedDateTime.of(1970, 1, 1, 10, 0, 0, 0, ZoneOffset.systemDefault()).toOffsetDateTime(), execution.getActualStartDate()),
+                () -> assertEquals(ZonedDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.systemDefault()).toOffsetDateTime(), execution.getActualEndDate()),
                 () -> assertEquals((4 * 60 + 20) * 1000, execution.getExecutionTime()),
                 () -> assertEquals("Blocked", execution.getStatus()),
                 () -> assertTrue(execution.getComment().contains("skipped by: xxx"))

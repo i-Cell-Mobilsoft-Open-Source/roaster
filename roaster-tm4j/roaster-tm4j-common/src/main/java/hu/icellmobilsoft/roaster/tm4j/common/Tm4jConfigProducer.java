@@ -28,19 +28,21 @@ import org.eclipse.microprofile.config.ConfigProvider;
 import javax.enterprise.inject.Produces;
 
 /**
- * TODO
+ * Creates the {@link Tm4jReporterConfig} class from the roaster microprofile config.
+ *
+ * @author martin.nagy
+ * @since 0.2.0
  */
 public class Tm4jConfigProducer {
 
     /**
+     * Creates the {@link Tm4jReporterConfig} class from the roaster microprofile config.
      *
-     * @return TODO
+     * @return The {@code Tm4jReporterConfig} instance initialized with the roaster config values.
      */
     @Produces
     public Tm4jReporterConfig createConfig() {
-        Config roasterConfig = ConfigProvider.getConfig();
-
-        return mapConfig(roasterConfig);
+        return mapConfig(ConfigProvider.getConfig());
     }
 
     private Tm4jReporterConfig mapConfig(Config roasterConfig) {
