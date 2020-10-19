@@ -30,42 +30,18 @@
 		<dependency>
 			<groupId>hu.icellmobilsoft.coffee</groupId>
 			<artifactId>coffee-dto-base</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>*</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>hu.icellmobilsoft.coffee</groupId>
 			<artifactId>coffee-model-base</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>*</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>hu.icellmobilsoft.coffee</groupId>
 			<artifactId>coffee-tool</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>*</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>hu.icellmobilsoft.coffee</groupId>
 			<artifactId>coffee-cdi</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>*</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>

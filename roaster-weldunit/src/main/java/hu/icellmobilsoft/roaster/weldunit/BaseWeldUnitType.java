@@ -26,9 +26,6 @@ import org.jboss.weld.junit5.EnableWeld;
 import org.jboss.weld.junit5.WeldInitiator;
 import org.jboss.weld.junit5.WeldSetup;
 
-import hu.icellmobilsoft.coffee.cdi.logger.AppLoggerImpl;
-import hu.icellmobilsoft.coffee.cdi.logger.LogContainer;
-import hu.icellmobilsoft.coffee.cdi.logger.LogProducer;
 import io.smallrye.config.inject.ConfigExtension;
 
 /**
@@ -43,8 +40,8 @@ public abstract class BaseWeldUnitType {
     private WeldInitiator initWeld() {
         @SuppressWarnings("unchecked")
         Weld weld = WeldInitiator.createWeld()//
-                .addExtensions(ConfigExtension.class)//
-                .addBeanClasses(LogContainer.class, AppLoggerImpl.class, LogProducer.class);
+                .enableDiscovery() //
+                .addExtensions(ConfigExtension.class);
         configureWeld(weld);
 
         WeldInitiator.Builder weldInitiatorBuilder = WeldInitiator.from(weld);
@@ -56,8 +53,11 @@ public abstract class BaseWeldUnitType {
     /**
      * Overridable method for configuring weld
      *
-     * @param weld input weld instance for additional settings
+     * @param weld
+     *            input weld instance for additional settings
+     * @deprecated Beans auto discovery will detect CDI classes
      */
+    @Deprecated(since = "0.2.0", forRemoval = true)
     protected void configureWeld(Weld weld) {
 
     }
@@ -65,8 +65,8 @@ public abstract class BaseWeldUnitType {
     /**
      * Overridable method extending weld through builder
      *
-     * @param weldInitiatorBuilder input WeldInitiator.Builder instance for
-     *                             additional settings
+     * @param weldInitiatorBuilder
+     *            input WeldInitiator.Builder instance for additional settings
      */
     protected void configureWeldInitiatorBuilder(WeldInitiator.Builder weldInitiatorBuilder) {
 
