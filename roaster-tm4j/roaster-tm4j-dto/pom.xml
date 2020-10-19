@@ -9,7 +9,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>hu.icellmobilsoft.roaster.roaster-tm4j</groupId>
     <artifactId>roaster-tm4j-dto</artifactId>
 
     <dependencies>

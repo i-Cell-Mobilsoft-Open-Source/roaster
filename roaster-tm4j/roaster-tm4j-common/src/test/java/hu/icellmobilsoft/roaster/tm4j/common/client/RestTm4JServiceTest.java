@@ -19,14 +19,15 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
-import hu.icellmobilsoft.roaster.dto.tm4j.test_execution.Execution;
+import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import javax.ws.rs.core.Response;
 
-import static java.util.Collections.singletonList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -123,7 +124,7 @@ class RestTm4JServiceTest {
         testObj.postResult(testRunKey, execution);
 
         // then
-        verify(tm4jClient).postExecutions(testRunKey, singletonList(execution));
+        verify(tm4jClient).postExecutions(testRunKey, List.of(execution));
     }
 
 }

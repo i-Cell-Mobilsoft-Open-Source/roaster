@@ -20,7 +20,7 @@
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import hu.icellmobilsoft.roaster.dto.tm4j.test_execution.Execution;
+import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;

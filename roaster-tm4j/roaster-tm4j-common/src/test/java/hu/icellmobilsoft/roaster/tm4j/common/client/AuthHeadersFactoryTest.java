@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
-import hu.icellmobilsoft.roaster.tm4j.common.config.InvalidConfigException;
+import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 import org.junit.jupiter.api.Test;

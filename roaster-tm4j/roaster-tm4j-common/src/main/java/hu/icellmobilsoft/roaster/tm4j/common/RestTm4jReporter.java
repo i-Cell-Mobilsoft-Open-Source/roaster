@@ -20,13 +20,13 @@
 package hu.icellmobilsoft.roaster.tm4j.common;
 
 import hu.icellmobilsoft.coffee.se.logging.Logger;
-import hu.icellmobilsoft.roaster.dto.tm4j.test_execution.Execution;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
 import hu.icellmobilsoft.roaster.tm4j.common.client.RestTm4jService;
-import hu.icellmobilsoft.roaster.tm4j.common.config.InvalidConfigException;
+import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
+import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 import org.apache.commons.text.StringEscapeUtils;
 
 import javax.inject.Inject;
@@ -48,7 +48,7 @@ import java.util.stream.Collectors;
  * @author martin.nagy
  * @since 0.2.0
  */
-@Rest
+@Tm4jRest
 public class RestTm4jReporter implements TestResultReporter {
     private static final String PASS = "Pass";
     private static final String FAIL = "Fail";

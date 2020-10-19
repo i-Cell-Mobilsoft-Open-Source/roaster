@@ -9,7 +9,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>hu.icellmobilsoft.roaster.roaster-tm4j</groupId>
     <artifactId>roaster-tm4j-junit5</artifactId>
 
     <dependencies>
@@ -19,17 +18,10 @@
         </dependency>
 
         <dependency>
-            <groupId>hu.icellmobilsoft.roaster.roaster-tm4j</groupId>
-            <artifactId>roaster-tm4j-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-
-        <dependency> <!-- TODO REMOVE-->
             <groupId>hu.icellmobilsoft.roaster</groupId>
-            <artifactId>roaster-weldunit</artifactId>
-            <scope>test</scope>
+            <artifactId>roaster-tm4j-common</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>

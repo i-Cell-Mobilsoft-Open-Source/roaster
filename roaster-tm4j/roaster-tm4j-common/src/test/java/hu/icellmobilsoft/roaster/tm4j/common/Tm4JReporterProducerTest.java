@@ -21,16 +21,10 @@ package hu.icellmobilsoft.roaster.tm4j.common;
 
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.junit.jupiter.api.Test;
 
-import javax.inject.Provider;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class Tm4JReporterProducerTest {
 

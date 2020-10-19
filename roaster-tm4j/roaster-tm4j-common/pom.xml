@@ -9,14 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>hu.icellmobilsoft.roaster.roaster-tm4j</groupId>
     <artifactId>roaster-tm4j-common</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>hu.icellmobilsoft.roaster.roaster-tm4j</groupId>
+            <groupId>hu.icellmobilsoft.roaster</groupId>
             <artifactId>roaster-tm4j-dto</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>hu.icellmobilsoft.roaster</groupId>

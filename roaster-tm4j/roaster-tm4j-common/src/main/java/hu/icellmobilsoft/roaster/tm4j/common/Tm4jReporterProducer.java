@@ -44,7 +44,7 @@ public class Tm4jReporterProducer {
      *                                                 TM4J rest server
      */
     @Inject
-    public Tm4jReporterProducer(@Rest Provider<TestResultReporter> testResultReporterProvider) {
+    public Tm4jReporterProducer(@Tm4jRest Provider<TestResultReporter> testResultReporterProvider) {
         this.testResultReporterProvider = Objects.requireNonNull(testResultReporterProvider);
     }
 

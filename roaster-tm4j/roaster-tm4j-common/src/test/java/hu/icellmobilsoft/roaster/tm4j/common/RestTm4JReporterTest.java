@@ -19,12 +19,12 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
-import hu.icellmobilsoft.roaster.dto.tm4j.test_execution.Execution;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
 import hu.icellmobilsoft.roaster.tm4j.common.client.RestTm4jService;
-import hu.icellmobilsoft.roaster.tm4j.common.config.InvalidConfigException;
+import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -32,7 +32,6 @@ import org.mockito.ArgumentCaptor;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Optional;

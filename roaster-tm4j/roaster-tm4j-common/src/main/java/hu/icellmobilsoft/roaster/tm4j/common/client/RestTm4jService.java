@@ -19,16 +19,15 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
-import hu.icellmobilsoft.roaster.dto.tm4j.test_execution.Execution;
+import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.Response.StatusType;
-import java.util.Collections;
-
-import static java.util.Objects.requireNonNull;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Class for handling the TM4J client calls
@@ -47,7 +46,7 @@ public class RestTm4jService {
      */
     @Inject
     public RestTm4jService(Tm4jRestClient tm4jClient) {
-        this.tm4jClient = requireNonNull(tm4jClient);
+        this.tm4jClient = Objects.requireNonNull(tm4jClient);
     }
 
     /**
@@ -57,7 +56,7 @@ public class RestTm4jService {
      * @return {@code true} if the test run exists with the given key on the server
      */
     public boolean isTestRunExist(String key) {
-        Response response = tm4jClient.headTestRun(requireNonNull(key));
+        Response response = tm4jClient.headTestRun(Objects.requireNonNull(key));
         return isEntityExistsBasedOnResponseStatus(response.getStatusInfo());
     }
 
@@ -68,7 +67,7 @@ public class RestTm4jService {
      * @return {@code true} if the test case exists with the given key on the server
      */
     public boolean isTestCaseExist(String key) {
-        Response response = tm4jClient.headTestCase(requireNonNull(key));
+        Response response = tm4jClient.headTestCase(Objects.requireNonNull(key));
         return isEntityExistsBasedOnResponseStatus(response.getStatusInfo());
     }
 
@@ -79,10 +78,10 @@ public class RestTm4jService {
      * @param execution the {@code Execution} to be published
      */
     public void postResult(String testRunKey, Execution execution) {
-        requireNonNull(testRunKey);
-        requireNonNull(execution);
+        Objects.requireNonNull(testRunKey);
+        Objects.requireNonNull(execution);
 
-        tm4jClient.postExecutions(testRunKey, Collections.singletonList(execution));
+        tm4jClient.postExecutions(testRunKey, List.of(execution));
     }
 
     private boolean isEntityExistsBasedOnResponseStatus(StatusType statusType) {

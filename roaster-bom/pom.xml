@@ -70,6 +70,16 @@
 				<artifactId>roaster-common-config</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-tm4j-dto</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-tm4j-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<!-- bom imports -->
 			<dependency>

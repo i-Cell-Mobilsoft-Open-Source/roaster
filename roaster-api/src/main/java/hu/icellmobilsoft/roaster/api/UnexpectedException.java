@@ -20,7 +20,7 @@
 package hu.icellmobilsoft.roaster.api;
 
 /**
- * This exception should be thrown if an unexpected exception occours.
+ * This exception should be thrown if an unexpected exception occurs.
  *
  */
 public class UnexpectedException extends TestException {
