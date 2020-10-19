@@ -30,15 +30,33 @@ private RestAssuredConfig restAssuredConfig;
 ----
 
 * Weld konténer enableDiscovery() módban fut, nem szükséges külön hozzáadni az osztályokat.
-* hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT.configureWeld() depreceted lett
-* hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType.configureWeld() depreceted lett
+* hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT.configureWeld() depreceted lett.
 
 ==== Átállás
 
-A unit és IT tesztekből ki kell venni az eddig manualisan hozzáadott bean-eket, egyébként 
+Az IT tesztekből ki kell venni az eddig manualisan hozzáadott bean-eket, egyébként 
 "Bean name is ambiguous." hibaüzenetet kapunk.
 [source,java]
 ----
+@Deprecated
+@Override
+protected void configureWeld(Weld weld) {
+    weld.addBeanClasses(SampleAction.class);
+}
+----
+
+==== roaster-weldunit
+
+* Weld konténer enableDiscovery() módban fut, nem szükséges külön hozzáadni az osztályokat.
+* hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType.configureWeld() depreceted lett.
+
+==== Átállás
+
+A unit tesztekből ki kell venni az eddig manualisan hozzáadott bean-eket, egyébként 
+"Bean name is ambiguous." hibaüzenetet kapunk.
+[source,java]
+----
+@Deprecated
 @Override
 protected void configureWeld(Weld weld) {
     weld.addBeanClasses(SampleAction.class);
