@@ -21,12 +21,30 @@ package hu.icellmobilsoft.roaster.tm4j.common;
 
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import javax.inject.Provider;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class Tm4JReporterProducerTest {
+
+    @Mock
+    private Provider<TestResultReporter> testResultReporterProvider;
+
+    @InjectMocks
+    private Tm4jReporterProducer testObj;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     void shouldCreateNoopReporterIfTm4jDisabled() {
@@ -34,10 +52,10 @@ class Tm4JReporterProducerTest {
         Tm4jReporterConfig config = new Tm4jReporterConfig();
         config.setEnabled(false);
         TestResultReporter testResultReporter = mock(TestResultReporter.class);
+        when(testResultReporterProvider.get()).thenReturn(testResultReporter);
 
         // when
-        TestResultReporter reporter = new Tm4jReporterProducer(() -> testResultReporter)
-                .createReporter(config);
+        TestResultReporter reporter = testObj.createReporter(config);
 
         // then
         assertEquals(NoopTestResultReporter.class, reporter.getClass());
@@ -49,10 +67,10 @@ class Tm4JReporterProducerTest {
         Tm4jReporterConfig config = new Tm4jReporterConfig();
         config.setEnabled(true);
         TestResultReporter testResultReporter = mock(TestResultReporter.class);
+        when(testResultReporterProvider.get()).thenReturn(testResultReporter);
 
         // when
-        TestResultReporter reporter = new Tm4jReporterProducer(() -> testResultReporter)
-                .createReporter(config);
+        TestResultReporter reporter = testObj.createReporter(config);
 
         // then
         assertEquals(testResultReporter, reporter);

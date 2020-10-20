@@ -23,6 +23,9 @@ import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import javax.ws.rs.core.Response;
 
@@ -37,13 +40,15 @@ import static org.mockito.Mockito.when;
 
 class RestTm4JServiceTest {
 
+    @Mock
     private Tm4jRestClient tm4jClient;
+
+    @InjectMocks
     private RestTm4jService testObj;
 
     @BeforeEach
     void setUp() {
-        tm4jClient = mock(Tm4jRestClient.class);
-        testObj = new RestTm4jService(tm4jClient);
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test

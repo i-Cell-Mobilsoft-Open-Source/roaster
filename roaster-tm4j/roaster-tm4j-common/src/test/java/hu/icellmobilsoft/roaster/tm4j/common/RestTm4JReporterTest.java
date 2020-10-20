@@ -29,6 +29,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -39,29 +43,35 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class RestTm4JReporterTest {
 
-    private RestTm4jService restTm4JService;
+    @Captor
     private ArgumentCaptor<Execution> executionArgumentCaptor;
+
+    @Mock
+    private Tm4jReporterConfig config;
+
+    @Mock
+    private RestTm4jService restTm4JService;
+
+    @InjectMocks
+    private RestTm4jReporter testObj;
 
     @BeforeEach
     void setUp() {
-        restTm4JService = mock(RestTm4jService.class);
-        executionArgumentCaptor = ArgumentCaptor.forClass(Execution.class);
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
     void shouldThrowExceptionOnMissingProjectKeyConfig() {
         // given
-        Tm4jReporterConfig config = new Tm4jReporterConfig();
 
         // when
-        Executable executable = () -> new RestTm4jReporter(config, restTm4JService);
+        Executable executable = () -> testObj.init();
 
         // then
         assertThrows(InvalidConfigException.class, executable);
@@ -74,7 +84,7 @@ class RestTm4JReporterTest {
         config.setProjectKey("pk");
 
         // when
-        Executable executable = () -> new RestTm4jReporter(config, restTm4JService);
+        Executable executable = () -> testObj.init();
 
         // then
         assertThrows(InvalidConfigException.class, executable);
@@ -88,7 +98,7 @@ class RestTm4JReporterTest {
         config.setTestCycleKey("test_cycle");
 
         // when
-        Executable executable = () -> new RestTm4jReporter(config, restTm4JService);
+        Executable executable = () -> testObj.init();
 
         // then
         assertThrows(InvalidConfigException.class, executable);
@@ -97,12 +107,11 @@ class RestTm4JReporterTest {
     @Test
     void shouldNotCallTm4jServiceWhenTestCaseKeyMissing() throws Exception {
         // given
-        Tm4jReporterConfig config = createValidConfig();
+        initMockConfig();
         when(restTm4JService.isTestRunExist("test_cycle"))
                 .thenReturn(true);
         when(restTm4JService.isTestCaseExist("ABC-T1"))
                 .thenReturn(false);
-        RestTm4jReporter testObj = new RestTm4jReporter(config, restTm4JService);
         TestCaseData record = createRecord();
 
         // when
@@ -115,12 +124,11 @@ class RestTm4JReporterTest {
     @Test
     void shouldCallTm4jServiceProperlyOnSuccessReport() throws Exception {
         // given
-        Tm4jReporterConfig config = createValidConfig();
+        initMockConfig();
         when(restTm4JService.isTestRunExist("test_cycle"))
                 .thenReturn(true);
         when(restTm4JService.isTestCaseExist("ABC-T1"))
                 .thenReturn(true);
-        RestTm4jReporter testObj = new RestTm4jReporter(config, restTm4JService);
         TestCaseData record = createRecord();
 
         // when
@@ -145,12 +153,11 @@ class RestTm4JReporterTest {
     @Test
     void shouldCallTm4jServiceProperlyOnFailReport() throws Exception {
         // given
-        Tm4jReporterConfig config = createValidConfig();
+        initMockConfig();
         when(restTm4JService.isTestRunExist("test_cycle"))
                 .thenReturn(true);
         when(restTm4JService.isTestCaseExist("ABC-T1"))
                 .thenReturn(true);
-        RestTm4jReporter testObj = new RestTm4jReporter(config, restTm4JService);
         TestCaseData record = createRecord();
         AssertionError error = new AssertionError("error foo bar <x>");
 
@@ -175,12 +182,11 @@ class RestTm4JReporterTest {
     @Test
     void shouldCallTm4jServiceProperlyOnDisabledReport() throws Exception {
         // given
-        Tm4jReporterConfig config = createValidConfig();
+        initMockConfig();
         when(restTm4JService.isTestRunExist("test_cycle"))
                 .thenReturn(true);
         when(restTm4JService.isTestCaseExist("ABC-T1"))
                 .thenReturn(true);
-        RestTm4jReporter testObj = new RestTm4jReporter(config, restTm4JService);
         TestCaseData record = createRecord();
         Optional<String> reason = Optional.of("xxx");
 
@@ -211,12 +217,10 @@ class RestTm4JReporterTest {
         return record;
     }
 
-    private Tm4jReporterConfig createValidConfig() {
-        Tm4jReporterConfig config = new Tm4jReporterConfig();
-        config.setEnvironment("dev");
-        config.setProjectKey("pk");
-        config.setTestCycleKey("test_cycle");
-        return config;
+    private void initMockConfig() {
+        when(config.getEnvironment()).thenReturn("dev");
+        when(config.getProjectKey()).thenReturn("pk");
+        when(config.getTestCycleKey()).thenReturn("test_cycle");
     }
 
     static class TestClass {

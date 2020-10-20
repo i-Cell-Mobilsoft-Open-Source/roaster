@@ -30,6 +30,7 @@ import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 import org.apache.commons.text.StringEscapeUtils;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
@@ -60,19 +61,14 @@ public class RestTm4jReporter implements TestResultReporter {
 
     private final Logger log = Logger.getLogger(RestTm4jReporter.class);
 
-    private final Tm4jReporterConfig config;
-    private final RestTm4jService restTm4JService;
-
-    /**
-     * Creates an instance using the given configuration and TM4J rest service.
-     *
-     * @param config          configuration used for creating this class
-     * @param restTm4JService TM4J services used for rest calls
-     */
     @Inject
-    public RestTm4jReporter(Tm4jReporterConfig config, RestTm4jService restTm4JService) {
-        this.config = Objects.requireNonNull(config);
-        this.restTm4JService = Objects.requireNonNull(restTm4JService);
+    private Tm4jReporterConfig config;
+
+    @Inject
+    private RestTm4jService restTm4JService;
+
+    @PostConstruct
+    public void init() {
         validateConfig();
     }
 

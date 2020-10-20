@@ -43,6 +43,7 @@ public class Tm4jConfigProducer {
      * @return The {@code Tm4jReporterConfig} instance initialized with the roaster config values.
      */
     @Produces
+    @Dependent
     public Tm4jReporterConfig createConfig() {
         return mapConfig(ConfigProvider.getConfig());
     }

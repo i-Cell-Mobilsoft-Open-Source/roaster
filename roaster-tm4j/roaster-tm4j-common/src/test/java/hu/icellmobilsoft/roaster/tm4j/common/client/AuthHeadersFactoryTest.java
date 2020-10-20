@@ -22,24 +22,40 @@ package hu.icellmobilsoft.roaster.tm4j.common.client;
 import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 class AuthHeadersFactoryTest {
+
+    @Mock
+    private Tm4jReporterConfig config;
+
+    @InjectMocks
+    private AuthHeadersFactory testObj;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     void shouldThrowExceptionIfCredentialsConfigMissing() {
         // given
-        Tm4jReporterConfig config = new Tm4jReporterConfig();
-        config.setServer(new Tm4jReporterServerConfig());
+        when(config.getServer()).thenReturn(new Tm4jReporterServerConfig());
 
         // when
-        Executable executable = () -> new AuthHeadersFactory(config);
+        Executable executable = () -> testObj.init();
 
         // then
         assertThrows(InvalidConfigException.class, executable);
@@ -48,13 +64,13 @@ class AuthHeadersFactoryTest {
     @Test
     void shouldThrowExceptionIfAuthTokenAndUserNameConfigSet() {
         // given
-        Tm4jReporterConfig config = new Tm4jReporterConfig();
-        config.setServer(new Tm4jReporterServerConfig());
-        config.getServer().setBasicAuthToken("dGVzdA==");
-        config.getServer().setUserName("tim");
+        Tm4jReporterServerConfig serverConfig = new Tm4jReporterServerConfig();
+        serverConfig.setBasicAuthToken("dGVzdA==");
+        serverConfig.setUserName("tim");
+        when(config.getServer()).thenReturn(serverConfig);
 
         // when
-        Executable executable = () -> new AuthHeadersFactory(config);
+        Executable executable = () -> testObj.init();
 
         // then
         assertThrows(InvalidConfigException.class, executable);
@@ -63,15 +79,14 @@ class AuthHeadersFactoryTest {
     @Test
     void shouldCreateAuthHeaderWithAuthToken() {
         // given
-        Tm4jReporterConfig config = new Tm4jReporterConfig();
-        config.setServer(new Tm4jReporterServerConfig());
-        config.getServer().setBasicAuthToken("dGltOnNlY3JldA==");
+        Tm4jReporterServerConfig serverConfig = new Tm4jReporterServerConfig();
+        serverConfig.setBasicAuthToken("dGltOnNlY3JldA==");
+        when(config.getServer()).thenReturn(serverConfig);
 
         MultivaluedHashMap<String, String> headers = new MultivaluedHashMap<>();
 
         // when
-        AuthHeadersFactory authHeadersFactory = new AuthHeadersFactory(config);
-        MultivaluedMap<String, String> resultHeaders = authHeadersFactory.update(headers, null);
+        MultivaluedMap<String, String> resultHeaders = testObj.update(headers, null);
 
         // then
         assertEquals("Basic dGltOnNlY3JldA==", resultHeaders.getFirst("Authorization"));
@@ -80,16 +95,15 @@ class AuthHeadersFactoryTest {
     @Test
     void shouldCreateAuthHeadersWithUsernamePassword() {
         // given
-        Tm4jReporterConfig config = new Tm4jReporterConfig();
-        config.setServer(new Tm4jReporterServerConfig());
-        config.getServer().setUserName("tim");
-        config.getServer().setPassword("secret");
+        Tm4jReporterServerConfig serverConfig = new Tm4jReporterServerConfig();
+        serverConfig.setUserName("tim");
+        serverConfig.setPassword("secret");
+        when(config.getServer()).thenReturn(serverConfig);
 
         MultivaluedHashMap<String, String> headers = new MultivaluedHashMap<>();
 
         // when
-        AuthHeadersFactory authHeadersFactory = new AuthHeadersFactory(config);
-        MultivaluedMap<String, String> resultHeaders = authHeadersFactory.update(headers, null);
+        MultivaluedMap<String, String> resultHeaders = testObj.update(headers, null);
 
         // then
         assertEquals("Basic dGltOnNlY3JldA==", resultHeaders.getFirst("Authorization"));

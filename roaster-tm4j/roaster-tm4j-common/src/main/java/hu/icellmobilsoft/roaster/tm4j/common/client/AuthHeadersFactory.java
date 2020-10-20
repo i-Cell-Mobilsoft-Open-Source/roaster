@@ -25,11 +25,11 @@ import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
 import java.util.Base64;
-import java.util.Objects;
 
 /**
  * Sets the {@literal Authorization} header for the TM4J rest client
@@ -40,15 +40,11 @@ import java.util.Objects;
 @Dependent
 public class AuthHeadersFactory implements ClientHeadersFactory {
 
-    private final Tm4jReporterConfig config;
-
-    /**
-     * Instantiate this class using the {@code Tm4jReporterConfig} passed as an argument.
-     * @param config used for getting the TM4J server credentials
-     */
     @Inject
-    public AuthHeadersFactory(Tm4jReporterConfig config) {
-        this.config = Objects.requireNonNull(config);
+    private Tm4jReporterConfig config;
+
+    @PostConstruct
+    public void init() {
         validateConfig(config.getServer());
     }
 

@@ -26,7 +26,6 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Provider;
-import java.util.Objects;
 
 /**
  * Creates a {@code TestResultReporter} based on the Roaster configuration.
@@ -36,19 +35,10 @@ import java.util.Objects;
  */
 @Dependent
 public class Tm4jReporterProducer {
-    private final Provider<TestResultReporter> testResultReporterProvider;
 
-    /**
-     * Instantiate this class using the {@code RestTm4jReporter} provider passed as a parameter.
-     *
-     * @param testResultReporterProvider {@code RestTm4jReporter} provider, used when this class should return a
-     *                                                 {@code TestResultReporter} implementation that calls the
-     *                                                 TM4J rest server
-     */
     @Inject
-    public Tm4jReporterProducer(@Tm4jRest Provider<TestResultReporter> testResultReporterProvider) {
-        this.testResultReporterProvider = Objects.requireNonNull(testResultReporterProvider);
-    }
+    @Tm4jRest
+    private Provider<TestResultReporter> testResultReporterProvider;
 
     /**
      * Creates a {@code TestResultReporter} based on the Roaster configuration
@@ -57,6 +47,7 @@ public class Tm4jReporterProducer {
      * @return configured {@code TestResultReporter} implementation
      */
     @Produces
+    @Dependent
     public TestResultReporter createReporter(Tm4jReporterConfig config) {
         return config.isEnabled() ?
                 testResultReporterProvider.get() :

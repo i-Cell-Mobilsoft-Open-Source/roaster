@@ -39,17 +39,8 @@ import java.util.Objects;
 @Dependent
 public class RestTm4jService {
 
-    private final Tm4jRestClient tm4jClient;
-
-    /**
-     * Creates an instance using the given TM4J client
-     *
-     * @param tm4jClient TM4J client used for rest calls
-     */
     @Inject
-    public RestTm4jService(Tm4jRestClient tm4jClient) {
-        this.tm4jClient = Objects.requireNonNull(tm4jClient);
-    }
+    private Tm4jRestClient tm4jClient;
 
     /**
      * Returns {@code true} if the test run exists with the given key on the server
