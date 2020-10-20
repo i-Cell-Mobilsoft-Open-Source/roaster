@@ -25,6 +25,7 @@ import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
+import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
 
 /**
@@ -33,6 +34,7 @@ import javax.enterprise.inject.Produces;
  * @author martin.nagy
  * @since 0.2.0
  */
+@Dependent
 public class Tm4jConfigProducer {
 
     /**

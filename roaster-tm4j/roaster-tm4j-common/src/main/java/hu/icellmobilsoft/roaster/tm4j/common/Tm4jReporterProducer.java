@@ -22,6 +22,7 @@ package hu.icellmobilsoft.roaster.tm4j.common;
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 
+import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -33,6 +34,7 @@ import java.util.Objects;
  * @author martin.nagy
  * @since 0.2.0
  */
+@Dependent
 public class Tm4jReporterProducer {
     private final Provider<TestResultReporter> testResultReporterProvider;
 

@@ -19,11 +19,13 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
+import com.google.common.base.Strings;
 import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
 import java.util.Base64;
@@ -35,6 +37,7 @@ import java.util.Objects;
  * @author martin.nagy
  * @since 0.2.0
  */
+@Dependent
 public class AuthHeadersFactory implements ClientHeadersFactory {
 
     private final Tm4jReporterConfig config;
@@ -57,16 +60,16 @@ public class AuthHeadersFactory implements ClientHeadersFactory {
     }
 
     private void validateConfig(Tm4jReporterServerConfig config) {
-        if (config.getBasicAuthToken() == null && (config.getUserName() == null || config.getPassword() == null)) {
+        if (Strings.isNullOrEmpty(config.getBasicAuthToken()) && (Strings.isNullOrEmpty(config.getUserName()) || Strings.isNullOrEmpty(config.getPassword()))) {
             throw new InvalidConfigException("userName and password should be set if basicAuthToken is missing");
         }
-        if (config.getBasicAuthToken() != null && (config.getUserName() != null || config.getPassword() != null)) {
+        if (!Strings.isNullOrEmpty(config.getBasicAuthToken()) && (!Strings.isNullOrEmpty(config.getUserName()) || !Strings.isNullOrEmpty(config.getPassword()))) {
             throw new InvalidConfigException("userName and password should be empty if basicAuthToken is supplied");
         }
     }
 
     private String getBasicAuthToken(Tm4jReporterServerConfig config) {
-        return config.getBasicAuthToken() != null && !config.getBasicAuthToken().isBlank() ?
+        return !Strings.isNullOrEmpty(config.getBasicAuthToken()) ?
                 config.getBasicAuthToken() :
                 base64Encode(config.getUserName() + ":" + config.getPassword());
     }

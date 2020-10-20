@@ -19,6 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
+import com.google.common.base.Strings;
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
@@ -29,6 +30,7 @@ import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 import org.apache.commons.text.StringEscapeUtils;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -49,6 +51,7 @@ import java.util.stream.Collectors;
  * @since 0.2.0
  */
 @Tm4jRest
+@Dependent
 public class RestTm4jReporter implements TestResultReporter {
     private static final String PASS = "Pass";
     private static final String FAIL = "Fail";
@@ -61,7 +64,7 @@ public class RestTm4jReporter implements TestResultReporter {
     private final RestTm4jService restTm4JService;
 
     /**
-     * Creates an instance using the given configuration and TM4J service.
+     * Creates an instance using the given configuration and TM4J rest service.
      *
      * @param config          configuration used for creating this class
      * @param restTm4JService TM4J services used for rest calls
@@ -74,10 +77,10 @@ public class RestTm4jReporter implements TestResultReporter {
     }
 
     private void validateConfig() {
-        if (config.getProjectKey() == null) {
+        if (Strings.isNullOrEmpty(config.getProjectKey())) {
             throw new InvalidConfigException("projectKey parameter is missing");
         }
-        if (config.getTestCycleKey() == null) {
+        if (Strings.isNullOrEmpty(config.getTestCycleKey())) {
             throw new InvalidConfigException("testCycleKey parameter is missing");
         }
         if (!restTm4JService.isTestRunExist(config.getTestCycleKey())) {

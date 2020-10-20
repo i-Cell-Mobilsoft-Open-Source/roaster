@@ -21,6 +21,7 @@ package hu.icellmobilsoft.roaster.tm4j.common.client;
 
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -35,6 +36,7 @@ import java.util.Objects;
  * @author martin.nagy
  * @since 0.2.0
  */
+@Dependent
 public class RestTm4jService {
 
     private final Tm4jRestClient tm4jClient;
