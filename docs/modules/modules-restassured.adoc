@@ -33,13 +33,6 @@ public class PostSampleRequestIT extends BaseConfigurableWeldIT {
     @JSON
     private ResponseSpecification responseSpecification;
 
-    @Override
-    protected void configureWeld(Weld weld) {
-        super.configureWeld(weld);
-        weld.addBeanClass(ObjectMapperConfigProducer.class);
-        weld.addBeanClass(Jackson2ObjectMapperFactoryImpl.class);
-    }
-
     @Test
     @DisplayName("Testing opg generator json rest")
     void testSampleRest() {
