@@ -30,11 +30,6 @@ import org.apache.commons.lang3.StringUtils;
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.module.redis.annotation.RedisConnection;
-import hu.icellmobilsoft.coffee.module.redis.config.ManagedRedisConfig;
-import hu.icellmobilsoft.coffee.module.redis.producer.JedisConnectionProducer;
-import hu.icellmobilsoft.coffee.module.redis.producer.JedisPoolProducer;
-import hu.icellmobilsoft.coffee.module.redis.producer.RedisConfigProducer;
-import hu.icellmobilsoft.coffee.module.redis.producer.RedisServiceProducer;
 import hu.icellmobilsoft.coffee.module.redis.service.RedisService;
 
 /**
@@ -44,20 +39,6 @@ import hu.icellmobilsoft.coffee.module.redis.service.RedisService;
  */
 @Model
 public class RedisHandler {
-
-    /**
-     * In case of REDIS functionality usage, this Classes are needed to pass for Weld configuration
-     * <p>
-     * {@code
-     * 
-    <p>
-     * &#64;Override
-     * protected void configureWeld(Weld weld) {
-     * weld.addBeanClasses(RedisHandler.REDIS_CLASSES_NEEDED_FOR_WELD);
-     * super.configureWeld(weld); } }
-     */
-    public static final Class<?>[] REDIS_CLASSES_NEEDED_FOR_WELD = { RedisHandler.class, JedisConnectionProducer.class, JedisPoolProducer.class,
-            RedisService.class, RedisServiceProducer.class, RedisConfigProducer.class, ManagedRedisConfig.class };
 
     /**
      * Gets data from REDIS, identified by {@code redisConfigKey}, for given {@code valueKey}, and responses with given class
