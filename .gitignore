@@ -1,7 +1,42 @@
-.idea
-*.iml
-.settings/
-.metadata
-.project
-.classpath
+# Maven
 target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+*.log*
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Mac
+.DS_Store
+
+# test files
+test-output/
