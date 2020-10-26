@@ -47,9 +47,11 @@ public class SelenideConfigExtension implements Extension {
 
     private Logger logger = Logger.getLogger(SelenideConfigExtension.class);
 
-    public SelenideConfigExtension() {
-    }
-
+    /**
+     * Handle container Initialized event
+     *
+     * @param containerInitialized instance
+     */
     public void observesContainerInitialized(@Observes @Initialized(ApplicationScoped.class) ContainerInitialized containerInitialized) {
         initDriver();
     }

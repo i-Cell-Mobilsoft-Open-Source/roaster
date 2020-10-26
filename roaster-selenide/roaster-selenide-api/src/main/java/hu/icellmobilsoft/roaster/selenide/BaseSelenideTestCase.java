@@ -39,13 +39,20 @@ public class BaseSelenideTestCase extends BaseWeldUnitType {
         weld.addExtensions(SelenideConfigExtension.class);
     }
 
+    /**
+     * Before each all test, setup webdriver if necessary
+     */
     @BeforeEach
     public void setupWebDriver() {
         WebDriver webDriver = WebDriverRunner.getWebDriver();
         setupWebDriver(webDriver);
     }
 
+    /**
+     * Overridable method for configuring webDriver
+     *
+     * @param webDriver input webDriver instance for additional settings
+     */
     protected void setupWebDriver(WebDriver webDriver) {
-
     }
 }
