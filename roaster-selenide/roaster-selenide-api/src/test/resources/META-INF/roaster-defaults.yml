@@ -1,0 +1,14 @@
+# Minimal Roaster config for Selenide
+app:
+  homepage: https://google.com
+  timeout: 3000
+selenium:
+  remote: false
+  url:
+
+browser:
+  type: chrome
+  headless: true
+  device:
+    mode: false
+    name: Galaxy S5

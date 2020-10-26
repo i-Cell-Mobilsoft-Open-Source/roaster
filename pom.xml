@@ -24,8 +24,9 @@
 		<module>roaster-oracle</module>
 		<module>roaster-redis</module>
 		<module>roaster-restassured</module>
+		<module>roaster-selenide</module>
 		<module>roaster-weldunit</module>
-	</modules>
+    </modules>
 
 	<properties>
 		<project.scm.id>icell-github-server</project.scm.id>

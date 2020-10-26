@@ -2,3 +2,4 @@
 include::modules-restassured.adoc[leveloffset=+1]
 include::modules-redis.adoc[leveloffset=+1]
 include::modules-db.adoc[leveloffset=+1]
+include::modules-selenide.adoc[leveloffset=+1]

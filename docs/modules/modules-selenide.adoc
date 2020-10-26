@@ -1,0 +1,100 @@
+= Selenide
+
+A Selenide modul használatához csak be kell hivatkozni a pom.xml-ben
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-selenide</artifactId>
+</dependency>
+----
+
+== Selenide Konfigurációs paraméterek
+
+A microprofile-config segítségével paraméterezhetőek a Selenide valamint a WebDriver paraméterei.
+
+Példák:
+
+[source,properties]
+.META-INF/microprofile-config.properties
+----
+app.homepage=https://google.com
+app.timeout=3000
+selenium.remote=false
+selenium.url=https://localhost:9999/wd/hub
+browser.type=chrome
+browser.headless=true
+browser.device.mode=false
+browser.device.name=Galaxy S5
+----
+
+[source,yml]
+.META-INF/roaster-defaults.yml
+----
+app:
+  homepage: https://google.com
+  timeout: 3000
+selenium:
+  remote: false
+  url:
+
+browser:
+  type: chrome
+  headless: true
+  device:
+    mode: false
+    name: Galaxy S5
+----
+
+== WebDriver további beállítási lehetősége
+
+Az adott Selenide tesztnek a BaseSelenideTestCase osztályból kell származnia, aminek a setupWebDriver metódustát lehet
+felülírni, és a paraméterként kapott WebDriver példányt lehet tovább állítani tesztenként.
+
+[source,java]
+.Override példa
+----
+    @Override
+    protected void setupWebDriver(WebDriver webDriver) {
+        webDriver.manage().window().setSize(new Dimension(1024, 768));
+        super.setupWebDriver(webDriver);
+    }
+----
+
+== Használati példa
+
+[source,java]
+.GoogleIcellMobilsoftTest példa osztály
+----
+@Tag(TestSuiteGroup.SELENIDE)
+@Disabled("Only for testing!!!")
+public class GoogleIcellMobilsoftTest extends BaseSelenideTestCase {
+
+    /**
+     * Example to set up current {@link WebDriver}
+     *
+     * @param webDriver current {@link WebDriver} instance
+     */
+    @Override
+    protected void setupWebDriver(WebDriver webDriver) {
+        webDriver.manage().window().setSize(new Dimension(1024, 768));
+        super.setupWebDriver(webDriver);
+    }
+
+    @Test
+    @DisplayName("Search 'icellmobilsoft' word on Google.com")
+    @Disabled("Only for testing!!!")
+    public void testGoogleWithIcellmobilsoftSearch() {
+        // You don't have to use Selenide.open(<url>), it come from configuration, and do it automatically
+        SelenideElement qInput = Selenide.$("input[name='q']");
+        qInput.setValue("icellmobilsoft");
+        qInput.sendKeys(Keys.ENTER);
+
+        SelenideElement result = Selenide.$("div[id='search']");
+        ElementsCollection resultList = result.$$("div[class='g'] a[href='https://icellmobilsoft.hu/hu/'");
+        resultList.first().shouldHave(Condition.visible);
+    }
+}
+----
