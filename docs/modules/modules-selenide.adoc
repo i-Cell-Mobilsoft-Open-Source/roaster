@@ -7,7 +7,7 @@ A Selenide modul használatához csak be kell hivatkozni a pom.xml-ben
 ----
 <dependency>
     <groupId>hu.icellmobilsoft.roaster</groupId>
-    <artifactId>roaster-selenide</artifactId>
+    <artifactId>roaster-selenide-api</artifactId>
 </dependency>
 ----
 
@@ -20,33 +20,33 @@ Példák:
 [source,properties]
 .META-INF/microprofile-config.properties
 ----
-app.homepage=https://google.com
-app.timeout=3000
-selenium.remote=false
-selenium.url=https://localhost:9999/wd/hub
-browser.type=chrome
-browser.headless=true
-browser.device.mode=false
-browser.device.name=Galaxy S5
+selenide.homepage=https://google.com
+selenide.timeout=3000
+selenide.selenium.url=https://localhost:9999/wd/hub
+selenide.browser.type=chrome
+selenide.browser.headless=true
+selenide.browser.device=Galaxy S5
 ----
 
 [source,yml]
 .META-INF/roaster-defaults.yml
 ----
-app:
+# Minimal Roaster config for Selenide
+selenide:
   homepage: https://google.com
   timeout: 3000
-selenium:
-  remote: false
-  url:
-
-browser:
-  type: chrome
-  headless: true
-  device:
-    mode: false
-    name: Galaxy S5
+  selenium:
+    url:
+  browser:
+    type: chrome
+    headless: false
+    device:
 ----
+
+Fontos megjegyezni hogyha a selenide.selenium.url nincs kitöltve, akkor nem remote módban indul.
+
+Fontos megjegyezni hogyha a selenide.browser.device kivan töltve, akkor chrome böngésző indul el,
+és a device-hoz beírt nevű eszközt emulálva próbál a chrome elindulni.
 
 == WebDriver további beállítási lehetősége
 

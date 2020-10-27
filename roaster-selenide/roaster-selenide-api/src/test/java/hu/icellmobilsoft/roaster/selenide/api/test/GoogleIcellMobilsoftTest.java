@@ -19,12 +19,6 @@
  */
 package hu.icellmobilsoft.roaster.selenide.api.test;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
-import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
-import hu.icellmobilsoft.roaster.selenide.BaseSelenideTestCase;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -33,9 +27,17 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
+
+import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
+import hu.icellmobilsoft.roaster.selenide.BaseSelenideTestCase;
+
 /**
- * Selenide teszt, where call https://google.com and write into search the 'icellmobilsoft' word,
- * and send enter for searching, and it is looking for https://icellmobilsoft.hu/hu/ result.
+ * Selenide teszt, where call https://google.com and write into search the 'icellmobilsoft' word, and send enter for searching, and it is looking for
+ * https://icellmobilsoft.hu/hu/ result.
  *
  * @author speter555
  * @since 0.2.0
@@ -47,7 +49,8 @@ public class GoogleIcellMobilsoftTest extends BaseSelenideTestCase {
     /**
      * Example to set up current {@link WebDriver}
      *
-     * @param webDriver current {@link WebDriver} instance
+     * @param webDriver
+     *            current {@link WebDriver} instance
      */
     @Override
     protected void setupWebDriver(WebDriver webDriver) {

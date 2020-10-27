@@ -22,20 +22,21 @@ package hu.icellmobilsoft.roaster.selenide;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
+import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.Extension;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jboss.weld.environment.se.events.ContainerInitialized;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
+
 import hu.icellmobilsoft.coffee.se.logging.Logger;
+import hu.icellmobilsoft.roaster.selenide.config.SelenideConfig;
 import hu.icellmobilsoft.roaster.selenide.drivers.ChromeDeviceModeDriverProvider;
 import hu.icellmobilsoft.roaster.selenide.drivers.CustomIEDriverProvider;
 import hu.icellmobilsoft.roaster.selenide.enums.Browser;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
-import org.jboss.weld.environment.se.events.ContainerInitialized;
 
 /**
  * Selenide Configuration extension.
@@ -45,43 +46,47 @@ import org.jboss.weld.environment.se.events.ContainerInitialized;
  */
 public class SelenideConfigExtension implements Extension {
 
-    private Logger logger = Logger.getLogger(SelenideConfigExtension.class);
-
     /**
      * Handle container Initialized event
      *
-     * @param containerInitialized instance
+     * @param containerInitialized
+     *            instance
      */
     public void observesContainerInitialized(@Observes @Initialized(ApplicationScoped.class) ContainerInitialized containerInitialized) {
         initDriver();
     }
 
     private void initDriver() {
-        logger.debug(">> initDriver()");
-        Config config = ConfigProvider.getConfig();
-        Boolean deviceMode = config.getOptionalValue("browser.device.mode", Boolean.class).orElse(false);
-        String browserType = config.getOptionalValue("browser.type", String.class).orElse(Browser.CHROME.name());
-        boolean isRemote = BooleanUtils.isTrue(config.getOptionalValue("selenium.remote", Boolean.class).orElse(false));
+        Logger logger = Logger.getLogger(SelenideConfigExtension.class);
+        SelenideConfig selenideConfig = CDI.current().select(SelenideConfig.class).get();
 
-        if (BooleanUtils.isTrue(deviceMode) && StringUtils.equalsIgnoreCase(Browser.CHROME.name(), browserType)) {
-            ChromeDeviceModeDriverProvider chromeDeviceModeDriverProvider = new ChromeDeviceModeDriverProvider();
+        logger.debug(">> initDriver()");
+        String browserType = selenideConfig.getBrowserType();
+        String seleniumRemoteUrl = selenideConfig.getSeleniumUrl();
+        String device = selenideConfig.getBrowserDevice();
+
+        if (StringUtils.isNotBlank(device)) {
+            ChromeDeviceModeDriverProvider chromeDeviceModeDriverProvider = new ChromeDeviceModeDriverProvider(device, seleniumRemoteUrl);
             Configuration.browser = chromeDeviceModeDriverProvider.getClass().getName();
             Configuration.startMaximized = false;
         } else if (StringUtils.equalsIgnoreCase(Browser.IE.name(), browserType)) {
-            CustomIEDriverProvider customIEDriverProvider = new CustomIEDriverProvider();
+            CustomIEDriverProvider customIEDriverProvider = new CustomIEDriverProvider(seleniumRemoteUrl);
             Configuration.browser = customIEDriverProvider.getClass().getName();
             Configuration.fastSetValue = true;
             Configuration.startMaximized = true;
         } else {
-            Configuration.remote = isRemote ? config.getOptionalValue("selenium.url", String.class).orElse(StringUtils.EMPTY) : null;
+            Configuration.remote = seleniumRemoteUrl;
             Configuration.browser = browserType;
             Configuration.startMaximized = true;
         }
 
-        Configuration.driverManagerEnabled = !isRemote;
-        Configuration.headless = BooleanUtils.isTrue(config.getOptionalValue("browser.headless", Boolean.class).orElse(true));
-        Configuration.timeout = config.getOptionalValue("app.timeout", Long.class).orElse(5000l);
-        Configuration.baseUrl = config.getOptionalValue("app.homepage", String.class).orElse(StringUtils.EMPTY);
+        Configuration.reportsFolder = "/target";
+        Configuration.downloadsFolder = "/target/download";
+
+        Configuration.driverManagerEnabled = StringUtils.isBlank(seleniumRemoteUrl);
+        Configuration.headless = selenideConfig.isBrowserHeadless();
+        Configuration.timeout = selenideConfig.getTimeout();
+        Configuration.baseUrl = selenideConfig.getHomepage();
         WebDriverRunner.clearBrowserCache();
         Selenide.open(Configuration.baseUrl);
         WebDriverRunner.getWebDriver().switchTo().defaultContent();

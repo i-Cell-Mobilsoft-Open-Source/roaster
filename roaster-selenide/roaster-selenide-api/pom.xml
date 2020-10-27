@@ -14,11 +14,6 @@
     <dependencies>
         <dependency>
             <groupId>hu.icellmobilsoft.roaster</groupId>
-            <artifactId>roaster-common-config</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>hu.icellmobilsoft.roaster</groupId>
             <artifactId>roaster-weldunit</artifactId>
         </dependency>
 
@@ -27,35 +22,6 @@
             <artifactId>selenide</artifactId>
         </dependency>
 
-        <!-- Selenide needed necessary dependencies -->
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jul-to-slf4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-        </dependency>
     </dependencies>
-
-    <build>
-        <resources>
-            <resource>
-                <directory>src/test/resources</directory>
-                <includes>
-                    <include>roaster-default.yml</include>
-                </includes>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-    </build>
 
 </project>

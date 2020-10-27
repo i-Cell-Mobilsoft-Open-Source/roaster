@@ -21,17 +21,20 @@ package hu.icellmobilsoft.roaster.selenide.drivers;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 
-import com.codeborne.selenide.WebDriverProvider;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.commons.lang3.BooleanUtils;
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import com.codeborne.selenide.WebDriverProvider;
+
+import hu.icellmobilsoft.coffee.se.logging.Logger;
+import hu.icellmobilsoft.roaster.api.TestException;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 /**
  * Custome Internet Explorer WebDriverProvider
@@ -41,31 +44,30 @@ import org.openqa.selenium.remote.RemoteWebDriver;
  */
 public class CustomIEDriverProvider implements WebDriverProvider {
 
+    private Logger logger = Logger.getLogger(ChromeDeviceModeDriverProvider.class);
     private URL remoteUrl;
-    private boolean isLocal;
 
-    public CustomIEDriverProvider() {
-        Config config = ConfigProvider.getConfig();
-        isLocal = !BooleanUtils.isTrue(config.getValue("selenium.remote", Boolean.class));
+    public CustomIEDriverProvider(String remoteUrlText) throws TestException {
         try {
-            remoteUrl = new URL(config.getValue("selenium.remote.url", String.class));
+            if (StringUtils.isNotBlank(remoteUrlText)) {
+                remoteUrl = new URL(remoteUrlText);
+            }
         } catch (MalformedURLException e) {
-            isLocal = true;
+            String msg = MessageFormat.format("Cannot create CustomIEDriverProvider because remoteUrl ({0}) is malformed Url!", remoteUrlText);
+            logger.warn(msg, e);
+            throw new TestException(msg, e);
         }
     }
 
     @Override
     public WebDriver createDriver(final DesiredCapabilities desiredCapabilities) {
-        if (isLocal) {
-            WebDriverManager.iedriver().setup();
-        }
-
         InternetExplorerOptions internetExplorerOptions = new InternetExplorerOptions(desiredCapabilities);
         internetExplorerOptions.addCommandSwitches("-private");
         internetExplorerOptions.withInitialBrowserUrl("about:blank");
         internetExplorerOptions.destructivelyEnsureCleanSession();
         WebDriver driver;
-        if (isLocal) {
+        if (remoteUrl == null) {
+            WebDriverManager.iedriver().setup();
             driver = new InternetExplorerDriver(internetExplorerOptions);
         } else {
             driver = new RemoteWebDriver(remoteUrl, internetExplorerOptions);

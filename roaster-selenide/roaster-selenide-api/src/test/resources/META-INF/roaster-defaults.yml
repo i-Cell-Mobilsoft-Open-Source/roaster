@@ -1,14 +1,13 @@
 # Minimal Roaster config for Selenide
-app:
+selenide:
   homepage: https://google.com
   timeout: 3000
-selenium:
-  remote: false
-  url:
+  selenium:
+    url:
+  browser:
+    type: chrome
+    headless: false
+    device:
 
-browser:
-  type: chrome
-  headless: true
-  device:
-    mode: false
-    name: Galaxy S5
+
+

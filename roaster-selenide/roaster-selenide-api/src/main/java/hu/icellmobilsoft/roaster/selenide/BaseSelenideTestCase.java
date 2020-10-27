@@ -19,11 +19,13 @@
  */
 package hu.icellmobilsoft.roaster.selenide;
 
-import com.codeborne.selenide.WebDriverRunner;
-import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 import org.jboss.weld.environment.se.Weld;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
+
+import com.codeborne.selenide.WebDriverRunner;
+
+import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 
 /**
  * Base class of Selenide TestCases, what is contained Selenide configuration
@@ -51,7 +53,8 @@ public class BaseSelenideTestCase extends BaseWeldUnitType {
     /**
      * Overridable method for configuring webDriver
      *
-     * @param webDriver input webDriver instance for additional settings
+     * @param webDriver
+     *            input webDriver instance for additional settings
      */
     protected void setupWebDriver(WebDriver webDriver) {
     }

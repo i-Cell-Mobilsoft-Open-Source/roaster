@@ -21,19 +21,22 @@ package hu.icellmobilsoft.roaster.selenide.drivers;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.codeborne.selenide.WebDriverProvider;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.commons.lang3.BooleanUtils;
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import com.codeborne.selenide.WebDriverProvider;
+
+import hu.icellmobilsoft.coffee.se.logging.Logger;
+import hu.icellmobilsoft.roaster.api.TestException;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 /**
  * WebDriverProvider for Chrome in device mode
@@ -43,33 +46,34 @@ import org.openqa.selenium.remote.RemoteWebDriver;
  */
 public class ChromeDeviceModeDriverProvider implements WebDriverProvider {
 
+    private Logger logger = Logger.getLogger(ChromeDeviceModeDriverProvider.class);
     private String deviceName;
     private URL remoteUrl;
-    private boolean isLocal;
 
-    public ChromeDeviceModeDriverProvider() {
-        Config config = ConfigProvider.getConfig();
-        deviceName = config.getValue("browser.device.name", String.class);
-        isLocal = !BooleanUtils.isTrue(config.getValue("selenium.remote", Boolean.class));
+    public ChromeDeviceModeDriverProvider(String device, String remoteUrlText) throws TestException {
         try {
-            remoteUrl = new URL(config.getValue("selenium.remote.url", String.class));
+            if (StringUtils.isNotBlank(remoteUrlText)) {
+                remoteUrl = new URL(remoteUrlText);
+            }
+            deviceName = device;
         } catch (MalformedURLException e) {
-            isLocal = true;
+            String msg = MessageFormat.format("Cannot create ChromeDeviceModeDriverProvider because remoteUrl ({0}) is malformed Url!",
+                    remoteUrlText);
+            logger.warn(msg, e);
+            throw new TestException(msg, e);
         }
     }
 
     @Override
     public WebDriver createDriver(final DesiredCapabilities desiredCapabilities) {
-        if (isLocal) {
-            WebDriverManager.chromedriver().setup();
-        }
-
         Map<String, String> mobileEmulation = new HashMap<>();
         mobileEmulation.put("deviceName", deviceName);
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+
         WebDriver driver;
-        if (isLocal) {
+        if (remoteUrl == null) {
+            WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver(chromeOptions);
         } else {
             driver = new RemoteWebDriver(remoteUrl, chromeOptions);

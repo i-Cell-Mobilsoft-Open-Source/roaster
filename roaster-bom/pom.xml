@@ -28,9 +28,7 @@
 
 		<!-- Selenide -->
 		<version.codeborn.selenide>5.15.0</version.codeborn.selenide>
-		<version.bonigarcia.webdrivermanager>3.8.1</version.bonigarcia.webdrivermanager>
 		<version.slf4j>1.7.30</version.slf4j>
-		<version.commons-logging>1.2</version.commons-logging>
 
 	</properties>
 
@@ -185,42 +183,8 @@
 				<groupId>com.codeborne</groupId>
 				<artifactId>selenide</artifactId>
 				<version>${version.codeborn.selenide}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>io.github.bonigarcia</groupId>
-						<artifactId>webdrivermanager</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
-			<dependency>
-				<groupId>io.github.bonigarcia</groupId>
-				<artifactId>webdrivermanager</artifactId>
-				<version>${version.bonigarcia.webdrivermanager}</version>
-				<scope>compile</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>slf4j-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jul-to-slf4j</artifactId>
-				<version>${version.slf4j}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-simple</artifactId>
-				<version>${version.slf4j}</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>${version.commons-logging}</version>
-			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
