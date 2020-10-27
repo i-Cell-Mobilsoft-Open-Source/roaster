@@ -11,6 +11,8 @@ A Selenide modul használatához csak be kell hivatkozni a pom.xml-ben
 </dependency>
 ----
 
+*A Selenide modul nem használható Internet Explorerrel!!*
+
 == Selenide Konfigurációs paraméterek
 
 A microprofile-config segítségével paraméterezhetőek a Selenide valamint a WebDriver paraméterei.
@@ -20,32 +22,34 @@ Példák:
 [source,properties]
 .META-INF/microprofile-config.properties
 ----
-selenide.homepage=https://google.com
-selenide.timeout=3000
-selenide.selenium.url=https://localhost:9999/wd/hub
-selenide.browser.type=chrome
-selenide.browser.headless=true
-selenide.browser.device=Galaxy S5
+roaster.selenide.homepage=https://google.com
+roaster.selenide.timeout=3000
+roaster.selenide.selenium.url=https://localhost:9999/wd/hub
+roaster.selenide.browser.type=chrome
+roaster.selenide.browser.headless=true
+roaster.selenide.browser.device=Galaxy S5
 ----
 
 [source,yml]
 .META-INF/roaster-defaults.yml
 ----
 # Minimal Roaster config for Selenide
-selenide:
-  homepage: https://google.com
-  timeout: 3000
-  selenium:
-    url:
-  browser:
-    type: chrome
-    headless: false
-    device:
+roaster:
+  selenide:
+    homepage: https://google.com
+    timeout: 3000
+    selenium:
+      url: http://jenkins-icon.icellmobilsoft.hu:10012/wd/hub
+    browser:
+      type: chrome
+      headless: false
+      device:
+
 ----
 
-Fontos megjegyezni hogyha a selenide.selenium.url nincs kitöltve, akkor nem remote módban indul.
+Fontos megjegyezni hogyha a *roaster.selenide.selenium.url* nincs kitöltve, akkor nem remote módban indul.
 
-Fontos megjegyezni hogyha a selenide.browser.device kivan töltve, akkor chrome böngésző indul el,
+Fontos megjegyezni hogyha a *roaster.selenide.browser.device* kivan töltve, akkor chrome böngésző indul el,
 és a device-hoz beírt nevű eszközt emulálva próbál a chrome elindulni.
 
 == WebDriver további beállítási lehetősége

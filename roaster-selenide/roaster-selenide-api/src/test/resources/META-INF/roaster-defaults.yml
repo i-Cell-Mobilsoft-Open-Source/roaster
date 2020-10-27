@@ -1,13 +1,15 @@
 # Minimal Roaster config for Selenide
-selenide:
-  homepage: https://google.com
-  timeout: 3000
-  selenium:
-    url:
-  browser:
-    type: chrome
-    headless: false
-    device:
+roaster:
+  selenide:
+    homepage: https://google.com
+    timeout: 3000
+    selenium:
+      url: http://jenkins-icon.icellmobilsoft.hu:10012/wd/hub
+    browser:
+      type: chrome
+      headless: false
+      device:
+
 
 
 

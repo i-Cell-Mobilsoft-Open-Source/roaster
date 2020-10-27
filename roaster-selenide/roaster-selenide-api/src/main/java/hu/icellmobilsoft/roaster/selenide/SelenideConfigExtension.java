@@ -19,6 +19,10 @@
  */
 package hu.icellmobilsoft.roaster.selenide;
 
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
@@ -27,16 +31,16 @@ import javax.enterprise.inject.spi.Extension;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.weld.environment.se.events.ContainerInitialized;
+import org.openqa.selenium.chrome.ChromeOptions;
 
+import com.codeborne.selenide.Browsers;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 
 import hu.icellmobilsoft.coffee.se.logging.Logger;
+import hu.icellmobilsoft.roaster.api.TestException;
 import hu.icellmobilsoft.roaster.selenide.config.SelenideConfig;
-import hu.icellmobilsoft.roaster.selenide.drivers.ChromeDeviceModeDriverProvider;
-import hu.icellmobilsoft.roaster.selenide.drivers.CustomIEDriverProvider;
-import hu.icellmobilsoft.roaster.selenide.enums.Browser;
 
 /**
  * Selenide Configuration extension.
@@ -62,27 +66,30 @@ public class SelenideConfigExtension implements Extension {
 
         logger.debug(">> initDriver()");
         String browserType = selenideConfig.getBrowserType();
+
+        if (StringUtils.equalsAnyIgnoreCase(browserType, Browsers.IE, Browsers.INTERNET_EXPLORER)) {
+            throw new TestException(MessageFormat.format("{0} not supported!",browserType));
+        }
+
         String seleniumRemoteUrl = selenideConfig.getSeleniumUrl();
         String device = selenideConfig.getBrowserDevice();
 
         if (StringUtils.isNotBlank(device)) {
-            ChromeDeviceModeDriverProvider chromeDeviceModeDriverProvider = new ChromeDeviceModeDriverProvider(device, seleniumRemoteUrl);
-            Configuration.browser = chromeDeviceModeDriverProvider.getClass().getName();
+            Configuration.browser = Browsers.CHROME;
+
+            Map<String, String> mobileEmulation = new HashMap<>();
+            mobileEmulation.put("deviceName", device);
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+            Configuration.browserCapabilities = chromeOptions;
+
             Configuration.startMaximized = false;
-        } else if (StringUtils.equalsIgnoreCase(Browser.IE.name(), browserType)) {
-            CustomIEDriverProvider customIEDriverProvider = new CustomIEDriverProvider(seleniumRemoteUrl);
-            Configuration.browser = customIEDriverProvider.getClass().getName();
-            Configuration.fastSetValue = true;
-            Configuration.startMaximized = true;
         } else {
-            Configuration.remote = seleniumRemoteUrl;
             Configuration.browser = browserType;
             Configuration.startMaximized = true;
         }
 
-        Configuration.reportsFolder = "/target";
-        Configuration.downloadsFolder = "/target/download";
-
+        Configuration.remote = seleniumRemoteUrl;
         Configuration.driverManagerEnabled = StringUtils.isBlank(seleniumRemoteUrl);
         Configuration.headless = selenideConfig.isBrowserHeadless();
         Configuration.timeout = selenideConfig.getTimeout();

@@ -19,7 +19,11 @@
  */
 package hu.icellmobilsoft.roaster.selenide;
 
-import org.jboss.weld.environment.se.Weld;
+import java.util.Collections;
+import java.util.Set;
+
+import javax.enterprise.inject.spi.Extension;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 
@@ -36,9 +40,8 @@ import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 public class BaseSelenideTestCase extends BaseWeldUnitType {
 
     @Override
-    protected void configureWeld(Weld weld) {
-        super.configureWeld(weld);
-        weld.addExtensions(SelenideConfigExtension.class);
+    protected Set<Class<? extends Extension>> listOfExtensionsToAddWeld() {
+        return Collections.singleton(SelenideConfigExtension.class);
     }
 
     /**

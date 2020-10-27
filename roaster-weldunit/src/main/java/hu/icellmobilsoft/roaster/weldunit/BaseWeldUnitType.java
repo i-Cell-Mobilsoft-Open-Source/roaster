@@ -19,7 +19,12 @@
  */
 package hu.icellmobilsoft.roaster.weldunit;
 
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.spi.Extension;
 
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.junit5.EnableWeld;
@@ -40,9 +45,15 @@ public abstract class BaseWeldUnitType {
     private WeldInitiator initWeld() {
         @SuppressWarnings("unchecked")
         Weld weld = WeldInitiator.createWeld()//
-                .enableDiscovery() //
-                .addExtensions(ConfigExtension.class);
+                .enableDiscovery();
         configureWeld(weld);
+
+        Set<Class<? extends Extension>> extensions = new LinkedHashSet<>();
+        extensions.add(ConfigExtension.class);
+        extensions.addAll(listOfExtensionsToAddWeld());
+        extensions.stream().forEach(extension -> {
+            weld.addExtensions(extension);
+        });
 
         WeldInitiator.Builder weldInitiatorBuilder = WeldInitiator.from(weld);
         weldInitiatorBuilder.activate(RequestScoped.class);
@@ -60,6 +71,15 @@ public abstract class BaseWeldUnitType {
     @Deprecated(since = "0.2.0", forRemoval = true)
     protected void configureWeld(Weld weld) {
 
+    }
+
+    /**
+     * Overridable method for add Extensions weld
+     * 
+     * @return Set of {@link Extension} classes, what will be added to weld.
+     */
+    protected Set<Class<? extends Extension>> listOfExtensionsToAddWeld() {
+        return Collections.EMPTY_SET;
     }
 
     /**

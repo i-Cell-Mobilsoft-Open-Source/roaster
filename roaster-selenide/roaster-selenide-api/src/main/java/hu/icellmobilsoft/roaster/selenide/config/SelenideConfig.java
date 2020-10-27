@@ -38,7 +38,7 @@ import hu.icellmobilsoft.coffee.se.logging.Logger;
 public class SelenideConfig {
 
     private static final String DOT = ".";
-    private static final String SELENIDE_ROOT = "selenide";
+    private static final String SELENIDE_ROOT = "roaster.selenide";
     private static final String HOMEPAGE = "homepage";
     private static final String TIMEOUT = "timeout";
     private static final String SELENIUM = "selenium";
@@ -60,36 +60,66 @@ public class SelenideConfig {
 
     private Logger logger = Logger.getLogger(SelenideConfig.class);
 
+    /**
+     * Selenide start homepage config, with log
+     * 
+     * @return homepage url, if it is not find, return empty string
+     */
     public String getHomepage() {
         String homepage = config.getOptionalValue(SELENIDE_HOMEPAGE, String.class).orElse(StringUtils.EMPTY);
         logger.info("{0} : [{1}]", SELENIDE_HOMEPAGE, homepage);
         return homepage;
     }
 
+    /**
+     * Selenide timeout in milliseconds config, with log
+     * 
+     * @return selenium used timeout , if it is not find, return 5000
+     */
     public Integer getTimeout() {
         Integer timeout = config.getOptionalValue(SELENIDE_TIMEOUT, Integer.class).orElse(5000);
         logger.info("{0} : [{1}]", SELENIDE_TIMEOUT, timeout);
         return timeout;
     }
 
+    /**
+     * Selenium remote url config, with log
+     * 
+     * @return selenium remote url , if it is not find, return null
+     */
     public String getSeleniumUrl() {
         String seleniumRemote = config.getOptionalValue(SELENIDE_SELENIUM_REMOTE, String.class).orElse(null);
         logger.info("{0} : [{1}]", SELENIDE_SELENIUM_REMOTE, seleniumRemote);
         return seleniumRemote;
     }
 
+    /**
+     * Browser type config, with log
+     * 
+     * @return browser type string, if it is not find, return empty string
+     */
     public String getBrowserType() {
         String browserType = config.getOptionalValue(SELENIDE_BROWSER_TYPE, String.class).orElse(StringUtils.EMPTY);
         logger.info("{0} : [{1}]", SELENIDE_BROWSER_TYPE, browserType);
         return browserType.toLowerCase();
     }
 
+    /**
+     * Headless config, with log
+     * 
+     * @return true if headless config is true, otherwise return false
+     */
     public boolean isBrowserHeadless() {
         boolean browserHeadless = BooleanUtils.isTrue(config.getOptionalValue(SELENIDE_BROWSER_TYPE, Boolean.class).orElse(Boolean.FALSE));
         logger.info("{0} : [{1}]", SELENIDE_BROWSER_HEADLESS, browserHeadless);
         return browserHeadless;
     }
 
+    /**
+     * Device name config for emulation, with log
+     * 
+     * @return device config, if it is not find, return empty string
+     */
     public String getBrowserDevice() {
         String browserDevice = config.getOptionalValue(SELENIDE_BROWSER_DEVICE, String.class).orElse(StringUtils.EMPTY);
         logger.info("{0} : [{1}]", SELENIDE_BROWSER_DEVICE, browserDevice);
