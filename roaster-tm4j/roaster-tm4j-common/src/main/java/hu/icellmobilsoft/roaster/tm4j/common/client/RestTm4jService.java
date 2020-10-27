@@ -20,6 +20,7 @@
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -40,6 +41,7 @@ import java.util.Objects;
 public class RestTm4jService {
 
     @Inject
+    @RestClient
     private Tm4jRestClient tm4jClient;
 
     /**
