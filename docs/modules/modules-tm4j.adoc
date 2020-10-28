@@ -1,0 +1,57 @@
+= TM4J
+
+A modul célja, hogy az automatán futtatott tesztesetek eredménye automatikusan jelentve legyen
+egy bekonfigurált TM4J (Test Management for Jira) szerverre.
+
+== Konfiguráció
+
+[source,yaml]
+.META-INF/roaster-defaults.yml
+----
+roaster:
+   tm4j:
+      enabled: true    # A TM4J szerver hívást lehet kikapcsolni ezzel a flag-gel (default: false)
+      projectKey: ABC      # Jira project key. Ez szokott a Jira issue-k prefixe is lenni.
+      testCycleKey: ABC-C1   # TM4J test cycle key. Pl.: ABC-C1 ahol az ABC a project key.
+      environment: sandbox    # (Opcionális) A neve az aktuális környezetnek, ahol a tesztek futnak (default: N/A)
+      server/mp-rest/url: https://jira.example.com   # TM4J szerver url
+      server/basicAuthToken: ZXhhbXBsZS11c2VyOnNlY3JldA==   # base64(userName + ":" + password)
+      server/userName: # A szerver autentikációs adatok megadásához lehet használni a server/userName + server/password vagy a server/basicAuthToken paramétert
+      server/password:
+----
+
+[TIP]
+Biztonsági okokból célszerű a basicAuthToken-t és a jelszót nem a konfigurációs fájlba beleírni,
+hanem parancssori argumentumként átadni a maven-nek. +
+Pl.: `$ mvn test -Droaster.tm4j.server/password=secret`
+
+
+== Használtata JUnit 5-tel
+
+A modul használatához hozzá kell adni az alábbi maven függőséget a pom.xml-hez:
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-tm4j-junit5</artifactId>
+</dependency>
+----
+
+'''
+
+Ez után már csak fel kell annotálni azokat a teszt osztályokat/metódusokat
+amelyek eredményét jelenteni szeretnénk:
+
+[source,java]
+----
+@ExtendWith(Tm4jExtension.class) // TM4J extension aktiválása a tesztosztályon
+class ExampleTest extends BaseWeldUnitType {
+    @Test
+    @TestCaseId("ABC-T1") // TM4J teszteset összerendelés
+    void testOne() {
+        assertTrue(1 + 1 == 2);
+    }
+}
+----

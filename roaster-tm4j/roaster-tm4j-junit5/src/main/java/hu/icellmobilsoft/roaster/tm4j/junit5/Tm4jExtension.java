@@ -19,7 +19,6 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.junit5;
 
-import hu.icellmobilsoft.roaster.tm4j.common.Tm4jReporterProducer;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
@@ -39,21 +38,7 @@ import java.util.function.Supplier;
 /**
  * JUnit 5 extension to publish the test result to a TM4J server.
  * The test case id should be mapped with the test method via the {@link TestCaseId} annotation.
- * <br><br>
- * Example:
- * <pre>
- *{@literal @}ExtendWith(Tm4jExtension.class)
- * class ExampleTest extends BaseWeldUnitType {
- *    {@literal @}Test
- *    {@literal @}TestCaseId("ABC-T1")
- *     void testOne() {
- *         assertTrue(1 == 1);
- *     }
- * }
- * </pre>
- *
- * For configuration see: {@link Tm4jReporterProducer#createReporter}
- *
+
  * @see TestCaseId
  * @author martin.nagy
  * @since 0.2.0
