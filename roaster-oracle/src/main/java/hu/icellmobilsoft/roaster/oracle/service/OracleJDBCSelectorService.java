@@ -40,11 +40,7 @@ import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.coffee.tool.common.FunctionalInterfaces;
-import hu.icellmobilsoft.roaster.oracle.config.ManagedDBConfig;
 import hu.icellmobilsoft.roaster.oracle.connection.JDBCConnection;
-import hu.icellmobilsoft.roaster.oracle.producer.DBConfigProducer;
-import hu.icellmobilsoft.roaster.oracle.producer.DBConnectionProducer;
-import hu.icellmobilsoft.roaster.oracle.producer.OracleJDBCServiceProducer;
 
 /**
  * Class representing Oracle JDBC functionality
@@ -53,19 +49,6 @@ import hu.icellmobilsoft.roaster.oracle.producer.OracleJDBCServiceProducer;
  */
 @Dependent
 public class OracleJDBCSelectorService {
-
-    /**
-     * In case of Oracle JDBC functionality usage, this Classes are needed to pass for Weld configuration
-     * <p>
-     * {@code
-     * 
-    <p>
-     * &#64;Override
-     * protected void configureWeld(Weld weld) { weld.addBeanClasses(OracleJDBCSelectorService.ORACLE_JDBC_CLASSES_NEEDED_FOR_WELD);
-     * super.configureWeld(weld); } }
-     */
-    public static final Class<?>[] ORACLE_JDBC_CLASSES_NEEDED_FOR_WELD = { OracleJDBCSelectorService.class, OracleJDBCServiceProducer.class,
-            ManagedDBConfig.class, DBConfigProducer.class, JDBCConnection.class, DBConnectionProducer.class };
 
     private static final String ERROR_MSG_ERROR_OCCURRED_DURING_DB_CONNECTION = "Error occurred during DB connection!";
     private static final String ERROR_MSG_ENTITY_NOT_FOUND = "Entity not found!";

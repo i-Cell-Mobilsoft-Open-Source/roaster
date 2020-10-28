@@ -26,14 +26,6 @@ import org.jboss.weld.junit5.EnableWeld;
 import org.jboss.weld.junit5.WeldInitiator;
 import org.jboss.weld.junit5.WeldSetup;
 
-import hu.icellmobilsoft.coffee.cdi.logger.AppLoggerImpl;
-import hu.icellmobilsoft.coffee.cdi.logger.LogContainer;
-import hu.icellmobilsoft.coffee.cdi.logger.LogProducer;
-import hu.icellmobilsoft.roaster.restassured.producer.Jackson2ObjectMapperFactoryImpl;
-import hu.icellmobilsoft.roaster.restassured.producer.ObjectMapperConfigProducer;
-import hu.icellmobilsoft.roaster.restassured.producer.RequestSpecificationProducer;
-import hu.icellmobilsoft.roaster.restassured.producer.ResponseSpecificationProducer;
-import hu.icellmobilsoft.roaster.restassured.producer.RestAssuredConfigProducer;
 import io.smallrye.config.inject.ConfigExtension;
 
 /**
@@ -51,12 +43,9 @@ public abstract class BaseConfigurableWeldIT {
     private WeldInitiator initWeld() {
         @SuppressWarnings("unchecked")
         Weld weld = WeldInitiator.createWeld()//
-                .addExtensions(ConfigExtension.class)//
-                // roaster-restassured
-                .addBeanClasses(RestAssuredConfigProducer.class, RequestSpecificationProducer.class, ResponseSpecificationProducer.class,
-                        ObjectMapperConfigProducer.class, Jackson2ObjectMapperFactoryImpl.class) //
-                // coffee dependency
-                .addBeanClasses(LogContainer.class, AppLoggerImpl.class, LogProducer.class);
+                .enableDiscovery() //
+                .addExtensions(ConfigExtension.class);
+        ;
         configureWeld(weld);
 
         WeldInitiator.Builder weldInitiatorBuilder = WeldInitiator.from(weld);
@@ -70,7 +59,9 @@ public abstract class BaseConfigurableWeldIT {
      *
      * @param weld
      *            input weld instance for additional settings
+     * @deprecated Beans auto discovery will detect CDI classes
      */
+    @Deprecated(since = "0.2.0", forRemoval = true)
     protected void configureWeld(Weld weld) {
 
     }

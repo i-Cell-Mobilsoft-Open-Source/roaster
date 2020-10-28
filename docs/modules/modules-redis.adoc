@@ -43,18 +43,6 @@ coffee:
                 maxidle: 32
 ----
 
-IMPORTANT: Majd abban az osztályban ahol a `BaseConfigurableWeldIT` vagy a `BaseWeldUnitType` van kiterjesztve felül kell definiálni a weld konfigurációját a szükséges osztályok megadásával, amik megtalálhatóak a RedisHandler.REDIS_CLASSES_NEEDED_FOR_WELD-ben felsorolva.
-
-[source,java]
-.Weld konfiguráció kiegészítése
-----
-    @Override
-    protected void configureWeld(Weld weld) {
-        weld.addBeanClasses(RedisHandler.REDIS_CLASSES_NEEDED_FOR_WELD);
-        super.configureWeld(weld);
-    }
-----
-
 == REDIS használata
 
 Először is injektálni kell a handler osztályt.
