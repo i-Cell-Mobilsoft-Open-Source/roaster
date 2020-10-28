@@ -19,16 +19,6 @@
  */
 package hu.icellmobilsoft.roaster.selenide;
 
-import java.util.Collections;
-import java.util.Set;
-
-import javax.enterprise.inject.spi.Extension;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.WebDriver;
-
-import com.codeborne.selenide.WebDriverRunner;
-
 import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 
 /**
@@ -39,26 +29,4 @@ import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
  */
 public class BaseSelenideTestCase extends BaseWeldUnitType {
 
-    @Override
-    protected Set<Class<? extends Extension>> listOfExtensionsToAddWeld() {
-        return Collections.singleton(SelenideConfigExtension.class);
-    }
-
-    /**
-     * Before each all test, setup webdriver if necessary
-     */
-    @BeforeEach
-    public void setupWebDriver() {
-        WebDriver webDriver = WebDriverRunner.getWebDriver();
-        setupWebDriver(webDriver);
-    }
-
-    /**
-     * Overridable method for configuring webDriver
-     *
-     * @param webDriver
-     *            input webDriver instance for additional settings
-     */
-    protected void setupWebDriver(WebDriver webDriver) {
-    }
 }

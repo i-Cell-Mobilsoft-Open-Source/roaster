@@ -24,10 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
-import javax.enterprise.inject.spi.CDI;
-import javax.enterprise.inject.spi.Extension;
+import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jboss.weld.environment.se.events.ContainerInitialized;
@@ -36,7 +34,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import com.codeborne.selenide.Browsers;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.roaster.api.TestException;
@@ -48,7 +45,13 @@ import hu.icellmobilsoft.roaster.selenide.config.SelenideConfig;
  * @author speter555
  * @since 0.2.0
  */
-public class SelenideConfigExtension implements Extension {
+@ApplicationScoped
+public class SelenideConfiguration {
+
+    @Inject
+    private SelenideConfig selenideConfig;
+
+    private Logger logger = Logger.getLogger(SelenideConfiguration.class);
 
     /**
      * Handle container Initialized event
@@ -56,23 +59,23 @@ public class SelenideConfigExtension implements Extension {
      * @param containerInitialized
      *            instance
      */
-    public void observesContainerInitialized(@Observes @Initialized(ApplicationScoped.class) ContainerInitialized containerInitialized) {
+    public void observesContainerInitialized(@Observes ContainerInitialized containerInitialized) {
         initDriver();
     }
 
     private void initDriver() {
-        Logger logger = Logger.getLogger(SelenideConfigExtension.class);
-        SelenideConfig selenideConfig = CDI.current().select(SelenideConfig.class).get();
 
         logger.debug(">> initDriver()");
         String browserType = selenideConfig.getBrowserType();
 
         if (StringUtils.equalsAnyIgnoreCase(browserType, Browsers.IE, Browsers.INTERNET_EXPLORER)) {
-            throw new TestException(MessageFormat.format("{0} not supported!",browserType));
+            throw new TestException(MessageFormat.format("{0} not supported!", browserType));
         }
 
         String seleniumRemoteUrl = selenideConfig.getSeleniumUrl();
         String device = selenideConfig.getBrowserDevice();
+        Integer decisionWidth = selenideConfig.getBrowserDecisionWidth();
+        Integer decisionHeight = selenideConfig.getBrowserDecisionHeight();
 
         if (StringUtils.isNotBlank(device)) {
             Configuration.browser = Browsers.CHROME;
@@ -86,7 +89,11 @@ public class SelenideConfigExtension implements Extension {
             Configuration.startMaximized = false;
         } else {
             Configuration.browser = browserType;
-            Configuration.startMaximized = true;
+            if (decisionWidth != null && decisionHeight != null) {
+                Configuration.browserSize = MessageFormat.format("{0}x{1}", decisionWidth, decisionHeight);
+            } else {
+                Configuration.startMaximized = true;
+            }
         }
 
         Configuration.remote = seleniumRemoteUrl;
@@ -94,9 +101,7 @@ public class SelenideConfigExtension implements Extension {
         Configuration.headless = selenideConfig.isBrowserHeadless();
         Configuration.timeout = selenideConfig.getTimeout();
         Configuration.baseUrl = selenideConfig.getHomepage();
-        WebDriverRunner.clearBrowserCache();
         Selenide.open(Configuration.baseUrl);
-        WebDriverRunner.getWebDriver().switchTo().defaultContent();
         logger.debug("<< initDriver()");
     }
 

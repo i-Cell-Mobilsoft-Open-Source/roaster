@@ -28,7 +28,6 @@
 
 		<!-- Selenide -->
 		<version.codeborn.selenide>5.15.0</version.codeborn.selenide>
-		<version.slf4j>1.7.30</version.slf4j>
 
 	</properties>
 

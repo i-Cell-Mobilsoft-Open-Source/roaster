@@ -47,6 +47,9 @@ public class SelenideConfig {
     private static final String TYPE = "type";
     private static final String HEADLESS = "headless";
     private static final String DEVICE = "device";
+    private static final String DECISION = "decision";
+    private static final String WIDTH = "width";
+    private static final String HEIGHT = "height";
 
     private static final String SELENIDE_HOMEPAGE = SELENIDE_ROOT + DOT + HOMEPAGE;
     private static final String SELENIDE_TIMEOUT = SELENIDE_ROOT + DOT + TIMEOUT;
@@ -54,6 +57,8 @@ public class SelenideConfig {
     private static final String SELENIDE_BROWSER_TYPE = SELENIDE_ROOT + DOT + BROWSER + DOT + TYPE;
     private static final String SELENIDE_BROWSER_HEADLESS = SELENIDE_ROOT + DOT + BROWSER + DOT + HEADLESS;
     private static final String SELENIDE_BROWSER_DEVICE = SELENIDE_ROOT + DOT + BROWSER + DOT + DEVICE;
+    private static final String SELENIDE_BROWSER_DECISION_WIDTH = SELENIDE_ROOT + DOT + BROWSER + DOT + WIDTH;
+    private static final String SELENIDE_BROWSER_DECISION_HEIGHT = SELENIDE_ROOT + DOT + BROWSER + DOT + HEIGHT;
 
     @Inject
     private Config config;
@@ -126,4 +131,25 @@ public class SelenideConfig {
         return browserDevice;
     }
 
+    /**
+     * Device name config for emulation, with log
+     *
+     * @return device config, if it is not find, return empty string
+     */
+    public Integer getBrowserDecisionWidth() {
+        Integer browserDecisionWidth = config.getOptionalValue(SELENIDE_BROWSER_DECISION_WIDTH, Integer.class).orElse(null);
+        logger.info("{0} : [{1}]", SELENIDE_BROWSER_DECISION_WIDTH, browserDecisionWidth);
+        return browserDecisionWidth;
+    }
+
+    /**
+     * Device name config for emulation, with log
+     *
+     * @return device config, if it is not find, return empty string
+     */
+    public Integer getBrowserDecisionHeight() {
+        Integer browserDecisionHeight = config.getOptionalValue(SELENIDE_BROWSER_DECISION_HEIGHT, Integer.class).orElse(null);
+        logger.info("{0} : [{1}]", SELENIDE_BROWSER_DECISION_HEIGHT, browserDecisionHeight);
+        return browserDecisionHeight;
+    }
 }

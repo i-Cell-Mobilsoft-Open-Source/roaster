@@ -28,6 +28,8 @@ roaster.selenide.selenium.url=https://localhost:9999/wd/hub
 roaster.selenide.browser.type=chrome
 roaster.selenide.browser.headless=true
 roaster.selenide.browser.device=Galaxy S5
+roaster.selenide.browser.decision.width=1024
+roaster.selenide.browser.decision.height=768
 ----
 
 [source,yml]
@@ -36,26 +38,30 @@ roaster.selenide.browser.device=Galaxy S5
 # Minimal Roaster config for Selenide
 roaster:
   selenide:
-    homepage: https://google.com
-    timeout: 3000
+    homepage: https://google.com # böngészőben megnyíló oldal címe
+    timeout: 3000 # alap timeoutja a WebDrivernek
     selenium:
-      url: http://jenkins-icon.icellmobilsoft.hu:10012/wd/hub
+      url: # wd hub linkje ha remote webdriverrel szükséges futtatni a teszteket
     browser:
-      type: chrome
+      type: chrome # lehetséges értékek: chrome, edge, opera, safari
       headless: false
-      device:
-
+      device: # Galaxy S5 vagy iPad Pro (Lehetőségeket lásd itt: https://github.com/DevExpress/device-specs/blob/master/devices.md)
+      decision:
+        width: # példa 1024
+        height: # példa: 768
 ----
 
-Fontos megjegyezni hogyha a *roaster.selenide.selenium.url* nincs kitöltve, akkor nem remote módban indul.
+Fontos megjegyezni, hogyha a *roaster.selenide.selenium.url* nincs kitöltve, akkor nem remote módban indul.
 
-Fontos megjegyezni hogyha a *roaster.selenide.browser.device* kivan töltve, akkor chrome böngésző indul el,
-és a device-hoz beírt nevű eszközt emulálva próbál a chrome elindulni.
+Fontos megjegyezni, hogyha a *roaster.selenide.browser.device* kivan töltve, akkor chrome böngésző indul el, és a device-hoz beírt nevű eszközt emulálva próbál a chrome elindulni.
+Fontos ehhez a beállításhoz megjegyezni, hogy mivel az emulált eszköznek fix képernyő nagysága van, az lesz használva, ilyenkor nem veszi figyelembe a felbontási beállításokat.
+
+Fontos megjegyezni, hogyha a *roaster.selenide.browser.device.width* és *roaster.selenide.browser.device.height* ki van töltve akkor a böngésző nem lesz a képernyőhöz igazítva.
+
 
 == WebDriver további beállítási lehetősége
 
-Az adott Selenide tesztnek a BaseSelenideTestCase osztályból kell származnia, aminek a setupWebDriver metódustát lehet
-felülírni, és a paraméterként kapott WebDriver példányt lehet tovább állítani tesztenként.
+Az adott Selenide tesztnek a BaseSelenideTestCase osztályból kell származnia, aminek a setupWebDriver metódustát lehet felülírni, és a paraméterként kapott WebDriver példányt lehet tovább állítani tesztenként.
 
 [source,java]
 .Override példa

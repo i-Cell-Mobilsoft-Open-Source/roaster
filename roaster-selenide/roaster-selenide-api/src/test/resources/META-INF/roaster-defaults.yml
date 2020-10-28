@@ -4,11 +4,14 @@ roaster:
     homepage: https://google.com
     timeout: 3000
     selenium:
-      url: http://jenkins-icon.icellmobilsoft.hu:10012/wd/hub
+      url:
     browser:
       type: chrome
       headless: false
       device:
+      decision:
+        width:
+        height:
 
 
 
