@@ -25,10 +25,10 @@
  * <pre>{@code
  * roaster:
  *    tm4j:
- *       enabled: true    # The reporting can be turned of using this flag
+ *       enabled: true    # The reporting can be turned on using this flag (default: false)
  *       projectKey: ABC      # The project key. This is the prefix for the Jira issues also
  *       testCycleKey: ABC-C1   # TM4J test cycle key. E.g. ABC-C1 where ABC is the project key.
- *       environment: sandbox    # (Optional) The name of the current environment where the tests are running
+ *       environment: sandbox    # (Optional) The name of the current environment where the tests are running (default: N/A)
  *       server/mp-rest/url: https://jira.example.com   # TM4J server url
  *       server/basicAuthToken: ZXhhbXBsZS11c2VyOnNlY3JldA==       # base64(userName + ":" + password)
  *       server/userName: # To set the credentials the basicAuthToken or the userName + password can be used (not both)

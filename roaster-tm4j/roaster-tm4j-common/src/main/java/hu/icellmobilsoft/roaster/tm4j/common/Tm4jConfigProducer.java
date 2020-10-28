@@ -53,7 +53,7 @@ public class Tm4jConfigProducer {
 
         config.setServer(createServerConfig(roasterConfig));
 
-        config.setEnabled(roasterConfig.getOptionalValue(RoasterConfigKeys.ENABLED, Boolean.class).orElse(true));
+        config.setEnabled(roasterConfig.getOptionalValue(RoasterConfigKeys.ENABLED, Boolean.class).orElse(false));
         config.setProjectKey(roasterConfig.getOptionalValue(RoasterConfigKeys.PROJECT_KEY, String.class).orElse(null));
         config.setTestCycleKey(roasterConfig.getOptionalValue(RoasterConfigKeys.TEST_CYCLE_KEY, String.class).orElse(null));
         config.setEnvironment(roasterConfig.getOptionalValue(RoasterConfigKeys.ENVIRONMENT, String.class).orElse("N/A"));
