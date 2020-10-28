@@ -46,18 +46,6 @@ import hu.icellmobilsoft.roaster.selenide.BaseSelenideTestCase;
 @Disabled("Only for testing!!!")
 public class GoogleIcellMobilsoftTest extends BaseSelenideTestCase {
 
-    /**
-     * Example to set up current {@link WebDriver}
-     *
-     * @param webDriver
-     *            current {@link WebDriver} instance
-     */
-    @Override
-    protected void setupWebDriver(WebDriver webDriver) {
-        webDriver.manage().window().setSize(new Dimension(1024, 768));
-        super.setupWebDriver(webDriver);
-    }
-
     @Test
     @DisplayName("Search 'icellmobilsoft' word on Google.com")
     @Disabled("Only for testing!!!")
