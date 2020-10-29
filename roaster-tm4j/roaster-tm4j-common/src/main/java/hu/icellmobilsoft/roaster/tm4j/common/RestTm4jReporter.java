@@ -159,7 +159,7 @@ public class RestTm4jReporter implements TestResultReporter {
     }
 
     private String createCommentBase(String uniqueId) {
-        return "Environment: " + config.getEnvironment().toUpperCase() +
+        return "Environment: " + config.getEnvironment() +
                 BR + BR +
                 "Test method: " + uniqueId;
     }
