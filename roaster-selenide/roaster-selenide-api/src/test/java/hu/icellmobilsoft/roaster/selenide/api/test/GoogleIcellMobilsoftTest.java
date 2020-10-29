@@ -23,9 +23,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
@@ -52,8 +49,7 @@ public class GoogleIcellMobilsoftTest extends BaseSelenideTestCase {
     public void testGoogleWithIcellmobilsoftSearch() {
         // You don't have to use Selenide.open(<url>), it come from configuration, and do it automatically
         SelenideElement qInput = Selenide.$("input[name='q']");
-        qInput.setValue("icellmobilsoft");
-        qInput.sendKeys(Keys.ENTER);
+        qInput.setValue("icellmobilsoft").pressEnter();
 
         SelenideElement result = Selenide.$("div[id='search']");
         ElementsCollection resultList = result.$$("div[class='g'] a[href='https://icellmobilsoft.hu/hu/'");

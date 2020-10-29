@@ -82,25 +82,13 @@ Az adott Selenide tesztnek a BaseSelenideTestCase osztályból kell származnia,
 @Disabled("Only for testing!!!")
 public class GoogleIcellMobilsoftTest extends BaseSelenideTestCase {
 
-    /**
-     * Example to set up current {@link WebDriver}
-     *
-     * @param webDriver current {@link WebDriver} instance
-     */
-    @Override
-    protected void setupWebDriver(WebDriver webDriver) {
-        webDriver.manage().window().setSize(new Dimension(1024, 768));
-        super.setupWebDriver(webDriver);
-    }
-
     @Test
     @DisplayName("Search 'icellmobilsoft' word on Google.com")
     @Disabled("Only for testing!!!")
     public void testGoogleWithIcellmobilsoftSearch() {
         // You don't have to use Selenide.open(<url>), it come from configuration, and do it automatically
         SelenideElement qInput = Selenide.$("input[name='q']");
-        qInput.setValue("icellmobilsoft");
-        qInput.sendKeys(Keys.ENTER);
+        qInput.setValue("icellmobilsoft").pressEnter();
 
         SelenideElement result = Selenide.$("div[id='search']");
         ElementsCollection resultList = result.$$("div[class='g'] a[href='https://icellmobilsoft.hu/hu/'");
