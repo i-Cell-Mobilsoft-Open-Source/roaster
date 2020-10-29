@@ -102,6 +102,8 @@ public class SelenideConfiguration {
         Configuration.timeout = selenideConfig.getTimeout();
         Configuration.baseUrl = selenideConfig.getHomepage();
         Selenide.open(Configuration.baseUrl);
+        Selenide.clearBrowserLocalStorage();
+        Selenide.clearBrowserCookies();
         logger.debug("<< initDriver()");
     }
 
