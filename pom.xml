@@ -26,6 +26,7 @@
 		<module>roaster-restassured</module>
 		<module>roaster-selenide</module>
 		<module>roaster-weldunit</module>
+		<module>roaster-tm4j</module>
     </modules>
 
 	<properties>

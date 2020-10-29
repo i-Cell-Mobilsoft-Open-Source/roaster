@@ -17,32 +17,29 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.api;
+package hu.icellmobilsoft.roaster.tm4j.common.client;
+
+import hu.icellmobilsoft.roaster.api.TestException;
+
+import javax.enterprise.inject.Vetoed;
 
 /**
- * This exception should be thrown if an unexpected exception occurs.
+ * Exception class indicating rest call errors.
  *
+ * @author martin.nagy
+ * @since 0.2.0
  */
-public class UnexpectedException extends TestException {
-    private static final long serialVersionUID = 1L;
+@Vetoed
+public class Tm4jClientException extends TestException {
+    public Tm4jClientException(String message) {
+        super(message);
+    }
 
-    /**
-     * @see RuntimeException#RuntimeException(String,Throwable)
-     * @param message
-     *            the detail message.
-     * @param cause
-     *            the cause.
-     */
-    public UnexpectedException(final String message, final Throwable cause) {
+    public Tm4jClientException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    /**
-     * @see RuntimeException#RuntimeException(Throwable)
-     * @param cause
-     *            the cause.
-     */
-    public UnexpectedException(final Throwable cause) {
+    public Tm4jClientException(Throwable cause) {
         super(cause);
     }
 }

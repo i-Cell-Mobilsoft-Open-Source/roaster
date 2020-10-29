@@ -12,19 +12,23 @@
 	<properties>
 		<version.apache.deltaspike>1.9.1</version.apache.deltaspike>
 		<version.org.eclipse.microprofile>3.3</version.org.eclipse.microprofile>
-		<version.hu.icellmobilsoft.coffee>1.2.0</version.hu.icellmobilsoft.coffee>
+		<version.hu.icellmobilsoft.coffee>1.2.1</version.hu.icellmobilsoft.coffee>
 		<version.org.junit>5.6.2</version.org.junit>
 
 		<version.org.apache.commons.commons-text>1.8</version.org.apache.commons.commons-text>
-		<version.org.jboss.weld.weld-junit5>2.0.1.Final</version.org.jboss.weld.weld-junit5>
 		<!-- rest-assured 4.0.0+ bug https://github.com/rest-assured/rest-assured/issues/1175 -->
 		<version.io.rest-assured>3.3.0</version.io.rest-assured>
 		<version.io.smallrye.config>1.8.5</version.io.smallrye.config>
 		<version.jakarta.xml.bind-api>2.3.3</version.jakarta.xml.bind-api>
 		<version.org.mockito.mockito-core>3.3.3</version.org.mockito.mockito-core>
-		<version.com.fasterxml.jackson.datatype.jackson-datatype-jsr310>2.11.1</version.com.fasterxml.jackson.datatype.jackson-datatype-jsr310>
+		<version.com.fasterxml.jackson>2.11.3</version.com.fasterxml.jackson>
 
 		<version.com.oracle.ojdbc>19.3.0.0</version.com.oracle.ojdbc>
+
+		<version.org.jboss.weld.weld-junit5>2.0.1.Final</version.org.jboss.weld.weld-junit5>
+		<version.org.jboss.weld.core>3.1.5.Final</version.org.jboss.weld.core>
+		<version.org.jboss.resteasy.client.microprofile>4.5.8.Final</version.org.jboss.resteasy.client.microprofile>
+		<version.commons.logging>1.2</version.commons.logging>
 
 		<!-- Selenide -->
 		<version.codeborn.selenide>5.15.0</version.codeborn.selenide>
@@ -72,10 +76,24 @@
 			</dependency>
 			<dependency>
 				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-tm4j-dto</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-tm4j-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-tm4j-junit5</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
 				<artifactId>roaster-selenide-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
 
 			<!-- bom imports -->
 			<dependency>
@@ -125,11 +143,6 @@
 				<version>${version.org.apache.commons.commons-text}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.jboss.weld</groupId>
-				<artifactId>weld-junit5</artifactId>
-				<version>${version.org.jboss.weld.weld-junit5}</version>
-			</dependency>
-			<dependency>
 				<groupId>io.rest-assured</groupId>
 				<artifactId>rest-assured</artifactId>
 				<version>${version.io.rest-assured}</version>
@@ -159,10 +172,43 @@
 				<artifactId>mockito-core</artifactId>
 				<version>${version.org.mockito.mockito-core}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>com.fasterxml.jackson.datatype</groupId>
 				<artifactId>jackson-datatype-jsr310</artifactId>
-				<version>${version.com.fasterxml.jackson.datatype.jackson-datatype-jsr310}</version>
+				<version>${version.com.fasterxml.jackson}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.jaxrs</groupId>
+				<artifactId>jackson-jaxrs-json-provider</artifactId>
+				<version>${version.com.fasterxml.jackson}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${version.com.fasterxml.jackson}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>${version.commons.logging}</version>
+			</dependency>
+
+			<!-- Weld -->
+			<dependency>
+				<groupId>org.jboss.weld</groupId>
+				<artifactId>weld-junit5</artifactId>
+				<version>${version.org.jboss.weld.weld-junit5}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.weld</groupId>
+				<artifactId>weld-core-impl</artifactId>
+				<version>${version.org.jboss.weld.core}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-client-microprofile</artifactId>
+				<version>${version.org.jboss.resteasy.client.microprofile}</version>
 			</dependency>
 
 			<!-- Oracle Driver -->
