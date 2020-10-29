@@ -58,21 +58,6 @@ Fontos ehhez a beállításhoz megjegyezni, hogy mivel az emulált eszköznek fi
 
 Fontos megjegyezni, hogyha a *roaster.selenide.browser.device.width* és *roaster.selenide.browser.device.height* ki van töltve akkor a böngésző nem lesz a képernyőhöz igazítva.
 
-
-== WebDriver további beállítási lehetősége
-
-Az adott Selenide tesztnek a BaseSelenideTestCase osztályból kell származnia, aminek a setupWebDriver metódustát lehet felülírni, és a paraméterként kapott WebDriver példányt lehet tovább állítani tesztenként.
-
-[source,java]
-.Override példa
-----
-    @Override
-    protected void setupWebDriver(WebDriver webDriver) {
-        webDriver.manage().window().setSize(new Dimension(1024, 768));
-        super.setupWebDriver(webDriver);
-    }
-----
-
 == Használati példa
 
 [source,java]
