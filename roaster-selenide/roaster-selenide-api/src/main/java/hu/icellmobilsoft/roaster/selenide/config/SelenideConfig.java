@@ -57,8 +57,8 @@ public class SelenideConfig {
     private static final String SELENIDE_BROWSER_TYPE = SELENIDE_ROOT + DOT + BROWSER + DOT + TYPE;
     private static final String SELENIDE_BROWSER_HEADLESS = SELENIDE_ROOT + DOT + BROWSER + DOT + HEADLESS;
     private static final String SELENIDE_BROWSER_DEVICE = SELENIDE_ROOT + DOT + BROWSER + DOT + DEVICE;
-    private static final String SELENIDE_BROWSER_DECISION_WIDTH = SELENIDE_ROOT + DOT + BROWSER + DOT + WIDTH;
-    private static final String SELENIDE_BROWSER_DECISION_HEIGHT = SELENIDE_ROOT + DOT + BROWSER + DOT + HEIGHT;
+    private static final String SELENIDE_BROWSER_DECISION_WIDTH = SELENIDE_ROOT + DOT + BROWSER + DOT + DECISION + DOT + WIDTH;
+    private static final String SELENIDE_BROWSER_DECISION_HEIGHT = SELENIDE_ROOT + DOT + BROWSER + DOT + DECISION + DOT + HEIGHT;
 
     @Inject
     private Config config;
