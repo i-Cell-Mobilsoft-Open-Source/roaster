@@ -1,0 +1,18 @@
+# Minimal Roaster config for Selenide
+roaster:
+  selenide:
+    homepage: https://google.com
+    timeout: 3000
+    selenium:
+      url:
+    browser:
+      type: chrome
+      headless: false
+      device:
+      decision:
+        width:
+        height:
+
+
+
+

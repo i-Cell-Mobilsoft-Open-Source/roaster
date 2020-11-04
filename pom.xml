@@ -24,6 +24,7 @@
 		<module>roaster-oracle</module>
 		<module>roaster-redis</module>
 		<module>roaster-restassured</module>
+		<module>roaster-selenide</module>
 		<module>roaster-weldunit</module>
 		<module>roaster-tm4j</module>
     </modules>

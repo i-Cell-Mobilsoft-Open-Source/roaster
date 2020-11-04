@@ -41,7 +41,7 @@ public abstract class BaseWeldUnitType {
         @SuppressWarnings("unchecked")
         Weld weld = WeldInitiator.createWeld()//
                 .enableDiscovery() //
-                .addExtensions(ConfigExtension.class);
+        ;
         configureWeld(weld);
 
         WeldInitiator.Builder weldInitiatorBuilder = WeldInitiator.from(weld);

@@ -29,6 +29,10 @@
 		<version.org.jboss.weld.core>3.1.5.Final</version.org.jboss.weld.core>
 		<version.org.jboss.resteasy.client.microprofile>4.5.8.Final</version.org.jboss.resteasy.client.microprofile>
 		<version.commons.logging>1.2</version.commons.logging>
+
+		<!-- Selenide -->
+		<version.codeborn.selenide>5.15.0</version.codeborn.selenide>
+
 	</properties>
 
 	<dependencyManagement>
@@ -83,6 +87,11 @@
 			<dependency>
 				<groupId>hu.icellmobilsoft.roaster</groupId>
 				<artifactId>roaster-tm4j-junit5</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-selenide-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -213,6 +222,14 @@
 				<artifactId>orai18n</artifactId>
 				<version>${version.com.oracle.ojdbc}</version>
 			</dependency>
+
+			<!-- Selenide -->
+			<dependency>
+				<groupId>com.codeborne</groupId>
+				<artifactId>selenide</artifactId>
+				<version>${version.codeborn.selenide}</version>
+			</dependency>
+
 
 		</dependencies>
 	</dependencyManagement>

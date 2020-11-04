@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,17 +17,16 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.api;
+package hu.icellmobilsoft.roaster.selenide;
+
+import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 
 /**
- * Constants holder for testsuite test groups
+ * Base class of Selenide TestCases, what is contained Selenide configuration
  *
- * @author mark.petrenyi
+ * @author speter555
+ * @since 0.2.0
  */
-public interface TestSuiteGroup {
-
-    String WELD_UNIT = "weld-unit";
-    String RESTASSURED = "restassured";
-    String SELENIDE = "selenide";
+public class BaseSelenideTestCase extends BaseWeldUnitType {
 
 }

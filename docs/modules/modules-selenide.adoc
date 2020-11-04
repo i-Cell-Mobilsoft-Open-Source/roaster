@@ -1,0 +1,83 @@
+= Selenide
+
+A Selenide modul használatához csak be kell hivatkozni a pom.xml-ben
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-selenide-api</artifactId>
+</dependency>
+----
+
+*A Selenide modul nem használható Internet Explorerrel!!*
+
+== Selenide Konfigurációs paraméterek
+
+A microprofile-config segítségével paraméterezhetőek a Selenide valamint a WebDriver paraméterei.
+
+Példák:
+
+[source,properties]
+.META-INF/microprofile-config.properties
+----
+roaster.selenide.homepage=https://google.com
+roaster.selenide.timeout=3000
+roaster.selenide.selenium.url=https://localhost:9999/wd/hub
+roaster.selenide.browser.type=chrome
+roaster.selenide.browser.headless=true
+roaster.selenide.browser.device=Galaxy S5
+roaster.selenide.browser.decision.width=1024
+roaster.selenide.browser.decision.height=768
+----
+
+[source,yml]
+.META-INF/roaster-defaults.yml
+----
+# Minimal Roaster config for Selenide
+roaster:
+  selenide:
+    homepage: https://google.com # böngészőben megnyíló oldal címe
+    timeout: 3000 # alap timeoutja a WebDrivernek
+    selenium:
+      url: # wd hub linkje ha remote webdriverrel szükséges futtatni a teszteket
+    browser:
+      type: chrome # lehetséges értékek: chrome, edge, opera, safari
+      headless: false
+      device: # Galaxy S5 vagy iPad Pro (Lehetőségeket lásd itt: https://github.com/DevExpress/device-specs/blob/master/devices.md)
+      decision:
+        width: # példa 1024
+        height: # példa: 768
+----
+
+Fontos megjegyezni, hogyha a *roaster.selenide.selenium.url* nincs kitöltve, akkor nem remote módban indul.
+
+Fontos megjegyezni, hogyha a *roaster.selenide.browser.device* kivan töltve, akkor chrome böngésző indul el, és a device-hoz beírt nevű eszközt emulálva próbál a chrome elindulni.
+Fontos ehhez a beállításhoz megjegyezni, hogy mivel az emulált eszköznek fix képernyő nagysága van, az lesz használva, ilyenkor nem veszi figyelembe a felbontási beállításokat.
+
+Fontos megjegyezni, hogyha a *roaster.selenide.browser.device.width* és *roaster.selenide.browser.device.height* ki van töltve akkor a böngésző nem lesz a képernyőhöz igazítva.
+
+== Használati példa
+
+[source,java]
+.GoogleIcellMobilsoftTest példa osztály
+----
+@Tag(TestSuiteGroup.SELENIDE)
+@Disabled("Only for testing!!!")
+public class GoogleIcellMobilsoftTest extends BaseSelenideTestCase {
+
+    @Test
+    @DisplayName("Search 'icellmobilsoft' word on Google.com")
+    @Disabled("Only for testing!!!")
+    public void testGoogleWithIcellmobilsoftSearch() {
+        // You don't have to use Selenide.open(<url>), it come from configuration, and do it automatically
+        SelenideElement qInput = Selenide.$("input[name='q']");
+        qInput.setValue("icellmobilsoft").pressEnter();
+
+        SelenideElement result = Selenide.$("div[id='search']");
+        ElementsCollection resultList = result.$$("div[class='g'] a[href='https://icellmobilsoft.hu/hu/'");
+        resultList.first().shouldHave(Condition.visible);
+    }
+}
+----
