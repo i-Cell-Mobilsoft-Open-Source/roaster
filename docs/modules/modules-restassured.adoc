@@ -107,6 +107,11 @@ valamint implementálni kell 2 String-et visszaadó metódust, hogy az endpoint-
 * `baseUriKey`: A Roaster konfigurációban használt kulcs, ami megadja az endpoint baseUri-jét
 * `path`: Az endpoint path. Pl.: http://localhost/foo/bar esetén: /foo/bar
 
+Opcionálisan az osztály többi metódusa is felülírható,
+hogy a request-et vagy a response foldolgozását személyre szabhassuk.
+Például a `createRequestSpecification` metódust felülírva
+módosíthatjuk a request header-öket, sütiket, stb.
+
 ==== Használata
 
 A `ResponseProcessor` implementáció `getJson`, `postJson`, `getXml`, `postXml` metódusait
@@ -125,15 +130,21 @@ public class ExampleQueryResponseProcessor extends ResponseProcessor<ExampleQuer
 
     @Override
     public String path() {
-        return "/example/query";
+        return "/example/foo/{id}";
     }
 
-    public ExampleQueryResponse queryWithJson(ExampleQueryRequest request) {
-        return getJson(request, ExampleQueryResponse.class);
+    @Override // Példa extra header hozzáadására
+    protected RequestSpecification createRequestSpecification(RequestSpecification initRequestSpecification) {
+        return super.createRequestSpecification(initRequestSpecification)
+                .header("Authorization", "Basic dXNlcjpwYXNz");
     }
 
-    public ExampleQueryResponse queryWithXml(ExampleQueryRequest request) {
-        return getXml(request, ExampleQueryResponse.class);
+    public ExampleQueryResponse queryWithJson(String id) {
+        return getJson(ExampleQueryResponse.class, id);
+    }
+
+    public ExampleQueryResponse queryWithXml(String id) {
+        return getXml(ExampleQueryResponse.class, id);
     }
 }
 ----

@@ -1,3 +1,22 @@
+/*-
+ * #%L
+ * Coffee
+ * %%
+ * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package hu.icellmobilsoft.roaster.restassured.response;
 
 import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
@@ -47,13 +66,15 @@ public abstract class ResponseProcessor<RESPONSE> {
      * 
      * @param responseClass
      *            response class
+     * @param pathParams
+     *            response class The path parameters. See {@link RequestSpecification#get(String, Object...)} pathParams.
      * @return response object casted to responseClass
      */
-    public RESPONSE getJson(Class<RESPONSE> responseClass) {
+    public RESPONSE getJson(Class<RESPONSE> responseClass, Object... pathParams) {
         // REST beallitasok
         RequestSpecification rSpec = createJsonRequestSpecification();
         // HTTP
-        Response response = rSpec.get(path());
+        Response response = rSpec.get(path(), pathParams);
         // response feldolgozas
         return toJsonResponse(response, responseClass);
     }
@@ -67,11 +88,13 @@ public abstract class ResponseProcessor<RESPONSE> {
      *            request DTO object
      * @param responseClass
      *            response class
+     * @param pathParams
+     *            response class The path parameters. See {@link RequestSpecification#post(String, Object...)} pathParams.
      * @return response object casted to responseClass
      */
-    public <REQUEST> RESPONSE postJson(REQUEST requestDto, Class<RESPONSE> responseClass) {
+    public <REQUEST> RESPONSE postJson(REQUEST requestDto, Class<RESPONSE> responseClass, Object... pathParams) {
         RequestSpecification rSpec = createJsonRequestSpecification().body(requestDto);
-        Response response = rSpec.post(path());
+        Response response = rSpec.post(path(), pathParams);
         return toJsonResponse(response, responseClass);
     }
 
@@ -80,13 +103,15 @@ public abstract class ResponseProcessor<RESPONSE> {
      * 
      * @param responseClass
      *            response class
+     * @param pathParams
+     *            response class The path parameters. See {@link RequestSpecification#get(String, Object...)} pathParams.
      * @return response object casted to responseClass
      */
-    public RESPONSE getXml(Class<RESPONSE> responseClass) {
+    public RESPONSE getXml(Class<RESPONSE> responseClass, Object... pathParams) {
         // REST beallitasok
         RequestSpecification rSpec = createXmlRequestSpecification();
         // HTTP
-        Response response = rSpec.get(path());
+        Response response = rSpec.get(path(), pathParams);
         // response feldolgozas
         return toXmlResponse(response, responseClass);
     }
@@ -100,11 +125,13 @@ public abstract class ResponseProcessor<RESPONSE> {
      *            request DTO object
      * @param responseClass
      *            response class
+     * @param pathParams
+     *            response class The path parameters. See {@link RequestSpecification#post(String, Object...)} pathParams.
      * @return response object casted to responseClass
      */
-    public <REQUEST> RESPONSE postXml(REQUEST requestDto, Class<RESPONSE> responseClass) {
+    public <REQUEST> RESPONSE postXml(REQUEST requestDto, Class<RESPONSE> responseClass, Object... pathParams) {
         RequestSpecification rSpec = createXmlRequestSpecification().body(requestDto);
-        Response response = rSpec.post(path());
+        Response response = rSpec.post(path(), pathParams);
         return toXmlResponse(response, responseClass);
     }
 
