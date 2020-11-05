@@ -1,0 +1,38 @@
+= API
+
+Az API modul használatához csak be kell hivatkozni a pom.xml-ben
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-api</artifactId>
+</dependency>
+----
+
+== API használata
+
+=== BaseBuilder
+
+A request builder-ek közös ősének van szánva ez az osztály.
+
+==== Példa implementáció
+
+[source,java]
+----
+public class ExampleQueryRequestBuilder extends BaseBuilder<ExampleQueryRequest> {
+
+    public Foo getFoo() {
+        if (getDto() == null) {
+            setDto(createEmpty());
+        }
+        return getDto().getFoo();
+    }
+
+    @Override
+    public ExampleQueryRequest createEmpty() {
+        return new ExampleQueryRequest();
+    }
+}
+----
