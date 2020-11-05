@@ -94,3 +94,57 @@ private RestAssuredConfig restAssuredConfig;
 * Kódolás UTF-8.
 * A request content-type és accept "application/xml".
 * A response HTTP status 200 és "application/xml" accept.
+
+
+=== ResponseProcessor
+
+==== Implementálása
+
+Egy adott endpoint tesztelésének segítésére született meg a `ResponseProcessor` absztrakt osztály.
+Leszármazástatáskor meg kell adni a Response típusát generikus paraméterben,
+valamint implementálni kell 2 String-et visszaadó metódust, hogy az endpoint-ot azonosítsuk:
+
+* `baseUriKey`: A Roaster konfigurációban használt kulcs, ami megadja az endpoint baseUri-jét
+* `path`: Az endpoint path. Pl.: http://localhost/foo/bar esetén: /foo/bar
+
+Opcionálisan az osztály többi metódusa is felülírható,
+hogy a request-et vagy a response foldolgozását személyre szabhassuk.
+Például a `createRequestSpecification` metódust felülírva
+módosíthatjuk a request header-öket, sütiket, stb.
+
+==== Használata
+
+A `ResponseProcessor` implementáció `getJson`, `postJson`, `getXml`, `postXml` metódusait
+használva tudjuk meghívni az endpoint-ot és automatán parse-olni a választ.
+
+==== Példa
+
+[source,java]
+----
+public class ExampleQueryResponseProcessor extends ResponseProcessor<ExampleQueryResponse> {
+
+    @Override
+    public String baseUriKey() {
+        return "example-project.example-service.url"; // értéke pl.: http://localhost:8080
+    }
+
+    @Override
+    public String path() {
+        return "/example/foo/{id}";
+    }
+
+    @Override // Példa extra header hozzáadására
+    protected RequestSpecification createRequestSpecification(RequestSpecification initRequestSpecification) {
+        return super.createRequestSpecification(initRequestSpecification)
+                .header("Authorization", "Basic dXNlcjpwYXNz");
+    }
+
+    public ExampleQueryResponse queryWithJson(String id) {
+        return getJson(ExampleQueryResponse.class, id);
+    }
+
+    public ExampleQueryResponse queryWithXml(String id) {
+        return getXml(ExampleQueryResponse.class, id);
+    }
+}
+----
