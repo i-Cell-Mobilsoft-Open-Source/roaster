@@ -1,0 +1,169 @@
+= Hibernate
+
+A Hibernate modul használatához első sorban be kell hivatkozni a pom.xml-ben a következő függőséget:
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-hibernate</artifactId>
+</dependency>
+----
+
+Ezen kívül szükséges még hozzá a megfelelő jdbc driver hozzáadása, mely felhasználási helyenként eltérhet.
+Javasolt a következők használata:
+
+[source,xml]
+.pom.xml Oracle19 esetén
+----
+
+        <dependency>
+            <groupId>com.oracle.ojdbc</groupId>
+            <artifactId>ojdbc10</artifactId>
+            <version>19.3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.ojdbc</groupId>
+            <artifactId>orai18n</artifactId>
+            <version>19.3.0.0</version>
+        </dependency>
+
+----
+
+[source,xml]
+.pom.xml Mysql esetén
+----
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.22</version>
+        </dependency>
+
+----
+
+[source,xml]
+.pom.xml H2 esetén
+----
+        <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+        </dependency>
+
+----
+
+
+[source,xml]
+.pom.xml H2 esetén
+----
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>42.2.18</version>
+        </dependency>
+
+----
+
+Ezen kívül a következő konfigurációkat kell elvégezni:
+
+== Selenide Konfigurációs paraméterek
+
+A microprofile-config segítségével paraméterezhetőek a Selenide valamint a WebDriver paraméterei.
+
+Példák:
+
+[source,xml]
+.META-INF/persistence.xml
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <persistence-unit name="myPu" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <mapping-file>META-INF/jpa-entity.xml</mapping-file>
+                <properties>
+
+                    <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+                    <property name="javax.persistence.jdbc.url"
+                              value="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XE)))"/>
+                    <property name="javax.persistence.jdbc.user" value="username"/>
+                    <property name="javax.persistence.jdbc.password" value="password"/>
+
+                    <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect" />
+
+                    <property name="hibernate.id.new_generator_mappings" value="false"/>
+                    <property name="hibernate.show_sql" value="true"/>
+                    <property name="hibernate.format_sql" value="true"/>
+                    <property name="hibernate.hibernate.use_sql_comments" value="true"/>
+                    <property name="hibernate.session.events.log" value="true"/>
+                </properties>
+
+    </persistence-unit>
+</persistence>
+
+----
+
+[TIP]
+Amire nagyon ügyelni kell, hogy persistence-unit tagen belül a name property *myPu* legyen!
+Valamint a transaction-type property pedig *RESOURCE_LOCAL*.
+
+Ezen kívül minden megadható a properties-en belül, amihez nincs szükség JNDI névfeloldáshoz vagy EJB-hez, mivel RESOURCE_LOCAL-ként kezelődik a persistence-unit.
+
+A hibernate beállításain túl szükséges még megadni a JPA Entitásokat is, ami történhet külön fájlban, vagy a persistence.xml-ben <class> tagek segítségével.
+
+[TIP]
+persistence.xml beállításhoz egyszerű leírás itt található: https://vladmihalcea.com/jpa-persistence-xml/
+
+== Használati példa
+
+[source,java]
+.HibernateTest példa osztály
+----
+public class HibernateTest extends BaseWeldUnitType {
+
+    @Inject
+    private EntityManager entityManager;
+
+    @Test
+    public void testEntityManager() {
+        Assertions.assertNotNull(entityManager);
+    }
+
+}
+----
+
+Ezen kívül az injectelt EntityManager teljeskörűen használható:
+
+[source,java]
+.EntityManager használata egy tesztben
+----
+
+    @Inject
+    private EntityManager entityManager;
+
+    @Test
+    public void testEntityManager() {
+        Assertions.assertNotNull(entityManager);
+
+        User user = entityManager.find(User.class,"FD34123");
+        Assertions.assertNotNull(user);
+
+        // Oracle kapcsolati példa Natív query-re
+        Query query = entityManager.createNativeQuery("SELECT * FROM v$version WHERE banner LIKE 'Oracle%';");
+        Assertions.assertNotNull(query.getSingleResult());
+
+    }
+
+}
+----
+
+
