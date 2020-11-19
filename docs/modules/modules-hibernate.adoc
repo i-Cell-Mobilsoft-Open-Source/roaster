@@ -57,7 +57,7 @@ Javasolt a következők használata:
 
 
 [source,xml]
-.pom.xml H2 esetén
+.pom.xml PostgreSQL esetén
 ----
         <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
@@ -70,9 +70,9 @@ Javasolt a következők használata:
 
 Ezen kívül a következő konfigurációkat kell elvégezni:
 
-== Selenide Konfigurációs paraméterek
+== Hibernate Konfigurációs paraméterek
 
-A microprofile-config segítségével paraméterezhetőek a Selenide valamint a WebDriver paraméterei.
+A hibernate használatához projekt szinten szükséges létrehozni a resource-ok közt a META-INF mappában a persistence.xml-t.
 
 Példák:
 
@@ -118,7 +118,7 @@ Valamint a transaction-type property pedig *RESOURCE_LOCAL*.
 
 Ezen kívül minden megadható a properties-en belül, amihez nincs szükség JNDI névfeloldáshoz vagy EJB-hez, mivel RESOURCE_LOCAL-ként kezelődik a persistence-unit.
 
-A hibernate beállításain túl szükséges még megadni a JPA Entitásokat is, ami történhet külön fájlban, vagy a persistence.xml-ben <class> tagek segítségével.
+A hibernate beállításain túl, szükséges még megadni a JPA Entitásokat is, ami történhet külön fájlban vagy a persistence.xml-ben.
 
 [TIP]
 persistence.xml beállításhoz egyszerű leírás itt található: https://vladmihalcea.com/jpa-persistence-xml/
