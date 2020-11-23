@@ -27,8 +27,8 @@
 		<module>roaster-selenide</module>
 		<module>roaster-weldunit</module>
 		<module>roaster-tm4j</module>
-        <module>roaster-hibernate</module>
-    </modules>
+		<module>roaster-hibernate</module>
+	</modules>
 
 	<properties>
 		<project.scm.id>icell-github-server</project.scm.id>

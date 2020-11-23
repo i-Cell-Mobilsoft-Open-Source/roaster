@@ -27,14 +27,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.spi.CDI;
+import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.hibernate.cfg.Environment;
+
+import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.se.logging.Logger;
+import hu.icellmobilsoft.coffee.tool.utils.annotation.AnnotationUtil;
+import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig;
+import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
 
 /**
  * Producer for creating or obtaining {@link EntityManagerFactory} from myPu persistenceUnit from META-INF/persistence.xml
@@ -45,20 +55,60 @@ import org.hibernate.cfg.Environment;
 @ApplicationScoped
 public class EntityManagerFactoryProducer {
 
+    private final Logger logger = Logger.getLogger(EntityManagerFactoryProducer.class);
+
     @Inject
     private BeanManager beanManager;
 
     /**
      * Producer for creating or obtaining {@link EntityManagerFactory}
      *
+     * @param injectionPoint
+     *            CDI injection point
      * @return {@link EntityManagerFactory} instance
+     * 
+     * @throws BaseException
+     *             exception
      */
     @Produces
-    @ApplicationScoped
-    public EntityManagerFactory produceEntityManagerFactory() {
+    @Dependent
+    @HibernatePersistenceConfig(configKey = "")
+    public EntityManagerFactory produceEntityManagerFactory(InjectionPoint injectionPoint) throws BaseException {
+
+        HibernatePersistenceConfig hibernatePersistenceConfig = AnnotationUtil.getAnnotation(injectionPoint, HibernatePersistenceConfig.class)
+                .orElseThrow(() -> new BaseException(CoffeeFaultType.INVALID_INPUT, "PersisteneUnitName annotation have to have configKey value!"));
+        HibernateConfig hibernateConfig = CDI.current()
+                .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(hibernatePersistenceConfig.configKey())).get();
+
         Map<String, Object> props = new HashMap<>();
+
+        // Set CDI Bean manager
         props.put(Environment.CDI_BEAN_MANAGER, beanManager);
-        return Persistence.createEntityManagerFactory("myPu", props);
+
+        // Statistics, warning, logs
+        props.put(Environment.LOG_SESSION_METRICS, true);
+        props.put(Environment.LOG_JDBC_WARNINGS, true);
+        props.put(Environment.GENERATE_STATISTICS, true);
+
+        // JPA use in JAVA SE
+        props.put(Environment.JPA_TRANSACTION_TYPE, "RESOURCE_LOCAL");
+        props.put(Environment.JPA_PERSISTENCE_PROVIDER, "org.hibernate.jpa.HibernatePersistenceProvider");
+
+        //
+        props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false);
+
+        // Set settings from Roaster config
+        props.put(Environment.DIALECT, hibernateConfig.getDialect());
+        props.put(Environment.POOL_SIZE, hibernateConfig.getPooSize());
+        props.put(Environment.SHOW_SQL, hibernateConfig.getShowSql());
+        props.put(Environment.FORMAT_SQL, hibernateConfig.getFormatSql());
+        props.put(Environment.DEFAULT_SCHEMA, hibernateConfig.getDefaultSchema());
+        props.put(Environment.JPA_JDBC_URL, hibernateConfig.getJpaJdbcUrl());
+        props.put(Environment.JPA_JDBC_USER, hibernateConfig.getJpaJdbcUser());
+        props.put(Environment.JPA_JDBC_PASSWORD, hibernateConfig.getJpaJdbcPassword());
+        props.put(Environment.JPA_JDBC_DRIVER, hibernateConfig.getJpaJdbcDriver());
+
+        return Persistence.createEntityManagerFactory(hibernatePersistenceConfig.configKey(), props);
     }
 
     /**
@@ -67,7 +117,9 @@ public class EntityManagerFactoryProducer {
      * @param entityManagerFactory
      *            instance
      */
-    public void close(@Disposes EntityManagerFactory entityManagerFactory) {
-        entityManagerFactory.close();
+    public void close(@Disposes @HibernatePersistenceConfig(configKey = "") EntityManagerFactory entityManagerFactory) {
+        if (entityManagerFactory != null) {
+            logger.trace("Closing EntityManagerFactory...");
+        }
     }
 }

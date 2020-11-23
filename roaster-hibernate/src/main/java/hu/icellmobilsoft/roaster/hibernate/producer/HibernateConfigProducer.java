@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,71 +17,49 @@
  * limitations under the License.
  * #L%
  */
-/*
- * License: Apache License, Version 2.0
- * See the LICENSE file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
- */
 package hu.icellmobilsoft.roaster.hibernate.producer;
 
 import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.InjectionPoint;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
-import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.coffee.tool.utils.annotation.AnnotationUtil;
 import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig;
+import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
 
 /**
- * Producer for creating or obtaining {@link EntityManager}
- * 
- * @since 0.2.0
+ * Producer for creating HibernateConfigImpl
+ *
  * @author speter555
  */
 @ApplicationScoped
-public class EntityManagerProducer {
-
-    private final Logger logger = Logger.getLogger(EntityManagerProducer.class);
+public class HibernateConfigProducer {
 
     /**
-     * Producer for creating or obtaining {@link EntityManager}
-     *
+     * Creates HibernateConfigImpl for the injected configKey
+     * 
      * @param injectionPoint
      *            CDI injection point
-     * @return {@link EntityManager} instance
-     * 
+     * @return created class
      * @throws BaseException
      *             exception
      */
     @Produces
     @Dependent
     @HibernatePersistenceConfig(configKey = "")
-    public EntityManager produceEntityManager(InjectionPoint injectionPoint) throws BaseException {
+    public HibernateConfig getDBConfig(InjectionPoint injectionPoint) throws BaseException {
         Optional<HibernatePersistenceConfig> annotation = AnnotationUtil.getAnnotation(injectionPoint, HibernatePersistenceConfig.class);
-        HibernatePersistenceConfig hibernatePersistenceConfig = annotation
-                .orElseThrow(() -> new BaseException(CoffeeFaultType.INVALID_INPUT, "PersisteneUnitName annotation have to have configKey value!"));
-        EntityManagerFactory emf = CDI.current().select(EntityManagerFactory.class, hibernatePersistenceConfig).get();
-        return emf.createEntityManager();
-    }
-
-    /**
-     * Close EntityManager instance
-     *
-     * @param entityManager
-     *            instance
-     */
-    public void close(@Disposes @HibernatePersistenceConfig(configKey = "") EntityManager entityManager) {
-        if (entityManager != null) {
-            logger.trace("Closing EntityManager...");
-        }
+        String configKey = annotation.map(HibernatePersistenceConfig::configKey)
+                .orElseThrow(() -> new BaseException(CoffeeFaultType.INVALID_INPUT, "configKey value not found!"));
+        HibernateConfig hibernateConfig = CDI.current().select(HibernateConfig.class).get();
+        hibernateConfig.setConfigKey(configKey);
+        return hibernateConfig;
     }
 
 }
