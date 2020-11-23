@@ -19,8 +19,6 @@
  */
 package hu.icellmobilsoft.roaster.hibernate.config;
 
-import org.hibernate.cfg.Environment;
-
 /**
  * Configuration for hibernate config
  * 
@@ -37,63 +35,63 @@ public interface HibernateConfig {
     void setConfigKey(String configKey);
 
     /**
-     * {@link Environment.DIALECT} setting
+     * 'hibernate.dialect' setting
      * 
      * @return settings value
      */
     String getDialect();
 
     /**
-     * {@link Environment.POOL_SIZE} setting
+     * 'hibernate.connection.pool_size' setting
      * 
      * @return settings value
      */
     String getPooSize();
 
     /**
-     * {@link Environment.SHOW_SQL} setting
+     * 'hibernate.show_sql' setting
      * 
      * @return settings value
      */
     String getShowSql();
 
     /**
-     * {@link Environment.FORMAT_SQL} setting
+     * 'hibernate.format_sql' setting
      * 
      * @return settings value
      */
     String getFormatSql();
 
     /**
-     * {@link Environment.DEFAULT_SCHEMA} setting
+     * 'hibernate.default_schema' setting
      * 
      * @return settings value
      */
     String getDefaultSchema();
 
     /**
-     * {@link Environment.JPA_JDBC_URL} setting
+     * 'javax.persistence.jdbc.url' setting
      * 
      * @return settings value
      */
     String getJpaJdbcUrl();
 
     /**
-     * {@link Environment.JPA_JDBC_USER} setting
+     * 'javax.persistence.jdbc.user' setting
      * 
      * @return settings value
      */
     String getJpaJdbcUser();
 
     /**
-     * {@link Environment.JPA_JDBC_PASSWORD} setting
+     * 'javax.persistence.jdbc.password' setting
      * 
      * @return settings value
      */
     String getJpaJdbcPassword();
 
     /**
-     * {@link Environment.JPA_JDBC_DRIVER} setting
+     * 'javax.persistence.jdbc.driver' setting
      * 
      * @return settings value
      */
