@@ -28,15 +28,20 @@ import javax.enterprise.util.AnnotationLiteral;
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
+/**
+ * Qualifier for set ConfigKey for setup Hibernate over EntityManager
+ *
+ * @author speter555
+ */
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE })
 public @interface HibernatePersistenceConfig {
     /**
-     * @return the name of the persistence unit what is the configKey too
+     * @return the name of the persistence unit
      */
     @Nonbinding
-    String configKey();
+    String persistenceUnitName();
 
     /**
      * Supports inline instantiation of the {@link HibernatePersistenceConfig} qualifier.
@@ -47,15 +52,15 @@ public @interface HibernatePersistenceConfig {
 
         private static final long serialVersionUID = 1L;
 
-        private final String configKey;
+        private final String persistenceUnitName;
 
-        public Literal(String configKey) {
-            this.configKey = configKey;
+        public Literal(String persistenceUnitName) {
+            this.persistenceUnitName = persistenceUnitName;
         }
 
         @Nonbinding
-        public String configKey() {
-            return configKey;
+        public String persistenceUnitName() {
+            return persistenceUnitName;
         }
 
     }

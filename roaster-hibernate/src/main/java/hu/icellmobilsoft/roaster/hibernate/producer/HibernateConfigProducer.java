@@ -52,10 +52,10 @@ public class HibernateConfigProducer {
      */
     @Produces
     @Dependent
-    @HibernatePersistenceConfig(configKey = "")
+    @HibernatePersistenceConfig(persistenceUnitName = "")
     public HibernateConfig getDBConfig(InjectionPoint injectionPoint) throws BaseException {
         Optional<HibernatePersistenceConfig> annotation = AnnotationUtil.getAnnotation(injectionPoint, HibernatePersistenceConfig.class);
-        String configKey = annotation.map(HibernatePersistenceConfig::configKey)
+        String configKey = annotation.map(HibernatePersistenceConfig::persistenceUnitName)
                 .orElseThrow(() -> new BaseException(CoffeeFaultType.INVALID_INPUT, "configKey value not found!"));
         HibernateConfig hibernateConfig = CDI.current().select(HibernateConfig.class).get();
         hibernateConfig.setConfigKey(configKey);

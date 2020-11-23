@@ -63,7 +63,7 @@ public class EntityManagerProducer {
      */
     @Produces
     @Dependent
-    @HibernatePersistenceConfig(configKey = "")
+    @HibernatePersistenceConfig(persistenceUnitName = "")
     public EntityManager produceEntityManager(InjectionPoint injectionPoint) throws BaseException {
         Optional<HibernatePersistenceConfig> annotation = AnnotationUtil.getAnnotation(injectionPoint, HibernatePersistenceConfig.class);
         HibernatePersistenceConfig hibernatePersistenceConfig = annotation
@@ -78,7 +78,7 @@ public class EntityManagerProducer {
      * @param entityManager
      *            instance
      */
-    public void close(@Disposes @HibernatePersistenceConfig(configKey = "") EntityManager entityManager) {
+    public void close(@Disposes @HibernatePersistenceConfig(persistenceUnitName = "") EntityManager entityManager) {
         if (entityManager != null) {
             logger.trace("Closing EntityManager...");
         }

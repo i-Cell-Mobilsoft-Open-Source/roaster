@@ -28,9 +28,45 @@ import org.eclipse.microprofile.config.Config;
 
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 
+
 /**
- * Hibernate configuration from roaster-*.yml under roaster.hibernate key.
- * 
+ * Helper class for obtaining Hibernate DB connection settings using microprofile config.<br>
+ * General pattern is "{@code roaster.hibernate.${persistenceUnitName}.${setting}}
+ * <p>
+ * ie.:
+ *
+ * <pre>
+ *  roaster:
+ *   hibernate:
+ *     myPersistenceUnitName:
+ *       jdbc:
+ *         driver: oracle.jdbc.OracleDriver
+ *         url: jdbc:oracle:thin:@//localhost:1521/XE
+ *         user: db_username
+ *         password: *****
+ *       hibernate:
+ *         default_schema: user_schema
+ *         dialect: org.hibernate.dialect.Oracle12cDialect
+ *         show_sql: true
+ *         format_sql: true
+ * </pre>
+ * <p>
+ * The upper configuration is injectable with:
+ *
+ * <pre>
+ * &#64;Inject
+ * &#64;HibernatePersistenceConfig(persistenceUnitName = "myPersistenceUnitNam")
+ * HibernateConfig hibernateConfig;
+ * </pre>
+ * <p>
+ *
+ * or:
+ *
+ * <pre>
+ * HibernateConfig hibernateConfig = CDI.current().select(HibernateConfig.class, new HibernatePersistenceConfig.Literal("myPersistenceUnitNam"))
+ *         .get();
+ * </pre>
+ *
  * @author speter555
  */
 @Dependent

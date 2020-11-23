@@ -72,13 +72,13 @@ public class EntityManagerFactoryProducer {
      */
     @Produces
     @Dependent
-    @HibernatePersistenceConfig(configKey = "")
+    @HibernatePersistenceConfig(persistenceUnitName = "")
     public EntityManagerFactory produceEntityManagerFactory(InjectionPoint injectionPoint) throws BaseException {
 
         HibernatePersistenceConfig hibernatePersistenceConfig = AnnotationUtil.getAnnotation(injectionPoint, HibernatePersistenceConfig.class)
                 .orElseThrow(() -> new BaseException(CoffeeFaultType.INVALID_INPUT, "PersisteneUnitName annotation have to have configKey value!"));
         HibernateConfig hibernateConfig = CDI.current()
-                .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(hibernatePersistenceConfig.configKey())).get();
+                .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(hibernatePersistenceConfig.persistenceUnitName())).get();
 
         Map<String, Object> props = new HashMap<>();
 
@@ -108,7 +108,7 @@ public class EntityManagerFactoryProducer {
         props.put(Environment.JPA_JDBC_PASSWORD, hibernateConfig.getJpaJdbcPassword());
         props.put(Environment.JPA_JDBC_DRIVER, hibernateConfig.getJpaJdbcDriver());
 
-        return Persistence.createEntityManagerFactory(hibernatePersistenceConfig.configKey(), props);
+        return Persistence.createEntityManagerFactory(hibernatePersistenceConfig.persistenceUnitName(), props);
     }
 
     /**
@@ -117,7 +117,7 @@ public class EntityManagerFactoryProducer {
      * @param entityManagerFactory
      *            instance
      */
-    public void close(@Disposes @HibernatePersistenceConfig(configKey = "") EntityManagerFactory entityManagerFactory) {
+    public void close(@Disposes @HibernatePersistenceConfig(persistenceUnitName = "") EntityManagerFactory entityManagerFactory) {
         if (entityManagerFactory != null) {
             logger.trace("Closing EntityManagerFactory...");
         }

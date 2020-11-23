@@ -86,42 +86,53 @@ Példák:
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 
-    <persistence-unit name="myPu" transaction-type="RESOURCE_LOCAL">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-
+    <persistence-unit name="myPersistenceUnitName">
         <mapping-file>META-INF/jpa-entity.xml</mapping-file>
-                <properties>
-
-                    <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
-                    <property name="javax.persistence.jdbc.url"
-                              value="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=XE)))"/>
-                    <property name="javax.persistence.jdbc.user" value="username"/>
-                    <property name="javax.persistence.jdbc.password" value="password"/>
-
-                    <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect" />
-
-                    <property name="hibernate.id.new_generator_mappings" value="false"/>
-                    <property name="hibernate.show_sql" value="true"/>
-                    <property name="hibernate.format_sql" value="true"/>
-                    <property name="hibernate.hibernate.use_sql_comments" value="true"/>
-                    <property name="hibernate.session.events.log" value="true"/>
-                </properties>
-
     </persistence-unit>
 </persistence>
 
 ----
 
 [TIP]
-Amire nagyon ügyelni kell, hogy persistence-unit tagen belül a name property *myPu* legyen!
-Valamint a transaction-type property pedig *RESOURCE_LOCAL*.
+A persistence.xml-be szükséges megadni az entitásokat mindenképpen!
+További egyedi beállításhoz egyszerű leírás itt található: https://vladmihalcea.com/jpa-persistence-xml/
+Azok a beállítások kivételek amik microprofile-config segítségével állíthatók be lentebb!!!
 
-Ezen kívül minden megadható a properties-en belül, amihez nincs szükség JNDI névfeloldáshoz vagy EJB-hez, mivel RESOURCE_LOCAL-ként kezelődik a persistence-unit.
+A microprofile-config segítségével paraméterezhetőek a Hibernate beállítási adatok.
 
-A hibernate beállításain túl, szükséges még megadni a JPA Entitásokat is, ami történhet külön fájlban vagy a persistence.xml-ben.
+Példák:
 
-[TIP]
-persistence.xml beállításhoz egyszerű leírás itt található: https://vladmihalcea.com/jpa-persistence-xml/
+[source,properties]
+.META-INF/microprofile-config.properties
+----
+roaster.hibernate.myPersistenceUnitName.jdbc.driver=oracle.jdbc.OracleDriver
+roaster.hibernate.myPersistenceUnitName.jdbc.url=jdbc:oracle:thin:@//localhost:1521/XE
+roaster.hibernate.myPersistenceUnitName.jdbc.user=db_username
+roaster.hibernate.myPersistenceUnitName.jdbc.password=*****
+roaster.hibernate.myPersistenceUnitName.hibernate.default_schema=user_schema
+roaster.hibernate.myPersistenceUnitName.hibernate.dialect=org.hibernate.dialect.Oracle12cDialect
+roaster.hibernate.myPersistenceUnitName.hibernate.show_sql=true
+roaster.hibernate.myPersistenceUnitName.hibernate.format_sql=true
+----
+
+[source,yml]
+.META-INF/roaster-defaults.yml
+----
+  roaster:
+    hibernate:
+      myPersistenceUnitName:
+        jdbc:
+          driver: oracle.jdbc.OracleDriver
+          url: jdbc:oracle:thin:@//localhost:1521/XE
+          user: db_username
+          password: *****
+        hibernate:
+          default_schema: user_schema
+          dialect: org.hibernate.dialect.Oracle12cDialect
+          show_sql: true
+          format_sql: true
+
+----
 
 == Használati példa
 
@@ -131,11 +142,21 @@ persistence.xml beállításhoz egyszerű leírás itt található: https://vlad
 public class HibernateTest extends BaseWeldUnitType {
 
     @Inject
-    private EntityManager entityManager;
+    @HibernatePersistenceConfig(configKey = "myPersistenceUnitName")
+    private EntityManager userEntityManager;
+
+    @Inject
+    @HibernatePersistenceConfig(configKey = "otherPu")
+    private EntityManager otherEntityManager;
 
     @Test
     public void testEntityManager() {
-        Assertions.assertNotNull(entityManager);
+        Assertions.assertNotNull(userEntityManager);
+        SecurityUser securityUser = userEntityManager.find(SecurityUser.class, "0");
+        Assertions.assertNotNull(securityUser);
+        Assertions.assertNotNull(otherEntityManager);
+        OtherEntity other = userEntityManager.find(OtherEntity.class, "0");
+        Assertions.assertNotNull(other);
     }
 
 }
@@ -157,10 +178,23 @@ Ezen kívül az injectelt EntityManager teljeskörűen használható:
         User user = entityManager.find(User.class,"FD34123");
         Assertions.assertNotNull(user);
 
-        // Oracle kapcsolati példa Natív query-re
-        Query query = entityManager.createNativeQuery("SELECT * FROM v$version WHERE banner LIKE 'Oracle%';");
-        Assertions.assertNotNull(query.getSingleResult());
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+        Root<User> root = criteriaQuery.from(User.class);
+        criteriaQuery.select(root);
+        List<Order> os = new ArrayList<>();
+        os.add(builder.asc(root.get(User_.creationDate)));
+        criteriaQuery.orderBy(os);
+        TypedQuery<User> query = entityManager.createQuery(criteriaQuery);
+        List<User> resultList = query.getResultList();
+        // Assertions resultList
 
+        CriteriaQuery<Long> countCriteriaQuery = builder.createQuery(Long.class);
+        Root<User> countRoot = countCriteriaQuery.from(User.class);
+        countCriteriaQuery.select(builder.count(countRoot));
+        TypedQuery<Long> countQuery = entityManager.createQuery(countCriteriaQuery);
+        Long count = countQuery.getSingleResult();
+        // Assertions count
     }
 
 }
