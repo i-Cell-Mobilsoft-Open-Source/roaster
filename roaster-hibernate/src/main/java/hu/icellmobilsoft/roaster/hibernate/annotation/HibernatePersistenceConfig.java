@@ -28,6 +28,8 @@ import javax.enterprise.util.AnnotationLiteral;
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
+import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
+
 /**
  * Qualifier for set ConfigKey for setup Hibernate over EntityManager
  *
@@ -41,7 +43,7 @@ public @interface HibernatePersistenceConfig {
      * @return the name of the persistence unit
      */
     @Nonbinding
-    String persistenceUnitName();
+    String persistenceUnitName() default HibernateConfig.DEFAULT_PERSISTENCE_UNIT_NAME;
 
     /**
      * Supports inline instantiation of the {@link HibernatePersistenceConfig} qualifier.

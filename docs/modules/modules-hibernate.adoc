@@ -73,6 +73,7 @@ Ezen kívül a következő konfigurációkat kell elvégezni:
 == Hibernate Konfigurációs paraméterek
 
 A hibernate használatához projekt szinten szükséges létrehozni a resource-ok közt a META-INF mappában a persistence.xml-t.
+Ha a *defaultPU* névvel van létrehozva (ahogy a példában), akkor az EntityManager extra annotáció nélkül inject-telhető.
 
 Példák:
 
@@ -86,7 +87,7 @@ Példák:
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 
-    <persistence-unit name="myPersistenceUnitName">
+    <persistence-unit name="defaultPU">
         <mapping-file>META-INF/jpa-entity.xml</mapping-file>
     </persistence-unit>
 </persistence>
@@ -96,23 +97,24 @@ Példák:
 [TIP]
 A persistence.xml-be szükséges megadni az entitásokat mindenképpen!
 További egyedi beállításhoz egyszerű leírás itt található: https://vladmihalcea.com/jpa-persistence-xml/
-Azok a beállítások kivételek amik microprofile-config segítségével állíthatók be lentebb!!!
+Ami a microprofile-config-on keresztül megadásra kerül azok lesznek használva, felülírva a persistence.xml -ben lévő azonos property-ket.
+Ha egy adott rész nincs a microprofile-config-on beállítva, de a persistence.xml-ben igen, akkor a megadottak lesznek érvényesek.
 
-A microprofile-config segítségével paraméterezhetőek a Hibernate beállítási adatok.
+A microprofile-config segítségével paraméterezhetőek a Hibernate beállítási adatok:
 
 Példák:
 
 [source,properties]
 .META-INF/microprofile-config.properties
 ----
-roaster.hibernate.myPersistenceUnitName.jdbc.driver=oracle.jdbc.OracleDriver
-roaster.hibernate.myPersistenceUnitName.jdbc.url=jdbc:oracle:thin:@//localhost:1521/XE
-roaster.hibernate.myPersistenceUnitName.jdbc.user=db_username
-roaster.hibernate.myPersistenceUnitName.jdbc.password=*****
-roaster.hibernate.myPersistenceUnitName.hibernate.default_schema=user_schema
-roaster.hibernate.myPersistenceUnitName.hibernate.dialect=org.hibernate.dialect.Oracle12cDialect
-roaster.hibernate.myPersistenceUnitName.hibernate.show_sql=true
-roaster.hibernate.myPersistenceUnitName.hibernate.format_sql=true
+roaster.hibernate.defaultPU.jdbc.driver=oracle.jdbc.OracleDriver
+roaster.hibernate.defaultPU.jdbc.url=jdbc:oracle:thin:@//localhost:1521/XE
+roaster.hibernate.defaultPU.jdbc.user=db_username
+roaster.hibernate.defaultPU.jdbc.password=*****
+roaster.hibernate.defaultPU.hibernate.default_schema=user_schema
+roaster.hibernate.defaultPU.hibernate.dialect=org.hibernate.dialect.Oracle12cDialect
+roaster.hibernate.defaultPU.hibernate.show_sql=true
+roaster.hibernate.defaultPU.hibernate.format_sql=true
 ----
 
 [source,yml]
@@ -120,7 +122,7 @@ roaster.hibernate.myPersistenceUnitName.hibernate.format_sql=true
 ----
   roaster:
     hibernate:
-      myPersistenceUnitName:
+      defaultPU:
         jdbc:
           driver: oracle.jdbc.OracleDriver
           url: jdbc:oracle:thin:@//localhost:1521/XE
@@ -142,11 +144,11 @@ roaster.hibernate.myPersistenceUnitName.hibernate.format_sql=true
 public class HibernateTest extends BaseWeldUnitType {
 
     @Inject
-    @HibernatePersistenceConfig(configKey = "myPersistenceUnitName")
+    // A háttérben ez érvényesedik: @HibernatePersistenceConfig(persistenceUnitName = "defaultPU")
     private EntityManager userEntityManager;
 
     @Inject
-    @HibernatePersistenceConfig(configKey = "otherPu")
+    @HibernatePersistenceConfig(persistenceUnitName = "otherPu")
     private EntityManager otherEntityManager;
 
     @Test
@@ -159,45 +161,32 @@ public class HibernateTest extends BaseWeldUnitType {
         Assertions.assertNotNull(other);
     }
 
-}
-----
-
-Ezen kívül az injectelt EntityManager teljeskörűen használható:
-
-[source,java]
-.EntityManager használata egy tesztben
-----
-
-    @Inject
-    private EntityManager entityManager;
 
     @Test
-    public void testEntityManager() {
-        Assertions.assertNotNull(entityManager);
+    public void testUseEntityManager() {
+        Assertions.assertNotNull(userEntityManager);
 
-        User user = entityManager.find(User.class,"FD34123");
+        User user = userEntityManager.find(User.class,"FD34123");
         Assertions.assertNotNull(user);
 
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaBuilder builder = userEntityManager.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
         Root<User> root = criteriaQuery.from(User.class);
         criteriaQuery.select(root);
         List<Order> os = new ArrayList<>();
         os.add(builder.asc(root.get(User_.creationDate)));
         criteriaQuery.orderBy(os);
-        TypedQuery<User> query = entityManager.createQuery(criteriaQuery);
+        TypedQuery<User> query = userEntityManager.createQuery(criteriaQuery);
         List<User> resultList = query.getResultList();
         // Assertions resultList
 
         CriteriaQuery<Long> countCriteriaQuery = builder.createQuery(Long.class);
         Root<User> countRoot = countCriteriaQuery.from(User.class);
         countCriteriaQuery.select(builder.count(countRoot));
-        TypedQuery<Long> countQuery = entityManager.createQuery(countCriteriaQuery);
+        TypedQuery<Long> countQuery = userEntityManager.createQuery(countCriteriaQuery);
         Long count = countQuery.getSingleResult();
         // Assertions count
     }
 
 }
 ----
-
-

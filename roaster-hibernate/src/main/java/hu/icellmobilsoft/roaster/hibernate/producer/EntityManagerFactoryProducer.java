@@ -25,6 +25,7 @@ package hu.icellmobilsoft.roaster.hibernate.producer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
@@ -66,13 +67,29 @@ public class EntityManagerFactoryProducer {
      * @param injectionPoint
      *            CDI injection point
      * @return {@link EntityManagerFactory} instance
+     */
+    @Produces
+    @Dependent
+    public EntityManagerFactory produceDefaultEntityManagerFactory(InjectionPoint injectionPoint) {
+        HibernateConfig hibernateConfig = CDI.current()
+                .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(HibernateConfig.DEFAULT_PERSISTENCE_UNIT_NAME)).get();
+
+        return getEntityManagerFactory(hibernateConfig);
+    }
+
+    /**
+     * Producer for creating or obtaining {@link EntityManagerFactory}
+     *
+     * @param injectionPoint
+     *            CDI injection point
+     * @return {@link EntityManagerFactory} instance
      * 
      * @throws BaseException
      *             exception
      */
     @Produces
     @Dependent
-    @HibernatePersistenceConfig(persistenceUnitName = "")
+    @HibernatePersistenceConfig
     public EntityManagerFactory produceEntityManagerFactory(InjectionPoint injectionPoint) throws BaseException {
 
         HibernatePersistenceConfig hibernatePersistenceConfig = AnnotationUtil.getAnnotation(injectionPoint, HibernatePersistenceConfig.class)
@@ -80,6 +97,10 @@ public class EntityManagerFactoryProducer {
         HibernateConfig hibernateConfig = CDI.current()
                 .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(hibernatePersistenceConfig.persistenceUnitName())).get();
 
+        return getEntityManagerFactory(hibernateConfig);
+    }
+
+    private EntityManagerFactory getEntityManagerFactory(HibernateConfig hibernateConfig) {
         Map<String, Object> props = new HashMap<>();
 
         // Set CDI Bean manager
@@ -108,7 +129,10 @@ public class EntityManagerFactoryProducer {
         props.put(Environment.JPA_JDBC_PASSWORD, hibernateConfig.getJpaJdbcPassword());
         props.put(Environment.JPA_JDBC_DRIVER, hibernateConfig.getJpaJdbcDriver());
 
-        return Persistence.createEntityManagerFactory(hibernatePersistenceConfig.persistenceUnitName(), props);
+        // If any config value is null, remove it from config map
+        props.values().removeIf(Objects::isNull);
+
+        return Persistence.createEntityManagerFactory(hibernateConfig.getConfigKey(), props);
     }
 
     /**
@@ -120,6 +144,20 @@ public class EntityManagerFactoryProducer {
     public void close(@Disposes @HibernatePersistenceConfig(persistenceUnitName = "") EntityManagerFactory entityManagerFactory) {
         if (entityManagerFactory != null) {
             logger.trace("Closing EntityManagerFactory...");
+            entityManagerFactory.close();
+        }
+    }
+
+    /**
+     * Close EntityManagerFactory instance
+     *
+     * @param entityManagerFactory
+     *            instance
+     */
+    public void defaultClose(@Disposes EntityManagerFactory entityManagerFactory) {
+        if (entityManagerFactory != null) {
+            logger.trace("Closing EntityManagerFactory...");
+            entityManagerFactory.close();
         }
     }
 }

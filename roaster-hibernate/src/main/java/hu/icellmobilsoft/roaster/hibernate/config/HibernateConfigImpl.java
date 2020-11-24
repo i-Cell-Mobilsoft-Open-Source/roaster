@@ -28,7 +28,6 @@ import org.eclipse.microprofile.config.Config;
 
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 
-
 /**
  * Helper class for obtaining Hibernate DB connection settings using microprofile config.<br>
  * General pattern is "{@code roaster.hibernate.${persistenceUnitName}.${setting}}
@@ -95,53 +94,84 @@ public class HibernateConfigImpl implements HibernateConfig {
 
     private Logger logger = Logger.getLogger(HibernateConfigImpl.class);
 
-    private String configKey;
+    private String configKey = DEFAULT_PERSISTENCE_UNIT_NAME;
 
     @Inject
     private Config config;
 
     /**
-     * Set ConfigKey
-     * 
-     * @param configKey
-     *            key
+     * {@inheritDoc}
+     */
+    public String getConfigKey() {
+        return configKey;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public void setConfigKey(String configKey) {
         this.configKey = configKey;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String getDialect() {
         return getConfigValue(DIALECT);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String getPooSize() {
         return getConfigValue(POOL_SIZE);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String getShowSql() {
         return getConfigValue(SHOW_SQL);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String getFormatSql() {
         return getConfigValue(FORMAT_SQL);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String getDefaultSchema() {
         return getConfigValue(DEFAULT_SCHEMA);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String getJpaJdbcUrl() {
         return getConfigValue(JDBC_URL);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String getJpaJdbcUser() {
         return getConfigValue(JDBC_USER);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String getJpaJdbcPassword() {
         return getConfigValue(JDBC_PASSWORD);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public String getJpaJdbcDriver() {
         return getConfigValue(JDBC_DRIVER);
     }

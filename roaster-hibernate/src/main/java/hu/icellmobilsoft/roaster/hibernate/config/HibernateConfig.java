@@ -26,6 +26,15 @@ package hu.icellmobilsoft.roaster.hibernate.config;
  */
 public interface HibernateConfig {
 
+    String DEFAULT_PERSISTENCE_UNIT_NAME = "defaultPU";
+
+    /**
+     * Set configKey
+     *
+     * @return configKey config key
+     */
+    String getConfigKey();
+
     /**
      * Set configKey
      * 

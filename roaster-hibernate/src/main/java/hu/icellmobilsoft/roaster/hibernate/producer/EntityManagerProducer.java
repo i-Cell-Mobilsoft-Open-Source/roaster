@@ -31,6 +31,7 @@ import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.InjectionPoint;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -50,6 +51,22 @@ import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig
 public class EntityManagerProducer {
 
     private final Logger logger = Logger.getLogger(EntityManagerProducer.class);
+
+    @Inject
+    private EntityManagerFactory entityManagerFactory;
+
+    /**
+     * Producer for creating or obtaining {@link EntityManager} with defaultPU persistenceUnitName
+     *
+     * @param injectionPoint
+     *            CDI injection point
+     * @return {@link EntityManager} instance
+     */
+    @Produces
+    @Dependent
+    public EntityManager produceDefaultEntityManager(InjectionPoint injectionPoint) {
+        return entityManagerFactory.createEntityManager();
+    }
 
     /**
      * Producer for creating or obtaining {@link EntityManager}
@@ -81,6 +98,20 @@ public class EntityManagerProducer {
     public void close(@Disposes @HibernatePersistenceConfig(persistenceUnitName = "") EntityManager entityManager) {
         if (entityManager != null) {
             logger.trace("Closing EntityManager...");
+            entityManager.close();
+        }
+    }
+
+    /**
+     * Close EntityManager instance
+     *
+     * @param entityManager
+     *            instance
+     */
+    public void defaultClose(@Disposes EntityManager entityManager) {
+        if (entityManager != null) {
+            logger.trace("Closing EntityManager...");
+            entityManager.close();
         }
     }
 
