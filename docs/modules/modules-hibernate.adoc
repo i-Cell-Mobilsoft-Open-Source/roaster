@@ -1,0 +1,192 @@
+= Hibernate
+
+A Hibernate modul használatához első sorban be kell hivatkozni a pom.xml-ben a következő függőséget:
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-hibernate</artifactId>
+</dependency>
+----
+
+Ezen kívül szükséges még hozzá a megfelelő jdbc driver hozzáadása, mely felhasználási helyenként eltérhet.
+Javasolt a következők használata:
+
+[source,xml]
+.pom.xml Oracle19 esetén
+----
+
+        <dependency>
+            <groupId>com.oracle.ojdbc</groupId>
+            <artifactId>ojdbc10</artifactId>
+            <version>19.3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.ojdbc</groupId>
+            <artifactId>orai18n</artifactId>
+            <version>19.3.0.0</version>
+        </dependency>
+
+----
+
+[source,xml]
+.pom.xml Mysql esetén
+----
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.22</version>
+        </dependency>
+
+----
+
+[source,xml]
+.pom.xml H2 esetén
+----
+        <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+        </dependency>
+
+----
+
+
+[source,xml]
+.pom.xml PostgreSQL esetén
+----
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>42.2.18</version>
+        </dependency>
+
+----
+
+Ezen kívül a következő konfigurációkat kell elvégezni:
+
+== Hibernate Konfigurációs paraméterek
+
+A hibernate használatához projekt szinten szükséges létrehozni a resource-ok közt a META-INF mappában a persistence.xml-t.
+Ha a *defaultPU* névvel van létrehozva (ahogy a példában), akkor az EntityManager extra annotáció nélkül inject-telhető.
+
+Példák:
+
+[source,xml]
+.META-INF/persistence.xml
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <persistence-unit name="defaultPU">
+        <mapping-file>META-INF/jpa-entity.xml</mapping-file>
+    </persistence-unit>
+</persistence>
+
+----
+
+[TIP]
+A persistence.xml-be szükséges megadni az entitásokat mindenképpen!
+További egyedi beállításhoz egyszerű leírás itt található: https://vladmihalcea.com/jpa-persistence-xml/
+Ami a microprofile-config-on keresztül megadásra kerül azok lesznek használva, felülírva a persistence.xml -ben lévő azonos property-ket.
+Ha egy adott rész nincs a microprofile-config-on beállítva, de a persistence.xml-ben igen, akkor a megadottak lesznek érvényesek.
+
+A microprofile-config segítségével paraméterezhetőek a Hibernate beállítási adatok:
+
+Példák:
+
+[source,properties]
+.META-INF/microprofile-config.properties
+----
+roaster.hibernate.defaultPU.jdbc.driver=oracle.jdbc.OracleDriver
+roaster.hibernate.defaultPU.jdbc.url=jdbc:oracle:thin:@//localhost:1521/XE
+roaster.hibernate.defaultPU.jdbc.user=db_username
+roaster.hibernate.defaultPU.jdbc.password=*****
+roaster.hibernate.defaultPU.hibernate.default_schema=user_schema
+roaster.hibernate.defaultPU.hibernate.dialect=org.hibernate.dialect.Oracle12cDialect
+roaster.hibernate.defaultPU.hibernate.show_sql=true
+roaster.hibernate.defaultPU.hibernate.format_sql=true
+----
+
+[source,yml]
+.META-INF/roaster-defaults.yml
+----
+  roaster:
+    hibernate:
+      defaultPU:
+        jdbc:
+          driver: oracle.jdbc.OracleDriver
+          url: jdbc:oracle:thin:@//localhost:1521/XE
+          user: db_username
+          password: *****
+        hibernate:
+          default_schema: user_schema
+          dialect: org.hibernate.dialect.Oracle12cDialect
+          show_sql: true
+          format_sql: true
+
+----
+
+== Használati példa
+
+[source,java]
+.HibernateTest példa osztály
+----
+public class HibernateTest extends BaseWeldUnitType {
+
+    @Inject
+    // A háttérben ez érvényesedik: @HibernatePersistenceConfig(persistenceUnitName = "defaultPU")
+    private EntityManager userEntityManager;
+
+    @Inject
+    @HibernatePersistenceConfig(persistenceUnitName = "otherPu")
+    private EntityManager otherEntityManager;
+
+    @Test
+    public void testEntityManager() {
+        Assertions.assertNotNull(userEntityManager);
+        SecurityUser securityUser = userEntityManager.find(SecurityUser.class, "0");
+        Assertions.assertNotNull(securityUser);
+        Assertions.assertNotNull(otherEntityManager);
+        OtherEntity other = userEntityManager.find(OtherEntity.class, "0");
+        Assertions.assertNotNull(other);
+    }
+
+
+    @Test
+    public void testUseEntityManager() {
+        Assertions.assertNotNull(userEntityManager);
+
+        User user = userEntityManager.find(User.class,"FD34123");
+        Assertions.assertNotNull(user);
+
+        CriteriaBuilder builder = userEntityManager.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+        Root<User> root = criteriaQuery.from(User.class);
+        criteriaQuery.select(root);
+        List<Order> os = new ArrayList<>();
+        os.add(builder.asc(root.get(User_.creationDate)));
+        criteriaQuery.orderBy(os);
+        TypedQuery<User> query = userEntityManager.createQuery(criteriaQuery);
+        List<User> resultList = query.getResultList();
+        // Assertions resultList
+
+        CriteriaQuery<Long> countCriteriaQuery = builder.createQuery(Long.class);
+        Root<User> countRoot = countCriteriaQuery.from(User.class);
+        countCriteriaQuery.select(builder.count(countRoot));
+        TypedQuery<Long> countQuery = userEntityManager.createQuery(countCriteriaQuery);
+        Long count = countQuery.getSingleResult();
+        // Assertions count
+    }
+
+}
+----

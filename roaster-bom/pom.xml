@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>hu.icellmobilsoft.roaster</groupId>
 		<artifactId>roaster</artifactId>
-		<version>0.2.0-SNAPSHOT</version>
+		<version>0.2.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>roaster-bom</artifactId>
@@ -32,6 +32,9 @@
 
 		<!-- Selenide -->
 		<version.codeborn.selenide>5.15.0</version.codeborn.selenide>
+
+		<!-- Hibernate -->
+		<version.org.hibernate>5.3.7.Final</version.org.hibernate>
 
 	</properties>
 
@@ -92,6 +95,11 @@
 			<dependency>
 				<groupId>hu.icellmobilsoft.roaster</groupId>
 				<artifactId>roaster-selenide-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-hibernate</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -228,6 +236,13 @@
 				<groupId>com.codeborne</groupId>
 				<artifactId>selenide</artifactId>
 				<version>${version.codeborn.selenide}</version>
+			</dependency>
+
+			<!-- Hibernate -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${version.org.hibernate}</version>
 			</dependency>
 
 
