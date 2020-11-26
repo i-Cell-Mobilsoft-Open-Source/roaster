@@ -6,7 +6,11 @@ Következő szekció a verzió kiadások közötti változásokat írja le.
 
 === Újdonságok
 
--
+<<modules/modules-tm4j.adoc,TM4J - Test Management for Jira Modul>>
+
+<<modules/modules-selenide.adoc,Selenide Modul>>
+
+<<modules/modules-hibernate.adoc,Hibernate Modul>>
 
 === Változások
 ==== roaster-restassured
