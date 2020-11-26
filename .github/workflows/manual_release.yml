@@ -12,7 +12,7 @@ on:
         # Friendly description to be shown in the UI instead of 'name'
         description: 'Comment for release'
         # Default value if no value is explicitly provided
-        default: 'Start release from WEB UI'
+        default: 'Start RELEASE from WEB UI'
         # Input has to be provided for the workflow to run
         required: true
 
@@ -36,6 +36,9 @@ jobs:
         echo "github.workspace: ${{ github.workspace }}"
   release_job:
     name: Maven release
+    
+    # Permission ellenorzes https://github.community/t/who-has-permission-to-workflow-dispatch/133981
+    if: contains('["rombow"]', github.actor)
 
     runs-on: ubuntu-latest
 
