@@ -31,7 +31,6 @@ import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.InjectionPoint;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -46,14 +45,12 @@ import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig
  * 
  * @since 0.2.0
  * @author speter555
+ * @author csaba.balogh
  */
 @ApplicationScoped
 public class EntityManagerProducer {
 
     private final Logger logger = Logger.getLogger(EntityManagerProducer.class);
-
-    @Inject
-    private EntityManagerFactory entityManagerFactory;
 
     /**
      * Producer for creating or obtaining {@link EntityManager} with defaultPU persistenceUnitName
@@ -65,7 +62,8 @@ public class EntityManagerProducer {
     @Produces
     @Dependent
     public EntityManager produceDefaultEntityManager(InjectionPoint injectionPoint) {
-        return entityManagerFactory.createEntityManager();
+        EntityManagerFactory emf = CDI.current().select(EntityManagerFactory.class).get();
+        return emf.createEntityManager();
     }
 
     /**
@@ -84,7 +82,7 @@ public class EntityManagerProducer {
     public EntityManager produceEntityManager(InjectionPoint injectionPoint) throws BaseException {
         Optional<HibernatePersistenceConfig> annotation = AnnotationUtil.getAnnotation(injectionPoint, HibernatePersistenceConfig.class);
         HibernatePersistenceConfig hibernatePersistenceConfig = annotation
-                .orElseThrow(() -> new BaseException(CoffeeFaultType.INVALID_INPUT, "PersisteneUnitName annotation have to have configKey value!"));
+                .orElseThrow(() -> new BaseException(CoffeeFaultType.INVALID_INPUT, "PersistenceUnitName annotation have to have configKey value!"));
         EntityManagerFactory emf = CDI.current().select(EntityManagerFactory.class, hibernatePersistenceConfig).get();
         return emf.createEntityManager();
     }

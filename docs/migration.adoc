@@ -66,3 +66,16 @@ protected void configureWeld(Weld weld) {
     weld.addBeanClasses(SampleAction.class);
 }
 ----
+
+== 0.2.0 -> 0.3.0
+
+=== Változások
+
+==== roaster-hibernate
+Az `EntityManagerProducer` osztályban az `EntityManagerFactory` injectálás törlésre került és a
+`produceDefaultEntityManager()` metódus magában állítja elő, amikor szükség van rá.
+Így mostantól már csak akkor jön létre alapértelmezett beállításokkal `EntityManagerFactory`,
+ha `@HibernatePersistenceConfig` annotáció nélkül injectálunk `EntityManager`-t.
+
+==== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
