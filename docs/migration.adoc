@@ -71,6 +71,9 @@ protected void configureWeld(Weld weld) {
 
 === Változások
 
+==== Általános
+coff:ee frissítés 1.2.1 → 1.3.0
+
 ==== roaster-hibernate
 Az `EntityManagerProducer` osztályban az `EntityManagerFactory` injectálás törlésre került és a
 `produceDefaultEntityManager()` metódus magában állítja elő, amikor szükség van rá.
