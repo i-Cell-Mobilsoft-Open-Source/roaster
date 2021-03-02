@@ -35,12 +35,22 @@ public class Tm4jReporterServerConfig {
     private String password;
     private String basicAuthToken;
 
+    /**
+     * Calculates the user name using the configuration
+     * 
+     * @return the user name
+     */
     public String calculateUserName() {
         return !Strings.isNullOrEmpty(userName) ? //
                 userName : //
                 new String(Base64.getDecoder().decode(basicAuthToken)).split(":")[0];
     }
 
+    /**
+     * Calculates the basic auth token using the configuration
+     * 
+     * @return the basic auth token
+     */
     public String calculateBasicAuthToken() {
         return !Strings.isNullOrEmpty(basicAuthToken) ? //
                 basicAuthToken : //
