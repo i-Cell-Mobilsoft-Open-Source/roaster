@@ -45,7 +45,6 @@ public interface RoasterConfigKeys {
     /**
      * (Optional) The name of the current environment where the tests are running.
      * It will appear in the test result comment.
-     * Default: {@literal N/A}
      */
     String ENVIRONMENT = "roaster.tm4j.environment";
 

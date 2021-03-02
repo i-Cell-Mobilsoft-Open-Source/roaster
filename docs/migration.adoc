@@ -82,3 +82,12 @@ ha `@HibernatePersistenceConfig` annotáció nélkül injectálunk `EntityManage
 
 ==== Átállás
 A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+
+==== roaster-tm4j
+* Bugfix: Több teszt maven futtatása során már nem jön exception
+* Bugfix: TM4J `Executed by` értékét újra töltik a tesztek
+* TM4J environment értékét töltik a tesztek config paraméter alapján
+
+==== Átállás
+* A tesztosztályt (vagy ősét) fel kell annotálni a következővel: `@TestInstance(TestInstance.Lifecycle.PER_CLASS)`
+* `roaster.tm4j.environment` config paraméterben megadott értéket létre kell hozni TM4J felületen amennyiben nem létezik

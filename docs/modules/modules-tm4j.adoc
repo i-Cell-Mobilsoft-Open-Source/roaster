@@ -13,7 +13,7 @@ roaster:
       enabled: true    # A TM4J szerver hívást lehet kikapcsolni ezzel a flag-gel (default: false)
       projectKey: ABC      # Jira project key. Ez szokott a Jira issue-k prefixe is lenni.
       testCycleKey: ABC-C1   # TM4J test cycle key. Pl.: ABC-C1 ahol az ABC a project key.
-      environment: sandbox    # (Opcionális) A neve az aktuális környezetnek, ahol a tesztek futnak (default: N/A)
+      environment: sandbox    # (Opcionális) A neve az aktuális környezetnek, ahol a tesztek futnak. (Jira-ban létre kell hozni)
       server/mp-rest/url: https://jira.example.com   # TM4J szerver url
       server/basicAuthToken: ZXhhbXBsZS11c2VyOnNlY3JldA==   # base64(userName + ":" + password)
       server/userName: # A szerver autentikációs adatok megadásához lehet használni a server/userName + server/password vagy a server/basicAuthToken paramétert
@@ -47,6 +47,7 @@ amelyek eredményét jelenteni szeretnénk:
 [source,java]
 ----
 @ExtendWith(Tm4jExtension.class) // TM4J extension aktiválása a tesztosztályon
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ExampleTest extends BaseWeldUnitType {
     @Test
     @TestCaseId("ABC-T1") // TM4J teszteset összerendelés

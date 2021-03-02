@@ -144,6 +144,8 @@ public class RestTm4jReporter implements TestResultReporter {
         Execution execution = new Execution();
         execution.setProjectKey(config.getProjectKey());
         execution.setTestCaseKey(testCaseKey);
+        execution.setEnvironment(config.getEnvironment());
+        execution.setExecutedBy(config.getServer().calculateUserName());
         execution.setActualStartDate(toOffsetDateTime(testCaseData.getStartTime()));
         execution.setActualEndDate(toOffsetDateTime(testCaseData.getEndTime()));
         execution.setExecutionTime(getDurationInMillis(testCaseData));
@@ -159,9 +161,7 @@ public class RestTm4jReporter implements TestResultReporter {
     }
 
     private String createCommentBase(String uniqueId) {
-        return "Environment: " + config.getEnvironment() +
-                BR + BR +
-                "Test method: " + uniqueId;
+        return "Test method: " + uniqueId;
     }
 
     private String createFailureComment(Throwable cause) {
