@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>roaster</artifactId>
 		<groupId>hu.icellmobilsoft.roaster</groupId>
-		<version>0.3.0</version>
+		<version>0.3.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>roaster-common</artifactId>
