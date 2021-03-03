@@ -19,17 +19,17 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
-import com.google.common.base.Strings;
-import hu.icellmobilsoft.roaster.api.InvalidConfigException;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
-import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
-import java.util.Base64;
+
+import com.google.common.base.Strings;
+import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
+
+import hu.icellmobilsoft.roaster.api.InvalidConfigException;
+import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
+import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 
 /**
  * Sets the {@literal Authorization} header for the TM4J rest client
@@ -50,8 +50,7 @@ public class AuthHeadersFactory implements ClientHeadersFactory {
 
     @Override
     public MultivaluedMap<String, String> update(MultivaluedMap<String, String> incomingHeaders, MultivaluedMap<String, String> clientOutgoingHeaders) {
-        incomingHeaders.putSingle("Authorization", "Basic " + getBasicAuthToken(config.getServer()));
-
+        incomingHeaders.putSingle("Authorization", "Basic " + config.getServer().calculateBasicAuthToken());
         return incomingHeaders;
     }
 
@@ -64,13 +63,4 @@ public class AuthHeadersFactory implements ClientHeadersFactory {
         }
     }
 
-    private String getBasicAuthToken(Tm4jReporterServerConfig config) {
-        return !Strings.isNullOrEmpty(config.getBasicAuthToken()) ?
-                config.getBasicAuthToken() :
-                base64Encode(config.getUserName() + ":" + config.getPassword());
-    }
-
-    private String base64Encode(String input) {
-        return Base64.getEncoder().encodeToString(input.getBytes());
-    }
 }

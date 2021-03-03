@@ -24,6 +24,7 @@ import hu.icellmobilsoft.roaster.tm4j.common.client.RestTm4jService;
 import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,6 +44,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -221,6 +223,7 @@ class RestTm4JReporterTest {
         when(config.getEnvironment()).thenReturn("dev");
         when(config.getProjectKey()).thenReturn("pk");
         when(config.getTestCycleKey()).thenReturn("test_cycle");
+        when(config.getServer()).thenReturn(mock(Tm4jReporterServerConfig.class));
     }
 
     static class TestClass {

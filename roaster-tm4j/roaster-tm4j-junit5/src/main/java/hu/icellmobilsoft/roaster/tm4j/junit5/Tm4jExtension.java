@@ -19,32 +19,35 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.junit5;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Supplier;
+import javax.enterprise.inject.Vetoed;
+import javax.enterprise.inject.spi.CDI;
+
+import org.jboss.resteasy.microprofile.client.RestClientExtension;
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.jupiter.api.extension.TestWatcher;
 
-import javax.enterprise.inject.Vetoed;
-import javax.enterprise.inject.spi.CDI;
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Supplier;
+import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
 
 /**
  * JUnit 5 extension to publish the test result to a TM4J server.
  * The test case id should be mapped with the test method via the {@link TestCaseId} annotation.
-
- * @see TestCaseId
+ *
  * @author martin.nagy
+ * @see TestCaseId
  * @since 0.2.0
  */
 @Vetoed
-public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback {
+public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback, AfterTestExecutionCallback {
     /**
      * Constant used as JUnit storage key for test run start time
      */
@@ -86,6 +89,13 @@ public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback {
     @Override
     public void testDisabled(ExtensionContext context, Optional<String> reason) {
         getReporter().reportDisabled(createTm4jRecord(context), reason);
+    }
+
+    @Override
+    public void afterTestExecution(ExtensionContext context) {
+        // Ha maven-ből több tesztet futtatunk, akkor a második teszttől kezdve a RestClientExtension-ben ragad a régi, leállított CDI bean manager,
+        // így elszállna exception-nel. Ezért minden teszt végén ezt clear-elni kell.
+        RestClientExtension.clearBeanManager();
     }
 
     private TestResultReporter getReporter() {

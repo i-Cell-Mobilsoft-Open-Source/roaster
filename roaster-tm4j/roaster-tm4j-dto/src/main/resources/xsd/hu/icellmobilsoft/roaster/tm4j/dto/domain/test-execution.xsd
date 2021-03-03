@@ -10,9 +10,11 @@
                 <xs:element name="testCaseKey" type="xs:string"/>
                 <xs:element name="status" type="xs:string"/>
                 <xs:element name="comment" type="xs:string"/>
-                <xs:element name="executionTime" type="xs:long"/>
-                <xs:element name="actualStartDate" type="xs:dateTime"/>
-                <xs:element name="actualEndDate" type="xs:dateTime"/>
+                <xs:element name="executedBy" type="xs:string"/>
+                <xs:element name="environment" type="xs:string" minOccurs="0"/>
+                <xs:element name="executionTime" type="xs:long" minOccurs="0"/>
+                <xs:element name="actualStartDate" type="xs:dateTime" minOccurs="0"/>
+                <xs:element name="actualEndDate" type="xs:dateTime" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
