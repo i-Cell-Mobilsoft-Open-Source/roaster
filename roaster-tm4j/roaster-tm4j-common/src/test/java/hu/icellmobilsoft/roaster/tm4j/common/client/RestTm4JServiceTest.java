@@ -19,6 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
+import hu.icellmobilsoft.roaster.tm4j.common.client.api.Tm4jRestClient;
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

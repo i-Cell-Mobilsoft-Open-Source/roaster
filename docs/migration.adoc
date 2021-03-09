@@ -91,3 +91,13 @@ A változtatások nem eredményeznek átállási munkálatokat, visszafelé komp
 ==== Átállás
 * A tesztosztályt (vagy ősét) fel kell annotálni a következővel: `@TestInstance(TestInstance.Lifecycle.PER_CLASS)`
 * `roaster.tm4j.environment` config paraméterben megadott értéket létre kell hozni TM4J felületen amennyiben nem létezik
+
+== 0.3.0 -> 0.4.0
+
+=== Változások
+
+==== roaster-tm4j
+* Bugfix: TM4J `Executed by` értékét töltésére a `userKey`-t használjuk a `userName` helyett.
+
+==== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
