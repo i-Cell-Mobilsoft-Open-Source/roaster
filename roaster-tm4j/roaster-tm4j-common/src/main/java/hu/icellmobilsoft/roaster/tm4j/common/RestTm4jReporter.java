@@ -145,7 +145,7 @@ public class RestTm4jReporter implements TestResultReporter {
         execution.setProjectKey(config.getProjectKey());
         execution.setTestCaseKey(testCaseKey);
         execution.setEnvironment(config.getEnvironment());
-        execution.setExecutedBy(config.getServer().calculateUserName());
+        execution.setExecutedBy(restTm4JService.getUserKey());
         execution.setActualStartDate(toOffsetDateTime(testCaseData.getStartTime()));
         execution.setActualEndDate(toOffsetDateTime(testCaseData.getEndTime()));
         execution.setExecutionTime(getDurationInMillis(testCaseData));

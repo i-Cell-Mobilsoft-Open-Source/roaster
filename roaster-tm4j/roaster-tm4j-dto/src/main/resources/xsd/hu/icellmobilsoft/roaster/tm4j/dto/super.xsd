@@ -8,5 +8,6 @@
     jaxb:version="2.0"
     jaxb:extensionBindingPrefixes="xjc">
 
+    <xsd:import namespace="http://domain.dto.tm4j.roaster.icellmobilsoft.hu/jira" />
     <xsd:import namespace="http://domain.dto.tm4j.roaster.icellmobilsoft.hu/test-execution" />
 </xsd:schema>

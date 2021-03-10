@@ -1,0 +1,14 @@
+<xs:schema xmlns="http://domain.dto.tm4j.roaster.icellmobilsoft.hu/test-execution"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://domain.dto.tm4j.roaster.icellmobilsoft.hu/jira"
+           elementFormDefault="qualified">
+
+    <xs:element name="User">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="key" type="xs:string"/>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
