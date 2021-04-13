@@ -17,13 +17,9 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.tm4j.common.client;
+package hu.icellmobilsoft.roaster.tm4j.common.client.api;
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
-import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
-import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HEAD;
@@ -33,34 +29,41 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
+
+import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
+import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+
+import hu.icellmobilsoft.roaster.tm4j.common.client.AuthHeadersFactory;
+import hu.icellmobilsoft.roaster.tm4j.common.client.Tm4jJsonProvider;
+import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 
 /**
  * Interface for microprofile rest client.
  * <br><br>
- * For details see the <a href="https://support.smartbear.com/tm4j-server/api-docs/v1/">TM4J rest API documentation</a>
+ * For details see the <a href="https://support.smartbear.com/tm4j-server/api-docs/">TM4J rest API documentation</a>
  *
  * @author martin.nagy
  * @since 0.2.0
  */
 @RegisterRestClient(configKey = "roaster.tm4j.server")
-@RegisterProvider(JacksonJaxbJsonProvider.class)
+@RegisterProvider(Tm4jJsonProvider.class)
 @RegisterClientHeaders(AuthHeadersFactory.class)
+@Path("/rest/atm/1.0")
 public interface Tm4jRestClient {
-    String BASE_PATH = "rest/atm/1.0/";
 
     @HEAD
-    @Path(BASE_PATH + "testcase/{testCaseKey}")
+    @Path("/testcase/{testCaseKey}")
     Response headTestCase(@PathParam("testCaseKey") String testCaseKey);
 
     @HEAD
-    @Path(BASE_PATH + "testrun/{testRunKey}")
+    @Path("/testrun/{testRunKey}")
     Response headTestRun(@PathParam("testRunKey") String testRunKey);
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path(BASE_PATH + "testrun/{testRunKey}/testresults")
+    @Path("/testrun/{testRunKey}/testresults")
     void postExecutions(@PathParam("testRunKey") String testRunKey, List<Execution> executions);
 
 }
