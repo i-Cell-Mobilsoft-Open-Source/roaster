@@ -19,8 +19,12 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
-import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -28,8 +32,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.Response.StatusType;
-import java.util.List;
-import java.util.Objects;
+
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import hu.icellmobilsoft.roaster.tm4j.common.client.api.JiraRestClient;
+import hu.icellmobilsoft.roaster.tm4j.common.client.api.Tm4jRestClient;
+import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
+import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 
 /**
  * Class for handling the TM4J client calls
@@ -44,21 +53,43 @@ public class RestTm4jService {
     @RestClient
     private Tm4jRestClient tm4jClient;
 
+    @Inject
+    @RestClient
+    private JiraRestClient jiraClient;
+
+    @Inject
+    private Tm4jReporterConfig config;
+
+    private static final Set<String> existingTestRunKeys = new HashSet<>();
+    private static final Map<String, String> userKeysByUserName = new HashMap<>();
+
     /**
      * Returns {@code true} if the test run exists with the given key on the server
      *
-     * @param key test run key used at the search on the server
+     * @param key
+     *            test run key used at the search on the server
      * @return {@code true} if the test run exists with the given key on the server
      */
     public boolean isTestRunExist(String key) {
-        Response response = tm4jClient.headTestRun(Objects.requireNonNull(key));
-        return isEntityExistsBasedOnResponseStatus(response.getStatusInfo());
+        Objects.requireNonNull(key);
+
+        if (existingTestRunKeys.contains(key)) {
+            return true;
+        }
+
+        Response response = tm4jClient.headTestRun(key);
+        boolean exists = isEntityExistsBasedOnResponseStatus(response.getStatusInfo());
+        if (exists) {
+            existingTestRunKeys.add(key);
+        }
+        return exists;
     }
 
     /**
      * Returns {@code true} if the test case exists with the given key on the server
      *
-     * @param key test case key used at the search on the server
+     * @param key
+     *            test case key used at the search on the server
      * @return {@code true} if the test case exists with the given key on the server
      */
     public boolean isTestCaseExist(String key) {
@@ -69,14 +100,25 @@ public class RestTm4jService {
     /**
      * Posts the test execution data to the server with the given test run key
      *
-     * @param testRunKey the test run key
-     * @param execution the {@code Execution} to be published
+     * @param testRunKey
+     *            the test run key
+     * @param execution
+     *            the {@code Execution} to be published
      */
     public void postResult(String testRunKey, Execution execution) {
         Objects.requireNonNull(testRunKey);
         Objects.requireNonNull(execution);
 
         tm4jClient.postExecutions(testRunKey, List.of(execution));
+    }
+
+    /**
+     * Returns the key of the current configured jira user
+     * 
+     * @return the key of the current configured jira user
+     */
+    public String getUserKey() {
+        return userKeysByUserName.computeIfAbsent(config.getServer().calculateUserName(), k -> jiraClient.getSelf().getKey());
     }
 
     private boolean isEntityExistsBasedOnResponseStatus(StatusType statusType) {
