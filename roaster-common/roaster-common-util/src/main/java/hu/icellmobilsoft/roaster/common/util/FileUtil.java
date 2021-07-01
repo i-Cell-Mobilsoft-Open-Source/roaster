@@ -17,11 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.util;
+package hu.icellmobilsoft.roaster.common.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -29,8 +28,6 @@ import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
-import javax.enterprise.inject.Vetoed;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -41,7 +38,6 @@ import hu.icellmobilsoft.roaster.api.TestException;
  * 
  * @author imre.scheffer
  */
-@Vetoed
 public class FileUtil {
 
     private static final Logger LOG = Logger.getLogger(FileUtil.class.getName());
@@ -60,7 +56,7 @@ public class FileUtil {
      * @see Path#of(String, String...)
      */
     public static String readFile(String first, String... more) {
-        Path path = Path.of(first, more);
+        var path = Path.of(first, more);
         return readFile(path);
     }
 
@@ -76,7 +72,7 @@ public class FileUtil {
         if (StringUtils.isBlank(fileName)) {
             return null;
         }
-        try (InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName)) {
+        try (var inputStream = ClassLoader.getSystemResourceAsStream(fileName)) {
             String file = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
             LOG.info(() -> MessageFormat.format("File [{0}] from resources readed!", ClassLoader.getSystemResource(fileName)));
             return file;
@@ -99,7 +95,7 @@ public class FileUtil {
             throw new TestException("path is null!");
         }
         try {
-            String file = Files.readString(path);
+            var file = Files.readString(path);
             LOG.info(() -> MessageFormat.format("File from path [{0}] readed!", path.toAbsolutePath()));
             return file;
         } catch (IOException e) {

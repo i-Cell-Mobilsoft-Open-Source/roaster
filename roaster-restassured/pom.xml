@@ -37,6 +37,10 @@
 			<artifactId>roaster-common-config</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>hu.icellmobilsoft.roaster</groupId>
+			<artifactId>roaster-common-util</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.eclipse.microprofile.health</groupId>
 			<artifactId>microprofile-health-api</artifactId>
 		</dependency>

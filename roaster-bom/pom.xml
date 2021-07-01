@@ -79,6 +79,11 @@
 			</dependency>
 			<dependency>
 				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-common-util</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
 				<artifactId>roaster-tm4j-dto</artifactId>
 				<version>${project.version}</version>
 			</dependency>
