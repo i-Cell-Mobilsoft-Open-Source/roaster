@@ -101,3 +101,9 @@ A változtatások nem eredményeznek átállási munkálatokat, visszafelé komp
 
 ==== Átállás
 A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+
+==== roaster-api
+* A FileUtil átkerült a újonnan létrehozott roaster-common-util-ba.
+
+==== Átállás
+A FileUtil-t érintő dependency és package változásokat szükséges átvezetni.
