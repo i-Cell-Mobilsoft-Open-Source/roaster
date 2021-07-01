@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.common.config;
+package hu.icellmobilsoft.roaster.common.util;
 
 import java.io.IOException;
 import java.io.InputStream;

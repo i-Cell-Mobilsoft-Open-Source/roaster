@@ -12,6 +12,7 @@
 
 	<modules>
 		<module>roaster-common-config</module>
+		<module>roaster-common-util</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>
