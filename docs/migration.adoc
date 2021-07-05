@@ -112,4 +112,5 @@ A változtatások nem eredményeznek átállási munkálatokat, visszafelé komp
 A FileUtil-t érintő dependency és package változásokat szükséges átvezetni.
 
 ==== roaster-selenide
+* Bugfix: Konfigurációs paraméter felolvasásának javitása: headless browser run
 * Selenide verzió frissítés 5.15.0 → 5.22.2

@@ -115,7 +115,7 @@ public class SelenideConfig {
      * @return true if headless config is true, otherwise return false
      */
     public boolean isBrowserHeadless() {
-        boolean browserHeadless = BooleanUtils.isTrue(config.getOptionalValue(SELENIDE_BROWSER_TYPE, Boolean.class).orElse(Boolean.FALSE));
+        boolean browserHeadless = BooleanUtils.isTrue(config.getOptionalValue(SELENIDE_BROWSER_HEADLESS, Boolean.class).orElse(Boolean.FALSE));
         logger.info("{0} : [{1}]", SELENIDE_BROWSER_HEADLESS, browserHeadless);
         return browserHeadless;
     }
