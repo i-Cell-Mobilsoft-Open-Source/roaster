@@ -110,3 +110,6 @@ A változtatások nem eredményeznek átállási munkálatokat, visszafelé komp
 
 ==== Átállás
 A FileUtil-t érintő dependency és package változásokat szükséges átvezetni.
+
+==== roaster-selenide
+* Selenide verzió frissítés 5.15.0 → 5.22.2
