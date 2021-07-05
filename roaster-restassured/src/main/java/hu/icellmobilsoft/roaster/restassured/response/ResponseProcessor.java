@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,14 +40,14 @@ public abstract class ResponseProcessor<RESPONSE> {
 
     /**
      * Base URI config key
-     * 
+     *
      * @return config key like "project.service.base.uri"
      */
     public abstract String baseUriKey();
 
     /**
      * Get value by {@link #baseUriKey()} from microprofile config
-     * 
+     *
      * @return value like "http://localhost:8080"
      */
     public String baseUri() {
@@ -56,14 +56,14 @@ public abstract class ResponseProcessor<RESPONSE> {
 
     /**
      * HTTP path to call
-     * 
+     *
      * @return value like "/test/service/generate/testData"
      */
     public abstract String path();
 
     /**
      * Call and get JSON object from HTTP GET method
-     * 
+     *
      * @param responseClass
      *            response class
      * @param pathParams
@@ -81,7 +81,7 @@ public abstract class ResponseProcessor<RESPONSE> {
 
     /**
      * Call and get JSON object from HTTP POST method
-     * 
+     *
      * @param <REQUEST>
      *            request DTO class
      * @param requestDto
@@ -99,8 +99,27 @@ public abstract class ResponseProcessor<RESPONSE> {
     }
 
     /**
+     * Call and get JSON object from HTTP PUT method
+     *
+     * @param <REQUEST>
+     *            request DTO class
+     * @param requestDto
+     *            request DTO object
+     * @param responseClass
+     *            response class
+     * @param pathParams
+     *            response class The path parameters. See {@link RequestSpecification#put(String, Object...)} pathParams.
+     * @return response object casted to responseClass
+     */
+    public <REQUEST> RESPONSE putJson(REQUEST requestDto, Class<RESPONSE> responseClass, Object... pathParams) {
+        RequestSpecification rSpec = createJsonRequestSpecification().body(requestDto);
+        Response response = rSpec.put(path(), pathParams);
+        return toJsonResponse(response, responseClass);
+    }
+
+    /**
      * Call and get XML object from HTTP GET method
-     * 
+     *
      * @param responseClass
      *            response class
      * @param pathParams
@@ -117,8 +136,8 @@ public abstract class ResponseProcessor<RESPONSE> {
     }
 
     /**
-     * Call and get JSON object from HTTP POST method
-     * 
+     * Call and get XML object from HTTP POST method
+     *
      * @param <REQUEST>
      *            request DTO class
      * @param requestDto
@@ -136,8 +155,27 @@ public abstract class ResponseProcessor<RESPONSE> {
     }
 
     /**
+     * Call and get XML object from HTTP PUT method
+     *
+     * @param <REQUEST>
+     *            request DTO class
+     * @param requestDto
+     *            request DTO object
+     * @param responseClass
+     *            response class
+     * @param pathParams
+     *            response class The path parameters. See {@link RequestSpecification#put(String, Object...)} pathParams.
+     * @return response object casted to responseClass
+     */
+    public <REQUEST> RESPONSE putXml(REQUEST requestDto, Class<RESPONSE> responseClass, Object... pathParams) {
+        RequestSpecification rSpec = createXmlRequestSpecification().body(requestDto);
+        Response response = rSpec.put(path(), pathParams);
+        return toXmlResponse(response, responseClass);
+    }
+
+    /**
      * Creating default JSON RequestSpecification from system
-     * 
+     *
      * @return Default RequestSpecification
      */
     protected RequestSpecification createJsonRequestSpecification() {
@@ -147,7 +185,7 @@ public abstract class ResponseProcessor<RESPONSE> {
 
     /**
      * Creating default XML RequestSpecification from system
-     * 
+     *
      * @return Default RequestSpecification
      */
     protected RequestSpecification createXmlRequestSpecification() {
@@ -157,7 +195,7 @@ public abstract class ResponseProcessor<RESPONSE> {
 
     /**
      * Create default ReastAssured RequestSpecification
-     * 
+     *
      * @param initRequestSpecification
      *            response is expanded on this object
      * @return full setted RequestSpecification
@@ -172,7 +210,7 @@ public abstract class ResponseProcessor<RESPONSE> {
 
     /**
      * Process JSON RestAssured response
-     * 
+     *
      * @param response
      *            RestAssured response
      * @param responseClass
@@ -186,7 +224,7 @@ public abstract class ResponseProcessor<RESPONSE> {
 
     /**
      * Process XML RestAssured response
-     * 
+     *
      * @param response
      *            RestAssured response
      * @param responseClass
@@ -200,7 +238,7 @@ public abstract class ResponseProcessor<RESPONSE> {
 
     /**
      * Process RestAssured response
-     * 
+     *
      * @param response
      *            RestAssured response
      * @param responseClass

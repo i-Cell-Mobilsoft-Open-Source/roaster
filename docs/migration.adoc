@@ -102,6 +102,9 @@ coff:ee frissítés 1.3.0 → 1.5.0
 ==== roaster-tm4j
 * Bugfix: TM4J `Executed by` értékét töltésére a `userKey`-t használjuk a `userName` helyett.
 
+==== roaster-restassured
+* A ResponseProcessor kiegészült a putXml, és putJson metódusokkal
+
 ==== Átállás
 A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
 
