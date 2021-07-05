@@ -108,7 +108,7 @@ public abstract class ResponseProcessor<RESPONSE> {
      * @param responseClass
      *            response class
      * @param pathParams
-     *            response class The path parameters. See {@link RequestSpecification#post(String, Object...)} pathParams.
+     *            response class The path parameters. See {@link RequestSpecification#put(String, Object...)} pathParams.
      * @return response object casted to responseClass
      */
     public <REQUEST> RESPONSE putJson(REQUEST requestDto, Class<RESPONSE> responseClass, Object... pathParams) {
@@ -164,7 +164,7 @@ public abstract class ResponseProcessor<RESPONSE> {
      * @param responseClass
      *            response class
      * @param pathParams
-     *            response class The path parameters. See {@link RequestSpecification#post(String, Object...)} pathParams.
+     *            response class The path parameters. See {@link RequestSpecification#put(String, Object...)} pathParams.
      * @return response object casted to responseClass
      */
     public <REQUEST> RESPONSE putXml(REQUEST requestDto, Class<RESPONSE> responseClass, Object... pathParams) {
