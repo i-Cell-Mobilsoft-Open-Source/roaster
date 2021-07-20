@@ -117,3 +117,10 @@ A FileUtil-t érintő dependency és package változásokat szükséges átvezet
 ==== roaster-selenide
 * Bugfix: Konfigurációs paraméter felolvasásának javitása: headless browser run
 * Selenide verzió frissítés 5.15.0 → 5.22.2
+
+== 0.4.0 -> 0.4.1
+
+=== Változások
+
+==== Általános
+coff:ee frissítés 1.5.0 → 1.6.0
