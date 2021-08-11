@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,24 +22,28 @@ package hu.icellmobilsoft.roaster.restassured.helper;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
 
 import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
 import hu.icellmobilsoft.roaster.restassured.path.MicroprofilePath;
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import io.restassured.response.ValidatableResponseOptions;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
 /**
  * Helper class for /openapi endpoint restassured testing
- * 
+ *
  * @author mark.petrenyi
+ * @author peter.szabo
  */
 @Dependent
 public class OpenAPITestHelper {
 
     private static final String OPENAPI_VERSION_JSON_PATH = "openapi";
-    private static final String EXPECTED_OPENAPI_VERSION = "3.0.1";
 
     @Inject
     @JSON
@@ -51,25 +55,54 @@ public class OpenAPITestHelper {
 
     /**
      * Testing /openapi
-     * 
+     *
      * @param baseUri
      *            URI for openapi endpoint
      */
     public void testOpenAPI(String baseUri) {
-        String openApiVersion = RestAssured
+        testOpenAPI(baseUri, true, true);
+    }
+
+    /**
+     * Testing /openapi
+     *
+     * @param baseUri
+     *            URI for openapi endpoint
+     * @param enableLogRequest
+     *            enable request logging
+     * @param enableLogResponse
+     *            enable response logging
+     */
+    public void testOpenAPI(String baseUri, boolean enableLogRequest, boolean enableLogResponse) {
+
+        String openApiVersion;
+        Response response;
+
+        RequestSpecification requestSpecification1 = RestAssured
                 // given
                 .given()//
                 .spec(requestSpecification)//
-                .baseUri(baseUri)
-                // when
-                .when()//
-                .log().all()//
-                .get(MicroprofilePath.OPENAPI_PATH)
-                // then
-                .then()//
-                .log().all()//
-                .spec(responseSpecification)//
+                .baseUri(baseUri);
+
+        if (enableLogRequest) {
+            requestSpecification1 = requestSpecification1.when() //
+                    .log().all();
+        }
+
+        response = requestSpecification1.get(MicroprofilePath.OPENAPI_PATH);
+
+        ValidatableResponseOptions<ValidatableResponse, Response> validatableResponseOptions = response.then();
+
+        if (enableLogResponse) {
+            validatableResponseOptions = response
+                    // then
+                    .then() //
+                    .log().all();
+        }
+
+        openApiVersion = validatableResponseOptions.spec(responseSpecification) //
                 .extract().response().body().jsonPath().get(OPENAPI_VERSION_JSON_PATH);
-        Assertions.assertEquals(EXPECTED_OPENAPI_VERSION, openApiVersion);
+
+        Assertions.assertTrue(StringUtils.isNotBlank(openApiVersion));
     }
 }
