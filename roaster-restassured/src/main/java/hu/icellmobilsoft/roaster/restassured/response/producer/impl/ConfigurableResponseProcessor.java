@@ -19,6 +19,8 @@
  */
 package hu.icellmobilsoft.roaster.restassured.response.producer.impl;
 
+import javax.enterprise.context.Dependent;
+
 import hu.icellmobilsoft.roaster.restassured.response.producer.spi.AbstractConfigurableResponseProcessor;
 
 /**
@@ -29,6 +31,7 @@ import hu.icellmobilsoft.roaster.restassured.response.producer.spi.AbstractConfi
  * @author martin.nagy
  * @since 0.5.0
  */
+@Dependent
 public final class ConfigurableResponseProcessor<RESPONSE> extends AbstractConfigurableResponseProcessor<RESPONSE> {
     // empty body, everything has to go in the AbstractConfigurableResponseProcessor class
 }

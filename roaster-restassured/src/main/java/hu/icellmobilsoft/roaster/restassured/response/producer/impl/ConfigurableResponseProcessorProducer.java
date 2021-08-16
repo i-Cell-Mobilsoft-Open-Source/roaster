@@ -53,6 +53,7 @@ public final class ConfigurableResponseProcessorProducer<RESPONSE>
      *
      * @return the created {@link AbstractConfigurableResponseProcessor} implementation
      */
+    @Override
     protected ConfigurableResponseProcessor<RESPONSE> getBaseResponseProcessor() {
         return CDI.current().select(ConfigurableResponseProcessor.class).get();
     }

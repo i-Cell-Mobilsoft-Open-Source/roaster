@@ -29,6 +29,7 @@ import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.roaster.restassured.response.ResponseProcessor;
 import hu.icellmobilsoft.roaster.restassured.response.producer.ResponseProcessorConfig;
+import hu.icellmobilsoft.roaster.restassured.response.producer.RestProcessor;
 
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
@@ -47,10 +48,39 @@ import io.restassured.specification.ResponseSpecification;
 public abstract class AbstractConfigurableResponseProcessor<RESPONSE> extends ResponseProcessor<RESPONSE> {
     private static final String HEADER_DELIMITER = ":";
 
+    /**
+     * Base URI config key<br>
+     * Populated by {@link #setConfig}
+     */
     private String baseUriKey;
+
+    /**
+     * HTTP path to call. E.g.: {@literal /foo/bar} if the URL is {@literal http://localhost/foo/bar}<br>
+     * Populated by {@link #setConfig}
+     */
     private String path;
+
+    /**
+     * Optional HTTP request headers<br>
+     * Populated by {@link #setConfig}
+     *
+     * @see RequestSpecification#headers(Headers)
+     */
     private Headers headers;
+
+    /**
+     * Expected REST response status code<br>
+     * Populated by {@link RestProcessor#expectedStatusCode()}
+     *
+     * @see ResponseSpecification#statusCode(int)
+     */
     private int expectedStatusCode;
+
+    /**
+     * Optional HTTP request query params<br>
+     *
+     * @see RequestSpecification#queryParams(Map)
+     */
     private Map<String, String> queryParams;
 
     /**
@@ -114,7 +144,15 @@ public abstract class AbstractConfigurableResponseProcessor<RESPONSE> extends Re
         this.expectedStatusCode = expectedStatusCode;
     }
 
+    public int getExpectedStatusCode() {
+        return expectedStatusCode;
+    }
+
     public void setQueryParams(Map<String, String> queryParams) {
         this.queryParams = queryParams;
+    }
+
+    public Map<String, String> getQueryParams() {
+        return queryParams;
     }
 }

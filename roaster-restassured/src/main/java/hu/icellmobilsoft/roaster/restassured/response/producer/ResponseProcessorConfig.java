@@ -20,57 +20,36 @@
 package hu.icellmobilsoft.roaster.restassured.response.producer;
 
 import java.util.Optional;
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.Config;
+import hu.icellmobilsoft.roaster.restassured.response.producer.spi.AbstractConfigurableResponseProcessor;
 
 /**
- * Helper class for obtaining response processor settings using microprofile config.<br>
- * ie.:
- *
- * <pre>
- * testsuite:
- *   rest:
- *     example:
- *      baseUriKey: example-project.example-service.url
- *      path: /rest/exampleService/example/{id}
- *      headers:
- *        - "X-LANGUAGE: hu"
- * </pre>
- *
- * The upper configuration is injectable with:
- *
- * <pre>
- * &#64;Inject
- * &#64;RestProcessor(configKey = "testsuite.rest.example")
- * private ResponseProcessorConfig responseProcessorConfig;
- * </pre>
+ * {@link AbstractConfigurableResponseProcessor} configuration
  *
  * @author martin.nagy
  * @since 0.5.0
  */
-@Dependent
-public class ResponseProcessorConfig {
-    private String configKey;
+public interface ResponseProcessorConfig {
 
-    @Inject
-    private Config config;
+    /**
+     * Base URI config key. E.g.: {@literal project.service.base.uri}
+     *
+     * @return base URI config key
+     */
+    String getBaseUriKey();
 
-    public void setConfigKey(String configKey) {
-        this.configKey = configKey;
-    }
+    /**
+     * HTTP path to call. E.g.: {@literal /foo/bar} if the URL is {@literal http://localhost/foo/bar}
+     *
+     * @return HTTP path to call
+     */
+    String getPath();
 
-    public String getBaseUriKey() {
-        return config.getValue(configKey + ".baseUriKey", String.class);
-    }
-
-    public String getPath() {
-        return config.getValue(configKey + ".path", String.class);
-    }
-
-    public Optional<String[]> getHeaders() {
-        return config.getOptionalValue(configKey + ".headers", String[].class);
-    }
+    /**
+     * Optional HTTP request headers
+     *
+     * @return Optional HTTP request headers
+     */
+    Optional<String[]> getHeaders();
 
 }

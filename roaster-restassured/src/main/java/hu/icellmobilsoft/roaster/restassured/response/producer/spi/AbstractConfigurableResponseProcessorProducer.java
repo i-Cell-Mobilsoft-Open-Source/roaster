@@ -23,6 +23,7 @@ import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.InjectionPoint;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.roaster.restassured.response.producer.ManagedResponseProcessorConfig;
 import hu.icellmobilsoft.roaster.restassured.response.producer.ResponseProcessorConfig;
 import hu.icellmobilsoft.roaster.restassured.response.producer.RestProcessor;
 import hu.icellmobilsoft.roaster.restassured.response.producer.impl.ConfigurableResponseProcessor;
@@ -70,7 +71,7 @@ public abstract class AbstractConfigurableResponseProcessorProducer<T extends Ab
      */
     protected ResponseProcessorConfig getConfig(String configKey) {
         CDI<Object> cdi = CDI.current();
-        ResponseProcessorConfig config = cdi.select(ResponseProcessorConfig.class).get();
+        ManagedResponseProcessorConfig config = cdi.select(ManagedResponseProcessorConfig.class).get();
         config.setConfigKey(configKey);
         cdi.destroy(config);
         return config;
