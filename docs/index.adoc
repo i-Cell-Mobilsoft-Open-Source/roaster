@@ -2,6 +2,7 @@
 :toclevels: 4
 :sectnums:
 :sectnumlevels: 4
+:icons: font
 = Roaster testsuite dokumentáció
 
 A projekt célja a fejlesztői tesztek segítése RestAssured + Weld + JUnit 5 használatával.

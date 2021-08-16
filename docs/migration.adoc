@@ -124,3 +124,9 @@ A FileUtil-t érintő dependency és package változásokat szükséges átvezet
 
 ==== Általános
 coff:ee frissítés 1.5.0 → 1.6.0
+
+==== roaster-restassured
+Microprofile konfigból állítható injektálható ResponseProcessor (`@RestProcessor`, `ConfigurableResponseProcessor`)
+
+==== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
