@@ -93,7 +93,7 @@ public abstract class AbstractConfigurableResponseProcessor<RESPONSE> extends Re
      */
     public void setConfig(ResponseProcessorConfig config) throws BaseException {
         if (Objects.isNull(config)) {
-            throw new BaseException(CoffeeFaultType.INVALID_INPUT, "ERROR_MSG_CONVERTER_IS_NULL");
+            throw new BaseException(CoffeeFaultType.INVALID_INPUT, "The config is null!");
         }
 
         baseUriKey = config.getBaseUriKey();
