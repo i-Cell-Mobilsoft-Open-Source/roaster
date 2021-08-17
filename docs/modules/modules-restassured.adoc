@@ -148,3 +148,121 @@ public class ExampleQueryResponseProcessor extends ResponseProcessor<ExampleQuer
     }
 }
 ----
+
+=== ConfigurableResponseProcessor
+
+Annak érdekében, hogy ne kelljen minden rest végponthoz külön `ResponseProcessor`-t implementálni,
+létrejött a `ConfigurableResponseProcessor` osztály, ami konfigurációból olvassa ki a szükséges értékeket
+például a `baseUriKey`-t és a `path`-t.
+
+==== Használata
+
+A konfigurációban fel kell venni közös prefix alá a `baseUriKey`-t és a `path`-t.
+Opcionálisan itt `headers` is megadható.
+YAML formátum esetén ez így néz ki:
+
+[source,yml]
+----
+testsuite:
+    rest:
+        exampleService:
+            example:
+                baseUriKey: example-project.example-service.url
+                path: /rest/exampleService/example/{id}
+            headerExample:
+                baseUriKey: example-project.example-service.url
+                path: /rest/exampleService/example/{id}
+                headers:
+                    - "X-LANGUAGE: hu"
+                    - "User-Agent: roaster/0.5 restassured"
+----
+
+A tesztosztályba a `ConfigurableResponseProcessor`-t a `@RestProcessor`
+qualifier-rel lehet inject-álni a konfig prefixet megadva:
+
+[source,java]
+----
+class ExampleTest {
+    @Inject
+    @RestProcessor(configKey = "testsuite.rest.exampleService.example") //<1>
+    private ConfigurableResponseProcessor<ExampleResponse> responseProcessor;
+
+    @Inject
+    @RestProcessor(
+            configKey = "testsuite.rest.exampleService.example",
+            expectedStatusCode = HttpStatus.SC_BAD_REQUEST //<2>
+    )
+    private ConfigurableResponseProcessor<ExampleResponse> badRequestResponseProcessor;
+
+    void test() {
+        responseProcessor.setQueryParams(Map.of("foo", "42")); //<3>
+        ExampleResponse response = responseProcessor.getJson(ExampleResponse.class, "XXX");
+        // asserts...
+    }
+}
+----
+<1> Alap `ConfigurableResponseProcessor` inject példa
+<2> Opcionálisan az elvárt válasz státusz kód is megadható az annotációban (default: `200 OK`)
+<3> `ConfigurableResponseProcessor`-ban a query paramétereket is meg lehet adni
+
+==== Saját implementáció
+
+Ha az adott projekten belül ki szeretnénk egészíteni a `ConfigurableResponseProcessor` működését
+(pl: login, vagy egyéb projekt specifikus header kezeléshez),
+azt első lépésben az `AbstractConfigurableResponseProcessor` implementálásával tehetjük meg:
+
+[source,java]
+----
+@Dependent
+public class LoginConfigurableResponseProcessor<RESPONSE> extends AbstractConfigurableResponseProcessor<RESPONSE> {
+    @Inject
+    private LoginHandler loginHandler;
+
+    @Override
+    protected RequestSpecification createRequestSpecification(RequestSpecification initRequestSpecification) {
+        loginHandler.login();
+        return super.createRequestSpecification(initRequestSpecification)
+                .headers(loginHandler.loginHeaders());
+    }
+}
+----
+
+Ezek után egy CDI producer-t kell létrehozni, ami kiszolgálja a konfigurált példányokat:
+
+[source,java]
+----
+@Dependent
+public class LoginConfigurableResponseProcessorProducer<RESPONSE> extends AbstractConfigurableResponseProcessorProducer<LoginConfigurableResponseProcessor<RESPONSE>> {
+    @Override
+    @Produces //<1>
+    @RestProcessor(configKey = "")
+    public LoginConfigurableResponseProcessor<RESPONSE> createLoginResponseProcessor(InjectionPoint injectionPoint) {
+        return super.createConfiguredResponseProcessor(injectionPoint);
+    }
+
+    @Override
+    protected LoginConfigurableResponseProcessor<RESPONSE> getBaseResponseProcessor() { //<2>
+        return CDI.current().select(LoginConfigurableResponseProcessor.class).get();
+    }
+}
+----
+<1> Létre kell hozni egy producer-t (a `getConfiguredResponseProcessor`-t meghívva már egy bekonfigurált példányt kapunk)
+<2> Felül kell írni a `getBaseResponseProcessor`-t, hogy a mi típusunkat adja vissza (ezt fogja a `getConfiguredResponseProcessor` konfigurálni)
+
+Ez után már használhatjuk is a saját impelmentációnkat, akár a default megoldással együtt, egy tesztben is:
+
+[source,java]
+----
+class ExampleTest {
+    @Inject
+    @RestProcessor(configKey = "testsuite.rest.exampleService.example")
+    private LoginConfigurableResponseProcessorProducer<ExampleResponse> loginResponseProcessor;
+
+    @Inject
+    @RestProcessor(
+            configKey = "testsuite.rest.exampleService.example",
+            expectedStatusCode = HttpStatus.SC_UNAUTHORIZED
+    )
+    private ConfigurableResponseProcessor<ExampleResponse> noLoginResponseProcessor;
+}
+----
