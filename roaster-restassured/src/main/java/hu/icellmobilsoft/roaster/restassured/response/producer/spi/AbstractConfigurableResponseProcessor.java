@@ -19,11 +19,14 @@
  */
 package hu.icellmobilsoft.roaster.restassured.response.producer.spi;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
@@ -46,7 +49,7 @@ import io.restassured.specification.ResponseSpecification;
  * @since 0.5.0
  */
 public abstract class AbstractConfigurableResponseProcessor<RESPONSE> extends ResponseProcessor<RESPONSE> {
-    private static final String HEADER_DELIMITER = ":";
+    private static final Pattern HEADER_PATTERN = Pattern.compile("\\s*([^\\s:]+)\\s*:\\s*([^\\s:]+)\\s*");
 
     /**
      * Base URI config key<br>
@@ -100,14 +103,17 @@ public abstract class AbstractConfigurableResponseProcessor<RESPONSE> extends Re
         path = config.getPath();
 
         Optional<String[]> headersOpt = config.getHeaders();
-        headers = headersOpt.map(this::parse).orElse(null);
+        headers = headersOpt.isPresent() ? parse(headersOpt.get()) : null;
     }
 
-    private Headers parse(String[] headerStrings) {
+    private Headers parse(String[] headerStrings) throws BaseException {
         List<Header> headerList = new ArrayList<>();
         for (String headerString : headerStrings) {
-            String[] split = headerString.split(HEADER_DELIMITER);
-            headerList.add(new Header(split[0].trim(), split[1].trim()));
+            Matcher matcher = HEADER_PATTERN.matcher(headerString);
+            if (!matcher.matches()) {
+                throw new BaseException(CoffeeFaultType.INVALID_INPUT, MessageFormat.format("Invalid header: [{0}]", headerString));
+            }
+            headerList.add(new Header(matcher.group(1), matcher.group(2)));
         }
         return new Headers(headerList);
     }
