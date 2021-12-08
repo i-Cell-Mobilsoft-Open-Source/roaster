@@ -1,0 +1,64 @@
+= 0.1.0 -> 0.2.0
+
+== Újdonságok
+
+<<modules/modules-tm4j.adoc,TM4J - Test Management for Jira Modul>>
+
+<<modules/modules-selenide.adoc,Selenide Modul>>
+
+<<modules/modules-hibernate.adoc,Hibernate Modul>>
+
+== Változások
+=== roaster-restassured
+* A default JSON object mapper az idő értékeket ISO formátumra serializálja az eddigi "1600871093.907000000" helyett.
+
+* Megszünt a deprecated lehetőség 
+
+[source,java]
+----
+@Inject
+private RestAssuredConfig restAssuredConfig;
+----
+
+Ezentúl már csak @JSON qualifier-el lehet használni
+
+[source,java]
+----
+@Inject
+@JSON
+private RestAssuredConfig restAssuredConfig;
+----
+
+* Weld konténer enableDiscovery() módban fut, nem szükséges külön hozzáadni az osztályokat.
+* hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT.configureWeld() depreceted lett.
+
+=== Átállás
+
+Az IT tesztekből ki kell venni az eddig manualisan hozzáadott bean-eket, egyébként 
+"Bean name is ambiguous." hibaüzenetet kapunk.
+[source,java]
+----
+@Deprecated
+@Override
+protected void configureWeld(Weld weld) {
+    weld.addBeanClasses(SampleAction.class);
+}
+----
+
+=== roaster-weldunit
+
+* Weld konténer enableDiscovery() módban fut, nem szükséges külön hozzáadni az osztályokat.
+* hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType.configureWeld() depreceted lett.
+
+=== Átállás
+
+A unit tesztekből ki kell venni az eddig manualisan hozzáadott bean-eket, egyébként 
+"Bean name is ambiguous." hibaüzenetet kapunk.
+[source,java]
+----
+@Deprecated
+@Override
+protected void configureWeld(Weld weld) {
+    weld.addBeanClasses(SampleAction.class);
+}
+----

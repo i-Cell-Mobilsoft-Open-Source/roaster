@@ -71,7 +71,7 @@ public class HealthCheckTestHelper {
                 .log().all()//
                 .spec(responseSpecification)//
                 .extract().response().body().jsonPath().get(STATUS_JSON_PATH);
-        Assertions.assertEquals(HealthCheckResponse.State.UP.name(), status);
+        Assertions.assertEquals(HealthCheckResponse.Status.UP.name(), status);
     }
 
 }

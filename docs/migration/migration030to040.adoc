@@ -1,0 +1,25 @@
+= 0.3.0 -> 0.4.0
+
+== Változások
+
+=== Általános
+coff:ee frissítés 1.3.0 → 1.5.0
+
+=== roaster-tm4j
+* Bugfix: TM4J `Executed by` értékét töltésére a `userKey`-t használjuk a `userName` helyett.
+
+=== roaster-restassured
+* A ResponseProcessor kiegészült a putXml, és putJson metódusokkal
+
+=== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+
+=== roaster-api
+* A FileUtil átkerült az újonnan létrehozott roaster-common-util-ba.
+
+=== Átállás
+A FileUtil-t érintő dependency és package változásokat szükséges átvezetni.
+
+=== roaster-selenide
+* Bugfix: Konfigurációs paraméter felolvasásának javitása: headless browser run
+* Selenide verzió frissítés 5.15.0 → 5.22.2
