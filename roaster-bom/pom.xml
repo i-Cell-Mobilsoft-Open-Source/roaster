@@ -12,7 +12,7 @@
 	<properties>
 		<version.apache.deltaspike>1.9.1</version.apache.deltaspike>
 		<version.org.eclipse.microprofile>4.0</version.org.eclipse.microprofile>
-		<version.hu.icellmobilsoft.coffee>1.8.0-SNAPSHOT</version.hu.icellmobilsoft.coffee>
+		<version.hu.icellmobilsoft.coffee>1.8.0</version.hu.icellmobilsoft.coffee>
 		<version.org.junit>5.6.2</version.org.junit>
 
 		<version.org.apache.commons.commons-text>1.8</version.org.apache.commons.commons-text>
