@@ -256,7 +256,7 @@ Ez után már használhatjuk is a saját impelmentációnkat, akár a default me
 class ExampleTest {
     @Inject
     @RestProcessor(configKey = "testsuite.rest.exampleService.example")
-    private LoginConfigurableResponseProcessorProducer<ExampleResponse> loginResponseProcessor;
+    private LoginConfigurableResponseProcessor<ExampleResponse> loginResponseProcessor;
 
     @Inject
     @RestProcessor(
