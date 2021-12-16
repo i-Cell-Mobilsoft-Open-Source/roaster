@@ -1,3 +1,4 @@
+[#modules-hibernate]
 = Hibernate
 
 A Hibernate modul használatához első sorban be kell hivatkozni a pom.xml-ben a következő függőséget:

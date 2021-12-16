@@ -1,3 +1,4 @@
+[#modules-tm4j]
 = TM4J
 
 A modul célja, hogy az automatán futtatott tesztesetek eredménye automatikusan jelentve legyen
