@@ -1,3 +1,4 @@
+[#modules-selenide]
 = Selenide
 
 A Selenide modul használatához csak be kell hivatkozni a pom.xml-ben

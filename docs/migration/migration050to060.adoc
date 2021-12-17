@@ -1,0 +1,9 @@
+== 0.5.0 -> 0.6.0
+
+=== Változások
+
+==== roaster-restassured
+* A ResponseProcessor kiegészült a deleteXml, és deleteJson metódusokkal
+
+==== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.

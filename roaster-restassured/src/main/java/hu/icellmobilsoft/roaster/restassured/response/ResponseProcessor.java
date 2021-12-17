@@ -19,15 +19,17 @@
  */
 package hu.icellmobilsoft.roaster.restassured.response;
 
+import javax.enterprise.inject.spi.CDI;
+
+import org.eclipse.microprofile.config.ConfigProvider;
+
 import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
 import hu.icellmobilsoft.roaster.restassured.annotation.XML;
+
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-import org.eclipse.microprofile.config.ConfigProvider;
-
-import javax.enterprise.inject.spi.CDI;
 
 /**
  * Base Response REST handler
@@ -68,7 +70,7 @@ public abstract class ResponseProcessor<RESPONSE> {
      *            response class
      * @param pathParams
      *            response class The path parameters. See {@link RequestSpecification#get(String, Object...)} pathParams.
-     * @return response object casted to responseClass
+     * @return response object cast to responseClass
      */
     public RESPONSE getJson(Class<RESPONSE> responseClass, Object... pathParams) {
         // REST beallitasok
@@ -90,7 +92,7 @@ public abstract class ResponseProcessor<RESPONSE> {
      *            response class
      * @param pathParams
      *            response class The path parameters. See {@link RequestSpecification#post(String, Object...)} pathParams.
-     * @return response object casted to responseClass
+     * @return response object cast to responseClass
      */
     public <REQUEST> RESPONSE postJson(REQUEST requestDto, Class<RESPONSE> responseClass, Object... pathParams) {
         RequestSpecification rSpec = createJsonRequestSpecification().body(requestDto);
@@ -109,11 +111,26 @@ public abstract class ResponseProcessor<RESPONSE> {
      *            response class
      * @param pathParams
      *            response class The path parameters. See {@link RequestSpecification#put(String, Object...)} pathParams.
-     * @return response object casted to responseClass
+     * @return response object cast to responseClass
      */
     public <REQUEST> RESPONSE putJson(REQUEST requestDto, Class<RESPONSE> responseClass, Object... pathParams) {
         RequestSpecification rSpec = createJsonRequestSpecification().body(requestDto);
         Response response = rSpec.put(path(), pathParams);
+        return toJsonResponse(response, responseClass);
+    }
+
+    /**
+     * Call and get JSON object from HTTP DELETE method
+     *
+     * @param responseClass
+     *            response class
+     * @param pathParams
+     *            response class The path parameters. See {@link RequestSpecification#delete(String, Object...)} pathParams.
+     * @return response object cast to responseClass
+     */
+    public RESPONSE deleteJson(Class<RESPONSE> responseClass, Object... pathParams) {
+        RequestSpecification rSpec = createJsonRequestSpecification();
+        Response response = rSpec.delete(path(), pathParams);
         return toJsonResponse(response, responseClass);
     }
 
@@ -124,7 +141,7 @@ public abstract class ResponseProcessor<RESPONSE> {
      *            response class
      * @param pathParams
      *            response class The path parameters. See {@link RequestSpecification#get(String, Object...)} pathParams.
-     * @return response object casted to responseClass
+     * @return response object cast to responseClass
      */
     public RESPONSE getXml(Class<RESPONSE> responseClass, Object... pathParams) {
         // REST beallitasok
@@ -146,7 +163,7 @@ public abstract class ResponseProcessor<RESPONSE> {
      *            response class
      * @param pathParams
      *            response class The path parameters. See {@link RequestSpecification#post(String, Object...)} pathParams.
-     * @return response object casted to responseClass
+     * @return response object cast to responseClass
      */
     public <REQUEST> RESPONSE postXml(REQUEST requestDto, Class<RESPONSE> responseClass, Object... pathParams) {
         RequestSpecification rSpec = createXmlRequestSpecification().body(requestDto);
@@ -170,6 +187,21 @@ public abstract class ResponseProcessor<RESPONSE> {
     public <REQUEST> RESPONSE putXml(REQUEST requestDto, Class<RESPONSE> responseClass, Object... pathParams) {
         RequestSpecification rSpec = createXmlRequestSpecification().body(requestDto);
         Response response = rSpec.put(path(), pathParams);
+        return toXmlResponse(response, responseClass);
+    }
+
+    /**
+     * Call and get XML object from HTTP DELETE method
+     *
+     * @param responseClass
+     *            response class
+     * @param pathParams
+     *            response class The path parameters. See {@link RequestSpecification#delete(String, Object...)} pathParams.
+     * @return response object cast to responseClass
+     */
+    public RESPONSE deleteXml(Class<RESPONSE> responseClass, Object... pathParams) {
+        RequestSpecification rSpec = createXmlRequestSpecification();
+        Response response = rSpec.delete(path(), pathParams);
         return toXmlResponse(response, responseClass);
     }
 
@@ -198,7 +230,7 @@ public abstract class ResponseProcessor<RESPONSE> {
      *
      * @param initRequestSpecification
      *            response is expanded on this object
-     * @return full setted RequestSpecification
+     * @return full set RequestSpecification
      */
     protected RequestSpecification createRequestSpecification(RequestSpecification initRequestSpecification) {
         return RestAssured
@@ -215,7 +247,7 @@ public abstract class ResponseProcessor<RESPONSE> {
      *            RestAssured response
      * @param responseClass
      *            response DTO class
-     * @return response object casted to responseClass
+     * @return response object cast to responseClass
      */
     protected RESPONSE toJsonResponse(Response response, Class<RESPONSE> responseClass) {
         ResponseSpecification jsonSpec = CDI.current().select(ResponseSpecification.class, new JSON.Literal()).get();
@@ -229,7 +261,7 @@ public abstract class ResponseProcessor<RESPONSE> {
      *            RestAssured response
      * @param responseClass
      *            response DTO class
-     * @return response object casted to responseClass
+     * @return response object cast to responseClass
      */
     protected RESPONSE toXmlResponse(Response response, Class<RESPONSE> responseClass) {
         ResponseSpecification xmlSpec = CDI.current().select(ResponseSpecification.class, new XML.Literal()).get();
@@ -245,7 +277,7 @@ public abstract class ResponseProcessor<RESPONSE> {
      *            response DTO class
      * @param iniResponseSpecification
      *            response is based on this object
-     * @return response object casted to responseClass
+     * @return response object cast to responseClass
      */
     protected RESPONSE toResponse(Response response, Class<RESPONSE> responseClass, ResponseSpecification iniResponseSpecification) {
         return response.then()//
