@@ -7,3 +7,9 @@
 
 ==== Átállás
 A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+
+==== roaster-mongodb
+* Létrejött a modul
+
+==== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.

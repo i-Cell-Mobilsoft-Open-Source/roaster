@@ -28,6 +28,7 @@
 		<module>roaster-weldunit</module>
 		<module>roaster-tm4j</module>
 		<module>roaster-hibernate</module>
+		<module>roaster-mongodb</module>
 	</modules>
 
 	<properties>

@@ -107,6 +107,11 @@
 				<artifactId>roaster-hibernate</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-mongodb</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<!-- bom imports -->
 			<dependency>

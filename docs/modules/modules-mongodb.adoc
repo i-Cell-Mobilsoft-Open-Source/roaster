@@ -1,0 +1,71 @@
+= Mongo DB
+
+A Mongo DB modul használatához csak be kell hivatkozni a pom.xml-ben
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-mongodb</artifactId>
+</dependency>
+----
+
+== Konfigurációs paraméterek
+
+A microprofile-config segítségével paraméterezhetőek a mongodb eléréséhez szükséges adatok.
+
+Példa:
+
+[source,yml]
+.META-INF/roaster-defaults.yml
+----
+coffee:
+    mongodb:
+        default: #<1>
+            database: foobar
+            uri: mongodb://user:pass@localhost:27017/?ssl=false #<2>
+----
+<1> Ez a `configKey`, amit a `@MongoClientConfiguration` annotációban kell használni
+<2> https://docs.mongodb.com/manual/reference/connection-string/
+
+A `database` és `url` megadása kötölező. További hangolási beállítások is léteznek,
+melyekről a coffee dokumentációban lehet olvasni.
+
+== Használata
+
+[source,java]
+----
+class MongoExampleIT extends BaseConfigurableWeldIT {
+
+    @Inject
+    @MongoClientConfiguration(configKey = "default")
+    private Instance<MongoDbClient> mongoDbClientInstance;
+
+    @Test
+    void test() throws BaseException {
+        MongoDbClient mongoDbClient = mongoDbClientInstance.get();
+
+        // collection megadása
+        mongoDbClient.initRepositoryCollection("example_collection");
+
+        // egy elem beszúrása
+        Object object = Map.of("foo", "bar");
+        BasicDBObject dtoDocument = MongoUtil.jsonToBasicDbObject(MongoJsonUtil.toJson(object));
+        mongoDbClient.insertOne(dtoDocument);
+
+        // a beszúrt elem id-jának lekérdezése
+        String id = dtoDocument.getString("_id");
+
+        // keresés filter-rel
+        BasicDBObject filter = new BasicDBObject();
+        filter.put("_id", new ObjectId(id));
+        BasicDBObject result1 = mongoDbClient.findFirst(filter);
+        System.out.println(result1);
+
+        // keresés id-val
+        BasicDBObject result2 = mongoDbClient.findById(id);
+        System.out.println(result2);
+    }
+}
+----
