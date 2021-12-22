@@ -55,7 +55,7 @@ public interface HibernateConfig {
      * 
      * @return settings value
      */
-    String getPooSize();
+    String getPoolSize();
 
     /**
      * 'hibernate.show_sql' setting

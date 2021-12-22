@@ -123,7 +123,7 @@ public class HibernateConfigImpl implements HibernateConfig {
     /**
      * {@inheritDoc}
      */
-    public String getPooSize() {
+    public String getPoolSize() {
         return getConfigValue(POOL_SIZE);
     }
 

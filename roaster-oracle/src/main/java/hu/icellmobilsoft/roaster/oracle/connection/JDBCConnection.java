@@ -21,12 +21,14 @@ package hu.icellmobilsoft.roaster.oracle.connection;
 
 import java.io.Closeable;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.Objects;
 
 import javax.enterprise.context.Dependent;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
@@ -43,15 +45,12 @@ import hu.icellmobilsoft.roaster.oracle.config.ManagedDBConfig;
 public class JDBCConnection implements Closeable {
 
     private static final String ERROR_MSG_ERROR_OCCURRED_DURING_DB_CONNECTION = "Error occurred during DB connection! [{0}]";
-    private static final String ERROR_MSG_ERROR_OCCURRED_DURING_CHECKING_DB_CONNECTION = "Error occurred during checking DB connection! [{0}]";
-    private static final String ERROR_MSG_ERROR_OCCURRED_DURING_CLOSING_DB_CONNECTION = "Error occurred during closing DB connection! [{0}]";
     private static final String ERROR_MSG_DB_CONFIGURATION_NOT_SET = "DB configuration not set!";
 
     private final Logger log = Logger.getLogger(JDBCConnection.class);
 
-    private Connection connection;
-
     private ManagedDBConfig config;
+    private HikariDataSource dataSource;
 
     /**
      * Creates connection, using given configuration
@@ -61,18 +60,34 @@ public class JDBCConnection implements Closeable {
      *             exception
      */
     public Connection getConnection() throws BaseException {
-        if (Objects.isNull(config)) {
-            throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, ERROR_MSG_DB_CONFIGURATION_NOT_SET);
-        }
+        checkInit();
         try {
-            log.trace("Creating connection url [{0}], user: [{1}]", config.getUrl(), config.getUser());
-            connection = DriverManager.getConnection(config.getUrl(), config.getUser(), config.getPassword());
+            return dataSource.getConnection();
         } catch (SQLException e) {
             String errorMsg = MessageFormat.format(ERROR_MSG_ERROR_OCCURRED_DURING_DB_CONNECTION, e.getLocalizedMessage());
             log.error(errorMsg);
             throw new TechnicalException(CoffeeFaultType.REPOSITORY_FAILED, errorMsg, e);
         }
-        return connection;
+    }
+
+    private void checkInit() throws TechnicalException {
+        if (Objects.isNull(config)) {
+            throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, ERROR_MSG_DB_CONFIGURATION_NOT_SET);
+        }
+        if (dataSource == null) {
+            log.trace("Creating dataSource. Url: [{0}], user: [{1}]", config.getUrl(), config.getUser());
+            dataSource = createDataSource();
+        }
+    }
+
+    private HikariDataSource createDataSource() {
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(config.getUrl());
+        hikariConfig.setUsername(config.getUser());
+        hikariConfig.setPassword(config.getPassword());
+        hikariConfig.setMaximumPoolSize(config.getMaximumPoolSize());
+
+        return new HikariDataSource(hikariConfig);
     }
 
     /**
@@ -93,15 +108,10 @@ public class JDBCConnection implements Closeable {
      * @return true if connection is null, closed or error by checking
      */
     public boolean isClosed() {
-        if (Objects.isNull(connection)) {
+        if (Objects.isNull(dataSource)) {
             return true;
         }
-        try {
-            return connection.isClosed();
-        } catch (SQLException e) {
-            log.error(MessageFormat.format(ERROR_MSG_ERROR_OCCURRED_DURING_CHECKING_DB_CONNECTION, e.getLocalizedMessage()), e);
-            return true;
-        }
+        return dataSource.isClosed();
     }
 
     /**
@@ -109,13 +119,9 @@ public class JDBCConnection implements Closeable {
      */
     @Override
     public void close() {
-        try {
-            if (!isClosed()) {
-                log.trace("Closing connection...");
-                connection.close();
-            }
-        } catch (SQLException e) {
-            log.error(MessageFormat.format(ERROR_MSG_ERROR_OCCURRED_DURING_CLOSING_DB_CONNECTION, e.getLocalizedMessage()), e);
+        if (!isClosed()) {
+            log.trace("Closing dataSource...");
+            dataSource.close();
         }
     }
 }
