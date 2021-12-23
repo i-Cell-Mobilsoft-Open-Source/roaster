@@ -51,8 +51,8 @@ public class GoogleIcellMobilsoftTest extends BaseSelenideTestCase {
         SelenideElement qInput = Selenide.$("input[name='q']");
         qInput.setValue("icellmobilsoft").pressEnter();
 
-        SelenideElement result = Selenide.$("div[id='search']");
-        ElementsCollection resultList = result.$$("div[class='g'] a[href='https://icellmobilsoft.hu/hu/'");
+        SelenideElement result = Selenide.$("div#search");
+        ElementsCollection resultList = result.$$("div.g a[href='https://icellmobilsoft.hu/hu/']");
         resultList.first().shouldHave(Condition.visible);
     }
 }

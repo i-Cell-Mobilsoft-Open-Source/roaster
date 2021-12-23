@@ -7,3 +7,9 @@
 
 ==== Átállás
 A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+
+==== roaster-selenide-angular
+* Létrejött a modul, benne a következő komponensekkel: `MatCheckbox`, `MatRadioGroup`, `MatSelect`, `MatSlideToggle`
+
+==== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
