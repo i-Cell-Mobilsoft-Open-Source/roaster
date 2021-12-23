@@ -31,7 +31,7 @@
 		<version.commons.logging>1.2</version.commons.logging>
 
 		<!-- Selenide -->
-		<version.codeborn.selenide>5.22.2</version.codeborn.selenide>
+		<version.codeborn.selenide>6.1.1</version.codeborn.selenide>
 
 		<!-- Hibernate -->
 		<version.org.hibernate>5.3.7.Final</version.org.hibernate>
