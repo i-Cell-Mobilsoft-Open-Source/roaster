@@ -60,7 +60,7 @@ public class JDBCConnection implements Closeable {
      *             exception
      */
     public Connection getConnection() throws BaseException {
-        checkInit();
+        initIfNeeded();
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
@@ -70,7 +70,7 @@ public class JDBCConnection implements Closeable {
         }
     }
 
-    private void checkInit() throws TechnicalException {
+    private void initIfNeeded() throws TechnicalException {
         if (Objects.isNull(config)) {
             throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, ERROR_MSG_DB_CONFIGURATION_NOT_SET);
         }
