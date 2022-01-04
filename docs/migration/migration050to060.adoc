@@ -9,7 +9,7 @@
 A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
 
 ==== roaster-selenide
-* Selenide upgrade 5.22.2 -> 6.1.1
+* Selenide upgrade 5.22.2 -> 6.1.2
 
 ==== Átállás
 * A Selenide upgrade okozhat problémát. Lásd: https://github.com/selenide/selenide/blob/master/CHANGELOG.md[Selenide changelog]
