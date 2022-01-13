@@ -12,7 +12,7 @@
 === roaster-restassured
 * A default JSON object mapper az idő értékeket ISO formátumra serializálja az eddigi "1600871093.907000000" helyett.
 
-* Megszünt a deprecated lehetőség 
+* Megszünt a deprecated lehetőség
 
 [source,java]
 ----
@@ -34,7 +34,7 @@ private RestAssuredConfig restAssuredConfig;
 
 === Átállás
 
-Az IT tesztekből ki kell venni az eddig manualisan hozzáadott bean-eket, egyébként 
+Az IT tesztekből ki kell venni az eddig manualisan hozzáadott bean-eket, egyébként
 "Bean name is ambiguous." hibaüzenetet kapunk.
 [source,java]
 ----
@@ -52,7 +52,7 @@ protected void configureWeld(Weld weld) {
 
 === Átállás
 
-A unit tesztekből ki kell venni az eddig manualisan hozzáadott bean-eket, egyébként 
+A unit tesztekből ki kell venni az eddig manualisan hozzáadott bean-eket, egyébként
 "Bean name is ambiguous." hibaüzenetet kapunk.
 [source,java]
 ----

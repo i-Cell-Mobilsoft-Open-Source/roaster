@@ -1,3 +1,4 @@
+[#modules-selenide]
 = Selenide
 
 A Selenide modul használatához csak be kell hivatkozni a pom.xml-ben
@@ -80,4 +81,68 @@ public class GoogleIcellMobilsoftTest extends BaseSelenideTestCase {
         resultList.first().shouldHave(Condition.visible);
     }
 }
+----
+
+== Selenide Angular modul
+
+A modul célja az Angular-ban használt komplexebb komponensek támogatása.
+
+Használatához a következő maven modult kell bekötni:
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-selenide-angular</artifactId>
+</dependency>
+----
+
+Jelenleg támogatott komponensek:
+
+=== <mat-checkbox>
+
+[source,java]
+.példa
+----
+MatCheckbox checkbox = new MatCheckbox(Selenide.$(MatCheckbox.TAG_NAME));
+assertFalse(checkbox.getValue());
+checkbox.toggle();
+assertTrue(checkbox.getValue());
+----
+
+=== <mat-radio-group>
+
+[source,java]
+.példa
+----
+MatRadioGroup radioGroup = new MatRadioGroup(Selenide.$(MatRadioGroup.TAG_NAME));
+assertTrue(radioGroup.getSelected().isEmpty());
+radioGroup.select("Option 2");
+assertEquals("Option 2", radioGroup.getSelected().orElseThrow());
+assertIterableEquals(List.of("Option 1", "Option 2"), radioGroup.getOptions());
+----
+
+=== <mat-select>
+
+[source,java]
+.példa
+----
+MatSelect multiSelect = new MatSelect(Selenide.$("#select-multiple " + MatSelect.TAG_NAME));
+multiSelect.select("Onion", "Pepperoni");
+assertIterableEquals(List.of("Onion", "Pepperoni"), multiSelect.getSelected());
+multiSelect.select("Tomato");
+assertIterableEquals(List.of("Tomato"), multiSelect.getSelected());
+assertEquals(6, multiSelect.getOptions().size());
+----
+
+=== <mat-slide-toggle>
+
+[source,java]
+.példa
+----
+MatSlideToggle checkbox = new MatSlideToggle(Selenide.$(MatSlideToggle.TAG_NAME));
+assertFalse(checkbox.getValue());
+checkbox.toggle();
+assertTrue(checkbox.getValue());
 ----
