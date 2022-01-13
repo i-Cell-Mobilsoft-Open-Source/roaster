@@ -1,11 +1,11 @@
-== 0.4.0 -> 0.5.0
+= 0.4.0 -> 0.5.0
 
-=== Változások
+== Változások
 
-==== Általános
+=== Általános
 coff:ee frissítés 1.5.0 → 1.6.0
 
-==== roaster-restassured
+=== roaster-restassured
 * Microprofile konfigból állítható injektálható ResponseProcessor (`@RestProcessor`, `ConfigurableResponseProcessor`)
 * Az OpenAPITestHelper osztály `testOpenAPI` metódusa kiegészült `expectedOpenapiVersion` paraméterrel, hogy projekt szinten lehessen állítani.
 Túlterheléssel megmaradt az eredeti szintaxis is, ezt hívva alapértelmezetten `3.0.3` az elvárt openapi verzió.
@@ -28,7 +28,7 @@ public class ProjectOpenApiTestHelper extends OpenAPITestHelper {
 }
 ----
 
-==== Átállás
+=== Átállás
 * `OpenAPITestHelper.testOpenAPI(java.lang.String)` a továbbiakban `3.0.1` helyett `3.0.3` OpenAPI verzióra futtat assertet.
 Amennyiben ez projekt szinten nem felel meg a `OpenAPITestHelper.testOpenAPI(java.lang.String, java.lang.String)` metódussal felülírható az elvárt verzió.
 +
