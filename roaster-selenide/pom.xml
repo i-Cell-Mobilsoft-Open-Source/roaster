@@ -12,6 +12,7 @@
 
     <modules>
         <module>roaster-selenide-api</module>
+        <module>roaster-selenide-angular</module>
     </modules>
 
     <dependencyManagement>
