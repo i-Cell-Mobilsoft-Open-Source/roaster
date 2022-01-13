@@ -8,6 +8,18 @@
 ==== Átállás
 A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
 
+==== roaster-selenide
+* Selenide upgrade 5.22.2 -> 6.1.2
+
+==== Átállás
+* A Selenide upgrade okozhat problémát. Lásd: https://github.com/selenide/selenide/blob/master/CHANGELOG.md[Selenide changelog]
+
+==== roaster-selenide-angular
+* Létrejött a modul, benne a következő komponensekkel: `MatCheckbox`, `MatRadioGroup`, `MatSelect`, `MatSlideToggle`
+
+==== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+
 ==== roaster-mongodb
 * Létrejött a modul
 

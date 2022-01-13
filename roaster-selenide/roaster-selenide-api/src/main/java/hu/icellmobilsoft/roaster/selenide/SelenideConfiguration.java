@@ -85,14 +85,10 @@ public class SelenideConfiguration {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
             Configuration.browserCapabilities = chromeOptions;
-
-            Configuration.startMaximized = false;
         } else {
             Configuration.browser = browserType;
             if (decisionWidth != null && decisionHeight != null) {
                 Configuration.browserSize = MessageFormat.format("{0}x{1}", String.valueOf(decisionWidth), String.valueOf(decisionHeight));
-            } else {
-                Configuration.startMaximized = true;
             }
         }
 

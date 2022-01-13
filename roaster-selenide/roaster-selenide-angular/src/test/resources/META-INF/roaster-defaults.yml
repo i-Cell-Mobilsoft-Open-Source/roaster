@@ -1,0 +1,8 @@
+# Minimal Roaster config for Selenide
+roaster:
+  selenide:
+    homepage: https://material.angular.io
+    timeout: 5000
+    browser:
+      type: chrome
+      headless: false
