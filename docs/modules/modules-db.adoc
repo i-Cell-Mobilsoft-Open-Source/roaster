@@ -35,8 +35,9 @@ roaster:
                 url: jdbc:oracle:thin:@//oracle.icellmobilsoft.hu:1521/sample
                 user: db_user
                 password: db_pass
-
+                maximumPoolSize: 10 #<1>
 ----
+<1> (Opcionális) a connection pool max mérete (default: 5)
 
 == OracleJDBCSelectorService használata
 

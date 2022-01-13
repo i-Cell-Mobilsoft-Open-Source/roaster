@@ -80,10 +80,11 @@ public class DBConnectionProducer {
      * @return connection handler object
      */
     private synchronized JDBCConnection getInstance(String configKey) {
-        if (!connectionInstances.containsKey(configKey) || connectionInstances.get(configKey).isClosed()) {
-            connectionInstances.put(configKey, createConnection(configKey));
-        }
-        return connectionInstances.get(configKey);
+        return connectionInstances.compute(configKey, this::getJdbcConnection);
+    }
+
+    private JDBCConnection getJdbcConnection(String configKey, JDBCConnection existingConnection) {
+        return existingConnection == null || existingConnection.isClosed() ? createConnection(configKey) : existingConnection;
     }
 
     private JDBCConnection createConnection(String configKey) {

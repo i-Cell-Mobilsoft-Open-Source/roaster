@@ -80,6 +80,10 @@ public class ManagedDBConfig implements DBConfig {
      */
     public static final String PASSWORD = "password";
     /**
+     * Constant {@value}
+     */
+    public static final String MAXIMUM_POOL_SIZE = "maximumPoolSize";
+    /**
      * Constant <code>KEY_DELIMITER="."</code>
      */
     public static final String KEY_DELIMITER = ".";
@@ -117,6 +121,11 @@ public class ManagedDBConfig implements DBConfig {
     @Override
     public String getPassword() {
         return config.getOptionalValue(joinKey(PASSWORD), String.class).orElse(null);
+    }
+
+    @Override
+    public int getMaximumPoolSize() {
+        return config.getOptionalValue(joinKey(MAXIMUM_POOL_SIZE), Integer.class).orElse(5);
     }
 
     public String getConfigKey() {

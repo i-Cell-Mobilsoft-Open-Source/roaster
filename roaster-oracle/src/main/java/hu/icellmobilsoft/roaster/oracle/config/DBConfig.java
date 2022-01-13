@@ -61,4 +61,13 @@ public interface DBConfig {
      */
     String getPassword() throws BaseException;
 
+    /**
+     * Returns the maximus size of the connection pool
+     * 
+     * @return the maximus size of the connection pool
+     * @throws BaseException
+     *             exception
+     */
+    int getMaximumPoolSize() throws BaseException;
+
 }

@@ -35,3 +35,9 @@ A változtatások nem eredményeznek átállási munkálatokat, visszafelé komp
 
 ==== Átállás
 A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+
+==== roaster-oracle
+* DB connection pool került bevezetésre; létrejött a `maximumPoolSize` konfig kulcs
+
+==== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.

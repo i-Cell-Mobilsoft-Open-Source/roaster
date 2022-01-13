@@ -120,7 +120,7 @@ public class EntityManagerFactoryProducer {
 
         // Set settings from Roaster config
         props.put(Environment.DIALECT, hibernateConfig.getDialect());
-        props.put(Environment.POOL_SIZE, hibernateConfig.getPooSize());
+        props.put(Environment.POOL_SIZE, hibernateConfig.getPoolSize());
         props.put(Environment.SHOW_SQL, hibernateConfig.getShowSql());
         props.put(Environment.FORMAT_SQL, hibernateConfig.getFormatSql());
         props.put(Environment.DEFAULT_SCHEMA, hibernateConfig.getDefaultSchema());
