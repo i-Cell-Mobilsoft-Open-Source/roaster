@@ -28,7 +28,7 @@
 
 		<version.org.jboss.weld.weld-junit5>2.0.1.Final</version.org.jboss.weld.weld-junit5>
 		<version.org.jboss.weld.core>3.1.5.Final</version.org.jboss.weld.core>
-		<version.org.jboss.resteasy.client.microprofile>4.5.8.Final</version.org.jboss.resteasy.client.microprofile>
+		<version.org.jboss.resteasy.client.microprofile>4.7.5.Final</version.org.jboss.resteasy.client.microprofile>
 		<version.commons.logging>1.2</version.commons.logging>
 
 		<!-- Selenide -->
