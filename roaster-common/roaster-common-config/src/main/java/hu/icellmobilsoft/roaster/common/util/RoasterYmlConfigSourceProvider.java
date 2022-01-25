@@ -21,6 +21,7 @@ package hu.icellmobilsoft.roaster.common.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +68,8 @@ public class RoasterYmlConfigSourceProvider implements ConfigSourceProvider {
 
         try (InputStream stream = classLoader.getResourceAsStream(resource)) {
             if (stream != null) {
-                return Optional.of(new YamlConfigSource(resource, stream, ordinal));
+                String text = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
+                return Optional.of(new YamlConfigSource(resource, text, ordinal));
             }
         } catch (IOException e) {
             log.trace("Could not read yaml config source.", e);
