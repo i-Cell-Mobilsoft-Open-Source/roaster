@@ -1,0 +1,12 @@
+= 0.6.0 -> 0.7.0
+
+== Változások
+
+=== Általános
+
+=== roaster-common-config
+* A `RoasterYmlConfigSourceProvider`-ben használt `public YamlConfigSource(String name, InputStream stream, int defaultOrdinal) throws IOException` hívás `@Deprecated` lett ezért ettől a verziótól a `public YamlConfigSource(String name, String source, int ordinal)` hívása történik
+
+=== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+
