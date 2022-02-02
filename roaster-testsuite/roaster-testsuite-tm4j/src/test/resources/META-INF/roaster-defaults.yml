@@ -1,0 +1,6 @@
+roaster:
+  tm4j:
+    enabled: true
+    projectKey: XXX
+    testCycleKey: XXX-C123
+    server/basicAuthToken: ZXhhbXBsZS11c2VyOnNlY3JldA==

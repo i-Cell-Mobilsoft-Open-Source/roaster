@@ -280,5 +280,12 @@
 				</plugins>
 			</build>
 		</profile>
+
+		<profile>
+			<id>ci</id>
+			<modules>
+				<module>roaster-testsuite</module>
+			</modules>
+		</profile>
 	</profiles>
 </project>
