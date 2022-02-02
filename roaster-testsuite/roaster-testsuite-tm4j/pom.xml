@@ -49,7 +49,6 @@
         <dependency>
             <groupId>org.mock-server</groupId>
             <artifactId>mockserver-client-java</artifactId>
-            <version>5.11.2</version>
             <exclusions>
                 <exclusion>
                     <groupId>javax.servlet</groupId>
