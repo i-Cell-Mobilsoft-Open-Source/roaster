@@ -29,6 +29,7 @@
 		<module>roaster-tm4j</module>
 		<module>roaster-hibernate</module>
 		<module>roaster-mongodb</module>
+		<module>roaster-testsuite</module>
 	</modules>
 
 	<properties>

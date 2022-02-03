@@ -10,3 +10,10 @@
 === Átállás
 A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
 
+
+=== roaster-tm4j
+* A `MissingResourceException` javításra került
+
+=== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+
