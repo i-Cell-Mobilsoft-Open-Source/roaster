@@ -4,6 +4,10 @@
 
 === Általános
 
+==== BOM verzió emelések
+* junit5 v5.6.2 -> v5.8.2
+* selenide v6.1.2 -> v6.3.0
+
 === roaster-common-config
 * A `RoasterYmlConfigSourceProvider`-ben használt `public YamlConfigSource(String name, InputStream stream, int defaultOrdinal) throws IOException` hívás `@Deprecated` lett ezért ettől a verziótól a `public YamlConfigSource(String name, String source, int ordinal)` hívása történik
 
