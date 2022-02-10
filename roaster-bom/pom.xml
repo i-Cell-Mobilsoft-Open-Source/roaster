@@ -38,7 +38,7 @@
 		<version.codeborn.selenide>6.3.0</version.codeborn.selenide>
 
 		<!-- Hibernate -->
-		<version.org.hibernate>5.3.7.Final</version.org.hibernate>
+		<version.org.hibernate>5.4.24.Final</version.org.hibernate>
 
 	</properties>
 
