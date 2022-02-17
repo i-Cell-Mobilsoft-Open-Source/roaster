@@ -15,7 +15,7 @@
 		<version.hu.icellmobilsoft.coffee>1.8.0</version.hu.icellmobilsoft.coffee>
 		<version.org.junit>5.8.2</version.org.junit>
 		<version.testcontainers>1.16.3</version.testcontainers>
-		<version.mockserver-client-java>5.11.2</version.mockserver-client-java>
+		<version.mockserver-client-java>5.12.0</version.mockserver-client-java>
 
 		<version.org.apache.commons.commons-text>1.8</version.org.apache.commons.commons-text>
 		<!-- rest-assured 4.0.0+ bug https://github.com/rest-assured/rest-assured/issues/1175 -->
