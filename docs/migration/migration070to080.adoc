@@ -3,11 +3,11 @@
 == Változások
 
 === roaster-restassured
-* A `HealthCheckTestHelper` módosult, a továbbiakban az általános `/health` végpont hívás helyett a tipizált probe hivást kell használni:
+* A `HealthCheckTestHelper` módosult, a továbbiakban az általános `/health` végpont hívás mellett lehetőség van a tipizált probe hivásokat használni:
 - `/health/ready`
 - `/health/live`
 - `/health/started`
 
 === Átállás
-A változtatás nem eredményez átállási munkálatokat, visszafelé kompatibilis. A `/health` használata depricated jelölést kapott.
+A változtatás nem eredményez átállási munkálatokat, visszafelé kompatibilis.
 

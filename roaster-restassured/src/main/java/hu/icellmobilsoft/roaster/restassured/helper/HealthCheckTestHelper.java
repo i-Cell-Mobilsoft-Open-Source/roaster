@@ -54,7 +54,6 @@ public class HealthCheckTestHelper {
      *
      * @param baseUri URI for health endpoint
      */
-    @Deprecated(since = "0.8.0", forRemoval = true)
     public void testHealth(String baseUri) {
         testHealthPath(baseUri, MicroprofilePath.HEALTH_PATH);
     }
