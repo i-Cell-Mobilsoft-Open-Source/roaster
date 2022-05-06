@@ -1,0 +1,13 @@
+= 0.7.0 -> 0.8.0
+
+== Változások
+
+=== roaster-restassured
+* A `HealthCheckTestHelper` módosult, a továbbiakban az általános `/health` végpont hívás mellett lehetőség van a tipizált probe hivásokat használni:
+- `/health/ready`
+- `/health/live`
+- `/health/started`
+
+=== Átállás
+A változtatás nem eredményez átállási munkálatokat, visszafelé kompatibilis.
+

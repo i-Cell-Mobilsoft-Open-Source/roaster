@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,7 +33,7 @@ import io.restassured.specification.ResponseSpecification;
 
 /**
  * Helper class for /health endpoint restassured testing
- * 
+ *
  * @author mark.petrenyi
  */
 @Dependent
@@ -51,27 +51,53 @@ public class HealthCheckTestHelper {
 
     /**
      * Testing /health
-     * 
-     * @param baseUri
-     *            URI for health endpoint
+     *
+     * @param baseUri URI for health endpoint
      */
     public void testHealth(String baseUri) {
+        testHealthPath(baseUri, MicroprofilePath.HEALTH_PATH);
+    }
 
-        String status = RestAssured
-                // given
-                .given()//
-                .spec(requestSpecification)//
-                .baseUri(baseUri)
-                // when
-                .when()//
-                .log().all()//
-                .get(MicroprofilePath.HEALTH_PATH)
-                // then
-                .then()//
-                .log().all()//
-                .spec(responseSpecification)//
+    /**
+     * Test health/ready status UP
+     *
+     * @param baseUri service base uri
+     */
+    public void testHealthReady(String baseUri) {
+        testHealthPath(baseUri, MicroprofilePath.HEALTH_READY_PATH);
+    }
+
+    /**
+     * Test health/live status UP
+     *
+     * @param baseUri service base uri
+     */
+    public void testHealthLive(String baseUri) {
+        testHealthPath(baseUri, MicroprofilePath.HEALTH_LIVE_PATH);
+    }
+
+    /**
+     * Test health/started status UP
+     *
+     * @param baseUri service base uri
+     */
+    public void testHealthStarted(String baseUri) {
+        testHealthPath(baseUri, MicroprofilePath.HEALTH_STARTED_PATH);
+    }
+
+    private void testHealthPath(String baseUri, String healthPath) {
+        // given
+        String status = HealthCheckResponse.Status.UP.name();
+
+        // when
+        String responseStatus = RestAssured //
+                .given().spec(requestSpecification).baseUri(baseUri) //
+                .when().log().all().get(healthPath) //
+                .then().log().all().spec(responseSpecification) //
                 .extract().response().body().jsonPath().get(STATUS_JSON_PATH);
-        Assertions.assertEquals(HealthCheckResponse.Status.UP.name(), status);
+
+        // then
+        Assertions.assertEquals(status, responseStatus);
     }
 
 }
