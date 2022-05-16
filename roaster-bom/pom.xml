@@ -23,7 +23,7 @@
 		<version.io.smallrye.config>2.0.2</version.io.smallrye.config>
 		<version.jakarta.xml.bind-api>2.3.3</version.jakarta.xml.bind-api>
 		<version.org.mockito.mockito-core>3.3.3</version.org.mockito.mockito-core>
-		<version.com.fasterxml.jackson>2.11.3</version.com.fasterxml.jackson>
+		<version.com.fasterxml.jackson>2.12.6.1</version.com.fasterxml.jackson>
 
 		<version.com.oracle.ojdbc>19.3.0.0</version.com.oracle.ojdbc>
 		<version.com.zaxxer.hikaricp>5.0.0</version.com.zaxxer.hikaricp>
