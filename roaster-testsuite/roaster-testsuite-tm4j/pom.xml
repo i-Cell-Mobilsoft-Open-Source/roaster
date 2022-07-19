@@ -30,6 +30,12 @@
         <dependency>
             <groupId>hu.icellmobilsoft.roaster</groupId>
             <artifactId>roaster-tm4j-junit5</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<groupId>com.fasterxml.jackson.core</groupId>
+            		<artifactId>jackson-annotations</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
 
         <!-- testcontainers, mockserver -->
