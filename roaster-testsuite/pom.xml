@@ -12,6 +12,7 @@
 
     <modules>
         <module>roaster-testsuite-tm4j</module>
+        <module>roaster-testsuite-redis</module>
     </modules>
 
     <dependencyManagement>
