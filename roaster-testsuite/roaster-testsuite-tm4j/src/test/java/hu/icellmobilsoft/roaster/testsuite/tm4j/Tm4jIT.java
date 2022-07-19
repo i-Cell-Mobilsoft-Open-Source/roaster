@@ -54,7 +54,7 @@ import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class Tm4jIT extends BaseWeldUnitType {
 
-    private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.12.0"));
+    private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.13.2"));
     private static MockServerClient MOCK_SERVER_CLIENT;
 
     @BeforeAll
