@@ -31,7 +31,7 @@
             <artifactId>roaster-redis</artifactId>
         </dependency>
 
-        <!-- testcontainers, mockserver -->
+        <!-- testcontainers -->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>

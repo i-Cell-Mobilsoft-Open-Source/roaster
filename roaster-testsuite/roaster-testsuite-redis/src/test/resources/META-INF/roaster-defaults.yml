@@ -1,9 +1,9 @@
 coffee:
   redis:
     test:
-      # ez kodilag allitjuk be mivel dinamikus a teszt futas alatt 
+      # host es port kodilag allitjuk be mivel dinamikus a teszt futas alatt 
       # host: 172.17.0.4
-      port: 6379
+      # port: 6379
       # password: nincs
       database: 0
       pool:
