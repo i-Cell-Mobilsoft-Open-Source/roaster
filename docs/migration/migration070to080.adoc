@@ -5,7 +5,8 @@
 === Általános
 
 ==== BOM verzió emelések
-* coffee v1.8.0 -> https://i-cell-mobilsoft-open-source.github.io/coffee/#_v1_9_0_v1_10_0[v1.10.1] 
+* coffee v1.8.0 -> https://i-cell-mobilsoft-open-source.github.io/coffee/#_v1_9_0_v1_10_0[v1.10.1]
+* deltaspike 1.9.1 -> 1.9.6 
 
 === roaster-restassured
 * A `HealthCheckTestHelper` módosult, a továbbiakban az általános `/health` végpont hívás mellett lehetőség van a tipizált probe hivásokat használni:
