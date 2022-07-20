@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.testsuite.tedis;
+package hu.icellmobilsoft.roaster.testsuite.redis;
 
 import redis.clients.jedis.Jedis;
 

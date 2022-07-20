@@ -38,7 +38,7 @@ import hu.icellmobilsoft.coffee.module.redis.annotation.RedisConnection;
 import hu.icellmobilsoft.coffee.module.redis.manager.RedisManager;
 import hu.icellmobilsoft.coffee.tool.gson.JsonUtil;
 import hu.icellmobilsoft.roaster.redis.RedisHandler;
-import hu.icellmobilsoft.roaster.testsuite.tedis.RedisContainer;
+import hu.icellmobilsoft.roaster.testsuite.redis.RedisContainer;
 import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 import redis.clients.jedis.Jedis;
 
