@@ -2,6 +2,11 @@
 
 == Változások
 
+=== Általános
+
+==== BOM verzió emelések
+* coffee v1.8.0 -> https://i-cell-mobilsoft-open-source.github.io/coffee/#_v1_9_0_v1_10_0[v1.10.1] 
+
 === roaster-restassured
 * A `HealthCheckTestHelper` módosult, a továbbiakban az általános `/health` végpont hívás mellett lehetőség van a tipizált probe hivásokat használni:
 - `/health/ready`
@@ -11,3 +16,12 @@
 === Átállás
 A változtatás nem eredményez átállási munkálatokat, visszafelé kompatibilis.
 
+=== roaster-redis
+A Coff:ee frissítése változást okozott a `hu.icellmobilsoft.roaster.redis.RedisHandler`
+osztályban (coffee-ban kivezetésre került a `RedisService`).
+Apró változásokat okozott az átvezetés,
+és mégpedig hogy a metódusok visszatérése `Optional` értékkel jön az eddigi `String` vagy `void` helyett.
+
+=== Átállás
+A változtatás apró korrekciókat igényelhet a visszatérési értekek típusánál,
+egyébként visszafelé kompatibilis.

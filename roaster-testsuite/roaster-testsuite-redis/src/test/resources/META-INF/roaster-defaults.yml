@@ -1,0 +1,12 @@
+coffee:
+  redis:
+    test:
+      # host es port kodilag allitjuk be mivel dinamikus a teszt futas alatt 
+      # host: 172.17.0.4
+      # port: 6379
+      # password: nincs
+      database: 0
+      pool:
+        maxtotal: 6 #default: 64
+        maxidle: 6 #default: 64
+      timeout: 5000 #default: 5000
