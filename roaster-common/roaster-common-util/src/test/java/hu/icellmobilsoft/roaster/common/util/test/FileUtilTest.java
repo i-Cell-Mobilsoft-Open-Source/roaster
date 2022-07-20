@@ -1,0 +1,83 @@
+/*-
+ * #%L
+ * Coffee
+ * %%
+ * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+package hu.icellmobilsoft.roaster.common.util.test;
+
+import java.nio.file.Path;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+
+import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.roaster.common.util.FileUtil;
+
+/**
+ * File utils for test environment
+ * 
+ * @author imre.scheffer
+ * @since 0.8.0
+ */
+@Tag("unit")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DisplayName("Testing FileUtil")
+class FileUtilTest {
+
+    final String TEST_TXT_FILE_NAME = "test.txt";
+    final String TEST_TXT_CONTENT = "Lorem Ipsum";
+
+    @Test
+    @DisplayName("Testing FileUtil.readFile")
+    void readFile() {
+        String content = FileUtil.readFile(FileUtil.SRC_TEST_RESOURCES, TEST_TXT_FILE_NAME);
+        Assertions.assertEquals(TEST_TXT_CONTENT, content);
+    }
+
+    @Test
+    @DisplayName("Testing FileUtil.readFileFromResource")
+    void readFileFromResource() {
+        String content = FileUtil.readFileFromResource(TEST_TXT_FILE_NAME);
+        Assertions.assertEquals(TEST_TXT_CONTENT, content);
+    }
+
+    @Test
+    @DisplayName("Testing FileUtil.readFileFromResource InputStream")
+    void readFileFromResourceInputStream() throws BaseException {
+        InputStreamReader reader = new InputStreamReader();
+        FileUtil.readFileFromResource(TEST_TXT_FILE_NAME, reader::read);
+        Assertions.assertEquals(TEST_TXT_CONTENT, reader.getContent());
+    }
+
+    @Test
+    @DisplayName("Testing FileUtil.readFile path InputStream")
+    void readFileInputStream() throws BaseException {
+        InputStreamReader reader = new InputStreamReader();
+        FileUtil.readFile(Path.of(FileUtil.SRC_TEST_RESOURCES, TEST_TXT_FILE_NAME), reader::read);
+        Assertions.assertEquals(TEST_TXT_CONTENT, reader.getContent());
+    }
+
+    @Test
+    @DisplayName("Testing FileUtil.readFile path")
+    void readFilePath() throws BaseException {
+        String content = FileUtil.readFile(Path.of(FileUtil.SRC_TEST_RESOURCES, TEST_TXT_FILE_NAME));
+        Assertions.assertEquals(TEST_TXT_CONTENT, content);
+    }
+}

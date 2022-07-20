@@ -21,6 +21,7 @@ package hu.icellmobilsoft.roaster.common.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.roaster.api.TestException;
 
 /**
@@ -78,6 +80,82 @@ public class FileUtil {
             return file;
         } catch (IOException e) {
             throw new TestException(MessageFormat.format("Unable to read File [{0}] from resource", fileName), e);
+        }
+    }
+
+    /**
+     * Read file by java.nio (java 11+) from ClassLoader.getSystemResourceAsStream <br>
+     * Sample:
+     * 
+     * <pre>
+     * public void read(InputStream inputStream) throws BaseException, IOException {
+     *     content = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+     * }
+     *
+     * public void sample() {
+     *     FileUtil.readFile(Path.of("src/test/resources/", "test.txt"), reader::read);
+     *     String content = reader.getContent();
+     * }
+     * </pre>
+     * 
+     * @param fileName
+     *            filename like token.xml, in src/main/resources source directory
+     * @param function
+     *            readed InputStream consumer. All exception is handled to {@code TestException}
+     * @see ClassLoader#getSystemResourceAsStream(String)
+     */
+    public static void readFileFromResource(String fileName, ExceptionConsumer<InputStream, Exception> function) {
+        if (StringUtils.isBlank(fileName)) {
+            return;
+        }
+
+        try (var inputStream = ClassLoader.getSystemResourceAsStream(fileName)) {
+            function.accept(inputStream);
+            LOG.info(() -> MessageFormat.format("File [{0}] from resources readed!", ClassLoader.getSystemResource(fileName)));
+        } catch (IOException e) {
+            throw new TestException(MessageFormat.format("Unable to read File [{0}] from resource", fileName), e);
+        } catch (BaseException e) {
+            throw new TestException(MessageFormat.format("BaseException during reading File [{0}] from resource", fileName), e);
+        } catch (Exception e) {
+            throw new TestException(MessageFormat.format("Exception during reading File [{0}] from resource", fileName), e);
+        }
+    }
+
+    /**
+     * Read file by java.nio (java 11+) <br>
+     * Sample:
+     * 
+     * <pre>
+     * public void read(InputStream inputStream) throws BaseException, IOException {
+     *     content = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+     * }
+     *
+     * public void sample() {
+     *     FileUtil.readFile(Path.of("src/test/resources/", "test.txt"), reader::read);
+     *     String content = reader.getContent();
+     * }
+     * </pre>
+     * 
+     * @param path
+     *            the path to the file
+     * @param function
+     *            readed InputStream consumer. All exception is handled to {@code TestException}
+     * @see Files#readString(Path)
+     * 
+     */
+    public static void readFile(Path path, ExceptionConsumer<InputStream, Exception> function) {
+        if (path == null) {
+            throw new TestException("path is null!");
+        }
+        try {
+            function.accept(Files.newInputStream(path));
+            LOG.info(() -> MessageFormat.format("File from path [{0}] readed!", path.toAbsolutePath()));
+        } catch (IOException e) {
+            throw new TestException(MessageFormat.format("Unable to read File from path: [{0}]", path.toAbsolutePath()), e);
+        } catch (BaseException e) {
+            throw new TestException(MessageFormat.format("BaseException during reading File from path: [{0}]", path.toAbsolutePath()), e);
+        } catch (Exception e) {
+            throw new TestException(MessageFormat.format("Exception during reading File from path: [{0}]", path.toAbsolutePath()), e);
         }
     }
 
