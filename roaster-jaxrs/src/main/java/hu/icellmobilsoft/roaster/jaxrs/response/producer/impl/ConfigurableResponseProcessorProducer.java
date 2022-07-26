@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.restassured.response.producer.impl;
+package hu.icellmobilsoft.roaster.jaxrs.response.producer.impl;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
@@ -26,16 +26,16 @@ import javax.enterprise.inject.spi.InjectionPoint;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
-import hu.icellmobilsoft.roaster.restassured.response.producer.spi.AbstractConfigurableResponseProcessor;
-import hu.icellmobilsoft.roaster.restassured.response.producer.spi.AbstractConfigurableResponseProcessorProducer;
+import hu.icellmobilsoft.roaster.jaxrs.response.producer.spi.AbstractConfigurableResponseProcessor;
+import hu.icellmobilsoft.roaster.jaxrs.response.producer.spi.AbstractConfigurableResponseProcessorProducer;
 
 /**
  * CDI producer for {@link AbstractConfigurableResponseProcessor} default implementation
  *
  * @param <RESPONSE>
  *            response class (any type)
- * @author martin.nagy
- * @since 0.5.0
+ * @author imre.scheffer
+ * @since 0.8.0
  */
 @Dependent
 public final class ConfigurableResponseProcessorProducer<RESPONSE>

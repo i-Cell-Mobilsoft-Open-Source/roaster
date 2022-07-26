@@ -1,5 +1,15 @@
 = 0.7.0 -> 0.8.0
 
+== Újdonságok
+
+Létrejött egy új modul: *roaster-jaxrs*.
+A fő célja hogy JAXRS szintú specifikációt használva megoldásokat nyújcson olyan igényekre,
+melyek a *roaster-restassured* nem tud.
+Ilyen például a multipart kezelés,
+vagy a microprofile-rest-client lehetősége,
+ami sok customizálást tud pótolni.
+A *roaster-jaxrs* modulhoz készült leírás <<Jaxrs>> és testsuite is.
+
 == Változások
 
 === Általános
@@ -15,9 +25,19 @@ hibakezelést megoldja maga a funkció.
 - `/health/ready`
 - `/health/live`
 - `/health/started`
+* Az új *roaster-jaxrs* modul dependencia-ként lett bekötve,
+mivel a konfigurációjuk és a használatuk közös (azonos osztályok).
+Ez okoz apró változásokat a java path elérésében.
 
 === Átállás
-A változtatás nem eredményez átállási munkálatokat, visszafelé kompatibilis.
+A változtatás igényel apró változásokat,
+mégpedig a következő java path-ok változtak:
+
+* hu.icellmobilsoft.roaster.*restassured*.response.producer.ManagedResponseProcessorConfig -> hu.icellmobilsoft.roaster.*jaxrs*.response.producer.ManagedResponseProcessorConfig
+* hu.icellmobilsoft.roaster.*restassured*.response.producer.ResponseProcessorConfig -> hu.icellmobilsoft.roaster.*jaxrs*.response.producer.ResponseProcessorConfig
+* hu.icellmobilsoft.roaster.*restassured*.response.producer.RestProcessor -> hu.icellmobilsoft.roaster.*jaxrs*.response.producer.RestProcessor
+
+Egyébként nincs semmi működési változás, minden más érintettlen, visszafelé kompatibilis.
 
 === roaster-redis
 A Coff:ee frissítése változást okozott a `hu.icellmobilsoft.roaster.redis.RedisHandler`

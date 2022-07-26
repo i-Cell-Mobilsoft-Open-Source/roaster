@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.restassured.response.producer;
+package hu.icellmobilsoft.roaster.jaxrs.response.producer;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,10 +28,8 @@ import javax.enterprise.util.AnnotationLiteral;
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
-import hu.icellmobilsoft.roaster.restassured.response.producer.impl.ConfigurableResponseProcessor;
-
 /**
- * CDI qualifier for configuring {@link ConfigurableResponseProcessor}
+ * CDI qualifier for configuring ResponseProcessor
  *
  * @author martin.nagy
  * @since 0.5.0

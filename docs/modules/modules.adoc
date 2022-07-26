@@ -1,5 +1,6 @@
 = Modulok:
 include::modules-api.adoc[leveloffset=+1]
+include::modules-jaxrs.adoc[leveloffset=+1]
 include::modules-restassured.adoc[leveloffset=+1]
 include::modules-redis.adoc[leveloffset=+1]
 include::modules-db.adoc[leveloffset=+1]

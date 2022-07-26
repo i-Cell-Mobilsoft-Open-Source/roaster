@@ -2,7 +2,7 @@
  * #%L
  * Coffee
  * %%
- * Copyright (C) 2020 - 2021 i-Cell Mobilsoft Zrt.
+ * Copyright (C) 2020 - 2022 i-Cell Mobilsoft Zrt.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.restassured.response.producer.spi;
+package hu.icellmobilsoft.roaster.jaxrs.response.producer.spi;
 
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.InjectionPoint;
@@ -26,13 +26,12 @@ import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.ManagedResponseProcessorConfig;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.ResponseProcessorConfig;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
-import hu.icellmobilsoft.roaster.restassured.response.producer.impl.ConfigurableResponseProcessor;
 
 /**
- * Base class for {@link ConfigurableResponseProcessor} CDI producers
+ * Base class for Configurable ResponseProcessor CDI producers
  *
- * @author martin.nagy
- * @since 0.5.0
+ * @author imre.scheffer
+ * @since 0.8.0
  */
 public abstract class AbstractConfigurableResponseProcessorProducer<T extends AbstractConfigurableResponseProcessor<?>> {
 
