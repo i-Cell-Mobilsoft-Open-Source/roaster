@@ -101,7 +101,7 @@ public abstract class ResponseProcessor<RESPONSE> {
         target.register(cdi.select(DefaultLoggerClientRequestFilter.class).get());
         target.register(cdi.select(DefaultLoggerClientResponseFilter.class).get());
         // GET kuldese
-        Builder builder = target.request().accept(MediaType.APPLICATION_JSON_TYPE);
+        Builder builder = target.request().accept(MediaType.APPLICATION_OCTET_STREAM_TYPE);
         builder = clientBuilderCustomization(builder);
         Response response = builder.get();
         return processResponse(response, responseClass);
