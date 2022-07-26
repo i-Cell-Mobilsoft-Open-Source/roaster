@@ -35,6 +35,7 @@ import org.mockserver.model.MediaType;
 import org.testcontainers.containers.MockServerContainer;
 import org.testcontainers.utility.DockerImageName;
 
+import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.impl.ConfigurableResponseProcessor;
 import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
@@ -45,7 +46,7 @@ import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
  * @author imre.scheffer
  * @since 0.8.0
  */
-@Tag("integration")
+@Tag(TestSuiteGroup.INTEGRATION)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("Test of jaxb client GET octet stream")
 class JaxbGetOctetStreamIT extends BaseWeldUnitType {

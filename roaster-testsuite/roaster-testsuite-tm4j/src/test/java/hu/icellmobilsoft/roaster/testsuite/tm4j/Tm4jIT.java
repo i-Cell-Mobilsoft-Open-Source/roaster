@@ -39,6 +39,7 @@ import org.mockserver.model.MediaType;
 import org.testcontainers.containers.MockServerContainer;
 import org.testcontainers.utility.DockerImageName;
 
+import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
 import hu.icellmobilsoft.roaster.tm4j.junit5.Tm4jExtension;
 import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
@@ -49,7 +50,7 @@ import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
  * @author martin.nagy
  * @since 0.7.0
  */
-@Tag("integration")
+@Tag(TestSuiteGroup.INTEGRATION)
 @ExtendWith(Tm4jExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class Tm4jIT extends BaseWeldUnitType {

@@ -26,8 +26,25 @@ package hu.icellmobilsoft.roaster.api;
  */
 public interface TestSuiteGroup {
 
+    /**
+     * Junit + CDI type test
+     */
     String WELD_UNIT = "weld-unit";
+    /**
+     * JAX-RS type test
+     */
+    String JAXRS = "jaxrs";
+    /**
+     * Restassured type test
+     */
     String RESTASSURED = "restassured";
+    /**
+     * Selenide type test
+     */
     String SELENIDE = "selenide";
+    /**
+     * Integration type test (combination of any e.g. container + jaxrs)
+     */
+    String INTEGRATION = "integration";
 
 }

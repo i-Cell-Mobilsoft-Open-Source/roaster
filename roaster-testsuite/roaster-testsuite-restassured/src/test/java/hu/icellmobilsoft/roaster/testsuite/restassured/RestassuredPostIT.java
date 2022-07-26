@@ -42,6 +42,7 @@ import hu.icellmobilsoft.coffee.dto.common.commonservice.FunctionCodeType;
 import hu.icellmobilsoft.coffee.tool.gson.JsonUtil;
 import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
 import hu.icellmobilsoft.coffee.tool.utils.string.RandomUtil;
+import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
 import hu.icellmobilsoft.roaster.restassured.response.producer.impl.ConfigurableResponseProcessor;
 import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
@@ -52,7 +53,7 @@ import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
  * @author imre.scheffer
  * @since 0.8.0
  */
-@Tag("integration")
+@Tag(TestSuiteGroup.INTEGRATION)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("Test of Restassured POST calls")
 class RestassuredPostIT extends BaseWeldUnitType {
