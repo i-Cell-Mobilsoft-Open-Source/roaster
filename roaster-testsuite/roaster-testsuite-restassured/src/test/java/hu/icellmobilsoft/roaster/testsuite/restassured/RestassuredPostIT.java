@@ -75,8 +75,7 @@ class RestassuredPostIT extends BaseWeldUnitType {
         MOCK_SERVER.start();
 
         // microprofile-config beallitasok
-        String mockServerUrl = "http://" + MOCK_SERVER.getHost() + ":" + MOCK_SERVER.getServerPort();
-        System.setProperty("roaster.tm4j.server/mp-rest/url", mockServerUrl);
+        System.setProperty("roaster.tm4j.server/mp-rest/url", MOCK_SERVER.getEndpoint());
 
         String jsonResponse = JsonUtil.toJson(RESPONSE_DTO);
 
@@ -87,7 +86,7 @@ class RestassuredPostIT extends BaseWeldUnitType {
         expectation.when(HttpRequest.request().withPath("/rest/testService/test/entityIdJson500"))
                 .respond(HttpResponse.response().withStatusCode(500).withBody(jsonResponse, MediaType.APPLICATION_JSON_UTF_8));
 
-        System.setProperty("example-project.example-service.url", mockServerUrl);
+        System.setProperty("example-project.example-service.url", MOCK_SERVER.getEndpoint());
     }
 
     @AfterAll

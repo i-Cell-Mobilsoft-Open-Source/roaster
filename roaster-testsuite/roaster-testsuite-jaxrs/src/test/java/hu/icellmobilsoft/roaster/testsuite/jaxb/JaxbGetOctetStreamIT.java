@@ -67,8 +67,7 @@ class JaxbGetOctetStreamIT extends BaseWeldUnitType {
         MOCK_SERVER.start();
 
         // microprofile-config beallitasok
-        String mockServerUrl = "http://" + MOCK_SERVER.getHost() + ":" + MOCK_SERVER.getServerPort();
-        System.setProperty("roaster.tm4j.server/mp-rest/url", mockServerUrl);
+        System.setProperty("roaster.tm4j.server/mp-rest/url", MOCK_SERVER.getEndpoint());
 
         // MockServerContainer-ben beallitjuk a expectations-t
         MockServerClient expectation = new MockServerClient(MOCK_SERVER.getHost(), MOCK_SERVER.getServerPort());
@@ -77,7 +76,7 @@ class JaxbGetOctetStreamIT extends BaseWeldUnitType {
         expectation.when(HttpRequest.request().withPath("/rest/testService/test/entityId500"))
                 .respond(HttpResponse.response().withStatusCode(500).withBody(BODY, MediaType.APPLICATION_OCTET_STREAM));
 
-        System.setProperty("example-project.example-service.url", mockServerUrl);
+        System.setProperty("example-project.example-service.url", MOCK_SERVER.getEndpoint());
     }
 
     @AfterAll
