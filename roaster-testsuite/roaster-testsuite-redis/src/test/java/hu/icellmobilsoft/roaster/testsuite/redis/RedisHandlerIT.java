@@ -37,6 +37,7 @@ import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.module.redis.annotation.RedisConnection;
 import hu.icellmobilsoft.coffee.module.redis.manager.RedisManager;
 import hu.icellmobilsoft.coffee.tool.gson.JsonUtil;
+import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.redis.RedisHandler;
 import hu.icellmobilsoft.roaster.testsuite.redis.RedisContainer;
 import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
@@ -48,7 +49,7 @@ import redis.clients.jedis.Jedis;
  * @author imre.scheffer
  * @since 0.8.0
  */
-@Tag("integration")
+@Tag(TestSuiteGroup.INTEGRATION)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("Testing RedisHandler")
 class RedisHandlerIT extends BaseWeldUnitType {

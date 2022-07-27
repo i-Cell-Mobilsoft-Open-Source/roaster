@@ -40,6 +40,8 @@
 		<!-- Hibernate -->
 		<version.org.hibernate>5.4.24.Final</version.org.hibernate>
 
+		<!-- Jaxrs impl -->
+		<version.org.jboss.resteasy>4.7.5.Final</version.org.jboss.resteasy>
 	</properties>
 
 	<dependencyManagement>
@@ -59,6 +61,11 @@
 			<dependency>
 				<groupId>hu.icellmobilsoft.roaster</groupId>
 				<artifactId>roaster-redis</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-jaxrs</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -307,6 +314,16 @@
 				<scope>test</scope>
 			</dependency>
 
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-client</artifactId>
+				<version>${version.org.jboss.resteasy}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-multipart-provider</artifactId>
+				<version>${version.org.jboss.resteasy}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>

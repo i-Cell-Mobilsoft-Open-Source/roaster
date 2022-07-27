@@ -1,0 +1,163 @@
+= Jaxrs
+
+A Jaxrs modul használatához csak be kell hivatkozni a pom.xml-ben
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-jaxrs</artifactId>
+</dependency>
+----
+
+== Jaxrs használata
+
+A teszt fájlok a JakartaEE JAX-RS specifikációt követik,
+konktrétan a RestEasy implementációját használák.
+
+=== RestAssured default beállításai
+
+Alapértelmezetten XML vagy JSON formátumra van támogatás a rendszerben.
+
+.JSON response beállítások
+
+* A response HTTP status 200 és "application/json" accept.
+
+.XML response beállítások
+
+* A response HTTP status 200 és "application/xml" accept.
+
+=== ResponseProcessor
+
+==== Implementálása
+
+Egy adott endpoint tesztelésének segítésére született meg a `hu.icellmobilsoft.roaster.jaxrs.response.ResponseProcessor` absztrakt osztály.
+Leszármazástatáskor meg kell adni a Response típusát generikus paraméterben,
+valamint implementálni kell 2 String-et visszaadó metódust, hogy az endpoint-ot azonosítsuk:
+
+* `baseUriKey`: A Roaster konfigurációban használt kulcs, ami megadja az endpoint baseUri-jét
+* `path`: Az endpoint path. Pl.: http://localhost/foo/bar esetén: /foo/bar
+
+Opcionálisan az osztály többi metódusa is felülírható,
+hogy a request-et vagy a response foldolgozását személyre szabhassuk.
+
+==== Használata
+
+A `ResponseProcessor` implementáció `getOctetStream`, `postMultipartJson`, `postMultipartXml`, stb. metódusait
+használva tudjuk meghívni az endpoint-ot és automatán parse-olni a választ.
+
+=== ConfigurableResponseProcessor
+
+Annak érdekében, hogy ne kelljen minden rest végponthoz külön `ResponseProcessor`-t implementálni,
+létrejött a `ConfigurableResponseProcessor` osztály, ami konfigurációból olvassa ki a szükséges értékeket
+például a `baseUriKey`-t és a `path`-t.
+
+==== Használata
+
+A konfigurációban fel kell venni közös prefix alá a `baseUriKey`-t és a `path`-t.
+Opcionálisan itt `headers` is megadható.
+YAML formátum esetén ez így néz ki:
+
+[source,yml]
+----
+testsuite:
+    rest:
+        exampleService:
+            example:
+                baseUriKey: example-project.example-service.url
+                path: /rest/exampleService/example/{id}
+            headerExample:
+                baseUriKey: example-project.example-service.url
+                path: /rest/exampleService/example/{id}
+                headers:
+                    - "X-LANGUAGE: hu"
+                    - "User-Agent: roaster/0.8 restassured"
+----
+
+A tesztosztályba a `ConfigurableResponseProcessor`-t a `@RestProcessor`
+qualifier-rel lehet inject-álni a konfig prefixet megadva:
+
+[source,java]
+----
+import hu.icellmobilsoft.roaster.jaxrs.response.producer.impl.ConfigurableResponseProcessor;
+
+class ExampleTest {
+    @Inject
+    @RestProcessor(configKey = "testsuite.rest.exampleService.example") //<1>
+    private ConfigurableResponseProcessor<ExampleResponse> responseProcessor;
+
+    @Inject
+    @RestProcessor(
+            configKey = "testsuite.rest.exampleService.example",
+            expectedStatusCode = HttpStatus.SC_BAD_REQUEST //<2>
+    )
+    private ConfigurableResponseProcessor<ExampleResponse> badRequestResponseProcessor;
+
+    void test() {
+        MultipartFormDataOutput multipartbody = new MultipartFormDataOutput();
+        multipartbody.addFormData("part1", "part1Body", javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
+        multipartbody.addFormData("part2", "part2Body", javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
+        String response = processor.postMultipartJson(multipartbody, String.class, "jsonEntityId");
+        Assertions.assertEquals(JsonUtil.toJson(RESPONSE_DTO), response);
+    }
+}
+----
+<1> Alap `ConfigurableResponseProcessor` inject példa
+<2> Opcionálisan az elvárt válasz státusz kód is megadható az annotációban (default: `200 OK`)
+<3> `ConfigurableResponseProcessor`-ban a query paramétereket is meg lehet adni
+
+==== Saját implementáció
+
+Ha az adott projekten belül ki szeretnénk egészíteni a `ConfigurableResponseProcessor` működését
+(pl: login, vagy egyéb projekt specifikus header kezeléshez),
+azt első lépésben az `AbstractConfigurableResponseProcessor` implementálásával tehetjük meg:
+
+[source,java]
+----
+import hu.icellmobilsoft.roaster.jaxrs.response.producer.spi.AbstractConfigurableResponseProcessor;
+
+@Dependent
+public class CustomConfigurableResponseProcessor<RESPONSE> extends AbstractConfigurableResponseProcessor<RESPONSE> {
+
+    // Felülírunk amit kell...
+}
+----
+
+Ezek után egy CDI producer-t kell létrehozni, ami kiszolgálja a konfigurált példányokat:
+
+[source,java]
+----
+import hu.icellmobilsoft.roaster.jaxrs.response.producer.spi.AbstractConfigurableResponseProcessorProducer;
+
+@Dependent
+public class CustomConfigurableResponseProcessorProducer<RESPONSE> extends AbstractConfigurableResponseProcessorProducer<LoginConfigurableResponseProcessor<RESPONSE>> {
+    @Override
+    @Produces //<1>
+    @RestProcessor(configKey = "")
+    public CustomConfigurableResponseProcessor<RESPONSE> createCustomResponseProcessor(InjectionPoint injectionPoint) {
+        return super.createConfiguredResponseProcessor(injectionPoint);
+    }
+
+    @Override
+    protected CustomConfigurableResponseProcessor<RESPONSE> getBaseResponseProcessor() { //<2>
+        return CDI.current().select(CustomConfigurableResponseProcessor.class).get();
+    }
+}
+----
+<1> Létre kell hozni egy producer-t (a `createCustomResponseProcessor`-t meghívva már egy bekonfigurált példányt kapunk)
+<2> Felül kell írni a `getBaseResponseProcessor`-t, hogy a mi típusunkat adja vissza (ezt fogja a `createCustomResponseProcessor` konfigurálni)
+
+Ez után már használhatjuk is a saját impelmentációnkat, akár a default megoldással együtt, egy tesztben is:
+
+[source,java]
+----
+import hu.icellmobilsoft.roaster.jaxrs.response.producer.impl.ConfigurableResponseProcessor;
+
+class ExampleTest {
+    @Inject
+    @RestProcessor(configKey = "testsuite.rest.exampleService.example")
+    private CustomConfigurableResponseProcessor<ExampleResponse> customResponseProcessor;
+...
+}
+----

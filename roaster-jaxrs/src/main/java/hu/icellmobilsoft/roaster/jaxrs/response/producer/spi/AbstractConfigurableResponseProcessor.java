@@ -2,7 +2,7 @@
  * #%L
  * Coffee
  * %%
- * Copyright (C) 2020 - 2021 i-Cell Mobilsoft Zrt.
+ * Copyright (C) 2020 - 2022 i-Cell Mobilsoft Zrt.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,37 +17,36 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.restassured.response.producer.spi;
+package hu.icellmobilsoft.roaster.jaxrs.response.producer.spi;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriBuilder;
+
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.roaster.jaxrs.response.ResponseProcessor;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.ResponseProcessorConfig;
-import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
-import hu.icellmobilsoft.roaster.restassured.response.ResponseProcessor;
-import io.restassured.http.Header;
-import io.restassured.http.Headers;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
 
 /**
  * Configurable {@link ResponseProcessor}
  *
  * @param <RESPONSE>
  *            response class (any type)
- * @author martin.nagy
- * @since 0.5.0
+ * @author imre.scheffer
+ * @since 0.8.0
  */
-public abstract class AbstractConfigurableResponseProcessor<RESPONSE> extends ResponseProcessor<RESPONSE> {
+public class AbstractConfigurableResponseProcessor<RESPONSE> extends ResponseProcessor<RESPONSE> {
+
     private static final Pattern HEADER_PATTERN = Pattern.compile("\\s*([^\\s:]+)\\s*:\\s*([^\\s:]+)\\s*");
 
     /**
@@ -65,23 +64,11 @@ public abstract class AbstractConfigurableResponseProcessor<RESPONSE> extends Re
     /**
      * Optional HTTP request headers<br>
      * Populated by {@link #setConfig}
-     *
-     * @see RequestSpecification#headers(Headers)
      */
-    private Headers headers;
+    private MultivaluedMap<String, Object> headers;
 
     /**
-     * Expected REST response status code<br>
-     * Populated by {@link RestProcessor#expectedStatusCode()}
-     *
-     * @see ResponseSpecification#statusCode(int)
-     */
-    private int expectedStatusCode;
-
-    /**
-     * Optional HTTP request query params<br>
-     *
-     * @see RequestSpecification#queryParams(Map)
+     * Optional HTTP request query params
      */
     private Map<String, String> queryParams;
 
@@ -102,37 +89,36 @@ public abstract class AbstractConfigurableResponseProcessor<RESPONSE> extends Re
         path = config.getPath();
 
         Optional<String[]> headersOpt = config.getHeaders();
-        headers = headersOpt.isPresent() ? parse(headersOpt.get()) : null;
+        headers = headersOpt.isPresent() ? parse(headersOpt.get()) : new MultivaluedHashMap<>();
     }
 
-    private Headers parse(String[] headerStrings) throws BaseException {
-        List<Header> headerList = new ArrayList<>();
+    private MultivaluedMap<String, Object> parse(String[] headerStrings) throws BaseException {
+        MultivaluedMap<String, Object> headerMap = new MultivaluedHashMap<>();
         for (String headerString : headerStrings) {
             Matcher matcher = HEADER_PATTERN.matcher(headerString);
             if (!matcher.matches()) {
                 throw new BaseException(CoffeeFaultType.INVALID_INPUT, MessageFormat.format("Invalid header: [{0}]", headerString));
             }
-            headerList.add(new Header(matcher.group(1), matcher.group(2)));
+            headerMap.add(matcher.group(1), matcher.group(2));
         }
-        return new Headers(headerList);
+        return headerMap;
     }
 
     @Override
-    protected RequestSpecification createRequestSpecification(RequestSpecification initRequestSpecification) {
-        RequestSpecification requestSpecification = super.createRequestSpecification(initRequestSpecification);
-        if (headers != null) {
-            requestSpecification.headers(headers);
+    protected UriBuilder uriBuilderCustomization(UriBuilder uriBuilder) {
+        if (queryParams != null && !queryParams.isEmpty()) {
+            for (Entry<String, String> entry : queryParams.entrySet()) {
+                uriBuilder.queryParam(entry.getKey(), entry.getValue());
+            }
         }
-        if (queryParams != null) {
-            requestSpecification.queryParams(queryParams);
-        }
-        return requestSpecification;
+        return uriBuilder;
     }
 
     @Override
-    protected RESPONSE toResponse(Response response, Class<RESPONSE> responseClass, ResponseSpecification iniResponseSpecification) {
-        iniResponseSpecification.statusCode(expectedStatusCode);
-        return super.toResponse(response, responseClass, iniResponseSpecification);
+    protected Builder clientBuilderCustomization(Builder clientBuilder) {
+        // beallitjuk a headereket egyenkent, nem irjuk felul a benne levoket
+        headers.forEach(clientBuilder::header);
+        return clientBuilder;
     }
 
     @Override
@@ -143,14 +129,6 @@ public abstract class AbstractConfigurableResponseProcessor<RESPONSE> extends Re
     @Override
     public String path() {
         return path;
-    }
-
-    public void setExpectedStatusCode(int expectedStatusCode) {
-        this.expectedStatusCode = expectedStatusCode;
-    }
-
-    public int getExpectedStatusCode() {
-        return expectedStatusCode;
     }
 
     public void setQueryParams(Map<String, String> queryParams) {

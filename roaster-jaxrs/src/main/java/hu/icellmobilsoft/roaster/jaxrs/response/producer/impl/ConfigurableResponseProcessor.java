@@ -2,7 +2,7 @@
  * #%L
  * Coffee
  * %%
- * Copyright (C) 2020 - 2022 i-Cell Mobilsoft Zrt.
+ * Copyright (C) 2020 - 2021 i-Cell Mobilsoft Zrt.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,24 +17,21 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.common.util;
+package hu.icellmobilsoft.roaster.jaxrs.response.producer.impl;
+
+import javax.enterprise.context.Dependent;
+
+import hu.icellmobilsoft.roaster.jaxrs.response.producer.spi.AbstractConfigurableResponseProcessor;
 
 /**
- * Exception base @FunctionalInterface
- * 
+ * {@link AbstractConfigurableResponseProcessor} implementation to make custom implementation injection easier
+ *
+ * @param <RESPONSE>
+ *            response class (any type)
  * @author imre.scheffer
  * @since 0.8.0
  */
-@FunctionalInterface
-public interface ExceptionConsumer<T, E extends Exception> {
-
-    /**
-     * Performs this operation on the given argument.
-     *
-     * @param t
-     *            the argument
-     * @throws E
-     *             if an exception occurs
-     */
-    void accept(T t) throws E;
+@Dependent
+public final class ConfigurableResponseProcessor<RESPONSE> extends AbstractConfigurableResponseProcessor<RESPONSE> {
+    // empty body, everything has to go in the AbstractConfigurableResponseProcessor class
 }

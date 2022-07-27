@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.restassured.response.producer;
+package hu.icellmobilsoft.roaster.jaxrs.response.producer;
 
 import java.util.Optional;
 import javax.enterprise.context.Dependent;

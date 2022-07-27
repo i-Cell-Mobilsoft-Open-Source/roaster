@@ -17,16 +17,30 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.restassured.response.producer;
+package hu.icellmobilsoft.roaster.jaxrs.response.producer;
 
 import java.util.Optional;
 
-import hu.icellmobilsoft.roaster.restassured.response.producer.spi.AbstractConfigurableResponseProcessor;
-
 /**
- * {@link AbstractConfigurableResponseProcessor} configuration
+ * ResponseProcessor configuration<br>
+ * <br>
+ * Example configuration (roaster-default.yml):
+ * 
+ * <pre>
+ * example-project:
+ *   example-service:
+ *     url: http://localhost:8080
+ * testsuite:
+ *   rest:
+ *     test:
+ *       baseUriKey: example-project.example-service.url
+ *       path: /rest/testService/test/{id}
+ *       headers:
+ *         - "X-LANGUAGE: hu"
+ * </pre>
  *
  * @author martin.nagy
+ * @author imre.scheffer
  * @since 0.5.0
  */
 public interface ResponseProcessorConfig {

@@ -23,6 +23,7 @@
 		<module>roaster-api</module>
 		<module>roaster-oracle</module>
 		<module>roaster-redis</module>
+		<module>roaster-jaxrs</module>
 		<module>roaster-restassured</module>
 		<module>roaster-selenide</module>
 		<module>roaster-weldunit</module>

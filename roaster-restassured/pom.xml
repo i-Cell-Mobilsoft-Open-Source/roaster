@@ -45,6 +45,10 @@
 			<artifactId>microprofile-health-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>hu.icellmobilsoft.roaster</groupId>
+			<artifactId>roaster-jaxrs</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
 		</dependency>
@@ -65,5 +69,26 @@
 			<groupId>org.jboss.weld</groupId>
 			<artifactId>weld-junit5</artifactId>
 		</dependency>
+
+
+        <!-- multipart rest miatt kell -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-multipart-provider</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.coffee</groupId>
+            <artifactId>coffee-module-mp-restclient</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>resteasy-jaxrs</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 	</dependencies>
 </project>

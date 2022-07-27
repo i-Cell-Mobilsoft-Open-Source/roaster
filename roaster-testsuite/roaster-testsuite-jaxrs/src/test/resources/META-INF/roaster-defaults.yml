@@ -1,0 +1,11 @@
+example-project:
+  example-service:
+    # Ez a testben felul van irva mert dinamikus a MockServerContainer altal
+    url: http://localhost:8080
+testsuite:
+  rest:
+    test:
+      baseUriKey: example-project.example-service.url
+      path: /rest/testService/test/{id}
+      headers:
+        - "X-LANGUAGE: hu"

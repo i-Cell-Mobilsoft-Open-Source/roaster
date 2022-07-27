@@ -182,6 +182,8 @@ qualifier-rel lehet inject-álni a konfig prefixet megadva:
 
 [source,java]
 ----
+import hu.icellmobilsoft.roaster.restassured.response.producer.impl.ConfigurableResponseProcessor;
+
 class ExampleTest {
     @Inject
     @RestProcessor(configKey = "testsuite.rest.exampleService.example") //<1>
@@ -213,6 +215,8 @@ azt első lépésben az `AbstractConfigurableResponseProcessor` implementálás�
 
 [source,java]
 ----
+import hu.icellmobilsoft.roaster.restassured.response.producer.spi.AbstractConfigurableResponseProcessor;
+
 @Dependent
 public class LoginConfigurableResponseProcessor<RESPONSE> extends AbstractConfigurableResponseProcessor<RESPONSE> {
     @Inject
@@ -231,6 +235,8 @@ Ezek után egy CDI producer-t kell létrehozni, ami kiszolgálja a konfigurált 
 
 [source,java]
 ----
+import hu.icellmobilsoft.roaster.restassured.response.producer.spi.AbstractConfigurableResponseProcessorProducer;
+
 @Dependent
 public class LoginConfigurableResponseProcessorProducer<RESPONSE> extends AbstractConfigurableResponseProcessorProducer<LoginConfigurableResponseProcessor<RESPONSE>> {
     @Override
@@ -253,6 +259,8 @@ Ez után már használhatjuk is a saját impelmentációnkat, akár a default me
 
 [source,java]
 ----
+import hu.icellmobilsoft.roaster.restassured.response.producer.impl.ConfigurableResponseProcessor;
+
 class ExampleTest {
     @Inject
     @RestProcessor(configKey = "testsuite.rest.exampleService.example")
