@@ -30,7 +30,6 @@
 
 		<version.org.jboss.weld.weld-junit5>2.0.1.Final</version.org.jboss.weld.weld-junit5>
 		<version.org.jboss.weld.core>3.1.5.Final</version.org.jboss.weld.core>
-		<version.org.jboss.resteasy.client.microprofile>4.7.5.Final</version.org.jboss.resteasy.client.microprofile>
 		<version.jakarta.servlet>4.0.4</version.jakarta.servlet>
 		<version.commons.logging>1.2</version.commons.logging>
 
@@ -248,7 +247,12 @@
 			<dependency>
 				<groupId>org.jboss.resteasy</groupId>
 				<artifactId>resteasy-client-microprofile</artifactId>
-				<version>${version.org.jboss.resteasy.client.microprofile}</version>
+				<version>${version.org.jboss.resteasy}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jackson2-provider</artifactId>
+				<version>${version.org.jboss.resteasy}</version>
 			</dependency>
 			<dependency>
 				<groupId>jakarta.servlet</groupId>

@@ -76,5 +76,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- MP rest client implementation -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client-microprofile</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson2-provider</artifactId>
+        </dependency>
     </dependencies>
 </project>
