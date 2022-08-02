@@ -47,6 +47,7 @@ import hu.icellmobilsoft.coffee.tool.utils.string.RandomUtil;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.impl.ConfigurableResponseProcessor;
+import hu.icellmobilsoft.roaster.testsuite.jaxb.dto.DtoHelper;
 import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 
 /**
@@ -115,8 +116,7 @@ class JaxbPostMultipartIT extends BaseWeldUnitType {
     @DisplayName("HTTP 200 Xml response")
     void http200xml() {
         MultipartFormDataOutput multipartbody = new MultipartFormDataOutput();
-        BaseRequest part1Dto = new BaseRequest();
-        part1Dto.withContext(new ContextType().withRequestId(RandomUtil.generateId()).withTimestamp(DateUtil.nowUTC()));
+        BaseRequest part1Dto = DtoHelper.createBaseRequest();
         multipartbody.addFormData("part1", MarshallingUtil.marshall(part1Dto), javax.ws.rs.core.MediaType.APPLICATION_XML_TYPE);
         multipartbody.addFormData("part2", "part2Body", javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
         String response = processor.postMultipartXml(multipartbody, String.class, "xmlEntityId");

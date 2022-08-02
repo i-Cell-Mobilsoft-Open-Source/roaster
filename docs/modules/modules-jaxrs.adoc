@@ -161,3 +161,49 @@ class ExampleTest {
 ...
 }
 ----
+
+== Microprofile Rest Client
+Maga a Microprofile Rest Client a Jaxrs alapokat használja,
+így a jaxrs implementációk is natívan támogatják.
+RestEasy esetében például itt:
+https://docs.jboss.org/resteasy/docs/4.7.5.Final/userguide/html/MicroProfile_Rest_Client.html[MicroProfile Rest Client]
+olvasható konkrétabb leírás.
+
+A Roaster dependency támogatást nyújt a MicroProfile Rest Client használathoz.
+
+.Egyszerű MicroProfile Rest Client API minta
+[source,java]
+----
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+
+import hu.icellmobilsoft.coffee.dto.common.commonservice.BaseRequest;
+import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+
+@RegisterRestClient
+public interface TestMpRestApi {
+
+    @POST
+    @Path("/mp/rest/client/post")
+    @Produces(value = { MediaType.APPLICATION_JSON })
+    @Consumes(value = { MediaType.APPLICATION_JSON })
+    String testPost(BaseRequest baseRequest) throws BaseException;
+}
+----
+
+.MicroProfile Rest Client API használata
+[source,java]
+----
+TestMpRestApi testMpRestApiImpl = RestClientBuilder.newBuilder()
+    // set URI
+    .baseUri(URI.create(System.getProperty(URI_KEY)))
+    // build API interface
+    .build(TestMpRestApi.class);
+String response = testMpRestApiImpl.testPost(DtoHelper.createBaseRequest());
+----
+

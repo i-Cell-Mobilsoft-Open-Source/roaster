@@ -6,7 +6,7 @@ Létrejött egy új modul: *roaster-jaxrs*.
 A fő célja hogy JAXRS szintú specifikációt használva megoldásokat nyújcson olyan igényekre,
 melyek a *roaster-restassured* nem tud.
 Ilyen például a multipart kezelés,
-vagy a microprofile-rest-client lehetősége,
+vagy a *microprofile-rest-client* lehetősége,
 ami sok customizálást tud pótolni.
 A *roaster-jaxrs* modulhoz készült leírás <<Jaxrs>> és testsuite is.
 
@@ -17,7 +17,7 @@ A *roaster-jaxrs* modulhoz készült leírás <<Jaxrs>> és testsuite is.
 hibakezelést megoldja maga a funkció.
 
 ==== BOM verzió emelések
-* coffee v1.8.0 -> https://i-cell-mobilsoft-open-source.github.io/coffee/#_v1_9_0_v1_10_0[v1.10.1]
+* coffee v1.8.0 -> https://i-cell-mobilsoft-open-source.github.io/coffee/#_v1_9_0_v1_10_0[v1.10.2]
 * deltaspike 1.9.1 -> 1.9.6 
 
 === roaster-restassured

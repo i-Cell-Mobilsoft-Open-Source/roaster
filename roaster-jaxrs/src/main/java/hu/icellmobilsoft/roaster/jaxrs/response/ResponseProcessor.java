@@ -24,7 +24,7 @@ import java.text.MessageFormat;
 import javax.enterprise.inject.spi.CDI;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -101,7 +101,7 @@ public abstract class ResponseProcessor<RESPONSE> {
         target.register(cdi.select(DefaultLoggerClientRequestFilter.class).get());
         target.register(cdi.select(DefaultLoggerClientResponseFilter.class).get());
         // GET kuldese
-        Builder builder = target.request().accept(MediaType.APPLICATION_OCTET_STREAM_TYPE);
+        Invocation.Builder builder = target.request().accept(MediaType.APPLICATION_OCTET_STREAM_TYPE);
         builder = clientBuilderCustomization(builder);
         Response response = builder.get();
         return processResponse(response, responseClass);
@@ -181,7 +181,7 @@ public abstract class ResponseProcessor<RESPONSE> {
         target.register(cdi.select(DefaultLoggerClientResponseFilter.class).get());
         target.register(DefaultBaseExceptionResponseExceptionMapper.class);
         // alap beallitasok
-        Builder builder = target.request().accept(responseMediaType);
+        Invocation.Builder builder = target.request().accept(responseMediaType);
         builder = clientBuilderCustomization(builder);
         // POST kuldese
         Response response = builder.post(Entity.entity(requestMultipartForm, MediaType.MULTIPART_FORM_DATA_TYPE));
@@ -195,7 +195,7 @@ public abstract class ResponseProcessor<RESPONSE> {
      *            client builder
      * @return clien builder
      */
-    protected Builder clientBuilderCustomization(Builder clientBuilder) {
+    protected Invocation.Builder clientBuilderCustomization(Invocation.Builder clientBuilder) {
         return clientBuilder;
     }
 
