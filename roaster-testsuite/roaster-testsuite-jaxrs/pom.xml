@@ -3,7 +3,7 @@
     <parent>
         <groupId>hu.icellmobilsoft.roaster</groupId>
         <artifactId>roaster-testsuite</artifactId>
-        <version>0.8.0</version>
+        <version>0.8.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>roaster-testsuite-jaxrs</artifactId>
