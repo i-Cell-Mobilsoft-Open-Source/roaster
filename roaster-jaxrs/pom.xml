@@ -76,6 +76,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
+
         <!-- MP rest client implementation -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
