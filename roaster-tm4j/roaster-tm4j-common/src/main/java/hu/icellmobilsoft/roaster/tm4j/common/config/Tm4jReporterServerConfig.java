@@ -22,6 +22,8 @@ package hu.icellmobilsoft.roaster.tm4j.common.config;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import javax.enterprise.inject.Vetoed;
+
 import com.google.common.base.Strings;
 
 /**
@@ -30,6 +32,7 @@ import com.google.common.base.Strings;
  * @author martin.nagy
  * @since 0.2.0
  */
+@Vetoed
 public class Tm4jReporterServerConfig {
     private String userName;
     private String password;

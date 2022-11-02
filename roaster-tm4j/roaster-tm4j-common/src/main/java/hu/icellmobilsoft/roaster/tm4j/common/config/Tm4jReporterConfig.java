@@ -19,12 +19,15 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.config;
 
+import javax.enterprise.inject.Vetoed;
+
 /**
  * Configuration class for the TM4J reporter behaviour.
  *
  * @author martin.nagy
  * @since 0.2.0
  */
+@Vetoed
 public class Tm4jReporterConfig {
     private Tm4jReporterServerConfig server;
     private boolean enabled;

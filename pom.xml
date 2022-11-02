@@ -248,6 +248,7 @@
 						<configuration>
 							<failOnError>true</failOnError>
 							<failOnWarnings>true</failOnWarnings>
+							<excludePackageNames>hu.icellmobilsoft.roaster.tm4j.dto.*</excludePackageNames>
 						</configuration>
 					</plugin>
 				</plugins>
