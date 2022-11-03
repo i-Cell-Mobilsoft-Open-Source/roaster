@@ -22,12 +22,15 @@ package hu.icellmobilsoft.roaster.tm4j.common.api.reporter;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 
+import javax.enterprise.inject.Vetoed;
+
 /**
  * Defines the common data describing a test case and run parameters.
  *
  * @author martin.nagy
  * @since 0.2.0
  */
+@Vetoed
 public class TestCaseData {
 
     /**
@@ -54,7 +57,6 @@ public class TestCaseData {
      * The time the test run finished.
      */
     private LocalDateTime endTime;
-
 
     public String getId() {
         return id;

@@ -71,15 +71,9 @@
                         <plugin>
                             <groupId>com.fasterxml.jackson.core</groupId>
                             <artifactId>jackson-databind</artifactId>
+                            <version>2.13.4.2</version>
                         </plugin>
                     </plugins>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <failOnWarnings>false</failOnWarnings>
                 </configuration>
             </plugin>
         </plugins>

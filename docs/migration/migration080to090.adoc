@@ -1,0 +1,24 @@
+= 0.8.0 -> 0.9.0
+
+== Változások
+
+=== Általános
+
+==== BOM verzió emelések
+* jackson-datatype-jsr310 2.13.3 -> 2.13.4
+* jackson-jaxrs-json-provider 2.13.3 -> 2.13.4
+* jackson-annotations 2.13.3 -> 2.13.4
+* jackson-databind 2.13.3 -> 2.13.4.2
+* commons-text 1.8 -> 1.10.0
+
+=== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+
+=== roaster-jaxrs
+
+* Dependencybe bekerült a `jakarta.servlet:jakarta.servlet-api`.
+Ez egy kötelező API, amit például a Resteasy dependencyk használnak.
+Hiányában egy nem informatív hibaüzenettel száltak el a tesztek.
+
+=== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
