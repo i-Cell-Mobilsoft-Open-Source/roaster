@@ -10,6 +10,7 @@
 * jackson-annotations 2.13.3 -> 2.13.4
 * jackson-databind 2.13.3 -> 2.13.4.2
 * commons-text 1.8 -> 1.10.0
+* coffee v1.10.2 -> https://i-cell-mobilsoft-open-source.github.io/coffee/#_v1_11_0_v1_12_0[v1.12.1]
 
 === Átállás
 A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
