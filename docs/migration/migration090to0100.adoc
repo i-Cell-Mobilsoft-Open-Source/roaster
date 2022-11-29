@@ -1,0 +1,10 @@
+= 0.9.0 -> 0.10.0
+
+== Változások
+
+=== roaster-tm4j
+
+* Teszt tag-enként eltérő TM4J test cycle-ök megadási lehetősége a `roaster.tm4j.cycle.{0}` konfig kulcs segítségével
+
+=== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.

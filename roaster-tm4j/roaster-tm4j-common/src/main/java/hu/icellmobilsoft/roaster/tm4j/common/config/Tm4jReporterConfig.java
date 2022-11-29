@@ -19,7 +19,15 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.config;
 
-import javax.enterprise.inject.Vetoed;
+import java.text.MessageFormat;
+import java.util.Optional;
+
+import javax.enterprise.context.Dependent;
+
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+
+import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 
 /**
  * Configuration class for the TM4J reporter behaviour.
@@ -27,51 +35,37 @@ import javax.enterprise.inject.Vetoed;
  * @author martin.nagy
  * @since 0.2.0
  */
-@Vetoed
-public class Tm4jReporterConfig {
-    private Tm4jReporterServerConfig server;
-    private boolean enabled;
-    private String projectKey;
-    private String testCycleKey;
-    private String environment;
+@Dependent
+public class Tm4jReporterConfig implements ITm4jReporterConfig {
 
+    private final Config config = ConfigProvider.getConfig();
+
+    @Override
     public boolean isEnabled() {
-        return enabled;
+        return config.getOptionalValue(RoasterConfigKeys.ENABLED, Boolean.class).orElse(false);
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
+    @Override
     public String getProjectKey() {
-        return projectKey;
+        return config.getOptionalValue(RoasterConfigKeys.PROJECT_KEY, String.class)
+                .orElseThrow(() -> new InvalidConfigException("projectKey parameter is missing"));
     }
 
-    public void setProjectKey(String projectKey) {
-        this.projectKey = projectKey;
+    @Override
+    public String getDefaultTestCycleKey() {
+        return config.getOptionalValue(RoasterConfigKeys.TEST_CYCLE_KEY, String.class)
+                .orElseThrow(() -> new InvalidConfigException("testCycleKey parameter is missing"));
     }
 
-    public String getTestCycleKey() {
-        return testCycleKey;
+    @Override
+    public Optional<String> getTestCycleKey(String tag) {
+        String key = MessageFormat.format(RoasterConfigKeys.TAG_TEST_CYCLE_KEY_PATTERN, tag);
+        return config.getOptionalValue(key, String.class);
     }
 
-    public void setTestCycleKey(String testCycleKey) {
-        this.testCycleKey = testCycleKey;
+    @Override
+    public Optional<String> getEnvironment() {
+        return config.getOptionalValue(RoasterConfigKeys.ENVIRONMENT, String.class);
     }
 
-    public String getEnvironment() {
-        return environment;
-    }
-
-    public void setEnvironment(String environment) {
-        this.environment = environment;
-    }
-
-    public Tm4jReporterServerConfig getServer() {
-        return server;
-    }
-
-    public void setServer(Tm4jReporterServerConfig server) {
-        this.server = server;
-    }
 }

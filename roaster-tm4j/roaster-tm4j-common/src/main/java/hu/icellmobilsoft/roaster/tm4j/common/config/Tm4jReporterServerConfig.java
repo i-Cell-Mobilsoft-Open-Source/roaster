@@ -22,9 +22,14 @@ package hu.icellmobilsoft.roaster.tm4j.common.config;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import javax.enterprise.inject.Vetoed;
+import javax.enterprise.context.Dependent;
+
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
 
 import com.google.common.base.Strings;
+
+import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 
 /**
  * Configuration class defining the TM4J server access parameters.
@@ -32,55 +37,52 @@ import com.google.common.base.Strings;
  * @author martin.nagy
  * @since 0.2.0
  */
-@Vetoed
-public class Tm4jReporterServerConfig {
-    private String userName;
-    private String password;
-    private String basicAuthToken;
+@Dependent
+public class Tm4jReporterServerConfig implements ITm4jReporterServerConfig {
+    private final Config config = ConfigProvider.getConfig();
 
-    /**
-     * Calculates the user name using the configuration
-     * 
-     * @return the user name
-     */
-    public String calculateUserName() {
-        return !Strings.isNullOrEmpty(userName) ? //
-                userName : //
-                new String(Base64.getDecoder().decode(basicAuthToken)).split(":")[0];
+    @Override
+    public void validate() throws InvalidConfigException {
+        String basicAuthTokenFromConfig = getBasicAuthTokenFromConfig();
+        String userNameFromConfig = getUserNameFromConfig();
+        String passwordFromConfig = getPasswordFromConfig();
+
+        if (Strings.isNullOrEmpty(basicAuthTokenFromConfig)
+                && (Strings.isNullOrEmpty(userNameFromConfig) || Strings.isNullOrEmpty(passwordFromConfig))) {
+            throw new InvalidConfigException("userName and password should be set if basicAuthToken is missing");
+        }
+        if (!Strings.isNullOrEmpty(basicAuthTokenFromConfig)
+                && (!Strings.isNullOrEmpty(userNameFromConfig) || !Strings.isNullOrEmpty(passwordFromConfig))) {
+            throw new InvalidConfigException("userName and password should be empty if basicAuthToken is supplied");
+        }
     }
 
-    /**
-     * Calculates the basic auth token using the configuration
-     * 
-     * @return the basic auth token
-     */
-    public String calculateBasicAuthToken() {
-        return !Strings.isNullOrEmpty(basicAuthToken) ? //
-                basicAuthToken : //
-                Base64.getEncoder().encodeToString((userName + ':' + password).getBytes(StandardCharsets.UTF_8));
-    }
-
+    @Override
     public String getUserName() {
-        return userName;
+        String userNameFromConfig = getUserNameFromConfig();
+        return !Strings.isNullOrEmpty(userNameFromConfig) ? //
+                userNameFromConfig : //
+                new String(Base64.getDecoder().decode(getBasicAuthTokenFromConfig())).split(":")[0];
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    @Override
     public String getBasicAuthToken() {
-        return basicAuthToken;
+        String basicAuthTokenFromConfig = getBasicAuthTokenFromConfig();
+        return !Strings.isNullOrEmpty(basicAuthTokenFromConfig) ? //
+                basicAuthTokenFromConfig : //
+                Base64.getEncoder().encodeToString((getUserNameFromConfig() + ':' + getPasswordFromConfig()).getBytes(StandardCharsets.UTF_8));
     }
 
-    public void setBasicAuthToken(String basicAuthToken) {
-        this.basicAuthToken = basicAuthToken;
+    protected String getPasswordFromConfig() {
+        return config.getOptionalValue(RoasterConfigKeys.Server.PASSWORD, String.class).orElse(null);
     }
+
+    protected String getBasicAuthTokenFromConfig() {
+        return config.getOptionalValue(RoasterConfigKeys.Server.BASIC_AUTH_TOKEN, String.class).orElse(null);
+    }
+
+    protected String getUserNameFromConfig() {
+        return config.getOptionalValue(RoasterConfigKeys.Server.USER_NAME, String.class).orElse(null);
+    }
+
 }

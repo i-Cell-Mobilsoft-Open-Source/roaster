@@ -53,7 +53,7 @@ import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 @Tag(TestSuiteGroup.INTEGRATION)
 @ExtendWith(Tm4jExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class Tm4jIT extends BaseWeldUnitType {
+class Tm4jTagCycleIT extends BaseWeldUnitType {
 
     private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.13.2"));
     private static MockServerClient MOCK_SERVER_CLIENT;
@@ -73,23 +73,26 @@ class Tm4jIT extends BaseWeldUnitType {
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/rest/api/2/myself").withHeaders(headers))
                 .respond(HttpResponse.response().withContentType(MediaType.APPLICATION_JSON).withBody("{\"key\":\"test-user-1\"}"));
 
-        MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/rest/atm/1.0/testrun/XXX-C123").withHeaders(headers))
-                .respond(HttpResponse.response().withStatusCode(200));
-
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/rest/atm/1.0/testcase/XXX-T1").withHeaders(headers))
                 .respond(HttpResponse.response().withStatusCode(200));
 
-        MOCK_SERVER_CLIENT.when(HttpRequest.request().withMethod("POST").withPath("/rest/atm/1.0/testrun/XXX-C123/testresults").withHeaders(headers))
+        MOCK_SERVER_CLIENT.when(HttpRequest.request().withMethod("POST").withPath("/rest/atm/1.0/testrun/XXX-C-foo/testresults").withHeaders(headers))
+                .respond(HttpResponse.response().withStatusCode(200));
+        MOCK_SERVER_CLIENT.when(HttpRequest.request().withMethod("POST").withPath("/rest/atm/1.0/testrun/XXX-C-bar/testresults").withHeaders(headers))
                 .respond(HttpResponse.response().withStatusCode(200));
     }
 
     @AfterAll
     static void afterAll() {
-        MOCK_SERVER_CLIENT.verify(HttpRequest.request().withMethod("POST").withPath("/rest/atm/1.0/testrun/XXX-C123/testresults")
+        MOCK_SERVER_CLIENT.verify(HttpRequest.request().withMethod("POST").withPath("/rest/atm/1.0/testrun/XXX-C-foo/testresults")
+                .withBody(JsonPathBody.jsonPath("$[0][?(@.testCaseKey == 'XXX-T1')]")));
+        MOCK_SERVER_CLIENT.verify(HttpRequest.request().withMethod("POST").withPath("/rest/atm/1.0/testrun/XXX-C-bar/testresults")
                 .withBody(JsonPathBody.jsonPath("$[0][?(@.testCaseKey == 'XXX-T1')]")));
         MOCK_SERVER.close();
     }
 
+    @Tag("foo")
+    @Tag("bar")
     @Test
     @TestCaseId("XXX-T1")
     void dummyTest() {

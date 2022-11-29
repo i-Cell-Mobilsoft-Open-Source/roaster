@@ -19,13 +19,13 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
-
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Provider;
+
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
+import hu.icellmobilsoft.roaster.tm4j.common.config.ITm4jReporterConfig;
 
 /**
  * Creates a {@code TestResultReporter} based on the Roaster configuration.
@@ -43,14 +43,13 @@ public class Tm4jReporterProducer {
     /**
      * Creates a {@code TestResultReporter} based on the Roaster configuration
      *
-     * @param config tells if the reporting is enabled of not, determines the returned implementation
+     * @param config
+     *            tells if the reporting is enabled of not, determines the returned implementation
      * @return configured {@code TestResultReporter} implementation
      */
     @Produces
     @Dependent
-    public TestResultReporter createReporter(Tm4jReporterConfig config) {
-        return config.isEnabled() ?
-                testResultReporterProvider.get() :
-                new NoopTestResultReporter();
+    public TestResultReporter createReporter(ITm4jReporterConfig config) {
+        return config.isEnabled() ? testResultReporterProvider.get() : new NoopTestResultReporter();
     }
 }

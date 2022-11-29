@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
+
 import javax.enterprise.inject.Vetoed;
 import javax.enterprise.inject.spi.CDI;
 
@@ -109,6 +110,7 @@ public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback, 
         record.setTestMethod(context.getRequiredTestMethod());
         record.setStartTime(getStartTime(context));
         record.setEndTime(LocalDateTime.now());
+        record.setTags(context.getTags());
         return record;
     }
 

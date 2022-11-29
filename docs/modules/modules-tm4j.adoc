@@ -11,15 +11,29 @@ egy bekonfigurált TM4J (Test Management for Jira) szerverre.
 ----
 roaster:
    tm4j:
-      enabled: true    # A TM4J szerver hívást lehet kikapcsolni ezzel a flag-gel (default: false)
-      projectKey: ABC      # Jira project key. Ez szokott a Jira issue-k prefixe is lenni.
-      testCycleKey: ABC-C1   # TM4J test cycle key. Pl.: ABC-C1 ahol az ABC a project key.
-      environment: sandbox    # (Opcionális) A neve az aktuális környezetnek, ahol a tesztek futnak. (Jira-ban létre kell hozni)
-      server/mp-rest/url: https://jira.example.com   # TM4J szerver url
-      server/basicAuthToken: ZXhhbXBsZS11c2VyOnNlY3JldA==   # base64(userName + ":" + password)
-      server/userName: # A szerver autentikációs adatok megadásához lehet használni a server/userName + server/password vagy a server/basicAuthToken paramétert
+      enabled: true #<1>
+      projectKey: ABC #<2>
+      testCycleKey: ABC-C1 #<3>
+      environment: sandbox #<4>
+      server/mp-rest/url: https://jira.example.com #<5>
+      server/basicAuthToken: ZXhhbXBsZS11c2VyOnNlY3JldA== #<6>
+      server/userName: #<7>
       server/password:
+      cycle:
+         foo: ABC-C2 #<8>
+         bar: ABC-C3
 ----
+<1> A TM4J szerver hívást lehet kikapcsolni ezzel a flag-gel (default: false)
+<2> Jira project key. Ez szokott a Jira issue-k prefixe is lenni.
+<3> TM4J test cycle key. Pl.: ABC-C1 ahol az ABC a project key.
+<4> (Opcionális) A neve az aktuális környezetnek, ahol a tesztek futnak. (Jira-ban létre kell hozni)
+<5> TM4J szerver url
+<6> base64(userName + ":" + password)
+<7> A szerver autentikációs adatok megadásához lehet használni a server/userName + server/password vagy a server/basicAuthToken paramétert
+<8> Teszt tag-enként eltérő TM4J test cycle-ök megadási lehetősége.
+Ha a teszt meg van tag-elve egy olyan tag-gel (JUnit 5-ben `@Tag("foo")`), ami itt szerepel, akkor a default test cycle
+(`testCycleKey` konfig kulcs) helyett az itt megadott cycle-be fog report-álni.
+Ha több tag van egy teszten, akkor mindegyik cycle-be bekerül az eredmény.
 
 [TIP]
 Biztonsági okokból célszerű a basicAuthToken-t és a jelszót nem a konfigurációs fájlba beleírni,

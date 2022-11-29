@@ -19,19 +19,21 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import javax.inject.Provider;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import javax.inject.Provider;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
+import hu.icellmobilsoft.roaster.tm4j.common.config.RoasterConfigKeys;
+import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 
 class Tm4JReporterProducerTest {
 
@@ -49,8 +51,8 @@ class Tm4JReporterProducerTest {
     @Test
     void shouldCreateNoopReporterIfTm4jDisabled() {
         // given
+        System.setProperty(RoasterConfigKeys.ENABLED, Boolean.FALSE.toString());
         Tm4jReporterConfig config = new Tm4jReporterConfig();
-        config.setEnabled(false);
         TestResultReporter testResultReporter = mock(TestResultReporter.class);
         when(testResultReporterProvider.get()).thenReturn(testResultReporter);
 
@@ -64,8 +66,8 @@ class Tm4JReporterProducerTest {
     @Test
     void shouldUseReporterProducerIfTm4jEnabled() {
         // given
+        System.setProperty(RoasterConfigKeys.ENABLED, Boolean.TRUE.toString());
         Tm4jReporterConfig config = new Tm4jReporterConfig();
-        config.setEnabled(true);
         TestResultReporter testResultReporter = mock(TestResultReporter.class);
         when(testResultReporterProvider.get()).thenReturn(testResultReporter);
 

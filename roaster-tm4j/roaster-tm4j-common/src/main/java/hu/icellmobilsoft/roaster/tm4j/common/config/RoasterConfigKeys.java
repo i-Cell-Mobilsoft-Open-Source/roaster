@@ -43,6 +43,11 @@ public interface RoasterConfigKeys {
     String TEST_CYCLE_KEY = "roaster.tm4j.testCycleKey";
 
     /**
+     * TM4J test cycle key pattern for test tags
+     */
+    String TAG_TEST_CYCLE_KEY_PATTERN = "roaster.tm4j.cycle.{0}";
+
+    /**
      * (Optional) The name of the current environment where the tests are running.
      * It will appear in the test result comment.
      */

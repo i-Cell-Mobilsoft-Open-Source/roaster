@@ -19,35 +19,36 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
-import hu.icellmobilsoft.roaster.tm4j.common.client.RestTm4jService;
-import hu.icellmobilsoft.roaster.api.InvalidConfigException;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
-import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Collections;
+import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.common.client.RestTm4jService;
+import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
+import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 
 class RestTm4JReporterTest {
 
@@ -66,44 +67,6 @@ class RestTm4JReporterTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-    }
-
-    @Test
-    void shouldThrowExceptionOnMissingProjectKeyConfig() {
-        // given
-
-        // when
-        Executable executable = () -> testObj.init();
-
-        // then
-        assertThrows(InvalidConfigException.class, executable);
-    }
-
-    @Test
-    void shouldThrowExceptionOnMissingTestCycleKeyConfig() {
-        // given
-        Tm4jReporterConfig config = new Tm4jReporterConfig();
-        config.setProjectKey("pk");
-
-        // when
-        Executable executable = () -> testObj.init();
-
-        // then
-        assertThrows(InvalidConfigException.class, executable);
-    }
-
-    @Test
-    void shouldThrowExceptionOnInvalidTestCycleKeyConfig() {
-        // given
-        Tm4jReporterConfig config = new Tm4jReporterConfig();
-        config.setProjectKey("pk");
-        config.setTestCycleKey("test_cycle");
-
-        // when
-        Executable executable = () -> testObj.init();
-
-        // then
-        assertThrows(InvalidConfigException.class, executable);
     }
 
     @Test
@@ -216,14 +179,14 @@ class RestTm4JReporterTest {
         record.setStartTime(LocalDateTime.of(1970, Month.JANUARY, 1, 10, 0, 0));
         record.setEndTime(LocalDateTime.of(1970, Month.JANUARY, 1, 10, 4, 20));
         record.setTestMethod(TestClass.class.getMethod("foo"));
+        record.setTags(Collections.emptySet());
         return record;
     }
 
     private void initMockConfig() {
-        when(config.getEnvironment()).thenReturn("dev");
+        when(config.getEnvironment()).thenReturn(Optional.of("dev"));
         when(config.getProjectKey()).thenReturn("pk");
-        when(config.getTestCycleKey()).thenReturn("test_cycle");
-        when(config.getServer()).thenReturn(mock(Tm4jReporterServerConfig.class));
+        when(config.getDefaultTestCycleKey()).thenReturn("test_cycle");
     }
 
     static class TestClass {
