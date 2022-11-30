@@ -19,6 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.config;
 
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
@@ -39,6 +40,8 @@ import hu.icellmobilsoft.roaster.api.InvalidConfigException;
  */
 @Dependent
 public class Tm4jReporterServerConfig implements ITm4jReporterServerConfig {
+    private static final Charset CHARSET = StandardCharsets.UTF_8;
+
     private final Config config = ConfigProvider.getConfig();
 
     @Override
@@ -62,7 +65,7 @@ public class Tm4jReporterServerConfig implements ITm4jReporterServerConfig {
         String userNameFromConfig = getUserNameFromConfig();
         return !Strings.isNullOrEmpty(userNameFromConfig) ? //
                 userNameFromConfig : //
-                new String(Base64.getDecoder().decode(getBasicAuthTokenFromConfig())).split(":")[0];
+                new String(Base64.getDecoder().decode(getBasicAuthTokenFromConfig().getBytes(CHARSET)), CHARSET).split(":")[0];
     }
 
     @Override
@@ -70,7 +73,7 @@ public class Tm4jReporterServerConfig implements ITm4jReporterServerConfig {
         String basicAuthTokenFromConfig = getBasicAuthTokenFromConfig();
         return !Strings.isNullOrEmpty(basicAuthTokenFromConfig) ? //
                 basicAuthTokenFromConfig : //
-                Base64.getEncoder().encodeToString((getUserNameFromConfig() + ':' + getPasswordFromConfig()).getBytes(StandardCharsets.UTF_8));
+                new String(Base64.getEncoder().encode((getUserNameFromConfig() + ':' + getPasswordFromConfig()).getBytes(CHARSET)), CHARSET);
     }
 
     protected String getPasswordFromConfig() {
