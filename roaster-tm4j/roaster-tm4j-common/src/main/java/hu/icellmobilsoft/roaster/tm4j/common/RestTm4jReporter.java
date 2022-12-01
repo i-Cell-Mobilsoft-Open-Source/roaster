@@ -19,29 +19,29 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
-import com.google.common.base.Strings;
-import hu.icellmobilsoft.coffee.se.logging.Logger;
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
-import hu.icellmobilsoft.roaster.tm4j.common.client.RestTm4jService;
-import hu.icellmobilsoft.roaster.api.InvalidConfigException;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
-import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
-import org.apache.commons.text.StringEscapeUtils;
-
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+
+import org.apache.commons.text.StringEscapeUtils;
+
+import hu.icellmobilsoft.coffee.se.logging.Logger;
+import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
+import hu.icellmobilsoft.roaster.tm4j.common.client.RestTm4jService;
+import hu.icellmobilsoft.roaster.tm4j.common.config.ITm4jReporterConfig;
+import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 
 /**
  * Default implementation of the {@code TestResultReporter}.
@@ -62,27 +62,10 @@ public class RestTm4jReporter implements TestResultReporter {
     private final Logger log = Logger.getLogger(RestTm4jReporter.class);
 
     @Inject
-    private Tm4jReporterConfig config;
+    private ITm4jReporterConfig config;
 
     @Inject
     private RestTm4jService restTm4JService;
-
-    @PostConstruct
-    public void init() {
-        validateConfig();
-    }
-
-    private void validateConfig() {
-        if (Strings.isNullOrEmpty(config.getProjectKey())) {
-            throw new InvalidConfigException("projectKey parameter is missing");
-        }
-        if (Strings.isNullOrEmpty(config.getTestCycleKey())) {
-            throw new InvalidConfigException("testCycleKey parameter is missing");
-        }
-        if (!restTm4JService.isTestRunExist(config.getTestCycleKey())) {
-            throw new InvalidConfigException("supplied testCycleKey not found: " + config.getTestCycleKey());
-        }
-    }
 
     @Override
     public void reportSuccess(TestCaseData testCaseData) {
@@ -90,7 +73,7 @@ public class RestTm4jReporter implements TestResultReporter {
             Execution execution = createExecution(testCaseData, testCaseId);
             execution.setStatus(PASS);
             execution.setComment(createCommentBase(testCaseData.getId()));
-            publishResult(execution);
+            publishResult(execution, testCaseData.getTags());
         }
     }
 
@@ -103,7 +86,7 @@ public class RestTm4jReporter implements TestResultReporter {
                     createCommentBase(testCaseData.getId()) +
                             createFailureComment(cause)
             );
-            publishResult(execution);
+            publishResult(execution, testCaseData.getTags());
         }
     }
 
@@ -116,13 +99,26 @@ public class RestTm4jReporter implements TestResultReporter {
                     createCommentBase(testCaseData.getId()) +
                             createDisabledTestComment(reason)
             );
-            publishResult(execution);
+            publishResult(execution, testCaseData.getTags());
         }
     }
 
-    private void publishResult(Execution execution) {
-        restTm4JService.postResult(config.getTestCycleKey(), execution);
-        log.info("Test result published to TM4J: [{0}]", execution.getTestCaseKey());
+    private void publishResult(Execution execution, Collection<String> tags) {
+        List<String> testCycleKeys = tags.stream().map(config::getTestCycleKey).filter(Optional::isPresent).map(Optional::get)
+                .collect(Collectors.toList());
+
+        if (testCycleKeys.isEmpty()) {
+            publishResult(execution, config.getDefaultTestCycleKey());
+            return;
+        }
+        for (String testCycleKey : testCycleKeys) {
+            publishResult(execution, testCycleKey);
+        }
+    }
+
+    private void publishResult(Execution execution, String testCycleKey) {
+        restTm4JService.postResult(testCycleKey, execution);
+        log.info("Test result published to TM4J. Test case: [{0}], test cycle: [{1}]", execution.getTestCaseKey(), testCycleKey);
     }
 
     private List<String> getTestCaseIds(TestCaseData testCaseData) {
@@ -144,7 +140,7 @@ public class RestTm4jReporter implements TestResultReporter {
         Execution execution = new Execution();
         execution.setProjectKey(config.getProjectKey());
         execution.setTestCaseKey(testCaseKey);
-        execution.setEnvironment(config.getEnvironment());
+        execution.setEnvironment(config.getEnvironment().orElse(null));
         execution.setExecutedBy(restTm4JService.getUserKey());
         execution.setActualStartDate(toOffsetDateTime(testCaseData.getStartTime()));
         execution.setActualEndDate(toOffsetDateTime(testCaseData.getEndTime()));

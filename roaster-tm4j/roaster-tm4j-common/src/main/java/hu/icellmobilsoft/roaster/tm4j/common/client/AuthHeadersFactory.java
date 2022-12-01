@@ -24,12 +24,9 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.google.common.base.Strings;
 import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
 
-import hu.icellmobilsoft.roaster.api.InvalidConfigException;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
+import hu.icellmobilsoft.roaster.tm4j.common.config.ITm4jReporterServerConfig;
 
 /**
  * Sets the {@literal Authorization} header for the TM4J rest client
@@ -41,26 +38,18 @@ import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 public class AuthHeadersFactory implements ClientHeadersFactory {
 
     @Inject
-    private Tm4jReporterConfig config;
+    private ITm4jReporterServerConfig config;
 
     @PostConstruct
     public void init() {
-        validateConfig(config.getServer());
+        config.validate();
     }
 
     @Override
-    public MultivaluedMap<String, String> update(MultivaluedMap<String, String> incomingHeaders, MultivaluedMap<String, String> clientOutgoingHeaders) {
-        incomingHeaders.putSingle("Authorization", "Basic " + config.getServer().calculateBasicAuthToken());
+    public MultivaluedMap<String, String> update(MultivaluedMap<String, String> incomingHeaders,
+            MultivaluedMap<String, String> clientOutgoingHeaders) {
+        incomingHeaders.putSingle("Authorization", "Basic " + config.getBasicAuthToken());
         return incomingHeaders;
-    }
-
-    private void validateConfig(Tm4jReporterServerConfig config) {
-        if (Strings.isNullOrEmpty(config.getBasicAuthToken()) && (Strings.isNullOrEmpty(config.getUserName()) || Strings.isNullOrEmpty(config.getPassword()))) {
-            throw new InvalidConfigException("userName and password should be set if basicAuthToken is missing");
-        }
-        if (!Strings.isNullOrEmpty(config.getBasicAuthToken()) && (!Strings.isNullOrEmpty(config.getUserName()) || !Strings.isNullOrEmpty(config.getPassword()))) {
-            throw new InvalidConfigException("userName and password should be empty if basicAuthToken is supplied");
-        }
     }
 
 }

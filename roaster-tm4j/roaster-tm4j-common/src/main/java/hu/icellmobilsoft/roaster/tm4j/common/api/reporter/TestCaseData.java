@@ -21,6 +21,7 @@ package hu.icellmobilsoft.roaster.tm4j.common.api.reporter;
 
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import javax.enterprise.inject.Vetoed;
 
@@ -57,6 +58,11 @@ public class TestCaseData {
      * The time the test run finished.
      */
     private LocalDateTime endTime;
+
+    /**
+     * Test tags
+     */
+    private Collection<String> tags;
 
     public String getId() {
         return id;
@@ -96,5 +102,13 @@ public class TestCaseData {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public Collection<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(Collection<String> tags) {
+        this.tags = tags;
     }
 }

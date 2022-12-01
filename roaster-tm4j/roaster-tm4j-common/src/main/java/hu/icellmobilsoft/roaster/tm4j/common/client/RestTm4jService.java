@@ -37,7 +37,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import hu.icellmobilsoft.roaster.tm4j.common.client.api.JiraRestClient;
 import hu.icellmobilsoft.roaster.tm4j.common.client.api.Tm4jRestClient;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
+import hu.icellmobilsoft.roaster.tm4j.common.config.ITm4jReporterServerConfig;
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 
 /**
@@ -58,7 +58,7 @@ public class RestTm4jService {
     private JiraRestClient jiraClient;
 
     @Inject
-    private Tm4jReporterConfig config;
+    private ITm4jReporterServerConfig serverConfig;
 
     private static final Set<String> existingTestRunKeys = new HashSet<>();
     private static final Map<String, String> userKeysByUserName = new HashMap<>();
@@ -118,7 +118,7 @@ public class RestTm4jService {
      * @return the key of the current configured jira user
      */
     public String getUserKey() {
-        return userKeysByUserName.computeIfAbsent(config.getServer().calculateUserName(), k -> jiraClient.getSelf().getKey());
+        return userKeysByUserName.computeIfAbsent(serverConfig.getUserName(), k -> jiraClient.getSelf().getKey());
     }
 
     private boolean isEntityExistsBasedOnResponseStatus(StatusType statusType) {

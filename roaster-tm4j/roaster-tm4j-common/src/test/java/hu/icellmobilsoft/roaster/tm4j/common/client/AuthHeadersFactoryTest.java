@@ -19,27 +19,27 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
-import hu.icellmobilsoft.roaster.api.InvalidConfigException;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+
+import hu.icellmobilsoft.roaster.api.InvalidConfigException;
+import hu.icellmobilsoft.roaster.tm4j.common.config.RoasterConfigKeys;
+import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterServerConfig;
 
 class AuthHeadersFactoryTest {
 
-    @Mock
-    private Tm4jReporterConfig config;
+    @Spy
+    private Tm4jReporterServerConfig config;
 
     @InjectMocks
     private AuthHeadersFactory testObj;
@@ -47,13 +47,13 @@ class AuthHeadersFactoryTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
+        System.clearProperty(RoasterConfigKeys.Server.BASIC_AUTH_TOKEN);
+        System.clearProperty(RoasterConfigKeys.Server.USER_NAME);
+        System.clearProperty(RoasterConfigKeys.Server.PASSWORD);
     }
 
     @Test
     void shouldThrowExceptionIfCredentialsConfigMissing() {
-        // given
-        when(config.getServer()).thenReturn(new Tm4jReporterServerConfig());
-
         // when
         Executable executable = () -> testObj.init();
 
@@ -64,10 +64,8 @@ class AuthHeadersFactoryTest {
     @Test
     void shouldThrowExceptionIfAuthTokenAndUserNameConfigSet() {
         // given
-        Tm4jReporterServerConfig serverConfig = new Tm4jReporterServerConfig();
-        serverConfig.setBasicAuthToken("dGVzdA==");
-        serverConfig.setUserName("tim");
-        when(config.getServer()).thenReturn(serverConfig);
+        System.setProperty(RoasterConfigKeys.Server.BASIC_AUTH_TOKEN, "dGVzdA==");
+        System.setProperty(RoasterConfigKeys.Server.USER_NAME, "tim");
 
         // when
         Executable executable = () -> testObj.init();
@@ -79,9 +77,7 @@ class AuthHeadersFactoryTest {
     @Test
     void shouldCreateAuthHeaderWithAuthToken() {
         // given
-        Tm4jReporterServerConfig serverConfig = new Tm4jReporterServerConfig();
-        serverConfig.setBasicAuthToken("dGltOnNlY3JldA==");
-        when(config.getServer()).thenReturn(serverConfig);
+        System.setProperty(RoasterConfigKeys.Server.BASIC_AUTH_TOKEN, "dGltOnNlY3JldA==");
 
         MultivaluedHashMap<String, String> headers = new MultivaluedHashMap<>();
 
@@ -95,10 +91,8 @@ class AuthHeadersFactoryTest {
     @Test
     void shouldCreateAuthHeadersWithUsernamePassword() {
         // given
-        Tm4jReporterServerConfig serverConfig = new Tm4jReporterServerConfig();
-        serverConfig.setUserName("tim");
-        serverConfig.setPassword("secret");
-        when(config.getServer()).thenReturn(serverConfig);
+        System.setProperty(RoasterConfigKeys.Server.USER_NAME, "tim");
+        System.setProperty(RoasterConfigKeys.Server.PASSWORD, "secret");
 
         MultivaluedHashMap<String, String> headers = new MultivaluedHashMap<>();
 

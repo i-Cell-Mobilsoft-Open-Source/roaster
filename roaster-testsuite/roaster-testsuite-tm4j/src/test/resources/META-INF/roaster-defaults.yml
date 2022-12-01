@@ -4,3 +4,6 @@ roaster:
     projectKey: XXX
     testCycleKey: XXX-C123
     server/basicAuthToken: ZXhhbXBsZS11c2VyOnNlY3JldA==
+    cycle:
+      foo: XXX-C-foo
+      bar: XXX-C-bar
