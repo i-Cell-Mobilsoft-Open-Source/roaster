@@ -39,15 +39,33 @@ import hu.icellmobilsoft.roaster.api.Condition;
  */
 public abstract class BaseMockProxy<S, D extends BaseMockProxy> {
 
-    private Class<S> serviceClass;
+    private final Class<S> serviceClass;
 
+    /**
+     * Initializes the object with serviceClass
+     * 
+     * @param serviceClass
+     *            the class of the service
+     */
     public BaseMockProxy(Class<S> serviceClass) {
         Condition.notNull(serviceClass, "Service class type must be set.");
         this.serviceClass = serviceClass;
     }
 
+    /**
+     * Returns self
+     * 
+     * @return self
+     */
     protected abstract D self();
 
+    /**
+     * Returns the service class mock
+     * 
+     * @return the service class mock
+     * @throws BaseException
+     *             on error
+     */
     public abstract S mock() throws BaseException;
 
     /**

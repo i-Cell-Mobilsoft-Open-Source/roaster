@@ -145,18 +145,40 @@ public abstract class AbstractConfigurableResponseProcessor<RESPONSE> extends Re
         return path;
     }
 
+    /**
+     * Sets the new expectedStatusCode value
+     *
+     * @param expectedStatusCode
+     *            new expectedStatusCode value
+     */
     public void setExpectedStatusCode(int expectedStatusCode) {
         this.expectedStatusCode = expectedStatusCode;
     }
 
+    /**
+     * Getter for the field {@code expectedStatusCode}.
+     *
+     * @return expectedStatusCode
+     */
     public int getExpectedStatusCode() {
         return expectedStatusCode;
     }
 
+    /**
+     * Sets the new queryParams value
+     *
+     * @param queryParams
+     *            new queryParams value
+     */
     public void setQueryParams(Map<String, String> queryParams) {
         this.queryParams = queryParams;
     }
 
+    /**
+     * Getter for the field {@code queryParams}.
+     *
+     * @return queryParams
+     */
     public Map<String, String> getQueryParams() {
         return queryParams;
     }

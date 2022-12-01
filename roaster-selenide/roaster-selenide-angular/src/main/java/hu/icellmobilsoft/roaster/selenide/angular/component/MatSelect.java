@@ -35,9 +35,18 @@ import hu.icellmobilsoft.roaster.selenide.AbstractBaseComponent;
  * @since 0.6.0
  */
 public class MatSelect extends AbstractBaseComponent {
+    /**
+     * Angular Material tag name
+     */
     public static final String TAG_NAME = "mat-select";
     private final SelenideElement body = Selenide.$("body");
 
+    /**
+     * Initializes the object with the selenide element
+     *
+     * @param selenideElement
+     *            the selenide element
+     */
     public MatSelect(SelenideElement selenideElement) {
         super(selenideElement);
     }

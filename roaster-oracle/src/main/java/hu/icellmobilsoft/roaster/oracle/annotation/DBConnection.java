@@ -58,8 +58,17 @@ public @interface DBConnection {
 
         private static final long serialVersionUID = 1L;
 
+        /**
+         * config key
+         */
         private final String configKey;
 
+        /**
+         * Instantiates the literal with configKey
+         *
+         * @param configKey
+         *            config key
+         */
         public Literal(String configKey) {
             this.configKey = configKey;
         }

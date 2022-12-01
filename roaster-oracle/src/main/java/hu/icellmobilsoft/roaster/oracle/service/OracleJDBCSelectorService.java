@@ -317,10 +317,21 @@ public class OracleJDBCSelectorService {
         }
     }
 
+    /**
+     * Getter for the field {@code jdbcConnection}.
+     *
+     * @return configKey
+     */
     protected JDBCConnection getJdbcConnection() {
         return jdbcConnection;
     }
 
+    /**
+     * Sets the new jdbcConnection value
+     * 
+     * @param jdbcConnection
+     *            new jdbcConnection value
+     */
     public void setJdbcConnection(JDBCConnection jdbcConnection) {
         this.jdbcConnection = jdbcConnection;
     }

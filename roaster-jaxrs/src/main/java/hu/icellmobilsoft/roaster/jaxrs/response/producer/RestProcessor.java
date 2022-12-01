@@ -63,13 +63,34 @@ public @interface RestProcessor {
     final class Literal extends AnnotationLiteral<RestProcessor> implements RestProcessor {
         private static final long serialVersionUID = 1L;
 
+        /**
+         * config key
+         */
         private final String configKey;
+
+        /**
+         * expected HTTP status code
+         */
         private final int expectedStatusCode;
 
+        /**
+         * Instantiates the literal with configKey
+         *
+         * @param configKey
+         *            config key
+         */
         public Literal(String configKey) {
             this(configKey, 200);
         }
 
+        /**
+         * Instantiates the literal with configKey and expected HTTP status code
+         *
+         * @param configKey
+         *            config key
+         * @param expectedStatusCode
+         *            expected HTTP status code
+         */
         public Literal(String configKey, int expectedStatusCode) {
             this.configKey = configKey;
             this.expectedStatusCode = expectedStatusCode;

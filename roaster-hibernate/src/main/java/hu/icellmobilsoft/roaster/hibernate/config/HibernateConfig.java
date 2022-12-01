@@ -19,6 +19,8 @@
  */
 package hu.icellmobilsoft.roaster.hibernate.config;
 
+import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig;
+
 /**
  * Configuration for hibernate config
  * 
@@ -26,6 +28,9 @@ package hu.icellmobilsoft.roaster.hibernate.config;
  */
 public interface HibernateConfig {
 
+    /**
+     * Default value for {@link HibernatePersistenceConfig#persistenceUnitName}
+     */
     String DEFAULT_PERSISTENCE_UNIT_NAME = "defaultPU";
 
     /**

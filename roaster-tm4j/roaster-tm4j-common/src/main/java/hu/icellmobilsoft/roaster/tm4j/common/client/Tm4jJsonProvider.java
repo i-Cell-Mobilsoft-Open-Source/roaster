@@ -33,6 +33,10 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
  */
 @Provider
 public class Tm4jJsonProvider extends JacksonJaxbJsonProvider {
+
+    /**
+     * Initializes the object with {@link DeserializationFeature#FAIL_ON_UNKNOWN_PROPERTIES} turned off
+     */
     public Tm4jJsonProvider() {
         configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }

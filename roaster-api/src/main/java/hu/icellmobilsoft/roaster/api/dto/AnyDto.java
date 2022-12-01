@@ -42,10 +42,19 @@ public abstract class AnyDto {
 
     private static final int MAXIMUM_ARRAY_ELEMENT_NUMBER = 1000;
 
+    /**
+     * Alphabetic characters ({@literal a} - {@literal z})
+     */
     public static final String ALPHABETIC_CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
 
+    /**
+     * Uppercase alphabetic characters ({@literal A} - {@literal Z})
+     */
     public static final String UPPERCASE_ALPHABETIC_CHARACTERS = ALPHABETIC_CHARACTERS.toUpperCase();
 
+    /**
+     * Numeric characters ({@literal 0} - {@literal 9})
+     */
     public static final String NUMERIC_CHARACTERS = "0123456789";
 
     private static final String ERR_MSG_COUNT_MUST_BE_GREATER_THAN_ONE = "count should be greater than zero!";
@@ -53,7 +62,14 @@ public abstract class AnyDto {
     private AnyDto() {
     }
 
+    /**
+     * Length of the request id for random generation
+     */
     public static final int REQUEST_ID_TYPE_SIZE = 32;
+
+    /**
+     * Length of the session id for random generation
+     */
     public static final int SESSION_ID_SIZE = 50;
 
     /**

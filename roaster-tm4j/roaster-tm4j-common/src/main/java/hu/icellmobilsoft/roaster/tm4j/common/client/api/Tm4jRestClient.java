@@ -39,8 +39,8 @@ import hu.icellmobilsoft.roaster.tm4j.common.client.Tm4jJsonProvider;
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 
 /**
- * Interface for microprofile rest client.
- * <br><br>
+ * Interface for microprofile rest client. <br>
+ * <br>
  * For details see the <a href="https://support.smartbear.com/tm4j-server/api-docs/">TM4J rest API documentation</a>
  *
  * @author martin.nagy
@@ -52,14 +52,36 @@ import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 @Path("/rest/atm/1.0")
 public interface Tm4jRestClient {
 
+    /**
+     * Checks if the given test case exists
+     * 
+     * @param testCaseKey
+     *            test case key to find
+     * @return response containing HTTP status {@literal 200} if the test case exists or {@literal 404} if not
+     */
     @HEAD
     @Path("/testcase/{testCaseKey}")
     Response headTestCase(@PathParam("testCaseKey") String testCaseKey);
 
+    /**
+     * Checks if the given test run exists
+     * 
+     * @param testRunKey
+     *            test run key to find
+     * @return response containing HTTP status {@literal 200} if the test case exists or {@literal 404} if not
+     */
     @HEAD
     @Path("/testrun/{testRunKey}")
     Response headTestRun(@PathParam("testRunKey") String testRunKey);
 
+    /**
+     * Submits the test run results to the given test run key
+     * 
+     * @param testRunKey
+     *            test run key
+     * @param executions
+     *            test run results
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

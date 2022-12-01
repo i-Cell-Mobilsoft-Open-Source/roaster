@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 
 import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
+import hu.icellmobilsoft.roaster.restassured.path.MicroprofilePath;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -40,12 +41,16 @@ import io.restassured.specification.ResponseSpecification;
 @Dependent
 public class VersionInfoTestHelper {
 
-    private static final String STATUS_JSON_PATH = "status";
-
     @Inject
     @JSON
     private RestAssuredConfig restAssuredConfig;
 
+    /**
+     * Testing {@value MicroprofilePath#VERSION_INFO} endpoint
+     * 
+     * @param baseUri
+     *            URI for versionInfo endpoint
+     */
     public void testVersionInfo(String baseUri) {
         RequestSpecification requestSpecification = new RequestSpecBuilder().setBaseUri(baseUri).build();
 
@@ -58,7 +63,7 @@ public class VersionInfoTestHelper {
                 // when
                 .when()//
                 .log().all()//
-                .get("/versionInfo")
+                .get(MicroprofilePath.VERSION_INFO)
                 // then
                 .then()//
                 .log().all()//

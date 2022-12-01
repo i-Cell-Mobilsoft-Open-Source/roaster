@@ -44,6 +44,9 @@ public class FileUtil {
 
     private static final Logger LOG = Logger.getLogger(FileUtil.class.getName());
 
+    /**
+     * Maven test resources path
+     */
     public static final String SRC_TEST_RESOURCES = "src/test/resources/";
 
     /**
@@ -76,7 +79,7 @@ public class FileUtil {
         }
         try (var inputStream = ClassLoader.getSystemResourceAsStream(fileName)) {
             String file = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
-            LOG.info(() -> MessageFormat.format("File [{0}] from resources readed!", ClassLoader.getSystemResource(fileName)));
+            LOG.info(() -> MessageFormat.format("File [{0}] from resources read!", ClassLoader.getSystemResource(fileName)));
             return file;
         } catch (IOException e) {
             throw new TestException(MessageFormat.format("Unable to read File [{0}] from resource", fileName), e);
@@ -101,7 +104,7 @@ public class FileUtil {
      * @param fileName
      *            filename like token.xml, in src/main/resources source directory
      * @param function
-     *            readed InputStream consumer. All exception is handled to {@code TestException}
+     *            read InputStream consumer. All exception is handled to {@code TestException}
      * @see ClassLoader#getSystemResourceAsStream(String)
      */
     public static void readFileFromResource(String fileName, ExceptionConsumer<InputStream, Exception> function) {
@@ -111,7 +114,7 @@ public class FileUtil {
 
         try (var inputStream = ClassLoader.getSystemResourceAsStream(fileName)) {
             function.accept(inputStream);
-            LOG.info(() -> MessageFormat.format("File [{0}] from resources readed!", ClassLoader.getSystemResource(fileName)));
+            LOG.info(() -> MessageFormat.format("File [{0}] from resources read!", ClassLoader.getSystemResource(fileName)));
         } catch (IOException e) {
             throw new TestException(MessageFormat.format("Unable to read File [{0}] from resource", fileName), e);
         } catch (BaseException e) {
@@ -139,7 +142,7 @@ public class FileUtil {
      * @param path
      *            the path to the file
      * @param function
-     *            readed InputStream consumer. All exception is handled to {@code TestException}
+     *            read InputStream consumer. All exception is handled to {@code TestException}
      * @see Files#readString(Path)
      * 
      */
@@ -149,7 +152,7 @@ public class FileUtil {
         }
         try {
             function.accept(Files.newInputStream(path));
-            LOG.info(() -> MessageFormat.format("File from path [{0}] readed!", path.toAbsolutePath()));
+            LOG.info(() -> MessageFormat.format("File from path [{0}] read!", path.toAbsolutePath()));
         } catch (IOException e) {
             throw new TestException(MessageFormat.format("Unable to read File from path: [{0}]", path.toAbsolutePath()), e);
         } catch (BaseException e) {
@@ -174,7 +177,7 @@ public class FileUtil {
         }
         try {
             var file = Files.readString(path);
-            LOG.info(() -> MessageFormat.format("File from path [{0}] readed!", path.toAbsolutePath()));
+            LOG.info(() -> MessageFormat.format("File from path [{0}] read!", path.toAbsolutePath()));
             return file;
         } catch (IOException e) {
             throw new TestException(MessageFormat.format("Unable to read File from path: [{0}]", path.toAbsolutePath()), e);

@@ -46,8 +46,10 @@ public @interface XML {
 	 *
 	 * @author imre.scheffer
 	 */
-	public final static class Literal extends AnnotationLiteral<XML> implements XML {
-
+	final class Literal extends AnnotationLiteral<XML> implements XML {
+		/**
+		 * Qualifier literal instance
+		 */
 		public static final Literal INSTANCE = new Literal();
 
 		private static final long serialVersionUID = 1L;

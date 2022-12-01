@@ -57,6 +57,12 @@ public class ManagedResponseProcessorConfig implements ResponseProcessorConfig {
     @Inject
     private Config config;
 
+    /**
+     * Sets the new configKey value
+     *
+     * @param configKey
+     *            new configKey value
+     */
     public void setConfigKey(String configKey) {
         this.configKey = configKey;
     }

@@ -81,6 +81,11 @@ public class Jackson2ObjectMapperFactoryImpl implements Jackson2ObjectMapperFact
         return this;
     }
 
+    /**
+     * Getter az {@code objectMapper} mezőhöz, lazy init történhet
+     * 
+     * @return objectMapper mező értéke
+     */
     public ObjectMapper getObjectMapper() {
         if (objectMapper == null) {
             initObjectMapper();

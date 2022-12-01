@@ -46,8 +46,10 @@ public @interface JSON {
 	 *
 	 * @author imre.scheffer
 	 */
-	public final static class Literal extends AnnotationLiteral<JSON> implements JSON {
-
+	final class Literal extends AnnotationLiteral<JSON> implements JSON {
+		/**
+		 * Qualifier literal instance
+		 */
 		public static final Literal INSTANCE = new Literal();
 
 		private static final long serialVersionUID = 1L;

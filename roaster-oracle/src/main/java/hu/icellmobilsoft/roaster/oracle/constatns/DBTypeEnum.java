@@ -30,6 +30,9 @@ import org.apache.commons.lang3.StringUtils;
  */
 public enum DBTypeEnum {
 
+    /**
+     * Oracle RDBMS
+     */
     ORACLE("oracle"),
     ;
 
@@ -39,10 +42,22 @@ public enum DBTypeEnum {
         value = v;
     }
 
+    /**
+     * Returns the value
+     * 
+     * @return the value
+     */
     public String value() {
         return value;
     }
 
+    /**
+     * Returns an enum with the given value
+     * 
+     * @param value
+     *            search value
+     * @return an enum with the given value
+     */
     public static DBTypeEnum fromValue(String value) {
         return Arrays.stream(values()).filter(dbTypeEnum -> StringUtils.equals(dbTypeEnum.value, value)).findFirst().orElse(null);
     }
