@@ -29,8 +29,8 @@
 		<version.com.oracle.ojdbc>19.3.0.0</version.com.oracle.ojdbc>
 		<version.com.zaxxer.hikaricp>5.0.0</version.com.zaxxer.hikaricp>
 
-		<version.org.jboss.weld.weld-junit5>2.0.1.Final</version.org.jboss.weld.weld-junit5>
-		<version.org.jboss.weld.core>3.1.5.Final</version.org.jboss.weld.core>
+		<version.org.jboss.weld.weld-junit5>2.0.2.Final</version.org.jboss.weld.weld-junit5>
+		<version.org.jboss.weld.core>3.1.9.Final</version.org.jboss.weld.core>
 		<version.jakarta.servlet>4.0.4</version.jakarta.servlet>
 		<version.commons.logging>1.2</version.commons.logging>
 
