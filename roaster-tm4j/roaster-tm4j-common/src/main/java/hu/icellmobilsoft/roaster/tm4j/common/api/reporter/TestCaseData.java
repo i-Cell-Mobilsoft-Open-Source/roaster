@@ -64,50 +64,116 @@ public class TestCaseData {
      */
     private Collection<String> tags;
 
+    /**
+     * Getter for the field {@code id}.
+     *
+     * @return id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Sets the new id value
+     *
+     * @param id
+     *            new id value
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * Getter for the field {@code displayName}.
+     *
+     * @return displayName
+     */
     public String getDisplayName() {
         return displayName;
     }
 
+    /**
+     * Sets the new displayName value
+     *
+     * @param displayName
+     *            new displayName value
+     */
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 
+    /**
+     * Getter for the field {@code testMethod}.
+     *
+     * @return testMethod
+     */
     public Method getTestMethod() {
         return testMethod;
     }
 
+    /**
+     * Sets the new testMethod value
+     *
+     * @param testMethod
+     *            new testMethod value
+     */
     public void setTestMethod(Method testMethod) {
         this.testMethod = testMethod;
     }
 
+    /**
+     * Getter for the field {@code startTime}.
+     *
+     * @return startTime
+     */
     public LocalDateTime getStartTime() {
         return startTime;
     }
 
+    /**
+     * Sets the new startTime value
+     *
+     * @param startTime
+     *            new startTime value
+     */
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
+    /**
+     * Getter for the field {@code endTime}.
+     *
+     * @return endTime
+     */
     public LocalDateTime getEndTime() {
         return endTime;
     }
 
+    /**
+     * Sets the new endTime value
+     *
+     * @param endTime
+     *            new endTime value
+     */
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 
+    /**
+     * Getter for the field {@code tags}.
+     *
+     * @return tags
+     */
     public Collection<String> getTags() {
         return tags;
     }
 
+    /**
+     * Sets the new tags value
+     *
+     * @param tags
+     *            new tags value
+     */
     public void setTags(Collection<String> tags) {
         this.tags = tags;
     }

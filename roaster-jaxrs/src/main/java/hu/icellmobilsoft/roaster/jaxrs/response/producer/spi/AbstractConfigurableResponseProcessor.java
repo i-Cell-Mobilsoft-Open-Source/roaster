@@ -131,10 +131,21 @@ public class AbstractConfigurableResponseProcessor<RESPONSE> extends ResponsePro
         return path;
     }
 
+    /**
+     * Sets the new queryParams value
+     *
+     * @param queryParams
+     *            new queryParams value
+     */
     public void setQueryParams(Map<String, String> queryParams) {
         this.queryParams = queryParams;
     }
 
+    /**
+     * Getter for the field {@code queryParams}.
+     *
+     * @return queryParams
+     */
     public Map<String, String> getQueryParams() {
         return queryParams;
     }

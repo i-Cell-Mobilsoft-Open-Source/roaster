@@ -32,10 +32,21 @@ public class RedisContainer {
 
     private final Jedis jedis;
 
+    /**
+     * Initializes the object with a jedis instance
+     * 
+     * @param jedis
+     *            Jedis instance
+     */
     public RedisContainer(Jedis jedis) {
         this.jedis = jedis;
     }
 
+    /**
+     * Getter for the field {@code jedis}.
+     *
+     * @return jedis
+     */
     public Jedis getJedis() {
         return jedis;
     }

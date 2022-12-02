@@ -76,14 +76,29 @@ public class Tm4jReporterServerConfig implements ITm4jReporterServerConfig {
                 new String(Base64.getEncoder().encode((getUserNameFromConfig() + ':' + getPasswordFromConfig()).getBytes(CHARSET)), CHARSET);
     }
 
+    /**
+     * Returns the password from the microprofile config
+     * 
+     * @return the password from the microprofile config
+     */
     protected String getPasswordFromConfig() {
         return config.getOptionalValue(RoasterConfigKeys.Server.PASSWORD, String.class).orElse(null);
     }
 
+    /**
+     * Returns the basic auth token from the microprofile config
+     *
+     * @return the basic auth token from the microprofile config
+     */
     protected String getBasicAuthTokenFromConfig() {
         return config.getOptionalValue(RoasterConfigKeys.Server.BASIC_AUTH_TOKEN, String.class).orElse(null);
     }
 
+    /**
+     * Returns the username from the microprofile config
+     *
+     * @return the username from the microprofile config
+     */
     protected String getUserNameFromConfig() {
         return config.getOptionalValue(RoasterConfigKeys.Server.USER_NAME, String.class).orElse(null);
     }

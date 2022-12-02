@@ -26,10 +26,28 @@ package hu.icellmobilsoft.roaster.restassured.path;
  */
 public class MicroprofilePath {
 
+    /**
+     * openapi path
+     */
     public static final String OPENAPI_PATH = "/openapi";
+    /**
+     * health path
+     */
     public static final String HEALTH_PATH = "/health";
+    /**
+     * health ready path
+     */
     public static final String HEALTH_READY_PATH = "/health/ready";
+    /**
+     * health live path
+     */
     public static final String HEALTH_LIVE_PATH = "/health/live";
+    /**
+     * health started path
+     */
     public static final String HEALTH_STARTED_PATH = "/health/started";
-
+    /**
+     * version info path
+     */
+    public static final String VERSION_INFO = "/versionInfo";
 }

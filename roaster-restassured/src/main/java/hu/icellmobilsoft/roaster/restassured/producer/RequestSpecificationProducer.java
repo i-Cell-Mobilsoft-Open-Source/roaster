@@ -37,10 +37,21 @@ import io.restassured.specification.RequestSpecification;
 @ApplicationScoped
 public class RequestSpecificationProducer {
 
+    /**
+     * Application XML media type
+     */
     public static final String MEDIA_TYPE_APPLICATION_XML = "application/xml";
+    /**
+     * Text XML media type
+     */
     public static final String MEDIA_TYPE_TEXT_XML = "text/xml";
-    public static final String MEDIA_TYPE_XML = String.join(",", MEDIA_TYPE_APPLICATION_XML, MEDIA_TYPE_TEXT_XML);
-
+    /**
+     * Combined XML media type
+     */
+    public static final String MEDIA_TYPE_XML = MEDIA_TYPE_APPLICATION_XML + "," + MEDIA_TYPE_TEXT_XML;
+    /**
+     * JSON media type
+     */
     public static final String MEDIA_TYPE_APPLICATION_JSON = "application/json";
 
     /**

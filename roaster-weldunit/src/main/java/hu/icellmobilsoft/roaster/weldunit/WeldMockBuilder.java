@@ -284,6 +284,11 @@ public class WeldMockBuilder {
             return this;
         }
 
+        /**
+         * Builds the WeldInitiator
+         * 
+         * @return the built WeldInitiator
+         */
         public final WeldInitiator build() {
             return originalBuilder.build();
         }

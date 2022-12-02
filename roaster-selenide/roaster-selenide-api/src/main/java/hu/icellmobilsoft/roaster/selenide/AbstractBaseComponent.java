@@ -32,10 +32,21 @@ import com.codeborne.selenide.SelenideElement;
 public abstract class AbstractBaseComponent {
     private final SelenideElement selenideElement;
 
+    /**
+     * Initializes the object with the selenide element
+     * 
+     * @param selenideElement
+     *            the selenide element
+     */
     protected AbstractBaseComponent(SelenideElement selenideElement) {
         this.selenideElement = selenideElement;
     }
 
+    /**
+     * Getter for the field {@code selenideElement}.
+     *
+     * @return selenideElement
+     */
     public SelenideElement getSelenideElement() {
         return selenideElement;
     }

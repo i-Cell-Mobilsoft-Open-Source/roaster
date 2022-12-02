@@ -19,9 +19,9 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
-import hu.icellmobilsoft.roaster.api.TestException;
-
 import javax.enterprise.inject.Vetoed;
+
+import hu.icellmobilsoft.roaster.api.TestException;
 
 /**
  * Exception class indicating rest call errors.
@@ -31,14 +31,35 @@ import javax.enterprise.inject.Vetoed;
  */
 @Vetoed
 public class Tm4jClientException extends TestException {
+
+    /**
+     * Initializes the object with error message
+     * 
+     * @param message
+     *            the error message
+     */
     public Tm4jClientException(String message) {
         super(message);
     }
 
+    /**
+     * Initializes the object with error message and parent exception
+     * 
+     * @param message
+     *            the error message
+     * @param cause
+     *            parent exception
+     */
     public Tm4jClientException(String message, Throwable cause) {
         super(message, cause);
     }
 
+    /**
+     * Initializes the object with parent exception
+     * 
+     * @param cause
+     *            parent exception
+     */
     public Tm4jClientException(Throwable cause) {
         super(cause);
     }

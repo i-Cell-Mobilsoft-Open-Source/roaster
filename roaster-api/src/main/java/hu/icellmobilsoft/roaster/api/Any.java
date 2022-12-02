@@ -57,27 +57,49 @@ public abstract class Any {
 
     private static final String ERROR_MSG_MAX_SIZE_AT_LEAST_ONE = "Maximum size of the array should be least one.";
 
+    /**
+     * Enum for the random string character sets
+     */
     public enum RandomStringType {
-        RANDOM, ASCII, ONLY_ALPHABETIC, ONLY_ALPHANUMERIC, ONLY_NUMERIC
+        /**
+         * Characters will be chosen from the set of all characters.
+         */
+        RANDOM,
+        /**
+         * Characters will be chosen from the set of characters whose ASCII value is between 32 and 126 (inclusive).
+         */
+        ASCII,
+        /**
+         * Characters will be chosen from the set of Latin alphabetic characters (a-z, A-Z).
+         */
+        ONLY_ALPHABETIC,
+        /**
+         * Characters will be chosen from the set of Latin alphabetic characters (a-z, A-Z) and the digits 0-9.
+         */
+        ONLY_ALPHANUMERIC,
+        /**
+         * Characters will be chosen from the set of numeric characters.
+         */
+        ONLY_NUMERIC
     }
 
     private Any() {
     }
 
     /**
-     * generate an random X__ID using the default EntityIdGenerator.
+     * generate a random X__ID using the default EntityIdGenerator.
      *
-     * @return an random X__ID
+     * @return a random X__ID
      */
     public static String xId() {
         return RandomUtil.generateId();
     }
 
     /**
-     * Generate an random string that contains only whitespaces. The length will be between {@value DEFAULT_MIN_STR_LENGTH} and
+     * Generate a random string that contains only whitespaces. The length will be between {@value DEFAULT_MIN_STR_LENGTH} and
      * {@value DEFAULT_MAX_STR_LENGTH}
      *
-     * @return an random only whitespace string
+     * @return a random only whitespace string
      */
     public static String whitespace() {
         return whitespace(DEFAULT_MIN_STR_LENGTH, DEFAULT_MAX_STR_LENGTH);
@@ -139,42 +161,53 @@ public abstract class Any {
     }
 
     /**
-     * Geerate an printable string with the maximum of {@code count} characters.
+     * Generate a printable string with the maximum of {@code count} characters.
      *
      * @param count
      *            the max number of characters in the result string;
-     * @return an printable random string
+     * @return a printable random string
      */
     public static String string(int count) {
         return string(count, false);
     }
 
     /**
-     * Geerate an printable string with the maximum of {@code count} characters containing only {@link RandomStringType} characters
+     * Generate a printable string with the maximum of {@code count} characters containing only {@link RandomStringType} characters
      *
      * @param count
      *            the max number of characters in the result string;
      * @param randomStringType
      *            random string type
-     * @return an printable random string
+     * @return a printable random string
      */
     public static String string(int count, RandomStringType randomStringType) {
         return string(count, false, randomStringType);
     }
 
     /**
-     * Generate an printable string with the maximum of {@code count} characters.
+     * Generate a printable string with the maximum of {@code count} characters.
      *
      * @param count
      *            the max number of characters in the result string;
      * @param nonBlank
-     *            should not begin and end with an whitespace character
-     * @return an printable random string
+     *            should not begin and end with a whitespace character
+     * @return a printable random string
      */
     public static String string(int count, boolean nonBlank) {
         return string(count, nonBlank, RandomStringType.ASCII);
     }
 
+    /**
+     * Generate a printable string with the maximum of {@code count} characters containing only {@link RandomStringType} characters
+     *
+     * @param count
+     *            the max number of characters in the result string;
+     * @param nonBlank
+     *            should not begin and end with a whitespace character
+     * @param randomStringType
+     *            random string type
+     * @return a printable random string
+     */
     public static String string(int count, boolean nonBlank, RandomStringType randomStringType) {
         ThreadLocalRandom rand = ThreadLocalRandom.current();
         int randCount = rand.nextInt(count - 1) + 1;
@@ -279,7 +312,7 @@ public abstract class Any {
     /**
      * @param bound
      *            the bound date
-     * @return an timestamp before bound
+     * @return a timestamp before bound
      */
     public static XMLGregorianCalendar timestampBefore(Date bound) {
         return DateXmlUtil.toXMLGregorianCalendar(Any.timeBefore(bound));
@@ -533,6 +566,19 @@ public abstract class Any {
         return items[rand.nextInt(items.length)];
     }
 
+    /**
+     * Returns the value of a random static field with a given type from the given class
+     * 
+     * @param ifaceClass
+     *            the interface class
+     * @param fieldType
+     *            the type of the fields to use
+     * @return the value of a random static field with a given type from the given class
+     * @param <I>
+     *            the type of the interface
+     * @param <T>
+     *            the type of the field
+     */
     public static <I, T> T fieldValue(Class<I> ifaceClass, Class<T> fieldType) {
         Condition.notNull(ifaceClass, "IfaceClass should not be null.");
         Condition.expected(ifaceClass.isInterface(), "the input type must be an interface.");
@@ -548,7 +594,7 @@ public abstract class Any {
      *            the list of elements to exclude
      * @param <T>
      *            the type of the enumeration
-     * @return the enum object list of T without the exluded elements.
+     * @return the enum object list of T without the excluded elements.
      */
     public static <T extends Enum<T>> T[] exclude(Class<T> enumClass, T... excludeItems) {
         Condition.notNull(enumClass, ERROR_MSG_ENUMERATION_TYPE_NULL);

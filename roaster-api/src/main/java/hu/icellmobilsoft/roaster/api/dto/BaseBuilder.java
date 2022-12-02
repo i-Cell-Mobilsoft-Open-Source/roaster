@@ -36,10 +36,21 @@ public abstract class BaseBuilder<T> {
      */
     public abstract T createEmpty();
 
+    /**
+     * Returns the built dto
+     *
+     * @return the built dto
+     */
     public T getDto() {
         return dto;
     }
 
+    /**
+     * Sets the dto to build
+     *
+     * @param dto
+     *            the new dto
+     */
     public void setDto(T dto) {
         this.dto = dto;
     }

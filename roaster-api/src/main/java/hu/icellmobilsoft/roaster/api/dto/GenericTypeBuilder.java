@@ -43,7 +43,7 @@ import hu.icellmobilsoft.roaster.api.TestException;
 import hu.icellmobilsoft.roaster.api.reflect.Setter;
 
 /**
- * Generic class to build an dto object based on the XML annotations.
+ * Generic class to build a dto object based on the XML annotations.
  *
  * @param <T>
  *            the xsd type
@@ -58,6 +58,17 @@ public class GenericTypeBuilder<T> extends BaseTypeBuilder<T> {
         super(targetClass, createEntity);
     }
 
+    /**
+     * Creates a new {@link GenericTypeBuilder}
+     * 
+     * @param targetClass
+     *            the class generated from xsd
+     * @param createEntity
+     *            factory for the xsd type
+     * @return a new {@link GenericTypeBuilder}
+     * @param <E>
+     *            the xsd type
+     */
     public static <E> GenericTypeBuilder<E> create(Class<E> targetClass, Supplier<E> createEntity) {
         Condition.expected(targetClass.getAnnotation(XmlType.class) != null, "Target type should be generated from XSD.");
         return new GenericTypeBuilder<>(targetClass, createEntity);
@@ -76,7 +87,7 @@ public class GenericTypeBuilder<T> extends BaseTypeBuilder<T> {
     /**
      * @param field
      *            the field of the entity
-     * @return true if the field is annotated with {@code }required=true}
+     * @return true if the field is annotated with {@code required=true}
      */
     private static boolean isRequiredField(final Field field) {
         XmlElement xmlElement = field.getAnnotation(XmlElement.class);
@@ -156,7 +167,7 @@ public class GenericTypeBuilder<T> extends BaseTypeBuilder<T> {
     }
 
     /**
-     * Fill the list fields with an randomly generated list
+     * Fill the list fields with a randomly generated list
      *
      * @param entity
      *            the entity object
@@ -172,7 +183,7 @@ public class GenericTypeBuilder<T> extends BaseTypeBuilder<T> {
     }
 
     /**
-     * Fill the array fields with an randomly generated array.
+     * Fill the array fields with a randomly generated array.
      *
      * @param entity
      *            the entity object

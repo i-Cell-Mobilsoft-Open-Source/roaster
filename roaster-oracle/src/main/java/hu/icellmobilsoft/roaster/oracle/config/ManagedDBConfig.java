@@ -128,10 +128,21 @@ public class ManagedDBConfig implements DBConfig {
         return config.getOptionalValue(joinKey(MAXIMUM_POOL_SIZE), Integer.class).orElse(5);
     }
 
+    /**
+     * Getter for the field {@code configKey}.
+     *
+     * @return configKey
+     */
     public String getConfigKey() {
         return configKey;
     }
 
+    /**
+     * Sets the new configKey value
+     * 
+     * @param configKey
+     *            new configKey value
+     */
     public void setConfigKey(String configKey) {
         this.configKey = configKey;
     }

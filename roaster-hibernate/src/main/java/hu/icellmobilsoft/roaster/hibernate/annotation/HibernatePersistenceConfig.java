@@ -54,8 +54,17 @@ public @interface HibernatePersistenceConfig {
 
         private static final long serialVersionUID = 1L;
 
+        /**
+         * persistenceUnitName
+         */
         private final String persistenceUnitName;
 
+        /**
+         * Instantiates the literal with persistenceUnitName
+         *
+         * @param persistenceUnitName
+         *            persistenceUnitName
+         */
         public Literal(String persistenceUnitName) {
             this.persistenceUnitName = persistenceUnitName;
         }

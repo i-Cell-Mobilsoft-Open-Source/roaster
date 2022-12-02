@@ -40,6 +40,9 @@ public class AuthHeadersFactory implements ClientHeadersFactory {
     @Inject
     private ITm4jReporterServerConfig config;
 
+    /**
+     * Initializes the object, validates the config
+     */
     @PostConstruct
     public void init() {
         config.validate();

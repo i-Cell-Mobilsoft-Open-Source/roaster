@@ -35,8 +35,8 @@ import hu.icellmobilsoft.roaster.tm4j.common.client.Tm4jJsonProvider;
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.jira.User;
 
 /**
- * Interface for microprofile rest client.
- * <br><br>
+ * Interface for microprofile rest client. <br>
+ * <br>
  * For details see the <a href="https://docs.atlassian.com/software/jira/docs/api/REST/latest/">JIRA Server platform REST API reference</a>
  *
  * @author martin.nagy
@@ -48,6 +48,11 @@ import hu.icellmobilsoft.roaster.tm4j.dto.domain.jira.User;
 @Path("/rest/api/2")
 public interface JiraRestClient {
 
+    /**
+     * Returns the data of the logged-in user
+     * 
+     * @return the data of the logged-in user
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/myself")
