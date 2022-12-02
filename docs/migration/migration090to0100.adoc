@@ -8,3 +8,17 @@
 
 === Átállás
 A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+
+=== JDK 17 support
+A projekt mostmár támogatja a java 17 verziót,
+így használható ilyen java alapon lévő projektben is.
+A problémás részek legtöbb helyen dependency frissítéssel és javadoc bővítéssel megjavult.
+
+.java 11 && 17
+A roaster továbbra is java 11-el lesz kompilálva,
+de kap fordítási és tesztelési ellenőrzéseket java 17-re is.
+Így minimalizálni fogjuk a java verzió külömbségi problémákat.
+
+==== BOM verzió emelések:
+* `org.jboss.weld:weld-junit5` 2.0.1.Final -> 2.0.2.Final
+* `org.jboss.weld:weld-core-impl` 3.1.5.Final -> 3.1.9.Final
