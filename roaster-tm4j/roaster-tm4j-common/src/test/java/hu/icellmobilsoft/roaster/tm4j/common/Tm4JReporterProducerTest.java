@@ -38,7 +38,12 @@ import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
 class Tm4JReporterProducerTest {
 
     @Mock
-    private Provider<TestResultReporter> testResultReporterProvider;
+    @Tm4jRest
+    private Provider<TestResultReporter> tm4jTestResultReporterProvider;
+
+    @Mock
+    @ZephyrRest
+    private Provider<TestResultReporter> zephyrTestResultReporterProvider;
 
     @InjectMocks
     private Tm4jReporterProducer testObj;
@@ -54,7 +59,7 @@ class Tm4JReporterProducerTest {
         System.setProperty(RoasterConfigKeys.ENABLED, Boolean.FALSE.toString());
         Tm4jReporterConfig config = new Tm4jReporterConfig();
         TestResultReporter testResultReporter = mock(TestResultReporter.class);
-        when(testResultReporterProvider.get()).thenReturn(testResultReporter);
+        when(tm4jTestResultReporterProvider.get()).thenReturn(testResultReporter);
 
         // when
         TestResultReporter reporter = testObj.createReporter(config);
@@ -69,7 +74,23 @@ class Tm4JReporterProducerTest {
         System.setProperty(RoasterConfigKeys.ENABLED, Boolean.TRUE.toString());
         Tm4jReporterConfig config = new Tm4jReporterConfig();
         TestResultReporter testResultReporter = mock(TestResultReporter.class);
-        when(testResultReporterProvider.get()).thenReturn(testResultReporter);
+        when(tm4jTestResultReporterProvider.get()).thenReturn(testResultReporter);
+
+        // when
+        TestResultReporter reporter = testObj.createReporter(config);
+
+        // then
+        assertEquals(testResultReporter, reporter);
+    }
+
+    @Test
+    void shouldUseZephyrReporterProducerIfTm4jEnabledAndZephyrEnabled() {
+        // given
+        System.setProperty(RoasterConfigKeys.ENABLED, Boolean.TRUE.toString());
+        System.setProperty(RoasterConfigKeys.USE_ZEPHYR, Boolean.TRUE.toString());
+        Tm4jReporterConfig config = new Tm4jReporterConfig();
+        TestResultReporter testResultReporter = mock(TestResultReporter.class);
+        when(zephyrTestResultReporterProvider.get()).thenReturn(testResultReporter);
 
         // when
         TestResultReporter reporter = testObj.createReporter(config);

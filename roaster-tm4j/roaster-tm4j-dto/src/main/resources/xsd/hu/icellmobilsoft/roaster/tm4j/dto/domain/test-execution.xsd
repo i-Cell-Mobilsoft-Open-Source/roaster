@@ -3,6 +3,14 @@
            targetNamespace="http://domain.dto.tm4j.roaster.icellmobilsoft.hu/test-execution"
            elementFormDefault="qualified">
 
+    <xs:complexType name="TestScriptResultType">
+        <xs:sequence>
+            <xs:element name="statusName" type="xs:string"/>
+            <xs:element name="actualEndDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="actualResult" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:element name="Execution">
         <xs:complexType>
             <xs:sequence>
@@ -15,6 +23,24 @@
                 <xs:element name="executionTime" type="xs:long" minOccurs="0"/>
                 <xs:element name="actualStartDate" type="xs:dateTime" minOccurs="0"/>
                 <xs:element name="actualEndDate" type="xs:dateTime" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ZephyrExecution">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="projectKey" type="xs:string"/>
+                <xs:element name="testCaseKey" type="xs:string"/>
+                <xs:element name="testCycleKey" type="xs:string"/>
+                <xs:element name="statusName" type="xs:string"/>
+                <xs:element name="testScriptResults" type="TestScriptResultType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="environmentName" type="xs:string" minOccurs="0"/>
+                <xs:element name="actualEndDate" type="xs:dateTime" minOccurs="0"/>
+                <xs:element name="executionTime" type="xs:long" minOccurs="0"/>
+                <xs:element name="executedById" type="xs:string" minOccurs="0"/>
+                <xs:element name="assignedToId" type="xs:string" minOccurs="0"/>
+                <xs:element name="comment" type="xs:string" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

@@ -38,7 +38,11 @@ public class Tm4jReporterProducer {
 
     @Inject
     @Tm4jRest
-    private Provider<TestResultReporter> testResultReporterProvider;
+    private Provider<TestResultReporter> tm4jTestResultReporterProvider;
+
+    @Inject
+    @ZephyrRest
+    private Provider<TestResultReporter> zephyrTestResultReporterProvider;
 
     /**
      * Creates a {@code TestResultReporter} based on the Roaster configuration
@@ -50,6 +54,11 @@ public class Tm4jReporterProducer {
     @Produces
     @Dependent
     public TestResultReporter createReporter(ITm4jReporterConfig config) {
-        return config.isEnabled() ? testResultReporterProvider.get() : new NoopTestResultReporter();
+        if (config.isEnabled() && !config.useZephyr()) {
+            return tm4jTestResultReporterProvider.get();
+        } else if (config.isEnabled()) {
+            return zephyrTestResultReporterProvider.get();
+        }
+        return new NoopTestResultReporter();
     }
 }

@@ -39,6 +39,13 @@ public interface ITm4jReporterConfig {
     boolean isEnabled();
 
     /**
+     * Returns {@literal true} if the reporting should be done through Zephyr Cloud
+     *
+     * @return {@literal true} if the reporting should be done through Zephyr Cloud
+     */
+    boolean useZephyr();
+
+    /**
      * Returns the project key. This is the prefix for the Jira issues also.
      * 
      * @return the project key

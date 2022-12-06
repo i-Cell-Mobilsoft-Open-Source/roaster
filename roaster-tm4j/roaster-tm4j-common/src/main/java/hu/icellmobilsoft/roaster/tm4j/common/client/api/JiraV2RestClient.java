@@ -46,7 +46,7 @@ import hu.icellmobilsoft.roaster.tm4j.dto.domain.jira.User;
 @RegisterProvider(Tm4jJsonProvider.class)
 @RegisterClientHeaders(AuthHeadersFactory.class)
 @Path("/rest/api/2")
-public interface JiraRestClient {
+public interface JiraV2RestClient {
 
     /**
      * Returns the data of the logged-in user

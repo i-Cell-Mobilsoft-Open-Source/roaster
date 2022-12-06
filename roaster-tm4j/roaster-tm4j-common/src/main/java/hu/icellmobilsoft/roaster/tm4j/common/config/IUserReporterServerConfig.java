@@ -2,14 +2,14 @@
  * #%L
  * Coffee
  * %%
- * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
+ * Copyright (C) 2020 - 2022 i-Cell Mobilsoft Zrt.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,21 +21,19 @@ package hu.icellmobilsoft.roaster.tm4j.common.config;
 
 import javax.enterprise.inject.Vetoed;
 
-import hu.icellmobilsoft.roaster.api.InvalidConfigException;
-
 /**
- * Configuration interface defining the TM4J server access parameters.
+ * Configuration interface defining a username parameter for Jira Test Management access.
  *
- * @author martin.nagy
- * @since 0.10.0
+ * @author mark.vituska
+ * @since 0.11.0
  */
 @Vetoed
-public interface ITm4jReporterServerConfig extends IUserReporterServerConfig {
+public interface IUserReporterServerConfig extends IReporterServerConfig {
 
     /**
-     * Returns the basic auth token
+     * Returns the username
      *
-     * @return the basic auth token
+     * @return the username
      */
-    String getBasicAuthToken();
+    String getUserName();
 }
