@@ -64,8 +64,7 @@ public class RestZephyrReporter implements TestResultReporter {
 
     @Override
     public void reportSuccess(TestCaseData testCaseData) {
-        List<String> zephyrTestCaseIds = getTestCaseIds(testCaseData);
-        for (String testCaseId : zephyrTestCaseIds) {
+        for (String testCaseId : getTestCaseIds(testCaseData)) {
             ZephyrExecution execution = createZephyrExecution(testCaseData, testCaseId);
             execution.setStatusName(PASS);
             execution.setComment(TestReporterHelper.createCommentBase(testCaseData.getId()));
@@ -75,8 +74,7 @@ public class RestZephyrReporter implements TestResultReporter {
 
     @Override
     public void reportFail(TestCaseData testCaseData, Throwable cause) {
-        List<String> zephyrTestCaseIds = getTestCaseIds(testCaseData);
-        for (String testCaseId : zephyrTestCaseIds) {
+        for (String testCaseId : getTestCaseIds(testCaseData)) {
             ZephyrExecution execution = createZephyrExecution(testCaseData, testCaseId);
             execution.setStatusName(FAIL);
             execution.setComment(
@@ -89,8 +87,7 @@ public class RestZephyrReporter implements TestResultReporter {
 
     @Override
     public void reportDisabled(TestCaseData testCaseData, Optional<String> reason) {
-        List<String> zephyrTestCaseIds = getTestCaseIds(testCaseData);
-        for (String testCaseId : zephyrTestCaseIds) {
+        for (String testCaseId : getTestCaseIds(testCaseData)) {
             ZephyrExecution execution = createZephyrExecution(testCaseData, testCaseId);
             execution.setStatusName(BLOCKED);
             execution.setComment(

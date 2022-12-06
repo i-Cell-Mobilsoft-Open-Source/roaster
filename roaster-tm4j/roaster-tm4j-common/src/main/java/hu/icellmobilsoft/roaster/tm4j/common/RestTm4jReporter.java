@@ -63,8 +63,7 @@ public class RestTm4jReporter implements TestResultReporter {
 
     @Override
     public void reportSuccess(TestCaseData testCaseData) {
-        List<String> tm4jTestCaseIds = getTestCaseIds(testCaseData);
-        for (String testCaseId : tm4jTestCaseIds) {
+        for (String testCaseId : getTestCaseIds(testCaseData)) {
             Execution execution = createExecution(testCaseData, testCaseId);
             execution.setStatus(PASS);
             execution.setComment(TestReporterHelper.createCommentBase(testCaseData.getId()));
@@ -74,8 +73,7 @@ public class RestTm4jReporter implements TestResultReporter {
 
     @Override
     public void reportFail(TestCaseData testCaseData, Throwable cause) {
-        List<String> tm4jTestCaseIds = getTestCaseIds(testCaseData);
-        for (String testCaseId : tm4jTestCaseIds) {
+        for (String testCaseId : getTestCaseIds(testCaseData)) {
             Execution execution = createExecution(testCaseData, testCaseId);
             execution.setStatus(FAIL);
             execution.setComment(
@@ -88,8 +86,7 @@ public class RestTm4jReporter implements TestResultReporter {
 
     @Override
     public void reportDisabled(TestCaseData testCaseData, Optional<String> reason) {
-        List<String> tm4jTestCaseIds = getTestCaseIds(testCaseData);
-        for (String testCaseId : tm4jTestCaseIds) {
+        for (String testCaseId : getTestCaseIds(testCaseData)) {
             Execution execution = createExecution(testCaseData, testCaseId);
             execution.setStatus(BLOCKED);
             execution.setComment(
