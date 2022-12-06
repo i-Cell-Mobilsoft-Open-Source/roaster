@@ -24,8 +24,6 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
-import hu.icellmobilsoft.roaster.tm4j.common.config.ITm4jReporterConfig;
 import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestResultReporter;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IZephyrReporterConfig;
 
@@ -39,8 +37,8 @@ import hu.icellmobilsoft.roaster.zephyr.common.config.IZephyrReporterConfig;
 public class ZephyrReporterProducer {
 
     @Inject
-    @Tm4jRest
-    private Provider<TestResultReporter> tm4jTestResultReporterProvider;
+    @ZephyrRest
+    private Provider<TestResultReporter> testResultReporterProvider;
 
     /**
      * Creates a {@code TestResultReporter} based on the Roaster configuration
@@ -52,6 +50,6 @@ public class ZephyrReporterProducer {
     @Produces
     @Dependent
     public TestResultReporter createReporter(IZephyrReporterConfig config) {
-        return config.isEnabled() ? tm4jTestResultReporterProvider.get() : new NoopTestResultReporter();
+        return config.isEnabled() ? testResultReporterProvider.get() : new NoopTestResultReporter();
     }
 }

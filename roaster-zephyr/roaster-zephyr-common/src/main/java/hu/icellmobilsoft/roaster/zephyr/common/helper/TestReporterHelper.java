@@ -29,7 +29,7 @@ import javax.enterprise.inject.Vetoed;
 
 import org.apache.commons.text.StringEscapeUtils;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
+import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestCaseData;
 
 /**
  * Helper class containing common methods used by test reporters.

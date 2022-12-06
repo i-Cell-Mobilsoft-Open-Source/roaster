@@ -1,3 +1,22 @@
+/*-
+ * #%L
+ * Coffee
+ * %%
+ * Copyright (C) 2020 - 2022 i-Cell Mobilsoft Zrt.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 package hu.icellmobilsoft.roaster.zephyr.junit5;
 
 import java.time.LocalDateTime;
@@ -13,6 +32,10 @@ import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
+
+import hu.icellmobilsoft.roaster.zephyr.common.api.TestCaseId;
+import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestCaseData;
+import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestResultReporter;
 
 /**
  * JUnit 5 extension to publish the test result to a TM4J server.
@@ -34,7 +57,7 @@ public class ZephyrExtension implements TestWatcher, BeforeTestExecutionCallback
     /**
      * Creates an instance with a {@code TestResultReporter} using CDI to get the {@code TestResultReporter} dependency.
      */
-    public Tm4jExtension() {
+    public ZephyrExtension() {
         this(() -> CDI.current().select(TestResultReporter.class).get());
     }
 
@@ -43,7 +66,7 @@ public class ZephyrExtension implements TestWatcher, BeforeTestExecutionCallback
      *
      * @param reporterSupplier {@code TestResultReporter} supplier defining callbacks for test lifecycle events
      */
-    public Tm4jExtension(Supplier<TestResultReporter> reporterSupplier) {
+    public ZephyrExtension(Supplier<TestResultReporter> reporterSupplier) {
         this.reporterSupplier = Objects.requireNonNull(reporterSupplier);
     }
 

@@ -30,15 +30,11 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.junit.jupiter.api.parallel.Execution;
 
-import hu.icellmobilsoft.roaster.tm4j.common.client.api.JiraV3RestClient;
-import hu.icellmobilsoft.roaster.tm4j.common.client.api.ZephyrRestClient;
-import hu.icellmobilsoft.roaster.tm4j.common.config.ITm4jReporterServerConfig;
-import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.ZephyrExecution;
 import hu.icellmobilsoft.roaster.zephyr.common.client.api.JiraRestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.client.api.ZephyrRestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IJiraReporterServerConfig;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
 
 /**
  * Class for handling the Zephyr Cloud client calls

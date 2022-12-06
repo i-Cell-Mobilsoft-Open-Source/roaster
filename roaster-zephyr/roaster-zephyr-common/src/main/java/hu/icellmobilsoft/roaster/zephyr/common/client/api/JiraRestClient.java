@@ -29,9 +29,9 @@ import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import hu.icellmobilsoft.roaster.zephyr.dto.domain.jira.User;
 import hu.icellmobilsoft.roaster.zephyr.common.client.JiraAuthHeadersFactory;
 import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrJsonProvider;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.jira.User;
 
 /**
  * Interface for microprofile rest client.
@@ -41,7 +41,7 @@ import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrJsonProvider;
  * @author mark.vituska
  * @since 0.11.0
  */
-@RegisterRestClient(configKey = "roaster.tm4j.v3server")
+@RegisterRestClient(configKey = "roaster.zephyr.server")
 @RegisterProvider(ZephyrJsonProvider.class)
 @RegisterClientHeaders(JiraAuthHeadersFactory.class)
 @Path("/rest/api/3")

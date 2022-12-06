@@ -32,11 +32,9 @@ import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import hu.icellmobilsoft.roaster.tm4j.common.client.Tm4jJsonProvider;
-import hu.icellmobilsoft.roaster.tm4j.common.client.ZephyrAuthHeadersFactory;
-import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.ZephyrExecution;
 import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrAuthHeadersFactory;
 import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrJsonProvider;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
 
 /**
  * Interface for microprofile rest client.
@@ -63,6 +61,6 @@ public interface ZephyrRestClient {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/testexecutions")
-    void postExecution(ZephyrExecution execution);
+    void postExecution(Execution execution);
 
 }

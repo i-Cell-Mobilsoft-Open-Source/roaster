@@ -26,7 +26,6 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
 
-import hu.icellmobilsoft.roaster.tm4j.common.config.IZephyrReporterServerConfig;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IZephyrReporterServerConfig;
 
 /**

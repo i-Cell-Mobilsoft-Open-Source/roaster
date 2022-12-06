@@ -30,13 +30,13 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import hu.icellmobilsoft.coffee.se.logging.Logger;
-import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 import hu.icellmobilsoft.roaster.zephyr.common.api.TestCaseId;
 import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestCaseData;
 import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestResultReporter;
 import hu.icellmobilsoft.roaster.zephyr.common.client.RestZephyrService;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IZephyrReporterConfig;
 import hu.icellmobilsoft.roaster.zephyr.common.helper.TestReporterHelper;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
 
 /**
  * Implementation of the {@code TestResultReporter} used with Zephyr Cloud.

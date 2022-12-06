@@ -20,11 +20,8 @@
 package hu.icellmobilsoft.roaster.zephyr.common;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -45,12 +42,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
-import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
+import hu.icellmobilsoft.roaster.zephyr.common.api.TestCaseId;
+import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestCaseData;
 import hu.icellmobilsoft.roaster.zephyr.common.client.RestZephyrService;
 import hu.icellmobilsoft.roaster.zephyr.common.config.ZephyrReporterConfig;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
 
 public class RestZephyrReporterTest {
 
