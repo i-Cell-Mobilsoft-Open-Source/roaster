@@ -35,8 +35,7 @@ import javax.ws.rs.core.Response.StatusType;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import hu.icellmobilsoft.roaster.tm4j.common.client.api.JiraV2RestClient;
-import hu.icellmobilsoft.roaster.tm4j.common.client.api.JiraV3RestClient;
+import hu.icellmobilsoft.roaster.tm4j.common.client.api.JiraRestClient;
 import hu.icellmobilsoft.roaster.tm4j.common.client.api.Tm4jRestClient;
 import hu.icellmobilsoft.roaster.tm4j.common.config.ITm4jReporterServerConfig;
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
@@ -56,7 +55,7 @@ public class RestTm4jService {
 
     @Inject
     @RestClient
-    private JiraV2RestClient jiraV2Client;
+    private JiraRestClient jiraV2Client;
 
     @Inject
     private ITm4jReporterServerConfig serverConfig;

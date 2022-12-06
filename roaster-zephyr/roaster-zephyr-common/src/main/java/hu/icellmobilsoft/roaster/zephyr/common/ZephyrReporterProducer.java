@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.tm4j.common;
+package hu.icellmobilsoft.roaster.zephyr.common;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
@@ -26,6 +26,8 @@ import javax.inject.Provider;
 
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
 import hu.icellmobilsoft.roaster.tm4j.common.config.ITm4jReporterConfig;
+import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestResultReporter;
+import hu.icellmobilsoft.roaster.zephyr.common.config.IZephyrReporterConfig;
 
 /**
  * Creates a {@code TestResultReporter} based on the Roaster configuration.
@@ -34,7 +36,7 @@ import hu.icellmobilsoft.roaster.tm4j.common.config.ITm4jReporterConfig;
  * @since 0.2.0
  */
 @Dependent
-public class Tm4jReporterProducer {
+public class ZephyrReporterProducer {
 
     @Inject
     @Tm4jRest
@@ -49,7 +51,7 @@ public class Tm4jReporterProducer {
      */
     @Produces
     @Dependent
-    public TestResultReporter createReporter(ITm4jReporterConfig config) {
+    public TestResultReporter createReporter(IZephyrReporterConfig config) {
         return config.isEnabled() ? tm4jTestResultReporterProvider.get() : new NoopTestResultReporter();
     }
 }

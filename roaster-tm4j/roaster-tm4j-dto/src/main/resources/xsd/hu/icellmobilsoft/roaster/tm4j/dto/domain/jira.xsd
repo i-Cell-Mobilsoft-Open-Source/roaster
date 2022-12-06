@@ -6,8 +6,6 @@
     <xs:element name="User">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="accountId" type="xs:string"/>
-                <xs:element name="emailAddress" type="xs:string"/>
                 <xs:element name="key" type="xs:string"/>
                 <xs:element name="name" type="xs:string"/>
             </xs:sequence>

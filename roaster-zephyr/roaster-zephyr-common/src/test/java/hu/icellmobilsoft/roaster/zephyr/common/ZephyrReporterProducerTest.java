@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.tm4j.common;
+package hu.icellmobilsoft.roaster.zephyr.common;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -31,17 +31,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
-import hu.icellmobilsoft.roaster.tm4j.common.config.RoasterConfigKeys;
-import hu.icellmobilsoft.roaster.tm4j.common.config.Tm4jReporterConfig;
+import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestResultReporter;
+import hu.icellmobilsoft.roaster.zephyr.common.config.RoasterConfigKeys;
+import hu.icellmobilsoft.roaster.zephyr.common.config.ZephyrReporterConfig;
 
-class Tm4JReporterProducerTest {
+class ZephyrReporterProducerTest {
 
     @Mock
     private Provider<TestResultReporter> testResultReporterProvider;
 
     @InjectMocks
-    private Tm4jReporterProducer testObj;
+    private ZephyrReporterProducer testObj;
 
     @BeforeEach
     void setUp() {
@@ -52,7 +52,7 @@ class Tm4JReporterProducerTest {
     void shouldCreateNoopReporterIfTm4jDisabled() {
         // given
         System.setProperty(RoasterConfigKeys.ENABLED, Boolean.FALSE.toString());
-        Tm4jReporterConfig config = new Tm4jReporterConfig();
+        ZephyrReporterConfig config = new ZephyrReporterConfig();
         TestResultReporter testResultReporter = mock(TestResultReporter.class);
         when(testResultReporterProvider.get()).thenReturn(testResultReporter);
 
@@ -64,10 +64,10 @@ class Tm4JReporterProducerTest {
     }
 
     @Test
-    void shouldUseReporterProducerIfTm4jEnabled() {
+    void shouldUserReporterProducerIfZephyrEnabled() {
         // given
         System.setProperty(RoasterConfigKeys.ENABLED, Boolean.TRUE.toString());
-        Tm4jReporterConfig config = new Tm4jReporterConfig();
+        ZephyrReporterConfig config = new ZephyrReporterConfig();
         TestResultReporter testResultReporter = mock(TestResultReporter.class);
         when(testResultReporterProvider.get()).thenReturn(testResultReporter);
 

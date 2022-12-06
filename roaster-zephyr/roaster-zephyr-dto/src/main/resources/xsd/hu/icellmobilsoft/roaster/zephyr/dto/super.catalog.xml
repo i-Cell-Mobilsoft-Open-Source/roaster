@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <public publicId="http://domain.dto.zephyr.roaster.icellmobilsoft.hu/jira" uri="./domain/jira.xsd" />
+    <public publicId="http://domain.dto.zephyr.roaster.icellmobilsoft.hu/test-execution" uri="./domain/test-execution.xsd" />
+</catalog>
