@@ -47,6 +47,11 @@ import hu.icellmobilsoft.roaster.zephyr.dto.domain.jira.User;
 @Path("/rest/api/3")
 public interface JiraRestClient {
 
+    /**
+     * Returns the data of the logged-in user
+     *
+     * @return the data of the logged-in user
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/myself")

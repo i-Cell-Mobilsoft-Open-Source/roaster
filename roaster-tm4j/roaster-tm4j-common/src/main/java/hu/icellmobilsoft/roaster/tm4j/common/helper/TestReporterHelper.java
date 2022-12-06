@@ -25,7 +25,6 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
-import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Vetoed;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -96,6 +95,12 @@ public class TestReporterHelper {
         return testCaseData.getStartTime().until(testCaseData.getEndTime(), ChronoUnit.MILLIS);
     }
 
+    /**
+     * Escapes HTML characters in the string.
+     *
+     * @param string input string
+     * @return input string with html characters escaped
+     */
     public static String htmlEscape(String string) {
         return StringEscapeUtils.escapeHtml4(string);
     }

@@ -34,6 +34,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Repeatable(TestCaseIds.class)
+@Deprecated(since = "0.11.0")
 public @interface TestCaseId {
 
     /**

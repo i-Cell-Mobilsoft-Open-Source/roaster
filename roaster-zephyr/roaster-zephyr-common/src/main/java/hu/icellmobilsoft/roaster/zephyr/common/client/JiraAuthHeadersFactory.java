@@ -40,6 +40,9 @@ public class JiraAuthHeadersFactory implements ClientHeadersFactory {
     @Inject
     private IJiraReporterServerConfig config;
 
+    /**
+     * Initializes the object, validates the config
+     */
     @PostConstruct
     public void init() {
         config.validate();

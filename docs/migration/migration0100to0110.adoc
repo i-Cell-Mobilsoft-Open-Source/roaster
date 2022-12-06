@@ -1,0 +1,9 @@
+= 0.10.0 -> 0.11.0
+
+== Változások
+
+=== roaster-zephyr
+
+* Megjelent a Roaster Zephyr modul. Segítségével felhős jira használata esetén Zephyr Scale tesztuffatások eredményeit lehet megjeleníteni a felületen. Használatához a következő változtatásokat kell eszközölni:
+. pom.xml-ben le kell cserélni a roaster-tm4j-junit5 modult a roaster-zephyr-junit5 modulra.
+. A tesztosztályokban le kell cserélni az extension-t a ZephyrExtension-re és a zephyr csomagban található @TestCaseId annotációt kell használni a teszteken.

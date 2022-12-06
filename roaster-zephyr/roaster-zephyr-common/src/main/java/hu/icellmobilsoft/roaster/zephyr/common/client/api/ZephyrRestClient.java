@@ -49,14 +49,34 @@ import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
 @RegisterClientHeaders(ZephyrAuthHeadersFactory.class)
 public interface ZephyrRestClient {
 
+    /**
+     * Checks if the given test case exists
+     *
+     * @param testCaseKey
+     *            test case key to find
+     * @return response containing HTTP status {@literal 200} if the test case exists or {@literal 404} if not
+     */
     @GET
     @Path("/testcases/{testCaseKey}")
     Response getTestCase(@PathParam("testCaseKey") String testCaseKey);
 
+    /**
+     * Checks if the given test cycle exists
+     *
+     * @param testCycleKey
+     *            test cycle key to find
+     * @return response containing HTTP status {@literal 200} if the test case exists or {@literal 404} if not
+     */
     @GET
     @Path("/testcycles/{testCycleKey}")
     Response getTestCycle(@PathParam("testCycleKey") String testCycleKey);
 
+    /**
+     * Submits the test run results
+     *
+     * @param execution
+     *            test run results
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

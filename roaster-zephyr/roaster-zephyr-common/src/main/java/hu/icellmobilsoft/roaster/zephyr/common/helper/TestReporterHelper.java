@@ -95,6 +95,12 @@ public class TestReporterHelper {
         return testCaseData.getStartTime().until(testCaseData.getEndTime(), ChronoUnit.MILLIS);
     }
 
+    /**
+     * Escapes HTML characters in the string.
+     *
+     * @param string input string
+     * @return input string with html characters escaped
+     */
     public static String htmlEscape(String string) {
         return StringEscapeUtils.escapeHtml4(string);
     }
