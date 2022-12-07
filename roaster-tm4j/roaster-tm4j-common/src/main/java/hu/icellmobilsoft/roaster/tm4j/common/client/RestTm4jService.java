@@ -55,7 +55,7 @@ public class RestTm4jService {
 
     @Inject
     @RestClient
-    private JiraRestClient jiraV2Client;
+    private JiraRestClient jiraClient;
 
     @Inject
     private ITm4jReporterServerConfig serverConfig;
@@ -118,7 +118,7 @@ public class RestTm4jService {
      * @return the key of the current configured jira user
      */
     public String getUserKey() {
-        return userKeysByUserName.computeIfAbsent(serverConfig.getUserName(), k -> jiraV2Client.getSelf().getKey());
+        return userKeysByUserName.computeIfAbsent(serverConfig.getUserName(), k -> jiraClient.getSelf().getKey());
     }
 
     private boolean isEntityExistsBasedOnResponseStatus(StatusType statusType) {

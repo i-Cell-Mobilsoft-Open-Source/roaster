@@ -46,12 +46,6 @@ public class Tm4jReporterConfig implements ITm4jReporterConfig {
     }
 
     @Override
-    public boolean useZephyr() {
-        return config.getOptionalValue(RoasterConfigKeys.USE_ZEPHYR, Boolean.class).orElse(false);
-    }
-
-
-    @Override
     public String getProjectKey() {
         return config.getOptionalValue(RoasterConfigKeys.PROJECT_KEY, String.class)
                 .orElseThrow(() -> new InvalidConfigException("projectKey parameter is missing"));
