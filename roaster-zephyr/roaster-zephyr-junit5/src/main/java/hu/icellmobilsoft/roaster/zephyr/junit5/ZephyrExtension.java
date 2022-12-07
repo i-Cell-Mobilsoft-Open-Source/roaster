@@ -20,6 +20,7 @@
 package hu.icellmobilsoft.roaster.zephyr.junit5;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -72,22 +73,22 @@ public class ZephyrExtension implements TestWatcher, BeforeTestExecutionCallback
 
     @Override
     public void beforeTestExecution(ExtensionContext context) {
-        getStore(context).put(START_TIME, LocalDateTime.now());
+        getStore(context).put(START_TIME, LocalDateTime.now(ZoneId.systemDefault()));
     }
 
     @Override
     public void testSuccessful(ExtensionContext context) {
-        getReporter().reportSuccess(createTm4jRecord(context));
+        getReporter().reportSuccess(createZephyrRecord(context));
     }
 
     @Override
     public void testFailed(ExtensionContext context, Throwable cause) {
-        getReporter().reportFail(createTm4jRecord(context), cause);
+        getReporter().reportFail(createZephyrRecord(context), cause);
     }
 
     @Override
     public void testDisabled(ExtensionContext context, Optional<String> reason) {
-        getReporter().reportDisabled(createTm4jRecord(context), reason);
+        getReporter().reportDisabled(createZephyrRecord(context), reason);
     }
 
     @Override
@@ -101,13 +102,13 @@ public class ZephyrExtension implements TestWatcher, BeforeTestExecutionCallback
         return reporterSupplier.get();
     }
 
-    private TestCaseData createTm4jRecord(ExtensionContext context) {
+    private TestCaseData createZephyrRecord(ExtensionContext context) {
         TestCaseData record = new TestCaseData();
         record.setId(context.getUniqueId());
         record.setDisplayName(context.getDisplayName());
         record.setTestMethod(context.getRequiredTestMethod());
         record.setStartTime(getStartTime(context));
-        record.setEndTime(LocalDateTime.now());
+        record.setEndTime(LocalDateTime.now(ZoneId.systemDefault()));
         record.setTags(context.getTags());
         return record;
     }

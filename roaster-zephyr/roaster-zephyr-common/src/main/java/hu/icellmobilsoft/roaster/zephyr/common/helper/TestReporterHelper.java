@@ -23,13 +23,12 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.enterprise.inject.Vetoed;
 
 import org.apache.commons.text.StringEscapeUtils;
-
-import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestCaseData;
 
 /**
  * Helper class containing common methods used by test reporters.
@@ -61,7 +60,10 @@ public class TestReporterHelper {
      * @return Failure comment
      */
     public static String createFailureComment(Throwable cause) {
-        return BR + BR + "Reason of failure: " + htmlEscape(cause.toString());
+        if (Objects.nonNull(cause)) {
+            return BR + BR + "Reason of failure: " + htmlEscape(cause.toString());
+        }
+        return BR + BR + "No reason of failure given by JUnit";
     }
 
     /**
@@ -82,17 +84,21 @@ public class TestReporterHelper {
      * @return {@link OffsetDateTime}
      */
     public static OffsetDateTime toOffsetDateTime(LocalDateTime localDateTime) {
+        Objects.requireNonNull(localDateTime, "localDateTime cannot be null!");
         return localDateTime.atZone(ZoneId.systemDefault()).toOffsetDateTime();
     }
 
     /**
      * Calculates the execution time of the test in milliseconds.
      *
-     * @param testCaseData Test case data
+     * @param startTime non null
+     * @param endTime non null
      * @return Execution time in milliseconds
      */
-    public static long getDurationInMillis(TestCaseData testCaseData) {
-        return testCaseData.getStartTime().until(testCaseData.getEndTime(), ChronoUnit.MILLIS);
+    public static long getDurationInMillis(LocalDateTime startTime, LocalDateTime endTime) {
+        Objects.requireNonNull(startTime, "startTime cannot be null!");
+        Objects.requireNonNull(endTime, "endTime cannot be null!");
+        return startTime.until(endTime, ChronoUnit.MILLIS);
     }
 
     /**

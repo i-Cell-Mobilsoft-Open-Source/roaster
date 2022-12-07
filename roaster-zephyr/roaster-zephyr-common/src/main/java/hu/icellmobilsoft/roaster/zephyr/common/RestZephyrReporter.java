@@ -64,6 +64,7 @@ public class RestZephyrReporter implements TestResultReporter {
 
     @Override
     public void reportSuccess(TestCaseData testCaseData) {
+        Objects.requireNonNull(testCaseData, "testCaseData cannot be null!");
         for (String testCaseId : getTestCaseIds(testCaseData)) {
             Execution execution = createExecution(testCaseData, testCaseId);
             execution.setStatusName(PASS);
@@ -74,6 +75,7 @@ public class RestZephyrReporter implements TestResultReporter {
 
     @Override
     public void reportFail(TestCaseData testCaseData, Throwable cause) {
+        Objects.requireNonNull(testCaseData, "testCaseData cannot be null!");
         for (String testCaseId : getTestCaseIds(testCaseData)) {
             Execution execution = createExecution(testCaseData, testCaseId);
             execution.setStatusName(FAIL);
@@ -87,6 +89,7 @@ public class RestZephyrReporter implements TestResultReporter {
 
     @Override
     public void reportDisabled(TestCaseData testCaseData, Optional<String> reason) {
+        Objects.requireNonNull(testCaseData, "testCaseData cannot be null!");
         for (String testCaseId : getTestCaseIds(testCaseData)) {
             Execution execution = createExecution(testCaseData, testCaseId);
             execution.setStatusName(BLOCKED);
@@ -139,7 +142,7 @@ public class RestZephyrReporter implements TestResultReporter {
         execution.setTestCaseKey(testCaseKey);
         execution.setEnvironmentName(config.getEnvironment().orElse(null));
         execution.setActualEndDate(TestReporterHelper.toOffsetDateTime(testCaseData.getEndTime()));
-        execution.setExecutionTime(TestReporterHelper.getDurationInMillis(testCaseData));
+        execution.setExecutionTime(TestReporterHelper.getDurationInMillis(testCaseData.getStartTime(), testCaseData.getEndTime()));
         execution.setExecutedById(restZephyrService.getAccountId());
         return execution;
     }
