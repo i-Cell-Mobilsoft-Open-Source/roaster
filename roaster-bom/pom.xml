@@ -20,7 +20,7 @@
 		<version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
 		<!-- rest-assured 4.0.0+ bug https://github.com/rest-assured/rest-assured/issues/1175 -->
 		<version.io.rest-assured>3.3.0</version.io.rest-assured>
-		<version.io.smallrye.config>2.0.2</version.io.smallrye.config>
+		<version.io.smallrye.config>2.12.1</version.io.smallrye.config>
 		<version.jakarta.xml.bind-api>2.3.3</version.jakarta.xml.bind-api>
 		<version.org.mockito.mockito-core>3.3.3</version.org.mockito.mockito-core>
 		<version.com.fasterxml.jackson>2.13.4</version.com.fasterxml.jackson>
