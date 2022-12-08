@@ -12,10 +12,9 @@ egy felhőben futó JIRA felületen Zephyr Scale Cloud környezeten.
 roaster:
    zephyr:
       enabled: true #<1>
-      useZephyr: true #<2>
-      projectKey: ABC #<3>
-      testCycleKey: ABC-C1 #<4>
-      environment: sandbox #<5>
+      projectKey: ABC #<2>
+      testCycleKey: ABC-C1 #<3>
+      environment: sandbox #<4>
       server/mp-rest/url: https://jira.example.com #<5>
       server/authToken: ZXhhbXBsZS11c2VyOnNlY3JldA== #<6>
       server/email: tim@examplemail.com #<7>
@@ -26,9 +25,9 @@ roaster:
          bar: ABC-C3
 ----
 <1> A TM4J szerver hívást lehet kikapcsolni ezzel a flag-gel (default: false)
-<2> A Zephyr Cloud környezet használatát lehet kikapcsolni ezzel a flag-gel (default: false). True esetén a megszokott server paraméterek helyett a v3server paramétereket és a zephyr paramétert kell állítani.
-<3> Jira project key. Ez szokott a Jira issue-k prefixe is lenni.
-<4> TM4J test cycle key. Pl.: ABC-C1 ahol az ABC a project key.
+<2> Jira project key. Ez szokott a Jira issue-k prefixe is lenni.
+<3> TM4J test cycle key. Pl.: ABC-C1 ahol az ABC a project key.
+<4> (Opcionális) A neve az aktuális környezetnek, ahol a tesztek futnak. (Jira-ban létre kell hozni)
 <5> Remote Jira szerver url
 <6> base64(email + ":" + apiToken)
 <7> Jira felhasználóhoz kötött email cím. Ezzel a felhasználóval kell kigenerálni az apiToken-t és a bearerToken-t.

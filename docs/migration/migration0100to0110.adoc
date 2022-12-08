@@ -7,3 +7,8 @@
 * Megjelent a Roaster Zephyr modul. Segítségével felhős jira használata esetén Zephyr Scale tesztuffatások eredményeit lehet megjeleníteni a felületen. Használatához a következő változtatásokat kell eszközölni:
 . pom.xml-ben le kell cserélni a roaster-tm4j-junit5 modult a roaster-zephyr-junit5 modulra.
 . A tesztosztályokban le kell cserélni az extension-t a ZephyrExtension-re és a zephyr csomagban található @TestCaseId annotációt kell használni a teszteken.
+. A roaster yml fájlokban le kell váltani a tm4j konfigurációt a zephyr configurációra.
+.. Ki kell generálni felhős jira-ban a teszteket feltöltő user accountjával az api kulcsokat jira-hoz és zephyr-hez
+.. server/authToken értékének a base64(email + ":" + jiraApiToken) műveletből megkapott kulcsot kell beállítani
+... Alternatívan megadható a server/email és a server/apiToken kulcsoknak külön-külön a jira user email címe és a generált api token, ilyenkor nem szabad megadni authTokent.
+.. cloud/bearerToken értékének a Zephyr Scale Cloud felületén kigenerált JWT tokent kell megadni
