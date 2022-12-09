@@ -110,6 +110,21 @@
 			</dependency>
 			<dependency>
 				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-zephyr-dto</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-zephyr-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-zephyr-junit5</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
 				<artifactId>roaster-selenide-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>

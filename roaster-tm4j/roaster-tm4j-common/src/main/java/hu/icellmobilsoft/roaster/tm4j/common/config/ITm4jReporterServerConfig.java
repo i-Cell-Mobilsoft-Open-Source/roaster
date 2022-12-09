@@ -34,7 +34,7 @@ public interface ITm4jReporterServerConfig {
 
     /**
      * Validates the configuration
-     * 
+     *
      * @throws InvalidConfigException
      *             on validation error
      */

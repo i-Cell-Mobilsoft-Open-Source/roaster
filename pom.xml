@@ -28,6 +28,7 @@
 		<module>roaster-selenide</module>
 		<module>roaster-weldunit</module>
 		<module>roaster-tm4j</module>
+		<module>roaster-zephyr</module>
 		<module>roaster-hibernate</module>
 		<module>roaster-mongodb</module>
 		<module>roaster-testsuite</module>
@@ -248,7 +249,7 @@
 						<configuration>
 							<failOnError>true</failOnError>
 							<failOnWarnings>true</failOnWarnings>
-							<excludePackageNames>hu.icellmobilsoft.roaster.tm4j.dto.*</excludePackageNames>
+							<excludePackageNames>hu.icellmobilsoft.roaster.tm4j.dto.*,hu.icellmobilsoft.roaster.zephyr.dto.*</excludePackageNames>
 						</configuration>
 					</plugin>
 				</plugins>

@@ -1,0 +1,83 @@
+[#modules-zephyr]
+= Zephyr Scale Cloud
+
+A modul célja, hogy az automatán futtatott tesztesetek eredménye automatikusan jelentve legyen
+egy felhőben futó JIRA felületen Zephyr Scale Cloud környezeten.
+
+== Konfiguráció
+
+[source,yaml]
+.META-INF/roaster-defaults.yml
+----
+roaster:
+   zephyr:
+      enabled: true #<1>
+      projectKey: ABC #<2>
+      testCycleKey: ABC-C1 #<3>
+      environment: sandbox #<4>
+      server/mp-rest/url: https://jira.example.com #<5>
+      server/authToken: ZXhhbXBsZS11c2VyOnNlY3JldA== #<6>
+      server/email: tim@examplemail.com #<7>
+      server/apiToken: dGltQGV4YW1wbGVtYWlsLmNvbTpteUFwaUtleQ== #<8>
+      cloud/bearerToken: jwtBearerToken #<9>
+      cycle:
+         foo: ABC-C2 #<10>
+         bar: ABC-C3
+----
+<1> A TM4J szerver hívást lehet kikapcsolni ezzel a flag-gel (default: false)
+<2> Jira project key. Ez szokott a Jira issue-k prefixe is lenni.
+<3> TM4J test cycle key. Pl.: ABC-C1 ahol az ABC a project key.
+<4> (Opcionális) A neve az aktuális környezetnek, ahol a tesztek futnak. (Jira-ban létre kell hozni)
+<5> Remote Jira szerver url
+<6> base64(email + ":" + apiToken)
+<7> Jira felhasználóhoz kötött email cím. Ezzel a felhasználóval kell kigenerálni az apiToken-t és a bearerToken-t.
+<8> ApiToken a remote Jira funkcionalitások használatához. Jira profil felületen kell kigenerálni.
+<9> Zephyr Scale Bearer Token. Remote Jira felületen, a saját fülén kell generálni.
+<10> Teszt tag-enként eltérő TM4J test cycle-ök megadási lehetősége.
+Ha a teszt meg van tag-elve egy olyan tag-gel (JUnit 5-ben `@Tag("foo")`), ami itt szerepel, akkor a default test cycle
+(`testCycleKey` konfig kulcs) helyett az itt megadott cycle-be fog report-álni.
+Ha több tag van egy teszten, akkor mindegyik cycle-be bekerül az eredmény.
+
+A tokenek generálásáról részletesebb leírás az alább linkeken:
+
+https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/[Manage Api Tokens for your Atlassian Account]
+
+https://support.smartbear.com/zephyr-scale-cloud/docs/rest-api/generating-api-access-tokens.html[Generating API Access Tokens (Bearer Token)]
+
+
+[TIP]
+Biztonsági okokból célszerű az authToken-t és az api tokeneket nem a konfigurációs fájlba beleírni,
+hanem parancssori argumentumként átadni a maven-nek. +
+Pl.: `$ mvn test -Droaster.zephyr.server/authToken=secret`
+
+
+== Használtata JUnit 5-tel
+
+A modul használatához hozzá kell adni az alábbi maven függőséget a pom.xml-hez:
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-zephyr-junit5</artifactId>
+</dependency>
+----
+
+'''
+
+Ez után már csak fel kell annotálni azokat a teszt osztályokat/metódusokat
+amelyek eredményét jelenteni szeretnénk:
+
+[source,java]
+----
+@ExtendWith(ZephyrExtension.class) // Zephyr extension aktiválása a tesztosztályon
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class ExampleTest extends BaseWeldUnitType {
+    @Test
+    @TestCaseId("ABC-T1") // Zephyr teszteset összerendelés
+    void testOne() {
+        assertTrue(1 + 1 == 2);
+    }
+}
+----

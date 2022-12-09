@@ -28,7 +28,7 @@ package hu.icellmobilsoft.roaster.tm4j.common.config;
 public interface RoasterConfigKeys {
 
     /**
-     * The reporting (and rest calls) can be turned of using this flag
+     * The reporting (and rest calls) can be turned off using this flag
      */
     String ENABLED = "roaster.tm4j.enabled";
 

@@ -19,10 +19,6 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -33,14 +29,13 @@ import java.util.stream.Collectors;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import org.apache.commons.text.StringEscapeUtils;
-
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
 import hu.icellmobilsoft.roaster.tm4j.common.client.RestTm4jService;
 import hu.icellmobilsoft.roaster.tm4j.common.config.ITm4jReporterConfig;
+import hu.icellmobilsoft.roaster.tm4j.common.helper.TestReporterHelper;
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 
 /**
@@ -57,7 +52,6 @@ public class RestTm4jReporter implements TestResultReporter {
     private static final String PASS = "Pass";
     private static final String FAIL = "Fail";
     private static final String BLOCKED = "Blocked";
-    private static final String BR = "<br>";
 
     private final Logger log = Logger.getLogger(RestTm4jReporter.class);
 
@@ -72,7 +66,7 @@ public class RestTm4jReporter implements TestResultReporter {
         for (String testCaseId : getTestCaseIds(testCaseData)) {
             Execution execution = createExecution(testCaseData, testCaseId);
             execution.setStatus(PASS);
-            execution.setComment(createCommentBase(testCaseData.getId()));
+            execution.setComment(TestReporterHelper.createCommentBase(testCaseData.getId()));
             publishResult(execution, testCaseData.getTags());
         }
     }
@@ -83,8 +77,8 @@ public class RestTm4jReporter implements TestResultReporter {
             Execution execution = createExecution(testCaseData, testCaseId);
             execution.setStatus(FAIL);
             execution.setComment(
-                    createCommentBase(testCaseData.getId()) +
-                            createFailureComment(cause)
+                    TestReporterHelper.createCommentBase(testCaseData.getId()) +
+                            TestReporterHelper.createFailureComment(cause)
             );
             publishResult(execution, testCaseData.getTags());
         }
@@ -96,8 +90,8 @@ public class RestTm4jReporter implements TestResultReporter {
             Execution execution = createExecution(testCaseData, testCaseId);
             execution.setStatus(BLOCKED);
             execution.setComment(
-                    createCommentBase(testCaseData.getId()) +
-                            createDisabledTestComment(reason)
+                    TestReporterHelper.createCommentBase(testCaseData.getId()) +
+                            TestReporterHelper.createDisabledTestComment(reason)
             );
             publishResult(execution, testCaseData.getTags());
         }
@@ -142,35 +136,10 @@ public class RestTm4jReporter implements TestResultReporter {
         execution.setTestCaseKey(testCaseKey);
         execution.setEnvironment(config.getEnvironment().orElse(null));
         execution.setExecutedBy(restTm4JService.getUserKey());
-        execution.setActualStartDate(toOffsetDateTime(testCaseData.getStartTime()));
-        execution.setActualEndDate(toOffsetDateTime(testCaseData.getEndTime()));
-        execution.setExecutionTime(getDurationInMillis(testCaseData));
+        execution.setActualStartDate(TestReporterHelper.toOffsetDateTime(testCaseData.getStartTime()));
+        execution.setActualEndDate(TestReporterHelper.toOffsetDateTime(testCaseData.getEndTime()));
+        execution.setExecutionTime(TestReporterHelper.getDurationInMillis(testCaseData));
         return execution;
-    }
-
-    private OffsetDateTime toOffsetDateTime(LocalDateTime localDateTime) {
-        return localDateTime.atZone(ZoneId.systemDefault()).toOffsetDateTime();
-    }
-
-    private long getDurationInMillis(TestCaseData testCaseData) {
-        return testCaseData.getStartTime().until(testCaseData.getEndTime(), ChronoUnit.MILLIS);
-    }
-
-    private String createCommentBase(String uniqueId) {
-        return "Test method: " + uniqueId;
-    }
-
-    private String createFailureComment(Throwable cause) {
-        return BR + BR + "Reason of failure: " + htmlEscape(cause.toString());
-    }
-
-    private String htmlEscape(String string) {
-        return StringEscapeUtils.escapeHtml4(string);
-    }
-
-    private String createDisabledTestComment(Optional<String> reason) {
-        return reason.map(s -> BR + BR + "Test case has been skipped by: " + s)
-                .orElse("");
     }
 
 }

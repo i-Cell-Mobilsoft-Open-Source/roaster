@@ -48,6 +48,7 @@ import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
  * @since 0.2.0
  */
 @Vetoed
+@Deprecated(since = "0.11.0")
 public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback, AfterTestExecutionCallback {
     /**
      * Constant used as JUnit storage key for test run start time

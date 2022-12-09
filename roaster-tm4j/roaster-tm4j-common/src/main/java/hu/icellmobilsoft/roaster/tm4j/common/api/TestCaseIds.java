@@ -33,6 +33,7 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
+@Deprecated(since = "0.11.0")
 public @interface TestCaseIds {
 
     /**
