@@ -22,3 +22,4 @@ de kap fordítási és tesztelési ellenőrzéseket java 17-re is.
 ==== BOM verzió emelések:
 * `org.jboss.weld:weld-junit5` 2.0.1.Final -> 2.0.2.Final
 * `org.jboss.weld:weld-core-impl` 3.1.5.Final -> 3.1.9.Final
+* `io.smallrye.config` 2.0.2 -> 2.13.0
