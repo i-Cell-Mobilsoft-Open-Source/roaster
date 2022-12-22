@@ -10,39 +10,41 @@
 	<packaging>pom</packaging>
 
 	<properties>
+<!--
 		<version.apache.deltaspike>1.9.6</version.apache.deltaspike>
-		<version.org.eclipse.microprofile>4.0</version.org.eclipse.microprofile>
-		<version.hu.icellmobilsoft.coffee>1.12.1</version.hu.icellmobilsoft.coffee>
-		<version.org.junit>5.8.2</version.org.junit>
-		<version.testcontainers>1.17.3</version.testcontainers>
-		<version.mockserver-client-java>5.13.2</version.mockserver-client-java>
+-->
+		<version.org.eclipse.microprofile>5.0</version.org.eclipse.microprofile>
+		<version.hu.icellmobilsoft.coffee>2.0.0-SNAPSHOT</version.hu.icellmobilsoft.coffee>
+		<version.org.junit>5.9.1</version.org.junit>
+		<version.testcontainers>1.17.6</version.testcontainers>
+		<version.mockserver-client-java>5.14.0</version.mockserver-client-java>
 
 		<version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
 		<!-- rest-assured 4.0.0+ bug https://github.com/rest-assured/rest-assured/issues/1175 -->
 		<version.io.rest-assured>3.3.0</version.io.rest-assured>
-		<version.io.smallrye.config>2.13.0</version.io.smallrye.config>
-		<version.jakarta.xml.bind-api>2.3.3</version.jakarta.xml.bind-api>
-		<version.org.mockito.mockito-core>3.3.3</version.org.mockito.mockito-core>
-		<version.com.fasterxml.jackson>2.13.4</version.com.fasterxml.jackson>
-		<version.com.fasterxml.jackson-databind>2.13.4.2</version.com.fasterxml.jackson-databind>
+		<version.io.smallrye.config>3.1.1</version.io.smallrye.config>
+		<version.jakarta.xml.bind-api>4.0.0</version.jakarta.xml.bind-api>
+		<version.org.mockito.mockito-core>4.10.0</version.org.mockito.mockito-core>
+		<version.com.fasterxml.jackson>2.14.1</version.com.fasterxml.jackson>
+		<version.com.fasterxml.jackson-databind>2.14.1</version.com.fasterxml.jackson-databind>
 
 		<version.com.oracle.ojdbc>19.3.0.0</version.com.oracle.ojdbc>
-		<version.com.zaxxer.hikaricp>5.0.0</version.com.zaxxer.hikaricp>
+		<version.com.zaxxer.hikaricp>5.0.1</version.com.zaxxer.hikaricp>
 
-		<version.org.jboss.weld.weld-junit5>2.0.2.Final</version.org.jboss.weld.weld-junit5>
-		<version.org.jboss.weld.core>3.1.9.Final</version.org.jboss.weld.core>
-		<version.jakarta.servlet>4.0.4</version.jakarta.servlet>
+		<version.org.jboss.weld.weld-junit5>4.0.0.Final</version.org.jboss.weld.weld-junit5>
+		<version.org.jboss.weld.core>5.1.0.Final</version.org.jboss.weld.core>
+		<version.jakarta.servlet>6.0.0</version.jakarta.servlet>
 		<version.commons.logging>1.2</version.commons.logging>
 		<version.com.google.guava>31.1-jre</version.com.google.guava>
 
 		<!-- Selenide -->
-		<version.codeborn.selenide>6.3.0</version.codeborn.selenide>
+		<version.codeborn.selenide>6.10.3</version.codeborn.selenide>
 
 		<!-- Hibernate -->
-		<version.org.hibernate>5.4.24.Final</version.org.hibernate>
+		<version.org.hibernate>6.1.6.Final</version.org.hibernate>
 
 		<!-- Jaxrs impl -->
-		<version.org.jboss.resteasy>4.7.5.Final</version.org.jboss.resteasy>
+		<version.org.jboss.resteasy>6.2.2.Final</version.org.jboss.resteasy>
 	</properties>
 
 	<dependencyManagement>
@@ -164,6 +166,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+<!--
 			<dependency>
 				<groupId>org.apache.deltaspike.distribution</groupId>
 				<artifactId>distributions-bom</artifactId>
@@ -171,6 +174,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+-->
 			<dependency>
 				<groupId>org.eclipse.microprofile</groupId>
 				<artifactId>microprofile</artifactId>
@@ -261,11 +265,13 @@
 				<version>${version.org.jboss.weld.core}</version>
 			</dependency>
 
+<!--
 			<dependency>
 				<groupId>org.jboss.resteasy</groupId>
 				<artifactId>resteasy-client-microprofile</artifactId>
 				<version>${version.org.jboss.resteasy}</version>
 			</dependency>
+-->
 			<dependency>
 				<groupId>org.jboss.resteasy</groupId>
 				<artifactId>resteasy-jackson2-provider</artifactId>

@@ -19,8 +19,9 @@
 
 	<modules>
 		<module>roaster-bom</module>
-		<module>roaster-common</module>
 		<module>roaster-api</module>
+		<module>roaster-common</module>
+<!--
 		<module>roaster-oracle</module>
 		<module>roaster-redis</module>
 		<module>roaster-jaxrs</module>
@@ -32,6 +33,7 @@
 		<module>roaster-hibernate</module>
 		<module>roaster-mongodb</module>
 		<module>roaster-testsuite</module>
+-->
 	</modules>
 
 	<properties>

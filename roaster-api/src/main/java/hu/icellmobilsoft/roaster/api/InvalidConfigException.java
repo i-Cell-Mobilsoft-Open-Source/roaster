@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.api;
 
-import javax.enterprise.inject.Vetoed;
+import jakarta.enterprise.inject.Vetoed;
 
 /**
  * Exception class indicating errors regarding the Roaster configuration.
