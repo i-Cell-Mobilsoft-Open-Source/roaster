@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import javax.enterprise.context.Dependent;
+import jakarta.enterprise.context.Dependent;
 
 import org.apache.commons.lang3.StringUtils;
 

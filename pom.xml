@@ -21,9 +21,9 @@
 		<module>roaster-bom</module>
 		<module>roaster-api</module>
 		<module>roaster-common</module>
-<!--
 		<module>roaster-oracle</module>
 		<module>roaster-redis</module>
+<!--
 		<module>roaster-jaxrs</module>
 		<module>roaster-restassured</module>
 		<module>roaster-selenide</module>

@@ -22,8 +22,8 @@ package hu.icellmobilsoft.roaster.redis;
 import java.util.List;
 import java.util.Optional;
 
-import javax.enterprise.inject.Model;
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.Model;
+import jakarta.enterprise.inject.spi.CDI;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -25,7 +25,7 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.Objects;
 
-import javax.enterprise.context.Dependent;
+import jakarta.enterprise.context.Dependent;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
