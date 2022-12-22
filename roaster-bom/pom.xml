@@ -45,6 +45,7 @@
 
 		<!-- Jaxrs impl -->
 		<version.org.jboss.resteasy>6.2.2.Final</version.org.jboss.resteasy>
+		<version.org.jboss.resteasy.microprofile-rest-client>2.0.0.Final</version.org.jboss.resteasy.microprofile-rest-client>
 	</properties>
 
 	<dependencyManagement>
@@ -265,13 +266,11 @@
 				<version>${version.org.jboss.weld.core}</version>
 			</dependency>
 
-<!--
 			<dependency>
-				<groupId>org.jboss.resteasy</groupId>
-				<artifactId>resteasy-client-microprofile</artifactId>
-				<version>${version.org.jboss.resteasy}</version>
+				<groupId>org.jboss.resteasy.microprofile</groupId>
+				<artifactId>microprofile-rest-client</artifactId>
+				<version>${version.org.jboss.resteasy.microprofile-rest-client}</version>
 			</dependency>
--->
 			<dependency>
 				<groupId>org.jboss.resteasy</groupId>
 				<artifactId>resteasy-jackson2-provider</artifactId>

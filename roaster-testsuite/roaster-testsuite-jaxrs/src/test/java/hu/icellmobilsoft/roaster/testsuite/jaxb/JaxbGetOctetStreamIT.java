@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.testsuite.jaxb;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -59,7 +59,7 @@ class JaxbGetOctetStreamIT extends BaseWeldUnitType {
     @RestProcessor(configKey = "testsuite.rest.test", expectedStatusCode = 500)
     private ConfigurableResponseProcessor<String> processor500;
 
-    private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.13.2"));
+    private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.14.0"));
 
     private static String BODY = "entityBody in stream?";
 

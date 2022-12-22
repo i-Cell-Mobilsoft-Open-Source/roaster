@@ -52,7 +52,7 @@ import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 @DisplayName("Test of jaxb Microprofile client")
 class MprestclientIT extends BaseWeldUnitType {
 
-    private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.13.2"));
+    private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.14.0"));
 
     private static String BODY = "entityBody in stream?";
 

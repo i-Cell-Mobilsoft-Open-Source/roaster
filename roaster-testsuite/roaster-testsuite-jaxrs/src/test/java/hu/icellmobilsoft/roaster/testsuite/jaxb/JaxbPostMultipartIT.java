@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.testsuite.jaxb;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataOutput;
 import org.junit.jupiter.api.AfterAll;
@@ -69,7 +69,7 @@ class JaxbPostMultipartIT extends BaseWeldUnitType {
     @RestProcessor(configKey = "testsuite.rest.test", expectedStatusCode = 500)
     private ConfigurableResponseProcessor<String> processor500;
 
-    private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.13.2"));
+    private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.14.0"));
 
     private static BaseResponse RESPONSE_DTO = new BaseResponse()
             .withContext(new ContextType().withRequestId(RandomUtil.generateId()).withTimestamp(DateUtil.nowUTC())).withFuncCode(FunctionCodeType.OK);
@@ -106,8 +106,8 @@ class JaxbPostMultipartIT extends BaseWeldUnitType {
     @DisplayName("HTTP 200 Json response")
     void http200json() {
         MultipartFormDataOutput multipartbody = new MultipartFormDataOutput();
-        multipartbody.addFormData("part1", "part1Body", javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
-        multipartbody.addFormData("part2", "part2Body", javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
+        multipartbody.addFormData("part1", "part1Body", jakarta.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
+        multipartbody.addFormData("part2", "part2Body", jakarta.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
         String response = processor.postMultipartJson(multipartbody, String.class, "jsonEntityId");
         Assertions.assertEquals(JsonUtil.toJson(RESPONSE_DTO), response);
     }
@@ -117,8 +117,8 @@ class JaxbPostMultipartIT extends BaseWeldUnitType {
     void http200xml() {
         MultipartFormDataOutput multipartbody = new MultipartFormDataOutput();
         BaseRequest part1Dto = DtoHelper.createBaseRequest();
-        multipartbody.addFormData("part1", MarshallingUtil.marshall(part1Dto), javax.ws.rs.core.MediaType.APPLICATION_XML_TYPE);
-        multipartbody.addFormData("part2", "part2Body", javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
+        multipartbody.addFormData("part1", MarshallingUtil.marshall(part1Dto), jakarta.ws.rs.core.MediaType.APPLICATION_XML_TYPE);
+        multipartbody.addFormData("part2", "part2Body", jakarta.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
         String response = processor.postMultipartXml(multipartbody, String.class, "xmlEntityId");
         Assertions.assertEquals(MarshallingUtil.marshall(RESPONSE_DTO), response);
     }
@@ -127,8 +127,8 @@ class JaxbPostMultipartIT extends BaseWeldUnitType {
     @DisplayName("HTTP 500 Json response")
     void http500json() {
         MultipartFormDataOutput multipartbody = new MultipartFormDataOutput();
-        multipartbody.addFormData("part1", "part1Body", javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
-        multipartbody.addFormData("part2", "part2Body", javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
+        multipartbody.addFormData("part1", "part1Body", jakarta.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
+        multipartbody.addFormData("part2", "part2Body", jakarta.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
         String response = processor500.postMultipartJson(multipartbody, String.class, "jsonEntityId500");
         Assertions.assertEquals(JsonUtil.toJson(RESPONSE_DTO), response);
     }
@@ -139,8 +139,8 @@ class JaxbPostMultipartIT extends BaseWeldUnitType {
         MultipartFormDataOutput multipartbody = new MultipartFormDataOutput();
         BaseRequest part1Dto = new BaseRequest();
         part1Dto.withContext(new ContextType().withRequestId(RandomUtil.generateId()).withTimestamp(DateUtil.nowUTC()));
-        multipartbody.addFormData("part1", MarshallingUtil.marshall(part1Dto), javax.ws.rs.core.MediaType.APPLICATION_XML_TYPE);
-        multipartbody.addFormData("part2", "part2Body", javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
+        multipartbody.addFormData("part1", MarshallingUtil.marshall(part1Dto), jakarta.ws.rs.core.MediaType.APPLICATION_XML_TYPE);
+        multipartbody.addFormData("part2", "part2Body", jakarta.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
         String response = processor500.postMultipartXml(multipartbody, String.class, "xmlEntityId500");
         Assertions.assertEquals(MarshallingUtil.marshall(RESPONSE_DTO), response);
     }

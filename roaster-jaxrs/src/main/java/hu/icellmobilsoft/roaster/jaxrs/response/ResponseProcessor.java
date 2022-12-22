@@ -21,14 +21,14 @@ package hu.icellmobilsoft.roaster.jaxrs.response;
 
 import java.text.MessageFormat;
 
-import javax.enterprise.inject.spi.CDI;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.Invocation;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;

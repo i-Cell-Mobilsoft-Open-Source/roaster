@@ -19,8 +19,8 @@
  */
 package hu.icellmobilsoft.roaster.jaxrs.response.producer.spi;
 
-import javax.enterprise.inject.spi.CDI;
-import javax.enterprise.inject.spi.InjectionPoint;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.InjectionPoint;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.ManagedResponseProcessorConfig;
