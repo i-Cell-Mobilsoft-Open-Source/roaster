@@ -23,8 +23,8 @@ import java.lang.annotation.Annotation;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.spi.Bean;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.Bean;
 
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.junit.MockBean;

@@ -19,14 +19,12 @@
  */
 package hu.icellmobilsoft.roaster.weldunit;
 
-import javax.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.RequestScoped;
 
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.junit5.EnableWeld;
 import org.jboss.weld.junit5.WeldInitiator;
 import org.jboss.weld.junit5.WeldSetup;
-
-import io.smallrye.config.inject.ConfigExtension;
 
 /**
  * Abstract class to hold all generic and base test class functionality
