@@ -19,8 +19,8 @@
  */
 package hu.icellmobilsoft.roaster.restassured.producer;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 
 import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
 import hu.icellmobilsoft.roaster.restassured.annotation.XML;

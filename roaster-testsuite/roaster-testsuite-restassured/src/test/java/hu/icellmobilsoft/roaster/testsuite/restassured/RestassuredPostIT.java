@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.testsuite.restassured;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -66,7 +66,7 @@ class RestassuredPostIT extends BaseWeldUnitType {
     @RestProcessor(configKey = "testsuite.rest.test", expectedStatusCode = 500)
     private ConfigurableResponseProcessor<BaseResponse> processor500;
 
-    private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.13.2"));
+    private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.14.0"));
 
     private static BaseResponse RESPONSE_DTO = new BaseResponse()
             .withContext(new ContextType().withRequestId(RandomUtil.generateId()).withTimestamp(DateUtil.nowUTC())).withFuncCode(FunctionCodeType.OK);

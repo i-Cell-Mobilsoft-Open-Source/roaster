@@ -21,7 +21,7 @@ package hu.icellmobilsoft.roaster.restassured.producer;
 
 import java.lang.reflect.Type;
 
-import javax.enterprise.inject.Model;
+import jakarta.enterprise.inject.Model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

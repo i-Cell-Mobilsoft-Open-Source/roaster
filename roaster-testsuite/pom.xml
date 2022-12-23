@@ -12,10 +12,10 @@
 
     <modules>
         <module>roaster-testsuite-jaxrs</module>
+        <module>roaster-testsuite-restassured</module>
 <!--
         <module>roaster-testsuite-tm4j</module>
         <module>roaster-testsuite-redis</module>
-        <module>roaster-testsuite-restassured</module>
 -->
     </modules>
 

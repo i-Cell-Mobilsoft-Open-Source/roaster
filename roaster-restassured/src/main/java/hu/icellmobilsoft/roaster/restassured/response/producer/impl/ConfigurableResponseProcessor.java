@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.restassured.response.producer.impl;
 
-import javax.enterprise.context.Dependent;
+import jakarta.enterprise.context.Dependent;
 
 import hu.icellmobilsoft.roaster.restassured.response.producer.spi.AbstractConfigurableResponseProcessor;
 

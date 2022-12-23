@@ -21,9 +21,9 @@ package hu.icellmobilsoft.roaster.restassured.producer;
 
 import java.nio.charset.StandardCharsets;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.CDI;
 
 import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
 import hu.icellmobilsoft.roaster.restassured.annotation.XML;

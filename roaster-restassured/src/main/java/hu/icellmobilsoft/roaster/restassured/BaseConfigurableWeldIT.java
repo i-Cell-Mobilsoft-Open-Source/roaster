@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.restassured;
 
-import javax.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.RequestScoped;
 
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.junit5.EnableWeld;

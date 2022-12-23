@@ -19,13 +19,12 @@
  */
 package hu.icellmobilsoft.roaster.restassured.response;
 
-import javax.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.CDI;
 
 import org.eclipse.microprofile.config.ConfigProvider;
 
 import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
 import hu.icellmobilsoft.roaster.restassured.annotation.XML;
-
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;

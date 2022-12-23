@@ -24,27 +24,6 @@
 	<dependencies>
 		<!-- specified imports -->
 		<dependency>
-			<groupId>hu.icellmobilsoft.coffee</groupId>
-			<artifactId>coffee-model-base</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>hu.icellmobilsoft.roaster</groupId>
-			<artifactId>roaster-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>hu.icellmobilsoft.roaster</groupId>
-			<artifactId>roaster-common-config</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>hu.icellmobilsoft.roaster</groupId>
-			<artifactId>roaster-common-util</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.microprofile.health</groupId>
-			<artifactId>microprofile-health-api</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>hu.icellmobilsoft.roaster</groupId>
 			<artifactId>roaster-jaxrs</artifactId>
 		</dependency>
@@ -61,34 +40,5 @@
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.smallrye.config</groupId>
-			<artifactId>smallrye-config</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.weld</groupId>
-			<artifactId>weld-junit5</artifactId>
-		</dependency>
-
-
-        <!-- multipart rest miatt kell -->
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-multipart-provider</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>hu.icellmobilsoft.coffee</groupId>
-            <artifactId>coffee-module-mp-restclient</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.resteasy</groupId>
-                    <artifactId>resteasy-jaxrs</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 	</dependencies>
 </project>
