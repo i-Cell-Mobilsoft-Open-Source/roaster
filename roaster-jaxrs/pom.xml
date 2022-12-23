@@ -44,10 +44,12 @@
             <artifactId>microprofile-health-api</artifactId>
         </dependency>
         <!-- aktivalja a java8 datum konvertereket, default nincs benne -->
+<!-- resteasy-json-binding-provider valoszinu lekezeli
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
+-->
         <dependency>
             <groupId>io.smallrye.config</groupId>
             <artifactId>smallrye-config</artifactId>
@@ -58,10 +60,6 @@
         </dependency>
 
         <!-- multipart rest miatt kell -->
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-multipart-provider</artifactId>
@@ -88,7 +86,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jackson2-provider</artifactId>
+            <artifactId>resteasy-json-binding-provider</artifactId>
         </dependency>
     </dependencies>
 </project>

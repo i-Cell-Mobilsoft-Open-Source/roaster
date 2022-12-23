@@ -273,6 +273,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-json-binding-provider</artifactId>
+				<version>${version.org.jboss.resteasy}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
 				<artifactId>resteasy-jackson2-provider</artifactId>
 				<version>${version.org.jboss.resteasy}</version>
 			</dependency>
