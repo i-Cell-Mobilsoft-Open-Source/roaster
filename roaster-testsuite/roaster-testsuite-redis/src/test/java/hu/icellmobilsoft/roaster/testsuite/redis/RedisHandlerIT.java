@@ -21,7 +21,7 @@ package hu.icellmobilsoft.roaster.testsuite.redis;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
@@ -39,7 +39,6 @@ import hu.icellmobilsoft.coffee.module.redis.manager.RedisManager;
 import hu.icellmobilsoft.coffee.tool.gson.JsonUtil;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.redis.RedisHandler;
-import hu.icellmobilsoft.roaster.testsuite.redis.RedisContainer;
 import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 import redis.clients.jedis.Jedis;
 
