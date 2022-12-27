@@ -27,16 +27,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Disposes;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.CDI;
-import javax.enterprise.inject.spi.InjectionPoint;
-import javax.inject.Inject;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Disposes;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.InjectionPoint;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 import org.hibernate.cfg.Environment;
 
@@ -103,6 +103,7 @@ public class EntityManagerFactoryProducer {
     private EntityManagerFactory getEntityManagerFactory(HibernateConfig hibernateConfig) {
         Map<String, Object> props = new HashMap<>();
 
+// TODO jakartaEE atalasnal, valosiznu kiszeheto - https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#beans-cdi
         // Set CDI Bean manager
         props.put(Environment.CDI_BEAN_MANAGER, beanManager);
 
@@ -112,11 +113,12 @@ public class EntityManagerFactoryProducer {
         props.put(Environment.GENERATE_STATISTICS, true);
 
         // JPA use in JAVA SE
-        props.put(Environment.JPA_TRANSACTION_TYPE, "RESOURCE_LOCAL");
-        props.put(Environment.JPA_PERSISTENCE_PROVIDER, "org.hibernate.jpa.HibernatePersistenceProvider");
+        props.put(Environment.JAKARTA_TRANSACTION_TYPE, "RESOURCE_LOCAL");
+        props.put(Environment.JAKARTA_PERSISTENCE_PROVIDER, "org.hibernate.jpa.HibernatePersistenceProvider");
 
-        //
-        props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false);
+// TODO jakartaEE atalasnal nincs ilyen opcio 
+//        //
+//        props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false);
 
         // Set settings from Roaster config
         props.put(Environment.DIALECT, hibernateConfig.getDialect());
@@ -124,10 +126,10 @@ public class EntityManagerFactoryProducer {
         props.put(Environment.SHOW_SQL, hibernateConfig.getShowSql());
         props.put(Environment.FORMAT_SQL, hibernateConfig.getFormatSql());
         props.put(Environment.DEFAULT_SCHEMA, hibernateConfig.getDefaultSchema());
-        props.put(Environment.JPA_JDBC_URL, hibernateConfig.getJpaJdbcUrl());
-        props.put(Environment.JPA_JDBC_USER, hibernateConfig.getJpaJdbcUser());
-        props.put(Environment.JPA_JDBC_PASSWORD, hibernateConfig.getJpaJdbcPassword());
-        props.put(Environment.JPA_JDBC_DRIVER, hibernateConfig.getJpaJdbcDriver());
+        props.put(Environment.JAKARTA_JDBC_URL, hibernateConfig.getJpaJdbcUrl());
+        props.put(Environment.JAKARTA_JDBC_USER, hibernateConfig.getJpaJdbcUser());
+        props.put(Environment.JAKARTA_JDBC_PASSWORD, hibernateConfig.getJpaJdbcPassword());
+        props.put(Environment.JAKARTA_JDBC_DRIVER, hibernateConfig.getJpaJdbcDriver());
 
         // If any config value is null, remove it from config map
         props.values().removeIf(Objects::isNull);

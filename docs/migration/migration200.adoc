@@ -1,5 +1,24 @@
 = -> 2.0.0
 
+== WARNING
+
+=== roaster-hibernate
+Hibernate 6 válással a kongiurációk is megváltoztak a
+`hu.icellmobilsoft.roaster.hibernate.producer.EntityManagerFactoryProducer` osztályban.
+Valamire volt alapból leírás, de a következő kettő további figyelmet kell hogy kapjon:
+
+[source,java]
+----
+...
+        props.put(Environment.CDI_BEAN_MANAGER, beanManager); <1>
+
+...
+        props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false); <2>
+...
+----
+<1> Valószinű natív támogatást kapott (https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#beans-cdi)
+<2> Megszünt, nemtudni mit kell tenni...
+
 == BUG
 
 === roaster-testsuite-tm4j
