@@ -21,7 +21,7 @@ package hu.icellmobilsoft.roaster.zephyr.common;
 
 import java.util.Optional;
 
-import javax.enterprise.inject.Vetoed;
+import jakarta.enterprise.inject.Vetoed;
 
 import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestCaseData;
 import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestResultReporter;

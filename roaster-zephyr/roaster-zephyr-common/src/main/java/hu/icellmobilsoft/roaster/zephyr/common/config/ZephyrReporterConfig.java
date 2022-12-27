@@ -22,7 +22,7 @@ package hu.icellmobilsoft.roaster.zephyr.common.config;
 import java.text.MessageFormat;
 import java.util.Optional;
 
-import javax.enterprise.context.Dependent;
+import jakarta.enterprise.context.Dependent;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;

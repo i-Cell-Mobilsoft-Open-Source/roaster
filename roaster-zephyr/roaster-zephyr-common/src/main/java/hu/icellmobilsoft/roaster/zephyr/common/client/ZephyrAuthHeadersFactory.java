@@ -19,10 +19,10 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.client;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
 

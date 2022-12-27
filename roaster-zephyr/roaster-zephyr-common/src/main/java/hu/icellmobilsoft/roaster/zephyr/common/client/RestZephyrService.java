@@ -25,9 +25,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 

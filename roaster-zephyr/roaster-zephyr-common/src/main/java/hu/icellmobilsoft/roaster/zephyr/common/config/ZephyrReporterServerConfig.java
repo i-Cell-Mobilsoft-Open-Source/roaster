@@ -22,12 +22,13 @@ package hu.icellmobilsoft.roaster.zephyr.common.config;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import javax.enterprise.context.Dependent;
+import jakarta.enterprise.context.Dependent;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
 import com.google.common.base.Strings;
+
 import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 
 /**

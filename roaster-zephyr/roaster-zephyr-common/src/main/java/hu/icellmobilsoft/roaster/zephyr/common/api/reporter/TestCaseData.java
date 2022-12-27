@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-import javax.enterprise.inject.Vetoed;
+import jakarta.enterprise.inject.Vetoed;
 
 /**
  * Defines the common data describing a test case and run parameters.

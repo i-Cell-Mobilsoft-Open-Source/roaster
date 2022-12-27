@@ -25,17 +25,11 @@
         <dependency>
             <groupId>hu.icellmobilsoft.coffee</groupId>
             <artifactId>coffee-module-mp-restclient</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.resteasy</groupId>
-                    <artifactId>resteasy-jaxrs</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
-            <groupId>com.fasterxml.jackson.jaxrs</groupId>
-            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+            <artifactId>jackson-jakarta-rs-json-provider</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -46,8 +40,8 @@
             <artifactId>jakarta.servlet-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client-microprofile</artifactId>
+            <groupId>org.jboss.resteasy.microprofile</groupId>
+            <artifactId>microprofile-rest-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss.weld</groupId>

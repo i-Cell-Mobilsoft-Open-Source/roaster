@@ -21,7 +21,7 @@ package hu.icellmobilsoft.roaster.zephyr.common.config;
 
 import java.util.Optional;
 
-import javax.enterprise.inject.Vetoed;
+import jakarta.enterprise.inject.Vetoed;
 
 /**
  * Configuration interface for the TM4J reporter behaviour.

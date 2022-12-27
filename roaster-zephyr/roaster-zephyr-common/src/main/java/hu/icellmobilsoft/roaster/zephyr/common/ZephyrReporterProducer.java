@@ -19,10 +19,10 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
-import javax.inject.Provider;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 
 import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestResultReporter;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IZephyrReporterConfig;

@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.config;
 
-import javax.enterprise.inject.Vetoed;
+import jakarta.enterprise.inject.Vetoed;
 
 /**
  * Configuration interface Jira server access parameters.
