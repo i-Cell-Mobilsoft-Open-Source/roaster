@@ -19,15 +19,13 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.ext.Provider;
+import jakarta.ws.rs.ext.Provider;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
+import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 
 /**
- * {@link JacksonJaxbJsonProvider} implementation for using {@link DeserializationFeature#FAIL_ON_UNKNOWN_PROPERTIES} so we can minimize the
+ * {@link JacksonJsonProvider} implementation for using {@link DeserializationFeature#FAIL_ON_UNKNOWN_PROPERTIES} so we can minimize the
  * dependency on the jira rest api.
  *
  * @author martin.nagy
@@ -36,7 +34,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 @Provider
 @Consumes({"application/json", "application/*+json", "text/json"})
 @Produces({"application/json", "application/*+json", "text/json"})
-public class Tm4jJsonProvider extends JacksonJaxbJsonProvider {
+public class Tm4jJsonProvider extends JacksonJsonProvider {
 
     /**
      * Initializes the object with {@link DeserializationFeature#FAIL_ON_UNKNOWN_PROPERTIES} turned off

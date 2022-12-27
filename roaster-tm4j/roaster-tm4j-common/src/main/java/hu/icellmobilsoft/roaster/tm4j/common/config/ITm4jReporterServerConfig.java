@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.config;
 
-import javax.enterprise.inject.Vetoed;
+import jakarta.enterprise.inject.Vetoed;
 
 import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 

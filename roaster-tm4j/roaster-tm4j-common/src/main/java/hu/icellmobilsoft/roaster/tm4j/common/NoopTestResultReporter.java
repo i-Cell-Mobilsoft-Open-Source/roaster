@@ -19,11 +19,12 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
+import java.util.Optional;
+
+import jakarta.enterprise.inject.Vetoed;
+
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
-
-import javax.enterprise.inject.Vetoed;
-import java.util.Optional;
 
 /**
  * {@code TestResultReporter} implementation that does nothing on callback calls.

@@ -19,8 +19,17 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
-import hu.icellmobilsoft.roaster.tm4j.common.client.api.Tm4jRestClient;
-import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+
+import jakarta.ws.rs.core.Response;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -28,16 +37,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import javax.ws.rs.core.Response;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import hu.icellmobilsoft.roaster.tm4j.common.client.api.Tm4jRestClient;
+import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 
 class RestTm4JServiceTest {
 
