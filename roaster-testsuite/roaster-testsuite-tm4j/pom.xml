@@ -38,6 +38,13 @@
             </exclusions>
         </dependency>
 
+        <!-- A roaster-restassured-et nem használja semmi, de teszteljük, hogy nem rontja el a TM4J rest klienst, ha a classpath-on van -->
+        <dependency>
+            <groupId>hu.icellmobilsoft.roaster</groupId>
+            <artifactId>roaster-restassured</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- testcontainers, mockserver -->
         <dependency>
             <groupId>org.testcontainers</groupId>

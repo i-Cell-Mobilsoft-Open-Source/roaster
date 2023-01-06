@@ -19,6 +19,8 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.client;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.ext.Provider;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -32,6 +34,8 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
  * @since 0.4.0
  */
 @Provider
+@Consumes({"application/json", "application/*+json", "text/json"})
+@Produces({"application/json", "application/*+json", "text/json"})
 public class Tm4jJsonProvider extends JacksonJaxbJsonProvider {
 
     /**

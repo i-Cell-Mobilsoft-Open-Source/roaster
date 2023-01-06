@@ -70,8 +70,8 @@ class Tm4jIT extends BaseWeldUnitType {
         MOCK_SERVER_CLIENT.when(HttpRequest.request(), Times.unlimited(), TimeToLive.unlimited(), -1)
                 .respond(HttpResponse.response().withStatusCode(404).withBody("Not Found"));
 
-        MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/rest/api/2/myself").withHeaders(headers))
-                .respond(HttpResponse.response().withContentType(MediaType.APPLICATION_JSON).withBody("{\"key\":\"test-user-1\"}"));
+        MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/rest/api/2/myself").withHeaders(headers)).respond(HttpResponse.response()
+                .withContentType(MediaType.APPLICATION_JSON).withBody("{\"displayName\":\"Teszt Elek\",\"key\":\"test-user-1\"}"));
 
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/rest/atm/1.0/testrun/XXX-C123").withHeaders(headers))
                 .respond(HttpResponse.response().withStatusCode(200));
