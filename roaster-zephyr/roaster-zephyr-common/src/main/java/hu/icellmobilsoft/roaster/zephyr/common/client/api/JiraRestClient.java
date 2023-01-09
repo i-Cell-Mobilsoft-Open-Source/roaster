@@ -28,14 +28,13 @@ import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import hu.icellmobilsoft.roaster.zephyr.common.client.JiraAuthHeadersFactory;
 import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrJsonProvider;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.jira.User;
 
 /**
- * Interface for microprofile rest client.
- * <br><br>
+ * Interface for microprofile rest client. <br>
+ * <br>
  * For details see the <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/">JIRA Server platform REST API reference</a>
  *
  * @author mark.vituska
@@ -55,7 +54,6 @@ public interface JiraRestClient {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/myself")
-    @JsonIgnoreProperties(ignoreUnknown = true)
     User getSelf();
 
 }

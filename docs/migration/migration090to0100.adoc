@@ -5,6 +5,7 @@
 === roaster-tm4j
 
 * Teszt tag-enként eltérő TM4J test cycle-ök megadási lehetősége a `roaster.tm4j.cycle.{0}` konfig kulcs segítségével
+* `roaster-restassured` modullal való közös használata miatti exception javításra került
 
 === Átállás
 A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.

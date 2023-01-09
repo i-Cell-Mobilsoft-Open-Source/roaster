@@ -28,8 +28,6 @@ import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import hu.icellmobilsoft.roaster.tm4j.common.client.AuthHeadersFactory;
 import hu.icellmobilsoft.roaster.tm4j.common.client.Tm4jJsonProvider;
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.jira.User;
@@ -56,7 +54,6 @@ public interface JiraRestClient {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/myself")
-    @JsonIgnoreProperties(ignoreUnknown = true)
     User getSelf();
 
 }
