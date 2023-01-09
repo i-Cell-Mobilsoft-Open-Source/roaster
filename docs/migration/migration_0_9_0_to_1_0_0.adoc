@@ -1,4 +1,4 @@
-= 0.10.0 -> 0.11.0
+= 0.9.0 -> 1.0.0
 
 == Változások
 
@@ -12,3 +12,27 @@
 .. server/authToken értékének a base64(email + ":" + jiraApiToken) műveletből megkapott kulcsot kell beállítani
 ... Alternatívan megadható a server/email és a server/apiToken kulcsoknak külön-külön a jira user email címe és a generált api token, ilyenkor nem szabad megadni authTokent.
 .. cloud/bearerToken értékének a Zephyr Scale Cloud felületén kigenerált JWT tokent kell megadni
+
+=== roaster-tm4j
+
+* Teszt tag-enként eltérő TM4J test cycle-ök megadási lehetősége a `roaster.tm4j.cycle.{0}` konfig kulcs segítségével
+* `roaster-restassured` modullal való közös használata miatti exception javításra került
+
+=== Átállás
+A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+
+=== JDK 17 support
+A projekt mostmár támogatja a java 17 verziót,
+így használható ilyen java alapon lévő projektben is.
+A problémás részek legtöbb helyen dependency frissítéssel és javadoc bővítéssel megjavult.
+
+.java 11 && 17
+A roaster továbbra is java 11-el lesz kompilálva,
+de kap fordítási és tesztelési ellenőrzéseket java 17-re is.
+Így minimalizálni fogjuk a java verzió külömbségi problémákat.
+
+==== BOM verzió emelések:
+* `org.jboss.weld:weld-junit5` 2.0.1.Final -> 2.0.2.Final
+* `org.jboss.weld:weld-core-impl` 3.1.5.Final -> 3.1.9.Final
+* `io.smallrye.config` 2.0.2 -> 2.13.0
+* `com.google.guava:guava` 30.1.1-jre -> 31.1-jre (a használt selenide verzió már nem kompatibilis a régivel)
