@@ -2,13 +2,12 @@
 
 Következő szekció a verzió kiadások közötti változásokat írja le.
 
-include::migration/migration010to020.adoc[leveloffset=+1]
-include::migration/migration020to030.adoc[leveloffset=+1]
-include::migration/migration030to040.adoc[leveloffset=+1]
-include::migration/migration040to050.adoc[leveloffset=+1]
-include::migration/migration050to060.adoc[leveloffset=+1]
-include::migration/migration060to070.adoc[leveloffset=+1]
-include::migration/migration070to080.adoc[leveloffset=+1]
-include::migration/migration080to090.adoc[leveloffset=+1]
-include::migration/migration090to0100.adoc[leveloffset=+1]
-include::migration/migration0100to0110.adoc[leveloffset=+1]
+include::migration/v0/migration010to020.adoc[leveloffset=+1]
+include::migration/v0/migration020to030.adoc[leveloffset=+1]
+include::migration/v0/migration030to040.adoc[leveloffset=+1]
+include::migration/v0/migration040to050.adoc[leveloffset=+1]
+include::migration/v0/migration050to060.adoc[leveloffset=+1]
+include::migration/v0/migration060to070.adoc[leveloffset=+1]
+include::migration/v0/migration070to080.adoc[leveloffset=+1]
+include::migration/v0/migration080to090.adoc[leveloffset=+1]
+include::migration/migration_0_9_0_to_1_0_0.adoc[leveloffset=+1]
