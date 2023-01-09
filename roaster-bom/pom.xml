@@ -33,6 +33,7 @@
 		<version.org.jboss.weld.core>3.1.9.Final</version.org.jboss.weld.core>
 		<version.jakarta.servlet>4.0.4</version.jakarta.servlet>
 		<version.commons.logging>1.2</version.commons.logging>
+		<version.com.google.guava>31.1-jre</version.com.google.guava>
 
 		<!-- Selenide -->
 		<version.codeborn.selenide>6.3.0</version.codeborn.selenide>
@@ -343,6 +344,40 @@
 				<groupId>org.jboss.resteasy</groupId>
 				<artifactId>resteasy-multipart-provider</artifactId>
 				<version>${version.org.jboss.resteasy}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${version.com.google.guava}</version>
+				<!-- Starting with https://github.com/google/guava/releases/tag/v27.0 version guava need the real one
+					dependency com.google.guava:failureaccess, others are optional -->
+				<exclusions>
+					<exclusion>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>animal-sniffer-annotations</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.google.j2objc</groupId>
+						<artifactId>j2objc-annotations</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.google.code.findbugs</groupId>
+						<artifactId>jsr305</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.google.guava</groupId>
+						<artifactId>listenablefuture</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.checkerframework</groupId>
+						<artifactId>checker-qual</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.google.errorprone</groupId>
+						<artifactId>error_prone_annotations</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
