@@ -19,6 +19,8 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.client;
 
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.ext.Provider;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
