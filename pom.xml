@@ -36,6 +36,7 @@
 
 	<properties>
 		<project.scm.id>icell-github-server</project.scm.id>
+		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 		<jacoco.ut.execution.data.file>${project.build.directory}/coverage-reports/jacoco-ut.exec</jacoco.ut.execution.data.file>
 		<jacoco.it.execution.data.file>${project.build.directory}/coverage-reports/jacoco-it.exec</jacoco.it.execution.data.file>
 		<surefire.reportsDir>${project.build.directory}/surefire-reports</surefire.reportsDir>
