@@ -4,7 +4,7 @@
     <parent>
         <artifactId>roaster-testsuite</artifactId>
         <groupId>hu.icellmobilsoft.roaster</groupId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>roaster-testsuite-tm4j</artifactId>
