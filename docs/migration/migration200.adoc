@@ -1,5 +1,8 @@
 = -> 2.0.0
 
+== Verzió emelések
+rest-assured: 3.3.0 -> 5.0.0 (jakarta-s dto-k xml marshall/unmarshall-ja miatt)
+
 == WARNING
 
 === roaster-hibernate

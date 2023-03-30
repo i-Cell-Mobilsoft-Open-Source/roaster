@@ -20,8 +20,7 @@
 		<version.mockserver-client-java>5.14.0</version.mockserver-client-java>
 
 		<version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
-		<!-- rest-assured 4.0.0+ bug https://github.com/rest-assured/rest-assured/issues/1175 -->
-		<version.io.rest-assured>3.3.0</version.io.rest-assured>
+		<version.io.rest-assured>5.0.0</version.io.rest-assured>
 		<version.io.smallrye.config>3.1.1</version.io.smallrye.config>
 		<version.jakarta.xml.bind-api>4.0.0</version.jakarta.xml.bind-api>
 		<version.org.mockito.mockito-core>4.10.0</version.org.mockito.mockito-core>

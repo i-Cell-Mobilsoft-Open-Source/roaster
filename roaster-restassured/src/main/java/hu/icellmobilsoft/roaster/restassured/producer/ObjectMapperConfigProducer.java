@@ -26,7 +26,7 @@ import jakarta.enterprise.inject.spi.CDI;
 import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
 import io.restassured.config.ObjectMapperConfig;
 import io.restassured.config.RestAssuredConfig;
-import io.restassured.mapper.factory.Jackson2ObjectMapperFactory;
+import io.restassured.path.json.mapper.factory.Jackson2ObjectMapperFactory;
 
 /**
  * JSON RestAssuredConfig beállításainál használt ObjectMapperConfig producer
