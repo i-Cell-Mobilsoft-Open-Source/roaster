@@ -1,0 +1,77 @@
+= Redis
+
+To use the Redis module, you only need to reference it in your pom.xml file.
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-redis</artifactId>
+</dependency>
+----
+
+== Redis Configuration Parameters
+
+You can configure the necessary parameters for Redis access using microprofile-config.
+
+Example:
+
+[source,properties]
+.META-INF/microprofile-config.properties
+----
+coffee.redis.default.host=hubphq-nejp-sandbox-d001.icellmobilsoft.hu
+coffee.redis.default.port=6379
+coffee.redis.default.password=redispass
+coffee.redis.default.database=0
+coffee.redis.default.pool.maxtotal=128
+coffee.redis.default.pool.maxidle=32
+----
+
+[source,yml]
+.META-INF/roaster-defaults.yml
+----
+coffee:
+    redis:
+        default:
+            host: hubphq-nejp-sandbox-d001.icellmobilsoft.hu
+            port: 6379
+            password: redispass
+            database: 0
+            pool:
+                maxtotal: 128
+                maxidle: 32
+----
+
+== Usage of Redis
+
+First, you need to inject the handler class.
+
+[source,java]
+.Injecting the RedisHandler
+----
+    @Inject
+    private RedisHandler redisHandler;
+----
+
+=== RedisHandler Operations
+
+The RedisHandler provides access to the operations. When calling these operations, a RedisService is created using CDI, based on the redisConfigKey, which is determined by the keys specified in the microprofile-config.properties file.
+
+RedisService Operations:
+
+* getRedisData(redisConfigKey, valueKey, class)
+* getRedisDataOpt(redisConfigKey, valueKey, class)
+* setRedisData(redisConfigKey, valueKey, redisData)
+* setRedisDataExp(redisConfigKey, valueKey, secondsToExpire, redisData)
+* removeRedisData(redisConfigKey, valueKey)
+* removeAllRedisData(redisConfigKey, List<valueKey>)
+* removeAllRedisData(redisConfigKey)
+
+[source,java]
+.Example operation calls
+----
+String data = redisHandler.getRedisData("default", "1234", String.class);
+String newData = redisHandler.setRedisData("default", "1234", "new data");
+redisHandler.removeAllRedisData("default");
+----
