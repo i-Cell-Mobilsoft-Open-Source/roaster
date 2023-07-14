@@ -31,7 +31,7 @@
 		<version.org.jboss.weld.core>5.1.0.Final</version.org.jboss.weld.core>
 		<version.jakarta.servlet>6.0.0</version.jakarta.servlet>
 		<version.commons.logging>1.2</version.commons.logging>
-		<version.com.google.guava>31.1-jre</version.com.google.guava>
+		<version.com.google.guava>32.1.1-jre</version.com.google.guava>
 
 		<!-- Selenide -->
 		<version.codeborn.selenide>6.10.3</version.codeborn.selenide>

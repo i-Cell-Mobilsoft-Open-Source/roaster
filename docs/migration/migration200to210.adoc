@@ -1,0 +1,8 @@
+= 2.0.0 -> 2.1.0
+
+== Változások
+
+==== BOM verzió emelések:
+* Bump com.google.guava:guava https://github.com/google/guava/releases/tag/v31.1[31.1-jre]
+-> https://github.com/google/guava/releases/tag/v32.1.1[32.1.1-jre]
+(https://github.com/advisories/GHSA-7g45-4rm6-3mm3[CVE-2023-2976])
