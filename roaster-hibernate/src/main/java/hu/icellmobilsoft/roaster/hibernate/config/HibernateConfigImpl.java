@@ -19,8 +19,6 @@
  */
 package hu.icellmobilsoft.roaster.hibernate.config;
 
-import java.util.Optional;
-
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 
@@ -62,11 +60,13 @@ import hu.icellmobilsoft.coffee.se.logging.Logger;
  * or:
  *
  * <pre>
- * HibernateConfig hibernateConfig = CDI.current().select(HibernateConfig.class, new HibernatePersistenceConfig.Literal("myPersistenceUnitNam"))
+ * HibernateConfig hibernateConfig = CDI.current()
+ *         .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal("myPersistenceUnitNam"))
  *         .get();
  * </pre>
  *
  * @author speter555
+ * @author csaba.balogh
  */
 @Dependent
 public class HibernateConfigImpl implements HibernateConfig {
@@ -92,6 +92,10 @@ public class HibernateConfigImpl implements HibernateConfig {
     private static final String JDBC_PASSWORD = "jdbc.password";
     private static final String JDBC_DRIVER = "jdbc.driver";
 
+    private static final String LOG_SESSION_METRICS = "log.session_metrics";
+    private static final String LOG_JDBC_WARNINGS = "log.jdbc_warnings";
+    private static final String LOG_GENERATE_STATISTICS = "log.generate_statistics";
+
     private Logger logger = Logger.getLogger(HibernateConfigImpl.class);
 
     private String configKey = DEFAULT_PERSISTENCE_UNIT_NAME;
@@ -109,6 +113,7 @@ public class HibernateConfigImpl implements HibernateConfig {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setConfigKey(String configKey) {
         this.configKey = configKey;
     }
@@ -116,6 +121,7 @@ public class HibernateConfigImpl implements HibernateConfig {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDialect() {
         return getConfigValue(DIALECT);
     }
@@ -123,6 +129,7 @@ public class HibernateConfigImpl implements HibernateConfig {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getPoolSize() {
         return getConfigValue(POOL_SIZE);
     }
@@ -130,6 +137,7 @@ public class HibernateConfigImpl implements HibernateConfig {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getShowSql() {
         return getConfigValue(SHOW_SQL);
     }
@@ -137,6 +145,7 @@ public class HibernateConfigImpl implements HibernateConfig {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getFormatSql() {
         return getConfigValue(FORMAT_SQL);
     }
@@ -144,6 +153,7 @@ public class HibernateConfigImpl implements HibernateConfig {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getDefaultSchema() {
         return getConfigValue(DEFAULT_SCHEMA);
     }
@@ -151,6 +161,7 @@ public class HibernateConfigImpl implements HibernateConfig {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getJpaJdbcUrl() {
         return getConfigValue(JDBC_URL);
     }
@@ -158,6 +169,7 @@ public class HibernateConfigImpl implements HibernateConfig {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getJpaJdbcUser() {
         return getConfigValue(JDBC_USER);
     }
@@ -165,6 +177,7 @@ public class HibernateConfigImpl implements HibernateConfig {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getJpaJdbcPassword() {
         return getConfigValue(JDBC_PASSWORD);
     }
@@ -172,14 +185,46 @@ public class HibernateConfigImpl implements HibernateConfig {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getJpaJdbcDriver() {
         return getConfigValue(JDBC_DRIVER);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getLogSessionMetrics() {
+        return getBooleanConfigValue(LOG_SESSION_METRICS);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getLogJdbcWarnings() {
+        return getBooleanConfigValue(LOG_JDBC_WARNINGS);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getGenerateStatistics() {
+        return getBooleanConfigValue(LOG_GENERATE_STATISTICS);
+    }
+
     private String getConfigValue(String key) {
-        Optional<String> optionalConfigValue = config.getOptionalValue(joinKey(key), String.class);
-        String value = optionalConfigValue.orElse(null);
-        logger.debug("{0} key ha {1} value.", key, value);
+        String fullKey = joinKey(key);
+        String value = config.getOptionalValue(fullKey, String.class).orElse(null);
+        logConfig(fullKey, value);
+        return value;
+    }
+
+    private boolean getBooleanConfigValue(String key) {
+        String fullKey = joinKey(key);
+        boolean value = config.getOptionalValue(fullKey, Boolean.class).orElse(false);
+        logConfig(fullKey, value);
         return value;
     }
 
@@ -187,4 +232,7 @@ public class HibernateConfigImpl implements HibernateConfig {
         return String.join(KEY_DELIMITER, HIBERNATE, configKey, key);
     }
 
+    private void logConfig(String key, Object value) {
+        logger.debug("Config key [{0}] value: [{1}]", key, value);
+    }
 }

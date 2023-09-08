@@ -116,6 +116,9 @@ roaster.hibernate.defaultPU.hibernate.default_schema=user_schema
 roaster.hibernate.defaultPU.hibernate.dialect=org.hibernate.dialect.Oracle12cDialect
 roaster.hibernate.defaultPU.hibernate.show_sql=true
 roaster.hibernate.defaultPU.hibernate.format_sql=true
+roaster.hiberante.defaultPU.log.session_metrics=true
+roaster.hiberante.defaultPU.log.jdbc_warnings=true
+roaster.hiberante.defaultPU.log.generate_statistics=true
 ----
 
 [source,yml]
@@ -134,7 +137,10 @@ roaster.hibernate.defaultPU.hibernate.format_sql=true
           dialect: org.hibernate.dialect.Oracle12cDialect
           show_sql: true
           format_sql: true
-
+        log:
+            session_metrics: true
+            jdbc_warnings: true
+            generate_statistics: true
 ----
 
 == Használati példa
