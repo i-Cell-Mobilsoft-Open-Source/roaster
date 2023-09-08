@@ -86,15 +86,14 @@ public class HibernateConfigImpl implements HibernateConfig {
     private static final String SHOW_SQL = "hibernate.show_sql";
     private static final String FORMAT_SQL = "hibernate.format_sql";
     private static final String DEFAULT_SCHEMA = "hibernate.default_schema";
+    private static final String LOG_SESSION_METRICS = "hibernate.log_session_metrics";
+    private static final String GENERATE_STATISTICS = "hibernate.generate_statistics";
 
     private static final String JDBC_URL = "jdbc.url";
     private static final String JDBC_USER = "jdbc.user";
     private static final String JDBC_PASSWORD = "jdbc.password";
     private static final String JDBC_DRIVER = "jdbc.driver";
-
-    private static final String LOG_SESSION_METRICS = "log.session_metrics";
-    private static final String LOG_JDBC_WARNINGS = "log.jdbc_warnings";
-    private static final String LOG_GENERATE_STATISTICS = "log.generate_statistics";
+    private static final String JDBC_LOG_WARNINGS = "jdbc.log_warnings";
 
     private Logger logger = Logger.getLogger(HibernateConfigImpl.class);
 
@@ -203,7 +202,7 @@ public class HibernateConfigImpl implements HibernateConfig {
      */
     @Override
     public boolean getLogJdbcWarnings() {
-        return getBooleanConfigValue(LOG_JDBC_WARNINGS);
+        return getBooleanConfigValue(JDBC_LOG_WARNINGS);
     }
 
     /**
@@ -211,7 +210,7 @@ public class HibernateConfigImpl implements HibernateConfig {
      */
     @Override
     public boolean getGenerateStatistics() {
-        return getBooleanConfigValue(LOG_GENERATE_STATISTICS);
+        return getBooleanConfigValue(GENERATE_STATISTICS);
     }
 
     private String getConfigValue(String key) {

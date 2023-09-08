@@ -112,13 +112,13 @@ roaster.hibernate.defaultPU.jdbc.driver=oracle.jdbc.OracleDriver
 roaster.hibernate.defaultPU.jdbc.url=jdbc:oracle:thin:@//localhost:1521/XE
 roaster.hibernate.defaultPU.jdbc.user=db_username
 roaster.hibernate.defaultPU.jdbc.password=*****
+roaster.hiberante.defaultPU.jdbc.log_warnings=true
 roaster.hibernate.defaultPU.hibernate.default_schema=user_schema
 roaster.hibernate.defaultPU.hibernate.dialect=org.hibernate.dialect.Oracle12cDialect
 roaster.hibernate.defaultPU.hibernate.show_sql=true
 roaster.hibernate.defaultPU.hibernate.format_sql=true
-roaster.hiberante.defaultPU.log.session_metrics=true
-roaster.hiberante.defaultPU.log.jdbc_warnings=true
-roaster.hiberante.defaultPU.log.generate_statistics=true
+roaster.hiberante.defaultPU.hibernate.log_session_metrics=true
+roaster.hiberante.defaultPU.hibernate.generate_statistics=true
 ----
 
 [source,yml]
@@ -132,15 +132,14 @@ roaster.hiberante.defaultPU.log.generate_statistics=true
           url: jdbc:oracle:thin:@//localhost:1521/XE
           user: db_username
           password: *****
+          log_warnings: true
         hibernate:
           default_schema: user_schema
           dialect: org.hibernate.dialect.Oracle12cDialect
           show_sql: true
           format_sql: true
-        log:
-            session_metrics: true
-            jdbc_warnings: true
-            generate_statistics: true
+          log_session_metrics: true
+          generate_statistics: true
 ----
 
 == Használati példa
