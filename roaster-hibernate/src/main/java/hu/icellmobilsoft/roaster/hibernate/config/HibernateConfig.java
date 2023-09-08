@@ -25,6 +25,7 @@ import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig
  * Configuration for hibernate config
  * 
  * @author speter555
+ * @author csaba.balogh
  */
 public interface HibernateConfig {
 
@@ -110,4 +111,25 @@ public interface HibernateConfig {
      * @return settings value
      */
     String getJpaJdbcDriver();
+
+    /**
+     * 'hibernate.session.events.log' setting
+     * 
+     * @return settings value
+     */
+    boolean getLogSessionMetrics();
+
+    /**
+     * 'hibernate.jdbc.log.warnings' setting
+     * 
+     * @return settings value
+     */
+    boolean getLogJdbcWarnings();
+
+    /**
+     * 'hibernate.generate_statistics' setting
+     * 
+     * @return settings value
+     */
+    boolean getGenerateStatistics();
 }
