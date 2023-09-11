@@ -6,3 +6,17 @@
 * Bump com.google.guava:guava https://github.com/google/guava/releases/tag/v31.1[31.1-jre]
 -> https://github.com/google/guava/releases/tag/v32.1.1[32.1.1-jre]
 (https://github.com/advisories/GHSA-7g45-4rm6-3mm3[CVE-2023-2976])
+
+=== roaster-tm4j/roaster-testsuite-tm4j
+
+Dependency, Jakarta upgrade miatti bug fix
+
+* hu.icellmobilsoft.roaster.testsuite.tm4j.Tm4jIT
+* hu.icellmobilsoft.roaster.testsuite.tm4j.Tm4jTagCycleIT
+
+=== roaster-zephyr
+
+Dependency, Jakarta upgrade miatti bug fix
+
+* hu.icellmobilsoft.roaster.testsuite.zephyr.ZephyrIT
+* hu.icellmobilsoft.roaster.testsuite.zephyr.ZephyrTagCycleIT

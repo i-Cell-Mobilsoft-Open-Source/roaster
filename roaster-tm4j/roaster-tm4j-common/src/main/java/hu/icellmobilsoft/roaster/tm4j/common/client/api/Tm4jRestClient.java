@@ -31,11 +31,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import hu.icellmobilsoft.roaster.tm4j.common.client.AuthHeadersFactory;
-import hu.icellmobilsoft.roaster.tm4j.common.client.Tm4jJsonProvider;
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
 
 /**
@@ -47,7 +45,6 @@ import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
  * @since 0.2.0
  */
 @RegisterRestClient(configKey = "roaster.tm4j.server")
-@RegisterProvider(Tm4jJsonProvider.class)
 @RegisterClientHeaders(AuthHeadersFactory.class)
 @Path("/rest/atm/1.0")
 public interface Tm4jRestClient {

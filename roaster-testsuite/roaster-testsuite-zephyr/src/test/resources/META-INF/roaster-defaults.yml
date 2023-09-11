@@ -1,0 +1,12 @@
+roaster:
+  zephyr:
+    enabled: true
+    projectKey: XXX
+    testCycleKey: XXX-C123
+    server/basicAuthToken: ZHVtbXlAZHVtbXkuaHU6WlhoaGJYQnNaUzExYzJWeU9uTmxZM0psZEE9PQ==
+    server/email: dummy@dummy.hu
+    server/apiToken: ZXhhbXBsZS11c2VyOnNlY3JldA==
+    cloud/bearerToken: ZXhhbXBsZS11c2VyOnNlY3JldA==
+    cycle:
+      foo: XXX-C-foo
+      bar: XXX-C-bar

@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -46,7 +46,7 @@ import hu.icellmobilsoft.roaster.tm4j.dto.domain.test_execution.Execution;
  * @author martin.nagy
  * @since 0.2.0
  */
-@Dependent
+@ApplicationScoped
 public class RestTm4jService {
 
     @Inject

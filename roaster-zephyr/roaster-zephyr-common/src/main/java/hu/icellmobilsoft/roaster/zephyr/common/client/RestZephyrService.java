@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
@@ -42,7 +42,7 @@ import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
  * @author mark.vituska
  * @since 0.11.0
  */
-@Dependent
+@ApplicationScoped
 public class RestZephyrService {
 
     @Inject
