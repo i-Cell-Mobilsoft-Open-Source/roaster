@@ -44,7 +44,7 @@ import hu.icellmobilsoft.roaster.zephyr.common.api.TestCaseId;
 import hu.icellmobilsoft.roaster.zephyr.junit5.ZephyrExtension;
 
 /**
- * Starts a mockserver with testcontainers to validate the TM4J rest calls
+ * Starts a mockserver with testcontainers to validate the Zephyr rest calls
  * 
  * @author czenczl
  * @since 2.1.0
