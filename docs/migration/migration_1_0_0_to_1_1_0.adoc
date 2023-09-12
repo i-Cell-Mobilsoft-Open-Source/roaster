@@ -2,7 +2,18 @@
 
 == Változások
 
+=== Általános
+
 ==== BOM verzió emelések:
 * Bump com.google.guava:guava https://github.com/google/guava/releases/tag/v31.1[31.1-jre]
 -> https://github.com/google/guava/releases/tag/v32.1.1[32.1.1-jre]
 (https://github.com/advisories/GHSA-7g45-4rm6-3mm3[CVE-2023-2976])
+
+=== Hibernate
+
+* Az `EntityManagerFactoryProducer` osztályban beégetett logolással és statisztika generálással kapcsolatos konfigurációs értékek már a roaster konfigurációs fájlból töltődnek: `LOG_SESSION_METRICS`, `LOG_JDBC_WARNINGS`, `GENERATE_STATISTICS`.
+
+=== Átállás
+
+* A `LOG_SESSION_METRICS`, `LOG_JDBC_WARNINGS` és a `GENERATE_STATISTICS` konfigurációs kulcsok az eddigi beégett `true` érték helyett `false` értékkel állítódnak be, ha nincsenek felvéve a roaster konfigurációs fájlban.
+Így ha ezeket engedélyezni szeretnénk, akkor szükséges őket felvenni és beállítani `true` értékkel.
