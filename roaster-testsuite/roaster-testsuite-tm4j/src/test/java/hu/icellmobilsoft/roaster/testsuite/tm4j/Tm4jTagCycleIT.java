@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -59,8 +58,7 @@ class Tm4jTagCycleIT extends BaseWeldUnitType {
     private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.14.0"));
     private static MockServerClient MOCK_SERVER_CLIENT;
 
-    @Disabled("until fix: java.lang.IllegalStateException: RestClientProxy is closed")
-    //@BeforeAll
+    @BeforeAll
     static void beforeAll() {
         MOCK_SERVER.start();
         MOCK_SERVER_CLIENT = new MockServerClient(MOCK_SERVER.getHost(), MOCK_SERVER.getServerPort());
@@ -84,17 +82,21 @@ class Tm4jTagCycleIT extends BaseWeldUnitType {
                 .respond(HttpResponse.response().withStatusCode(200));
     }
 
-    @Disabled("until fix: java.lang.IllegalStateException: RestClientProxy is closed")
-    //@AfterAll
+    @AfterAll
     static void afterAll() {
-        MOCK_SERVER_CLIENT.verify(HttpRequest.request().withMethod("POST").withPath("/rest/atm/1.0/testrun/XXX-C-foo/testresults")
-                .withBody(JsonPathBody.jsonPath("$[0][?(@.testCaseKey == 'XXX-T1')]")));
-        MOCK_SERVER_CLIENT.verify(HttpRequest.request().withMethod("POST").withPath("/rest/atm/1.0/testrun/XXX-C-bar/testresults")
-                .withBody(JsonPathBody.jsonPath("$[0][?(@.testCaseKey == 'XXX-T1')]")));
+        MOCK_SERVER_CLIENT.verify(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/rest/atm/1.0/testrun/XXX-C-foo/testresults")
+                        .withBody(JsonPathBody.jsonPath("$[0][?(@.testCaseKey == 'XXX-T1')]")));
+        MOCK_SERVER_CLIENT.verify(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/rest/atm/1.0/testrun/XXX-C-bar/testresults")
+                        .withBody(JsonPathBody.jsonPath("$[0][?(@.testCaseKey == 'XXX-T1')]")));
         MOCK_SERVER.close();
     }
 
-    @Disabled("until fix: java.lang.IllegalStateException: RestClientProxy is closed")
     @Tag("foo")
     @Tag("bar")
     @Test

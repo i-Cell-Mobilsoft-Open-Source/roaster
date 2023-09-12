@@ -25,11 +25,9 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import hu.icellmobilsoft.roaster.tm4j.common.client.AuthHeadersFactory;
-import hu.icellmobilsoft.roaster.tm4j.common.client.Tm4jJsonProvider;
 import hu.icellmobilsoft.roaster.tm4j.dto.domain.jira.User;
 
 /**
@@ -41,7 +39,6 @@ import hu.icellmobilsoft.roaster.tm4j.dto.domain.jira.User;
  * @since 0.4.0
  */
 @RegisterRestClient(configKey = "roaster.tm4j.server")
-@RegisterProvider(Tm4jJsonProvider.class)
 @RegisterClientHeaders(AuthHeadersFactory.class)
 @Path("/rest/api/2")
 public interface JiraRestClient {
