@@ -8,6 +8,7 @@
 * Bump com.google.guava:guava https://github.com/google/guava/releases/tag/v31.1[31.1-jre]
 -> https://github.com/google/guava/releases/tag/v32.1.1[32.1.1-jre]
 (https://github.com/advisories/GHSA-7g45-4rm6-3mm3[CVE-2023-2976])
+* com.codeborne:selenide: 6.10.3 -> 6.18.0
 
 === Hibernate
 
@@ -31,3 +32,7 @@ Dependency, Jakarta upgrade miatti bug fix
 
 * hu.icellmobilsoft.roaster.testsuite.zephyr.ZephyrIT
 * hu.icellmobilsoft.roaster.testsuite.zephyr.ZephyrTagCycleIT
+
+==  roaster-selenide
+
+Selenide verzió frissítés miatt kikerült a driverManagerEnabled kapcsolhatósága
