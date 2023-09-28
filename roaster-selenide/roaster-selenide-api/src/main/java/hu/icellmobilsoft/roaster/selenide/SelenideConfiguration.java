@@ -93,7 +93,6 @@ public class SelenideConfiguration {
         }
 
         Configuration.remote = seleniumRemoteUrl;
-        Configuration.driverManagerEnabled = StringUtils.isBlank(seleniumRemoteUrl);
         Configuration.headless = selenideConfig.isBrowserHeadless();
         Configuration.timeout = selenideConfig.getTimeout();
         Configuration.baseUrl = selenideConfig.getHomepage();
