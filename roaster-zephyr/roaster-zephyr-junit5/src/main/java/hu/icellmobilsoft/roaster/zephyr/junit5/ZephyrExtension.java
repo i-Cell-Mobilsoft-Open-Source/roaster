@@ -93,8 +93,8 @@ public class ZephyrExtension implements TestWatcher, BeforeTestExecutionCallback
 
     @Override
     public void afterTestExecution(ExtensionContext context) {
-        // Ha maven-ből több tesztet futtatunk, akkor a második teszttől kezdve a RestClientExtension-ben ragad a régi, leállított CDI bean manager,
-        // így elszállna exception-nel. Ezért minden teszt végén ezt clear-elni kell.
+		// If we run multiple tests from Maven, starting from the second test, the old, stopped CDI bean manager gets stuck in the RestClientExtension,
+		// causing it to throw an exception. That's why we need to clear it at the end of each test.
         RestClientExtension.clearBeanManager();
     }
 
