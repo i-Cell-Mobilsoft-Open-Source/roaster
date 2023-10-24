@@ -42,6 +42,13 @@ import hu.icellmobilsoft.roaster.oracle.config.ManagedDBConfig;
 public class DBConfigProducer {
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public DBConfigProducer() {
+        super();
+    }
+
+    /**
      * Creates ManagedDBConfig for the injected configKey
      * 
      * @param injectionPoint

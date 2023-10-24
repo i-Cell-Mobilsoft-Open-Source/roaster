@@ -49,6 +49,13 @@ public class OracleJDBCServiceProducer {
     private final Logger log = Logger.getLogger(OracleJDBCServiceProducer.class);
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public OracleJDBCServiceProducer() {
+        super();
+    }
+
+    /**
      * Produces OracleJDBCService for the DB connection specified by the given configKey
      *
      * @param injectionPoint

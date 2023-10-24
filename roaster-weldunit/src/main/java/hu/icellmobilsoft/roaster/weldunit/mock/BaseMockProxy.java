@@ -69,6 +69,8 @@ public abstract class BaseMockProxy<S, D extends BaseMockProxy> {
     public abstract S mock() throws BaseException;
 
     /**
+     * Service class
+     * 
      * @return the class of the service
      */
     public final Class<S> getServiceClass() {

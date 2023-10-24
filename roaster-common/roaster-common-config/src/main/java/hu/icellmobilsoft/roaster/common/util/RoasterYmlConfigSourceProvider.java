@@ -54,6 +54,13 @@ public class RoasterYmlConfigSourceProvider implements ConfigSourceProvider {
     private Logger log = Logger.getLogger(RoasterYmlConfigSourceProvider.class);
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public RoasterYmlConfigSourceProvider() {
+        super();
+    }
+
+    /**
      * Gets config source.
      *
      * @param classLoader

@@ -53,6 +53,13 @@ public class DBConnectionProducer {
     private final Map<String, JDBCConnection> connectionInstances = new HashMap<>();
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public DBConnectionProducer() {
+        super();
+    }
+
+    /**
      * Creates or gets Connection for the given configKey
      * 
      * @param injectionPoint

@@ -46,6 +46,13 @@ public class VersionInfoTestHelper {
     private RestAssuredConfig restAssuredConfig;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public VersionInfoTestHelper() {
+        super();
+    }
+
+    /**
      * Testing {@value MicroprofilePath#VERSION_INFO} endpoint
      * 
      * @param baseUri

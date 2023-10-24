@@ -86,6 +86,13 @@ public abstract class AbstractConfigurableResponseProcessor<RESPONSE> extends Re
     private Map<String, String> queryParams;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public AbstractConfigurableResponseProcessor() {
+        super();
+    }
+
+    /**
      * Initializes the configurable values
      *
      * @param config

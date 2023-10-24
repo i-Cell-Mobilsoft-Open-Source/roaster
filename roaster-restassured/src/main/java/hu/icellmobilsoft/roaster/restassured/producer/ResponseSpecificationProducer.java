@@ -36,6 +36,13 @@ import io.restassured.specification.ResponseSpecification;
 public class ResponseSpecificationProducer {
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public ResponseSpecificationProducer() {
+        super();
+    }
+
+    /**
      * Produce XML content setting ResponseSpecification
      * 
      * @return XML based ResponseSpecification

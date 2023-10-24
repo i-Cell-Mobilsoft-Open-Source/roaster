@@ -45,6 +45,13 @@ public class Jackson2ObjectMapperFactoryImpl implements Jackson2ObjectMapperFact
 
     private ObjectMapper objectMapper;
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public Jackson2ObjectMapperFactoryImpl() {
+        super();
+    }
+
     @Override
     public ObjectMapper create(Type cls, String charset) {
         return getObjectMapper();

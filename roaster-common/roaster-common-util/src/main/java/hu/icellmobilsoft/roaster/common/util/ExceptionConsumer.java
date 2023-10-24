@@ -22,6 +22,11 @@ package hu.icellmobilsoft.roaster.common.util;
 /**
  * Exception base @FunctionalInterface
  * 
+ * @param <T>
+ *            Consumer class type
+ * @param <E>
+ *            Throwing Exception type
+ * 
  * @author imre.scheffer
  * @since 0.8.0
  */

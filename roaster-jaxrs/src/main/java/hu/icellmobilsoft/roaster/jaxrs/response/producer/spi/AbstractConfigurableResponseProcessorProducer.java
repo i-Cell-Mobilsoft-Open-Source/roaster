@@ -29,6 +29,9 @@ import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
 
 /**
  * Base class for Configurable ResponseProcessor CDI producers
+ * 
+ * @param <T>
+ *            responseProcessor type
  *
  * @author imre.scheffer
  * @since 0.8.0
@@ -41,6 +44,13 @@ public abstract class AbstractConfigurableResponseProcessorProducer<T extends Ab
      * @return the created {@link AbstractConfigurableResponseProcessor} implementation
      */
     protected abstract T getBaseResponseProcessor();
+
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public AbstractConfigurableResponseProcessorProducer() {
+        super();
+    }
 
     /**
      * Creates and configures an {@link AbstractConfigurableResponseProcessor} implementation for the given injection point

@@ -30,11 +30,21 @@ import hu.icellmobilsoft.roaster.restassured.response.producer.impl.Configurable
 
 /**
  * Base class for {@link ConfigurableResponseProcessor} CDI producers
+ * 
+ * @param <T>
+ *            responseProcessor type
  *
  * @author martin.nagy
  * @since 0.5.0
  */
 public abstract class AbstractConfigurableResponseProcessorProducer<T extends AbstractConfigurableResponseProcessor<?>> {
+
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public AbstractConfigurableResponseProcessorProducer() {
+        super();
+    }
 
     /**
      * Creates a managed {@link AbstractConfigurableResponseProcessor} implementation
