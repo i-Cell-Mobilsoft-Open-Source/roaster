@@ -73,6 +73,8 @@ public abstract class AnyDto {
     public static final int SESSION_ID_SIZE = 50;
 
     /**
+     * Generate random requestId String
+     * 
      * @return random XSD valid request id.
      */
     public static String requestId() {
@@ -80,6 +82,8 @@ public abstract class AnyDto {
     }
 
     /**
+     * Generate random sessionId String
+     * 
      * @return random XSD valid session id.
      */
     public static String sessionId() {
@@ -87,6 +91,8 @@ public abstract class AnyDto {
     }
 
     /**
+     * Generate random String from inputs
+     * 
      * @param count
      *            the size of the random string
      * @param characters
@@ -99,6 +105,8 @@ public abstract class AnyDto {
     }
 
     /**
+     * Generate random String from inputs
+     * 
      * @param minCountInclusive
      *            the minimum size of the string (inclusive)
      * @param maxCountExclusive
@@ -114,6 +122,8 @@ public abstract class AnyDto {
     }
 
     /**
+     * Generate random zip String
+     * 
      * @return a new xsd valid randdom zipcode
      */
     public static String zipCode() {
@@ -121,6 +131,8 @@ public abstract class AnyDto {
     }
 
     /**
+     * Generate random country code String
+     * 
      * @return a new xsd valid random country code
      */
     public static String countryCode() {
@@ -128,6 +140,8 @@ public abstract class AnyDto {
     }
 
     /**
+     * Generate random alhabetic String from inputs
+     * 
      * @param count
      *            the size of the new string
      * @return new random string that contains only alphabetic characters.
@@ -138,6 +152,8 @@ public abstract class AnyDto {
     }
 
     /**
+     * Generate random string that contains alphabetic and numeric characters
+     * 
      * @param minCountInclusive
      *            the minimum size of the string (inclusive)
      * @param maxCountExclusive
@@ -152,6 +168,8 @@ public abstract class AnyDto {
     }
 
     /**
+     * Generate random string that contains alphabetic and numeric characters
+     * 
      * @param count
      *            the size of the new string
      * @return new random string that contains alphabetic and numeric characters

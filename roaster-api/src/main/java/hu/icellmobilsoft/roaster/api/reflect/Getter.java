@@ -35,6 +35,7 @@ public class Getter {
     }
 
     /**
+     * List of field values with the type
      * @param ifaceClass
      *            the interface class
      * @param typeClass

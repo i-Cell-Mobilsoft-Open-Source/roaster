@@ -31,35 +31,37 @@ import jakarta.enterprise.inject.Vetoed;
 public class InvalidConfigException extends TestException {
 
     /**
+     * Constructor with message
+     * 
      * @see TestException#TestException(String)
-     * @param  message the detail message (which is saved for later retrieval
-     *         by the {@link #getMessage()} method).
+     * @param message
+     *            the detail message (which is saved for later retrieval by the {@link #getMessage()} method).
      */
     public InvalidConfigException(String message) {
         super(message);
     }
 
-
     /**
+     * Constructor with message and cause
+     * 
      * @see TestException#TestException(String, Throwable)
-     * @param  message the detail message (which is saved for later retrieval
-     *         by the {@link #getMessage()} method).
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method).  (A {@code null} value is
-     *         permitted, and indicates that the cause is nonexistent or
-     *         unknown.)
+     * @param message
+     *            the detail message (which is saved for later retrieval by the {@link #getMessage()} method).
+     * @param cause
+     *            the cause (which is saved for later retrieval by the {@link #getCause()} method). (A {@code null} value is permitted, and indicates
+     *            that the cause is nonexistent or unknown.)
      */
     public InvalidConfigException(String message, Throwable cause) {
         super(message, cause);
     }
 
-
     /**
+     * Constructor with cause
+     * 
      * @see TestException#TestException(Throwable)
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link #getCause()} method).  (A {@code null} value is
-     *         permitted, and indicates that the cause is nonexistent or
-     *         unknown.)
+     * @param cause
+     *            the cause (which is saved for later retrieval by the {@link #getCause()} method). (A {@code null} value is permitted, and indicates
+     *            that the cause is nonexistent or unknown.)
      */
     public InvalidConfigException(Throwable cause) {
         super(cause);

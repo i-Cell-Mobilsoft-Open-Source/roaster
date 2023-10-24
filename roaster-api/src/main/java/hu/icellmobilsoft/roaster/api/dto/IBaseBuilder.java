@@ -29,21 +29,29 @@ import java.util.function.Consumer;
  */
 public interface IBaseBuilder<T> {
     /**
+     * Target class
+     * 
      * @return the target class object
      */
     public Class<T> getTargetClass();
 
     /**
+     * Create new empty object
+     * 
      * @return empty object of the target class
      */
     public T create();
 
     /**
+     * Build new target class with inner state settings
+     * 
      * @return an xsd/db valid object of the target class
      */
     public T build();
 
     /**
+     * Reset inner state settings
+     * 
      * @return clear the inner state of the builder (remove custom fill methods).
      */
     public IBaseBuilder<T> clear();
