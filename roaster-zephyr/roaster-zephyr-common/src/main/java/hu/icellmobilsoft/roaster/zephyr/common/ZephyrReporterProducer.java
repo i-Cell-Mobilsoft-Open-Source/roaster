@@ -41,6 +41,13 @@ public class ZephyrReporterProducer {
     private Provider<TestResultReporter> testResultReporterProvider;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public ZephyrReporterProducer() {
+        super();
+    }
+
+    /**
      * Creates a {@code TestResultReporter} based on the Roaster configuration
      *
      * @param config

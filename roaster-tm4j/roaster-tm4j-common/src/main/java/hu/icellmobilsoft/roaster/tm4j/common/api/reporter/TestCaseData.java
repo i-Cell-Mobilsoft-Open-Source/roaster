@@ -65,6 +65,13 @@ public class TestCaseData {
     private Collection<String> tags;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public TestCaseData() {
+        super();
+    }
+
+    /**
      * Getter for the field {@code id}.
      *
      * @return id

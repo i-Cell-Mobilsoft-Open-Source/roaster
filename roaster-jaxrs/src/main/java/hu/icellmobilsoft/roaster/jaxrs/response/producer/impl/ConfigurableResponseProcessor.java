@@ -33,5 +33,13 @@ import hu.icellmobilsoft.roaster.jaxrs.response.producer.spi.AbstractConfigurabl
  */
 @Dependent
 public final class ConfigurableResponseProcessor<RESPONSE> extends AbstractConfigurableResponseProcessor<RESPONSE> {
+
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public ConfigurableResponseProcessor() {
+        super();
+    }
+
     // empty body, everything has to go in the AbstractConfigurableResponseProcessor class
 }

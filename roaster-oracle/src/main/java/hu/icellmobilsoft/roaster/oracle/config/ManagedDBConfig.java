@@ -94,6 +94,13 @@ public class ManagedDBConfig implements DBConfig {
     private String configKey;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public ManagedDBConfig() {
+        super();
+    }
+
+    /**
      * {@inheritDoc}
      * <p>
      * The url where the selected DB is available.

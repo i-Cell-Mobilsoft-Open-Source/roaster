@@ -41,6 +41,13 @@ public class AuthHeadersFactory implements ClientHeadersFactory {
     private ITm4jReporterServerConfig config;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public AuthHeadersFactory() {
+        super();
+    }
+
+    /**
      * Initializes the object, validates the config
      */
     @PostConstruct

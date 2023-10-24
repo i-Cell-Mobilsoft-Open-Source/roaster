@@ -42,6 +42,13 @@ import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
 public class HibernateConfigProducer {
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public HibernateConfigProducer() {
+        super();
+    }
+
+    /**
      * Creates HibernateConfigImpl for the injected configKey
      * 
      * @param injectionPoint

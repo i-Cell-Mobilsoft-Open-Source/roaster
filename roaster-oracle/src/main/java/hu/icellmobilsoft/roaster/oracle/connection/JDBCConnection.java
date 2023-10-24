@@ -53,6 +53,13 @@ public class JDBCConnection implements Closeable {
     private HikariDataSource dataSource;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public JDBCConnection() {
+        super();
+    }
+
+    /**
      * Creates connection, using given configuration
      *
      * @return JDBC connection

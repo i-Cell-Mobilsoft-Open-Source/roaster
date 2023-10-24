@@ -40,11 +40,17 @@ public class ZephyrReporterConfig implements IZephyrReporterConfig {
 
     private final Config config = ConfigProvider.getConfig();
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public ZephyrReporterConfig() {
+        super();
+    }
+
     @Override
     public boolean isEnabled() {
         return config.getOptionalValue(RoasterConfigKeys.ENABLED, Boolean.class).orElse(false);
     }
-
 
     @Override
     public String getProjectKey() {

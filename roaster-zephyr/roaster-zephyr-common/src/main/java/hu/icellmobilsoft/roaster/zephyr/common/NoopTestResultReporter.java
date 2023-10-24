@@ -27,14 +27,22 @@ import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestCaseData;
 import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestResultReporter;
 
 /**
- * {@code TestResultReporter} implementation that does nothing on callback calls.
- * Can be used for disabling the default functionality for example the configuration says so.
+ * {@code TestResultReporter} implementation that does nothing on callback calls. Can be used for disabling the default functionality for example the
+ * configuration says so.
  *
  * @author martin.nagy
  * @since 0.2.0
  */
 @Vetoed
 public class NoopTestResultReporter implements TestResultReporter {
+
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public NoopTestResultReporter() {
+        super();
+    }
+
     @Override
     public void reportSuccess(TestCaseData testCaseData) {
         // do nothing

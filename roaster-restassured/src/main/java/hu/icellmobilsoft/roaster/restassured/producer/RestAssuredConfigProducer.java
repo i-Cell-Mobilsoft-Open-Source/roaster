@@ -41,6 +41,13 @@ import io.restassured.config.RestAssuredConfig;
 public class RestAssuredConfigProducer {
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public RestAssuredConfigProducer() {
+        super();
+    }
+
+    /**
      * Produce JSON content setting config<br>
      * Ha igény van egy saját ObjectMapperConfig-ra, mint ami a ObjectMapperConfigProducer-ben keletkezik, akkor minta megoldásnak használható
      * például:

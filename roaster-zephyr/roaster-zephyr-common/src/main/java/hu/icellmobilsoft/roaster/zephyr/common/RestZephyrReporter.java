@@ -62,6 +62,13 @@ public class RestZephyrReporter implements TestResultReporter {
     @Inject
     private RestZephyrService restZephyrService;
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public RestZephyrReporter() {
+        super();
+    }
+
     @Override
     public void reportSuccess(TestCaseData testCaseData) {
         Objects.requireNonNull(testCaseData, "testCaseData cannot be null!");

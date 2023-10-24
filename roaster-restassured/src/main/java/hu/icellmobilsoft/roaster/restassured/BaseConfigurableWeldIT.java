@@ -40,6 +40,13 @@ public abstract class BaseConfigurableWeldIT {
     @WeldSetup
     private WeldInitiator weldInitiator = initWeld();
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public BaseConfigurableWeldIT() {
+        super();
+    }
+
     private WeldInitiator initWeld() {
         @SuppressWarnings("unchecked")
         Weld weld = WeldInitiator.createWeld()//

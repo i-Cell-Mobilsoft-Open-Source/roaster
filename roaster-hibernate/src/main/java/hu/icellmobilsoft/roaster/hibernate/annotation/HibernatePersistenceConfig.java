@@ -39,7 +39,10 @@ import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE })
 public @interface HibernatePersistenceConfig {
+
     /**
+     * Persistence unit name
+     * 
      * @return the name of the persistence unit
      */
     @Nonbinding

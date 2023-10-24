@@ -103,6 +103,13 @@ public class HibernateConfigImpl implements HibernateConfig {
     private Config config;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public HibernateConfigImpl() {
+        super();
+    }
+
+    /**
      * {@inheritDoc}
      */
     public String getConfigKey() {
