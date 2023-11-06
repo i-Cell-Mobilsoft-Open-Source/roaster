@@ -41,6 +41,13 @@ public class JiraAuthHeadersFactory implements ClientHeadersFactory {
     private IJiraReporterServerConfig config;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public JiraAuthHeadersFactory() {
+        super();
+    }
+
+    /**
      * Initializes the object, validates the config
      */
     @PostConstruct

@@ -35,8 +35,14 @@ public abstract class BaseWeldUnitType {
     @WeldSetup
     private WeldInitiator weldInitiator = initWeld();
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public BaseWeldUnitType() {
+        super();
+    }
+
     private WeldInitiator initWeld() {
-        @SuppressWarnings("unchecked")
         Weld weld = WeldInitiator.createWeld()//
                 .enableDiscovery() //
         ;

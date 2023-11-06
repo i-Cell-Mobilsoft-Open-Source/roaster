@@ -54,6 +54,13 @@ public class SelenideConfiguration {
     private Logger logger = Logger.getLogger(SelenideConfiguration.class);
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public SelenideConfiguration() {
+        super();
+    }
+
+    /**
      * Handle container Initialized event
      *
      * @param containerInitialized

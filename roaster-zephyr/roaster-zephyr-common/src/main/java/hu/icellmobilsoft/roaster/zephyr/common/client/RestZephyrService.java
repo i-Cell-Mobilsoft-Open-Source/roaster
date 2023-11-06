@@ -61,6 +61,13 @@ public class RestZephyrService {
     private static final Map<String, String> accountIdsByUserName = new HashMap<>();
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public RestZephyrService() {
+        super();
+    }
+
+    /**
      * Returns {@code true} if the test cycle exists with the given key on the server
      *
      * @param key

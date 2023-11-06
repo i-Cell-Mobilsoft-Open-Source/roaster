@@ -59,6 +59,13 @@ public class ManagedResponseProcessorConfig implements ResponseProcessorConfig {
     private Config config;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public ManagedResponseProcessorConfig() {
+        super();
+    }
+
+    /**
      * Sets the new configKey value
      *
      * @param configKey

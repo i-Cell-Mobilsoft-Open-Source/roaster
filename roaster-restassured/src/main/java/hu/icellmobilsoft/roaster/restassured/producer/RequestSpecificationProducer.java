@@ -55,6 +55,13 @@ public class RequestSpecificationProducer {
     public static final String MEDIA_TYPE_APPLICATION_JSON = "application/json";
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public RequestSpecificationProducer() {
+        super();
+    }
+
+    /**
      * Produce JSON content setting RequestSpecification
      * 
      * @return XML based RequestSpecification

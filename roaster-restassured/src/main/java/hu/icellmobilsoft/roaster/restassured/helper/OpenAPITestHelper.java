@@ -52,6 +52,13 @@ public class OpenAPITestHelper {
     private ResponseSpecification responseSpecification;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public OpenAPITestHelper() {
+        super();
+    }
+
+    /**
      * Testing /openapi
      *
      * @param baseUri

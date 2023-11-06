@@ -31,6 +31,14 @@ import hu.icellmobilsoft.roaster.api.TestException;
  *
  */
 public class Setter {
+
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public Setter() {
+        super();
+    }
+
     /**
      * Set boolean field value.
      *
@@ -274,6 +282,8 @@ public class Setter {
     }
 
     /**
+     * Set generic field value with consumer
+     * 
      * @param entity
      *            the entity object
      * @param field

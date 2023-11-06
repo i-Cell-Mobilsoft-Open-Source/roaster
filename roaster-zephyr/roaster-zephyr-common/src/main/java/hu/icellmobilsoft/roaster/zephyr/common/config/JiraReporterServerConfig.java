@@ -45,6 +45,13 @@ public class JiraReporterServerConfig implements IJiraReporterServerConfig {
 
     private final Config config = ConfigProvider.getConfig();
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public JiraReporterServerConfig() {
+        super();
+    }
+
     @Override
     public void validate() throws InvalidConfigException {
         String apiTokenFromConfig = getApiTokenFromConfig();

@@ -39,6 +39,13 @@ import io.restassured.path.json.mapper.factory.Jackson2ObjectMapperFactory;
 public class ObjectMapperConfigProducer {
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public ObjectMapperConfigProducer() {
+        super();
+    }
+
+    /**
      * JSON típusú ObjectMapperConfig
      * 
      * @return ObjectMapperConfig

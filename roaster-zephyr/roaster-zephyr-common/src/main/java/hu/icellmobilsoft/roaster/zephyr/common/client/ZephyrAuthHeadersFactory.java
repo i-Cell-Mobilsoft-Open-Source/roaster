@@ -41,6 +41,13 @@ public class ZephyrAuthHeadersFactory implements ClientHeadersFactory {
     private IZephyrReporterServerConfig config;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public ZephyrAuthHeadersFactory() {
+        super();
+    }
+
+    /**
      * Initializes the object, validates the config
      */
     @PostConstruct

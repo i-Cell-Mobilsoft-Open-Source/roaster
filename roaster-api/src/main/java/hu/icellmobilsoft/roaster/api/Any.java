@@ -145,6 +145,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random boolean
+     * 
      * @return random true or false
      */
     public static boolean bool() {
@@ -153,6 +155,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random String
+     * 
      * @return a fully random UTF-8 encoded string with length between {@value #DEFAULT_MIN_STR_LENGTH} and {@value #DEFAULT_MAX_STR_LENGTH}
      */
     public static String string() {
@@ -240,6 +244,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random Date
+     * 
      * @return an random date after 1970-01-01T00:00:00Z
      */
     public static Date time() {
@@ -247,6 +253,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random Date before input date
+     * 
      * @param time
      *            bound time
      * @return a new time point before the input time
@@ -258,6 +266,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random Date after input date
+     * 
      * @param time
      *            origin time
      * @return a new time point after the input time
@@ -270,7 +280,8 @@ public abstract class Any {
     }
 
     /**
-     *
+     * Generate an random Date between input dates
+     * 
      * @param origin
      *            origin time
      * @param bound
@@ -286,6 +297,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random Date in the given boundaries
+     * 
      * @param originEpoch
      *            the origin epoch seconds
      * @param boundEpoch
@@ -303,6 +316,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random XMLGregorianCalendar
+     * 
      * @return random {@code XMLGregorianCalendar}
      */
     public static XMLGregorianCalendar timestamp() {
@@ -310,6 +325,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random XMLGregorianCalendar before input date
+     * 
      * @param bound
      *            the bound date
      * @return a timestamp before bound
@@ -319,6 +336,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random XMLGregorianCalendar after input date
+     * 
      * @param origin
      *            the origin date
      * @return an timestamp after origin
@@ -328,6 +347,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random XMLGregorianCalendar between input dates
+     * 
      * @param origin
      *            the origin date
      * @param bound
@@ -339,6 +360,8 @@ public abstract class Any {
     }
 
     /**
+     * Pick random item from input
+     * 
      * @param <T>
      *            generic type
      * @param items
@@ -353,6 +376,8 @@ public abstract class Any {
     }
 
     /**
+     * Pick random item from input
+     * 
      * @param itemList
      *            the list of the possible items
      * @param <T>
@@ -366,6 +391,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random integer
+     * 
      * @return an random integer
      */
     public static int anInt() {
@@ -373,6 +400,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random integer between inputs
+     * 
      * @param origin
      *            the origin
      * @param bound
@@ -384,6 +413,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random positive integer
+     * 
      * @return a random positive integer
      */
     public static int aPositiveInt() {
@@ -391,6 +422,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random positive integer less than input
+     * 
      * @param bound
      *            the upper bound (exclusive)
      * @return a random positive integer that is less than {@code bound}
@@ -401,6 +434,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random positive integer between inputs
+     * 
      * @param origin
      *            the least value returned
      * @param bound
@@ -422,6 +457,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random boolean
+     * 
      * @return true ot false randomly
      */
     public static boolean aBoolean() {
@@ -429,6 +466,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random byte
+     * 
      * @return a random byte
      */
     public static byte aByte() {
@@ -436,6 +475,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random byte between inputs
+     * 
      * @param origin
      *            the origin
      * @param bound
@@ -447,13 +488,17 @@ public abstract class Any {
     }
 
     /**
-     * @return a random sort
+     * Generate an random short
+     * 
+     * @return a random short
      */
     public static short aShort() {
         return (short) ThreadLocalRandom.current().nextInt(Short.MAX_VALUE + 1);
     }
 
     /**
+     * Generate an random short between inputs
+     * 
      * @param origin
      *            the origin
      * @param bound
@@ -465,6 +510,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random long
+     * 
      * @return a random long
      */
     public static long aLong() {
@@ -472,6 +519,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random long between inputs
+     * 
      * @param origin
      *            the origin
      * @param bound
@@ -483,6 +532,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random float
+     * 
      * @return a random float
      */
     public static float aFloat() {
@@ -490,6 +541,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random double
+     * 
      * @return a random double
      */
     public static double aDouble() {
@@ -497,6 +550,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate an random double between inputs
+     * 
      * @param origin
      *            the origin
      * @param bound
@@ -508,6 +563,8 @@ public abstract class Any {
     }
 
     /**
+     * Pick random Enum item from input
+     * 
      * @param <T>
      *            generic type
      * @param enums
@@ -520,6 +577,8 @@ public abstract class Any {
     }
 
     /**
+     * Pick random Enum item from input
+     * 
      * @param items
      *            the enumeration value list
      * @param <T>
@@ -533,6 +592,8 @@ public abstract class Any {
     }
 
     /**
+     * Pick random Enum item from input
+     * 
      * @param enumClass
      *            the class of the enumeration
      * @param <T>
@@ -588,6 +649,8 @@ public abstract class Any {
     }
 
     /**
+     * Exclude enums from input and return in new object
+     * 
      * @param enumClass
      *            the class of the enumeration
      * @param excludeItems
@@ -596,11 +659,12 @@ public abstract class Any {
      *            the type of the enumeration
      * @return the enum object list of T without the excluded elements.
      */
-    public static <T extends Enum<T>> T[] exclude(Class<T> enumClass, T... excludeItems) {
+    public static <T extends Enum<T>> T[] exclude(Class<T> enumClass, @SuppressWarnings("unchecked") T... excludeItems) {
         Condition.notNull(enumClass, ERROR_MSG_ENUMERATION_TYPE_NULL);
         List<T> items = new ArrayList<>(Arrays.asList(enumClass.getEnumConstants()));
         Arrays.stream(excludeItems).forEach(items::remove);
         Condition.notEmpty(items, ERROR_MSG_ENUMERATION_TYPE_EMPTY);
+        @SuppressWarnings("unchecked")
         T[] result = (T[]) java.lang.reflect.Array.newInstance(items.get(0).getClass(), items.size());
         for (int i = 0; i < items.size(); i++) {
             result[i] = items.get(i);
@@ -609,6 +673,8 @@ public abstract class Any {
     }
 
     /**
+     * Random value what is not equals with any of the static field
+     * 
      * @param ifaceClass
      *            the interface class
      * @param fieldType
@@ -634,6 +700,8 @@ public abstract class Any {
     }
 
     /**
+     * Random integer that is not equals with any of the static fields
+     * 
      * @param ifaceClass
      *            the interface class
      * @param <I>
@@ -645,6 +713,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate random String like input
+     * 
      * @param text
      *            the string object
      * @return any text but the input param
@@ -654,6 +724,8 @@ public abstract class Any {
     }
 
     /**
+     * Generate random String like input
+     * 
      * @param text
      *            the string object
      * @param randomSupplier
@@ -834,8 +906,8 @@ public abstract class Any {
         return () -> {
             C instance = null;
             try {
-                instance = targetClass.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
+                instance = targetClass.getDeclaredConstructor().newInstance();
+            } catch (IllegalArgumentException | ReflectiveOperationException | SecurityException e) {
                 Condition.shouldNeverThrown("Failed to create the target class", e);
             }
             return instance;

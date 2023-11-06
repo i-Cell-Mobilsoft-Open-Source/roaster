@@ -26,6 +26,9 @@ import java.util.function.Supplier;
 
 /**
  * Base class to build new entities.
+ * 
+ * @param <T>
+ *            type of builder class
  *
  */
 public abstract class BaseTypeBuilder<T> implements IBaseBuilder<T> {
@@ -37,6 +40,8 @@ public abstract class BaseTypeBuilder<T> implements IBaseBuilder<T> {
     private Supplier<T> createEntityMethod = null;
 
     /**
+     * Constructor with base parameters
+     * 
      * @param targetClass
      *            the class of the entity to build
      * @param createEntity
@@ -58,6 +63,8 @@ public abstract class BaseTypeBuilder<T> implements IBaseBuilder<T> {
     }
 
     /**
+     * New fill method to the fill base method list at and of the list.
+     * 
      * @param fillMethod
      *            custom provider to fill the base object
      * @return the current builder

@@ -30,6 +30,10 @@
             <groupId>hu.icellmobilsoft.roaster</groupId>
             <artifactId>roaster-redis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.smallrye</groupId>
+            <artifactId>smallrye-metrics</artifactId>
+        </dependency>
 
         <!-- testcontainers -->
         <dependency>

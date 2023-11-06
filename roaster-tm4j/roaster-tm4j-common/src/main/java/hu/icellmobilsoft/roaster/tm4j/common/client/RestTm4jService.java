@@ -64,6 +64,13 @@ public class RestTm4jService {
     private static final Map<String, String> userKeysByUserName = new HashMap<>();
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public RestTm4jService() {
+        super();
+    }
+
+    /**
      * Returns {@code true} if the test run exists with the given key on the server
      *
      * @param key

@@ -36,6 +36,13 @@ import hu.icellmobilsoft.roaster.tm4j.common.config.ITm4jReporterConfig;
 @Dependent
 public class Tm4jReporterProducer {
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public Tm4jReporterProducer() {
+        super();
+    }
+
     @Inject
     @Tm4jRest
     private Provider<TestResultReporter> testResultReporterProvider;

@@ -28,6 +28,8 @@ public class PostconditionFailException extends TestException {
     private static final long serialVersionUID = 1L;
 
     /**
+     * Constructor with message
+     * 
      * @see RuntimeException#RuntimeException(String)
      * @param message
      *            the detail message.
@@ -37,6 +39,8 @@ public class PostconditionFailException extends TestException {
     }
 
     /**
+     * Constructor with message and cause
+     * 
      * @see RuntimeException#RuntimeException(String,Throwable)
      * @param message
      *            the detail message.
@@ -48,6 +52,8 @@ public class PostconditionFailException extends TestException {
     }
 
     /**
+     * Constructor with cause
+     * 
      * @see RuntimeException#RuntimeException(Throwable)
      * @param cause
      *            the cause.

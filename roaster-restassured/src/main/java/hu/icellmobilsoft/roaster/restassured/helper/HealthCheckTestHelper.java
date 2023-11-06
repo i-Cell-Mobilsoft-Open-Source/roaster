@@ -50,9 +50,17 @@ public class HealthCheckTestHelper {
     private ResponseSpecification responseSpecification;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public HealthCheckTestHelper() {
+        super();
+    }
+
+    /**
      * Testing /health
      *
-     * @param baseUri URI for health endpoint
+     * @param baseUri
+     *            URI for health endpoint
      */
     public void testHealth(String baseUri) {
         testHealthPath(baseUri, MicroprofilePath.HEALTH_PATH);
@@ -61,7 +69,8 @@ public class HealthCheckTestHelper {
     /**
      * Test health/ready status UP
      *
-     * @param baseUri service base uri
+     * @param baseUri
+     *            service base uri
      */
     public void testHealthReady(String baseUri) {
         testHealthPath(baseUri, MicroprofilePath.HEALTH_READY_PATH);
@@ -70,7 +79,8 @@ public class HealthCheckTestHelper {
     /**
      * Test health/live status UP
      *
-     * @param baseUri service base uri
+     * @param baseUri
+     *            service base uri
      */
     public void testHealthLive(String baseUri) {
         testHealthPath(baseUri, MicroprofilePath.HEALTH_LIVE_PATH);
@@ -79,7 +89,8 @@ public class HealthCheckTestHelper {
     /**
      * Test health/started status UP
      *
-     * @param baseUri service base uri
+     * @param baseUri
+     *            service base uri
      */
     public void testHealthStarted(String baseUri) {
         testHealthPath(baseUri, MicroprofilePath.HEALTH_STARTED_PATH);

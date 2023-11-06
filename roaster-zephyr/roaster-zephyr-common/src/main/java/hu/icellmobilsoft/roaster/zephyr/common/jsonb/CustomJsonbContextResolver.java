@@ -37,6 +37,13 @@ import jakarta.ws.rs.ext.ContextResolver;
  */
 public class CustomJsonbContextResolver implements ContextResolver<Jsonb> {
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public CustomJsonbContextResolver() {
+        super();
+    }
+
     @Override
     public Jsonb getContext(Class<?> type) {
         JsonbConfig config = new JsonbConfig().withPropertyVisibilityStrategy(new PropertyVisibilityStrategy() {

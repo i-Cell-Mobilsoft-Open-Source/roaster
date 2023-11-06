@@ -63,6 +63,13 @@ public class EntityManagerFactoryProducer {
     private BeanManager beanManager;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public EntityManagerFactoryProducer() {
+        super();
+    }
+
+    /**
      * Producer for creating or obtaining {@link EntityManagerFactory}
      *
      * @param injectionPoint
