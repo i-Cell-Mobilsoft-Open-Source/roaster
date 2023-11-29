@@ -41,6 +41,13 @@ import io.restassured.config.RestAssuredConfig;
 public class RestAssuredConfigProducer {
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public RestAssuredConfigProducer() {
+        super();
+    }
+
+    /**
      * Produce JSON content setting config<br>
      * If there is a need for a custom ObjectMapperConfig, such as the one created in the ObjectMapperConfigProducer, it can be used as a template solution.
      * for example:

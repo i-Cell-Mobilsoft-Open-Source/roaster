@@ -44,6 +44,13 @@ public class ZephyrReporterServerConfig implements IZephyrReporterServerConfig {
 
     private final Config config = ConfigProvider.getConfig();
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public ZephyrReporterServerConfig() {
+        super();
+    }
+
     @Override
     public void validate() throws InvalidConfigException {
         String bearerTokenFromConfig = getBearerTokenFromConfig();

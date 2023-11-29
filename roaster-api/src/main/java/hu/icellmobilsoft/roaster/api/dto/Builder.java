@@ -114,6 +114,8 @@ public class Builder {
     }
 
     /**
+     * Has target class registered builder?
+     * 
      * @param <T>
      *            generic class
      * @param targetClazz

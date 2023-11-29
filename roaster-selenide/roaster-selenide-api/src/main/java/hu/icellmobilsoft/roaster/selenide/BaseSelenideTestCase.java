@@ -29,4 +29,11 @@ import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
  */
 public class BaseSelenideTestCase extends BaseWeldUnitType {
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public BaseSelenideTestCase() {
+        super();
+    }
+
 }

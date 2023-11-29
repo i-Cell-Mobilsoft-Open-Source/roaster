@@ -22,12 +22,22 @@ package hu.icellmobilsoft.roaster.api.dto;
 /**
  * base builder
  * 
+ * @param <T>
+ *            builder class type
+ * 
  * @author czenczl
  * @version 0.2.0
  */
 public abstract class BaseBuilder<T> {
 
     private T dto;
+
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public BaseBuilder() {
+        super();
+    }
 
     /**
      * create empty dto

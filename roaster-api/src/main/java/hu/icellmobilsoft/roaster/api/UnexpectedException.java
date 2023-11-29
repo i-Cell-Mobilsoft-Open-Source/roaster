@@ -27,6 +27,8 @@ public class UnexpectedException extends TestException {
     private static final long serialVersionUID = 1L;
 
     /**
+     * Constructor with message and cause
+     * 
      * @see RuntimeException#RuntimeException(String,Throwable)
      * @param message
      *            the detail message.
@@ -38,6 +40,8 @@ public class UnexpectedException extends TestException {
     }
 
     /**
+     * Constructor with cause
+     * 
      * @see RuntimeException#RuntimeException(Throwable)
      * @param cause
      *            the cause.

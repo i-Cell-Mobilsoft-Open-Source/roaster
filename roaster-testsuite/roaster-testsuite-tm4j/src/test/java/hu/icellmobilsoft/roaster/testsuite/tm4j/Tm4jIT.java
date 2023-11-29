@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -59,8 +58,7 @@ class Tm4jIT extends BaseWeldUnitType {
     private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.14.0"));
     private static MockServerClient MOCK_SERVER_CLIENT;
 
-    @Disabled("until fix: java.lang.IllegalStateException: RestClientProxy is closed")
-    //@BeforeAll
+    @BeforeAll
     static void beforeAll() {
         MOCK_SERVER.start();
         MOCK_SERVER_CLIENT = new MockServerClient(MOCK_SERVER.getHost(), MOCK_SERVER.getServerPort());
@@ -72,8 +70,11 @@ class Tm4jIT extends BaseWeldUnitType {
         MOCK_SERVER_CLIENT.when(HttpRequest.request(), Times.unlimited(), TimeToLive.unlimited(), -1)
                 .respond(HttpResponse.response().withStatusCode(404).withBody("Not Found"));
 
-        MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/rest/api/2/myself").withHeaders(headers)).respond(HttpResponse.response()
-                .withContentType(MediaType.APPLICATION_JSON).withBody("{\"displayName\":\"Teszt Elek\",\"key\":\"test-user-1\"}"));
+        MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/rest/api/2/myself").withHeaders(headers))
+                .respond(
+                        HttpResponse.response()
+                                .withContentType(MediaType.APPLICATION_JSON)
+                                .withBody("{\"displayName\":\"Teszt Elek\",\"key\":\"test-user-1\"}"));
 
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/rest/atm/1.0/testrun/XXX-C123").withHeaders(headers))
                 .respond(HttpResponse.response().withStatusCode(200));
@@ -83,19 +84,21 @@ class Tm4jIT extends BaseWeldUnitType {
 
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withMethod("POST").withPath("/rest/atm/1.0/testrun/XXX-C123/testresults").withHeaders(headers))
                 .respond(HttpResponse.response().withStatusCode(200));
+
     }
 
-    @Disabled("until fix: java.lang.IllegalStateException: RestClientProxy is closed")
-    //@AfterAll
+    @AfterAll
     static void afterAll() {
-        MOCK_SERVER_CLIENT.verify(HttpRequest.request().withMethod("POST").withPath("/rest/atm/1.0/testrun/XXX-C123/testresults")
-                .withBody(JsonPathBody.jsonPath("$[0][?(@.testCaseKey == 'XXX-T1')]")));
+        MOCK_SERVER_CLIENT.verify(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/rest/atm/1.0/testrun/XXX-C123/testresults")
+                        .withBody(JsonPathBody.jsonPath("$[0][?(@.testCaseKey == 'XXX-T1')]")));
         MOCK_SERVER.close();
     }
 
-    @Disabled("until fix: java.lang.IllegalStateException: RestClientProxy is closed")
     @Test
-    //@TestCaseId("XXX-T1")
+    @TestCaseId("XXX-T1")
     void dummyTest() {
         assertEquals(2, 1 + 1);
     }

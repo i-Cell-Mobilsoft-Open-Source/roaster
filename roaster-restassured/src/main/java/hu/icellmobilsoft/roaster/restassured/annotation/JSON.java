@@ -41,18 +41,25 @@ import jakarta.inject.Qualifier;
 @Target({ TYPE, METHOD, FIELD, PARAMETER })
 public @interface JSON {
 
-	/**
-	 * Supports inline instantiation of the {@link JSON} annotation.
-	 *
-	 * @author imre.scheffer
-	 */
-	final class Literal extends AnnotationLiteral<JSON> implements JSON {
-		/**
-		 * Qualifier literal instance
-		 */
-		public static final Literal INSTANCE = new Literal();
+    /**
+     * Supports inline instantiation of the {@link JSON} annotation.
+     *
+     * @author imre.scheffer
+     */
+    final class Literal extends AnnotationLiteral<JSON> implements JSON {
+        /**
+         * Qualifier literal instance
+         */
+        public static final Literal INSTANCE = new Literal();
 
-		private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-	}
+        /**
+         * Default constructor, constructs a new object.
+         */
+        public Literal() {
+            super();
+        }
+
+    }
 }

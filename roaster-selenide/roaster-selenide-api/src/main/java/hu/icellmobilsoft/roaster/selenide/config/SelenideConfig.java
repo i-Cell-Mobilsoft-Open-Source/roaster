@@ -66,6 +66,13 @@ public class SelenideConfig {
     private Logger logger = Logger.getLogger(SelenideConfig.class);
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public SelenideConfig() {
+        super();
+    }
+
+    /**
      * Selenide start homepage config, with log
      * 
      * @return homepage url, if it is not find, return empty string

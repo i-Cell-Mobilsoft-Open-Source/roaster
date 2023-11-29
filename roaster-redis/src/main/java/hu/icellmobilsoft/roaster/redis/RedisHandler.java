@@ -45,6 +45,13 @@ import redis.clients.jedis.Jedis;
 public class RedisHandler {
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public RedisHandler() {
+        super();
+    }
+
+    /**
      * Gets data from REDIS, identified by {@code redisConfigKey}, for given {@code valueKey}, and responses with given class
      *
      * @param <T>

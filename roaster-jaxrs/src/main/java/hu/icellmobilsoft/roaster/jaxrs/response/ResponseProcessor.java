@@ -52,6 +52,13 @@ import hu.icellmobilsoft.roaster.api.TestException;
 public abstract class ResponseProcessor<RESPONSE> {
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public ResponseProcessor() {
+        super();
+    }
+
+    /**
      * Base URI config key
      *
      * @return config key like "project.service.base.uri"

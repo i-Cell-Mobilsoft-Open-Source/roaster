@@ -45,6 +45,13 @@ public class FileUtil {
     private static final Logger LOG = Logger.getLogger(FileUtil.class.getName());
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public FileUtil() {
+        super();
+    }
+
+    /**
      * Maven test resources path
      */
     public static final String SRC_TEST_RESOURCES = "src/test/resources/";

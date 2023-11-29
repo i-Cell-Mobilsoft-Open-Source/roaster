@@ -50,4 +50,11 @@ public class MicroprofilePath {
      * version info path
      */
     public static final String VERSION_INFO = "/versionInfo";
+
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public MicroprofilePath() {
+        super();
+    }
 }

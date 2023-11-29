@@ -52,6 +52,7 @@ import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
  *
  * @since 0.2.0
  * @author speter555
+ * @author csaba.balogh
  */
 @ApplicationScoped
 public class EntityManagerFactoryProducer {
@@ -60,6 +61,13 @@ public class EntityManagerFactoryProducer {
 
     @Inject
     private BeanManager beanManager;
+
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public EntityManagerFactoryProducer() {
+        super();
+    }
 
     /**
      * Producer for creating or obtaining {@link EntityManagerFactory}
@@ -83,7 +91,7 @@ public class EntityManagerFactoryProducer {
      * @param injectionPoint
      *            CDI injection point
      * @return {@link EntityManagerFactory} instance
-     * 
+     *
      * @throws BaseException
      *             exception
      */
@@ -93,7 +101,7 @@ public class EntityManagerFactoryProducer {
     public EntityManagerFactory produceEntityManagerFactory(InjectionPoint injectionPoint) throws BaseException {
 
         HibernatePersistenceConfig hibernatePersistenceConfig = AnnotationUtil.getAnnotation(injectionPoint, HibernatePersistenceConfig.class)
-                .orElseThrow(() -> new BaseException(CoffeeFaultType.INVALID_INPUT, "PersisteneUnitName annotation have to have configKey value!"));
+                .orElseThrow(() -> new BaseException(CoffeeFaultType.INVALID_INPUT, "PersistenceUnitName annotation have to have configKey value!"));
         HibernateConfig hibernateConfig = CDI.current()
                 .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(hibernatePersistenceConfig.persistenceUnitName())).get();
 
@@ -107,16 +115,11 @@ public class EntityManagerFactoryProducer {
         // Set CDI Bean manager
         props.put(Environment.CDI_BEAN_MANAGER, beanManager);
 
-        // Statistics, warning, logs
-        props.put(Environment.LOG_SESSION_METRICS, true);
-        props.put(Environment.LOG_JDBC_WARNINGS, true);
-        props.put(Environment.GENERATE_STATISTICS, true);
-
         // JPA use in JAVA SE
         props.put(Environment.JAKARTA_TRANSACTION_TYPE, "RESOURCE_LOCAL");
         props.put(Environment.JAKARTA_PERSISTENCE_PROVIDER, "org.hibernate.jpa.HibernatePersistenceProvider");
 
-// TODO jakartaEE atalasnal nincs ilyen opcio 
+// TODO jakartaEE atalasnal nincs ilyen opcio
 //        //
 //        props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false);
 
@@ -130,6 +133,9 @@ public class EntityManagerFactoryProducer {
         props.put(Environment.JAKARTA_JDBC_USER, hibernateConfig.getJpaJdbcUser());
         props.put(Environment.JAKARTA_JDBC_PASSWORD, hibernateConfig.getJpaJdbcPassword());
         props.put(Environment.JAKARTA_JDBC_DRIVER, hibernateConfig.getJpaJdbcDriver());
+        props.put(Environment.LOG_SESSION_METRICS, hibernateConfig.getLogSessionMetrics());
+        props.put(Environment.LOG_JDBC_WARNINGS, hibernateConfig.getLogJdbcWarnings());
+        props.put(Environment.GENERATE_STATISTICS, hibernateConfig.getGenerateStatistics());
 
         // If any config value is null, remove it from config map
         props.values().removeIf(Objects::isNull);

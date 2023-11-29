@@ -44,6 +44,13 @@ public class Tm4jReporterServerConfig implements ITm4jReporterServerConfig {
 
     private final Config config = ConfigProvider.getConfig();
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public Tm4jReporterServerConfig() {
+        super();
+    }
+
     @Override
     public void validate() throws InvalidConfigException {
         String basicAuthTokenFromConfig = getBasicAuthTokenFromConfig();

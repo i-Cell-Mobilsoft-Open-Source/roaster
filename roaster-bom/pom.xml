@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>hu.icellmobilsoft.roaster</groupId>
 		<artifactId>roaster</artifactId>
-		<version>2.1.0-SNAPSHOT</version>
+		<version>2.2.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>roaster-bom</artifactId>
@@ -11,7 +11,7 @@
 
 	<properties>
 		<version.org.eclipse.microprofile>6.0</version.org.eclipse.microprofile>
-		<version.hu.icellmobilsoft.coffee>2.0.0</version.hu.icellmobilsoft.coffee>
+		<version.hu.icellmobilsoft.coffee>2.3.0</version.hu.icellmobilsoft.coffee>
 		<version.org.junit>5.9.1</version.org.junit>
 		<version.testcontainers>1.17.6</version.testcontainers>
 		<version.mockserver-client-java>5.14.0</version.mockserver-client-java>
@@ -19,6 +19,7 @@
 		<version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
 		<version.io.rest-assured>5.0.0</version.io.rest-assured>
 		<version.io.smallrye.config>3.1.1</version.io.smallrye.config>
+		<version.io.smallrye.metrics>4.0.0</version.io.smallrye.metrics>
 		<version.jakarta.xml.bind-api>4.0.0</version.jakarta.xml.bind-api>
 		<version.org.mockito.mockito-core>4.10.0</version.org.mockito.mockito-core>
 		<version.com.fasterxml.jackson>2.14.1</version.com.fasterxml.jackson>
@@ -34,7 +35,7 @@
 		<version.com.google.guava>32.1.1-jre</version.com.google.guava>
 
 		<!-- Selenide -->
-		<version.codeborn.selenide>6.10.3</version.codeborn.selenide>
+		<version.codeborn.selenide>6.18.0</version.codeborn.selenide>
 
 		<!-- Hibernate -->
 		<version.org.hibernate>6.1.6.Final</version.org.hibernate>
@@ -204,6 +205,11 @@
 				<groupId>io.smallrye.config</groupId>
 				<artifactId>smallrye-config-source-yaml</artifactId>
 				<version>${version.io.smallrye.config}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.smallrye</groupId>
+				<artifactId>smallrye-metrics</artifactId>
+				<version>${version.io.smallrye.metrics}</version>
 			</dependency>
 			<dependency>
 				<groupId>jakarta.xml.bind</groupId>

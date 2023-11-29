@@ -41,18 +41,25 @@ import jakarta.inject.Qualifier;
 @Target({ TYPE, METHOD, FIELD, PARAMETER })
 public @interface XML {
 
-	/**
-	 * Supports inline instantiation of the {@link XML} annotation.
-	 *
-	 * @author imre.scheffer
-	 */
-	final class Literal extends AnnotationLiteral<XML> implements XML {
-		/**
-		 * Qualifier literal instance
-		 */
-		public static final Literal INSTANCE = new Literal();
+    /**
+     * Supports inline instantiation of the {@link XML} annotation.
+     *
+     * @author imre.scheffer
+     */
+    final class Literal extends AnnotationLiteral<XML> implements XML {
+        /**
+         * Qualifier literal instance
+         */
+        public static final Literal INSTANCE = new Literal();
 
-		private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-	}
+        /**
+         * Default constructor, constructs a new object.
+         */
+        public Literal() {
+            super();
+        }
+
+    }
 }

@@ -53,6 +53,13 @@ public class EntityManagerProducer {
     private final Logger logger = Logger.getLogger(EntityManagerProducer.class);
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public EntityManagerProducer() {
+        super();
+    }
+
+    /**
      * Producer for creating or obtaining {@link EntityManager} with defaultPU persistenceUnitName
      *
      * @param injectionPoint

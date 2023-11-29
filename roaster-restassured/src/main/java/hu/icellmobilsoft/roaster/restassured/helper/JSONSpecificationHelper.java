@@ -41,6 +41,13 @@ public class JSONSpecificationHelper {
     private static final String HEADER_SESSION_TOKEN = "sessionToken";
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public JSONSpecificationHelper() {
+        super();
+    }
+
+    /**
      * gets the default json request specification and adds the serviceBaseUri
      * 
      * @param serviceBaseUri

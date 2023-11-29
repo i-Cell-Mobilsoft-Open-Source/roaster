@@ -61,6 +61,13 @@ public class RestTm4jReporter implements TestResultReporter {
     @Inject
     private RestTm4jService restTm4JService;
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public RestTm4jReporter() {
+        super();
+    }
+
     @Override
     public void reportSuccess(TestCaseData testCaseData) {
         for (String testCaseId : getTestCaseIds(testCaseData)) {

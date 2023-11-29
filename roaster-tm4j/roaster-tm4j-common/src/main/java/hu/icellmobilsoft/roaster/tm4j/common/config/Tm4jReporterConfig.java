@@ -40,6 +40,13 @@ public class Tm4jReporterConfig implements ITm4jReporterConfig {
 
     private final Config config = ConfigProvider.getConfig();
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public Tm4jReporterConfig() {
+        super();
+    }
+
     @Override
     public boolean isEnabled() {
         return config.getOptionalValue(RoasterConfigKeys.ENABLED, Boolean.class).orElse(false);

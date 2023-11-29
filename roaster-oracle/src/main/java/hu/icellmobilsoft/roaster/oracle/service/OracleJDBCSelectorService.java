@@ -62,6 +62,13 @@ public class OracleJDBCSelectorService {
     private JDBCConnection jdbcConnection;
 
     /**
+     * Default constructor, constructs a new object.
+     */
+    public OracleJDBCSelectorService() {
+        super();
+    }
+
+    /**
      * Run sql select command, and return given column String value
      *
      * @param sql
