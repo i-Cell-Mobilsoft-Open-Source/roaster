@@ -33,6 +33,9 @@ import com.codeborne.selenide.WebDriverRunner;
  */
 @Vetoed
 public class SelenideUtil {
+    /**
+     * Selenide Utility class
+     */
     protected SelenideUtil() {
         throw new IllegalStateException("Utility class");
     }
