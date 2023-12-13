@@ -35,7 +35,7 @@
 		<version.com.google.guava>32.1.1-jre</version.com.google.guava>
 
 		<!-- Selenide -->
-		<version.codeborn.selenide>6.18.0</version.codeborn.selenide>
+		<version.codeborn.selenide>7.0.4</version.codeborn.selenide>
 
 		<!-- Hibernate -->
 		<version.org.hibernate>6.1.6.Final</version.org.hibernate>

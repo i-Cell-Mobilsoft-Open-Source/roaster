@@ -75,7 +75,7 @@ public class MatRadioGroup extends AbstractBaseComponent {
      * @return the available options
      */
     public List<String> getOptions() {
-        return getSelenideElement().$$("mat-radio-button .mat-radio-label-content").stream().map(SelenideElement::getText)
+        return getSelenideElement().$$("mat-radio-button .mat-radio-label-content").asFixedIterable().stream().map(SelenideElement::getText)
                 .collect(Collectors.toList());
     }
 
