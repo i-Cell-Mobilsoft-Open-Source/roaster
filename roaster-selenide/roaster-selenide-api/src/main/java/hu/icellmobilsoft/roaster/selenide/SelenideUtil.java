@@ -33,6 +33,10 @@ import com.codeborne.selenide.WebDriverRunner;
  */
 @Vetoed
 public class SelenideUtil {
+    protected SelenideUtil() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * Gets content of clipboard (with chrome)
      *
