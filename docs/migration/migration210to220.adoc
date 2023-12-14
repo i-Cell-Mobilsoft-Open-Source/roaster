@@ -1,0 +1,12 @@
+= 2.1.0 -> 2.2.0
+
+== Változások
+
+=== Általános
+
+==== BOM verzió emelések:
+* com.codeborne:selenide: 6.18.0 -> 6.19.1
+
+==  roaster-selenide
+
+Vágólap tartalmának elérése Chrome böngészőből, local és remote futtatás során is
