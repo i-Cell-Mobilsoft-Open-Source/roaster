@@ -33,6 +33,13 @@ public class PostSampleRequestIT extends BaseConfigurableWeldIT {
     @JSON
     private ResponseSpecification responseSpecification;
 
+    @ParameterizedTest
+    @CsvSource({ "1, 1, 2", "2, 3, 5", })
+    @ExplicitParamInjection
+    void test(int a, int b, int expectedSum) {
+      Assertions.assertEquals(expectedSum, a + b);
+    }
+
     @Test
     @DisplayName("Testing opg generator json rest")
     void testSampleRest() {
