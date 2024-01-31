@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,10 +26,10 @@ package hu.icellmobilsoft.roaster.hibernate.producer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.Disposes;
 import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.CDI;
@@ -58,6 +58,8 @@ import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
 public class EntityManagerFactoryProducer {
 
     private final Logger logger = Logger.getLogger(EntityManagerFactoryProducer.class);
+
+    private static final Map<String, EntityManagerFactory> entityManagerFactoryCache = new ConcurrentHashMap<>();
 
     @Inject
     private BeanManager beanManager;
@@ -109,9 +111,20 @@ public class EntityManagerFactoryProducer {
     }
 
     private EntityManagerFactory getEntityManagerFactory(HibernateConfig hibernateConfig) {
+        entityManagerFactoryCache.entrySet().removeIf(entries -> !entries.getValue().isOpen());
+
+        if (entityManagerFactoryCache.containsKey(hibernateConfig.getConfigKey())) {
+            return entityManagerFactoryCache.get(hibernateConfig.getConfigKey());
+        } else {
+            return createNewEntityManagerFactory(hibernateConfig);
+        }
+    }
+
+    private EntityManagerFactory createNewEntityManagerFactory(HibernateConfig hibernateConfig) {
         Map<String, Object> props = new HashMap<>();
 
-// TODO jakartaEE atalasnal, valosiznu kiszeheto - https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#beans-cdi
+        // TODO jakartaEE atalasnal, valosiznu kiszeheto -
+        // https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#beans-cdi
         // Set CDI Bean manager
         props.put(Environment.CDI_BEAN_MANAGER, beanManager);
 
@@ -119,9 +132,9 @@ public class EntityManagerFactoryProducer {
         props.put(Environment.JAKARTA_TRANSACTION_TYPE, "RESOURCE_LOCAL");
         props.put(Environment.JAKARTA_PERSISTENCE_PROVIDER, "org.hibernate.jpa.HibernatePersistenceProvider");
 
-// TODO jakartaEE atalasnal nincs ilyen opcio
-//        //
-//        props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false);
+        // TODO jakartaEE atalasnal nincs ilyen opcio
+        // //
+        // props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false);
 
         // Set settings from Roaster config
         props.put(Environment.DIALECT, hibernateConfig.getDialect());
@@ -140,32 +153,8 @@ public class EntityManagerFactoryProducer {
         // If any config value is null, remove it from config map
         props.values().removeIf(Objects::isNull);
 
-        return Persistence.createEntityManagerFactory(hibernateConfig.getConfigKey(), props);
-    }
-
-    /**
-     * Close EntityManagerFactory instance
-     * 
-     * @param entityManagerFactory
-     *            instance
-     */
-    public void close(@Disposes @HibernatePersistenceConfig(persistenceUnitName = "") EntityManagerFactory entityManagerFactory) {
-        if (entityManagerFactory != null) {
-            logger.trace("Closing EntityManagerFactory...");
-            entityManagerFactory.close();
-        }
-    }
-
-    /**
-     * Close EntityManagerFactory instance
-     *
-     * @param entityManagerFactory
-     *            instance
-     */
-    public void defaultClose(@Disposes EntityManagerFactory entityManagerFactory) {
-        if (entityManagerFactory != null) {
-            logger.trace("Closing EntityManagerFactory...");
-            entityManagerFactory.close();
-        }
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(hibernateConfig.getConfigKey(), props);
+        entityManagerFactoryCache.put(hibernateConfig.getConfigKey(), entityManagerFactory);
+        return entityManagerFactory;
     }
 }
