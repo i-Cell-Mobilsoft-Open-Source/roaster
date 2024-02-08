@@ -26,10 +26,12 @@ package hu.icellmobilsoft.roaster.hibernate.producer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.BeforeDestroyed;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.Disposes;
+import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.CDI;
@@ -58,6 +60,8 @@ public class EntityManagerFactoryProducer {
 
     private final Logger logger = Logger.getLogger(EntityManagerFactoryProducer.class);
 
+    private static final Map<String, EntityManagerFactory> entityManagerFactoryCache = new ConcurrentHashMap<>();
+
     @Inject
     private BeanManager beanManager;
 
@@ -72,7 +76,8 @@ public class EntityManagerFactoryProducer {
     @Dependent
     public EntityManagerFactory produceDefaultEntityManagerFactory(InjectionPoint injectionPoint) {
         HibernateConfig hibernateConfig = CDI.current()
-                .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(HibernateConfig.DEFAULT_PERSISTENCE_UNIT_NAME)).get();
+                .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(HibernateConfig.DEFAULT_PERSISTENCE_UNIT_NAME))
+                .get();
 
         return getEntityManagerFactory(hibernateConfig);
     }
@@ -95,15 +100,26 @@ public class EntityManagerFactoryProducer {
         HibernatePersistenceConfig hibernatePersistenceConfig = AnnotationUtil.getAnnotation(injectionPoint, HibernatePersistenceConfig.class)
                 .orElseThrow(() -> new BaseException(CoffeeFaultType.INVALID_INPUT, "PersisteneUnitName annotation have to have configKey value!"));
         HibernateConfig hibernateConfig = CDI.current()
-                .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(hibernatePersistenceConfig.persistenceUnitName())).get();
+                .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(hibernatePersistenceConfig.persistenceUnitName()))
+                .get();
 
         return getEntityManagerFactory(hibernateConfig);
     }
 
     private EntityManagerFactory getEntityManagerFactory(HibernateConfig hibernateConfig) {
+
+        if (entityManagerFactoryCache.containsKey(hibernateConfig.getConfigKey())) {
+            return entityManagerFactoryCache.get(hibernateConfig.getConfigKey());
+        } else {
+            return createNewEntityManagerFactory(hibernateConfig);
+        }
+    }
+
+    private EntityManagerFactory createNewEntityManagerFactory(HibernateConfig hibernateConfig) {
         Map<String, Object> props = new HashMap<>();
 
-// TODO jakartaEE atalasnal, valosiznu kiszeheto - https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#beans-cdi
+        // TODO jakartaEE atalasnal, valosiznu kiszeheto -
+        // https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#beans-cdi
         // Set CDI Bean manager
         props.put(Environment.CDI_BEAN_MANAGER, beanManager);
 
@@ -116,9 +132,9 @@ public class EntityManagerFactoryProducer {
         props.put(Environment.JAKARTA_TRANSACTION_TYPE, "RESOURCE_LOCAL");
         props.put(Environment.JAKARTA_PERSISTENCE_PROVIDER, "org.hibernate.jpa.HibernatePersistenceProvider");
 
-// TODO jakartaEE atalasnal nincs ilyen opcio 
-//        //
-//        props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false);
+        // TODO jakartaEE atalasnal nincs ilyen opcio
+        // //
+        // props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false);
 
         // Set settings from Roaster config
         props.put(Environment.DIALECT, hibernateConfig.getDialect());
@@ -134,32 +150,23 @@ public class EntityManagerFactoryProducer {
         // If any config value is null, remove it from config map
         props.values().removeIf(Objects::isNull);
 
-        return Persistence.createEntityManagerFactory(hibernateConfig.getConfigKey(), props);
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(hibernateConfig.getConfigKey(), props);
+        entityManagerFactoryCache.put(hibernateConfig.getConfigKey(), entityManagerFactory);
+        return entityManagerFactory;
     }
 
     /**
-     * Close EntityManagerFactory instance
-     * 
-     * @param entityManagerFactory
-     *            instance
-     */
-    public void close(@Disposes @HibernatePersistenceConfig(persistenceUnitName = "") EntityManagerFactory entityManagerFactory) {
-        if (entityManagerFactory != null) {
-            logger.trace("Closing EntityManagerFactory...");
-            entityManagerFactory.close();
-        }
-    }
-
-    /**
-     * Close EntityManagerFactory instance
+     * When a context is about to be destroyed, we gracefully close entityManagerFactories.
      *
-     * @param entityManagerFactory
-     *            instance
+     * @param init
+     *            ignored
      */
-    public void defaultClose(@Disposes EntityManagerFactory entityManagerFactory) {
-        if (entityManagerFactory != null) {
-            logger.trace("Closing EntityManagerFactory...");
-            entityManagerFactory.close();
+    public void onApplicationDestroyed(@Observes @BeforeDestroyed(ApplicationScoped.class) Object init) {
+        for (var entry : entityManagerFactoryCache.entrySet()) {
+            EntityManagerFactory entityManagerFactory = entry.getValue();
+            if (null != entityManagerFactory && entityManagerFactory.isOpen()) {
+                entityManagerFactory.close();
+            }
         }
     }
 }
