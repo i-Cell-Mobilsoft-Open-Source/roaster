@@ -29,7 +29,9 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.BeforeDestroyed;
 import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.CDI;
@@ -111,8 +113,6 @@ public class EntityManagerFactoryProducer {
     }
 
     private EntityManagerFactory getEntityManagerFactory(HibernateConfig hibernateConfig) {
-        entityManagerFactoryCache.entrySet().removeIf(entries -> !entries.getValue().isOpen());
-
         if (entityManagerFactoryCache.containsKey(hibernateConfig.getConfigKey())) {
             return entityManagerFactoryCache.get(hibernateConfig.getConfigKey());
         } else {
@@ -157,4 +157,20 @@ public class EntityManagerFactoryProducer {
         entityManagerFactoryCache.put(hibernateConfig.getConfigKey(), entityManagerFactory);
         return entityManagerFactory;
     }
+
+    /**
+     * When the context is about to destroy, gracefully close all entityManagerFactories.
+     *
+     * @param init
+     *            ignored
+     */
+    public void onApplicationDestroyed(@Observes @BeforeDestroyed(ApplicationScoped.class) Object init) {
+        for (var entry : entityManagerFactoryCache.entrySet()) {
+            EntityManagerFactory entityManagerFactory = entry.getValue();
+            if (null != entityManagerFactory && entityManagerFactory.isOpen()) {
+                entityManagerFactory.close();
+            }
+        }
+    }
+
 }
