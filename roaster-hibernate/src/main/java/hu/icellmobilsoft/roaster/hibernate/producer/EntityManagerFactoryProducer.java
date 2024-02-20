@@ -29,9 +29,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.BeforeDestroyed;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.CDI;
@@ -66,6 +64,19 @@ public class EntityManagerFactoryProducer {
     private BeanManager beanManager;
 
     /**
+     * Registers a shutdown hook to ensure graceful cleanup of resources associated with EntityManagerFactory instances when the JVM is shutting down.
+     */
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            entityManagerFactoryCache.forEach((configKey, entityManagerFactory) -> {
+                if (entityManagerFactory != null && entityManagerFactory.isOpen()) {
+                    entityManagerFactory.close();
+                }
+            });
+        }));
+    }
+
+    /**
      * Producer for creating or obtaining {@link EntityManagerFactory}
      *
      * @param injectionPoint
@@ -75,10 +86,7 @@ public class EntityManagerFactoryProducer {
     @Produces
     @Dependent
     public EntityManagerFactory produceDefaultEntityManagerFactory(InjectionPoint injectionPoint) {
-        HibernateConfig hibernateConfig = CDI.current()
-                .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(HibernateConfig.DEFAULT_PERSISTENCE_UNIT_NAME))
-                .get();
-
+        HibernateConfig hibernateConfig = getHibernateConfig(HibernateConfig.DEFAULT_PERSISTENCE_UNIT_NAME);
         return getEntityManagerFactory(hibernateConfig);
     }
 
@@ -96,23 +104,27 @@ public class EntityManagerFactoryProducer {
     @Dependent
     @HibernatePersistenceConfig
     public EntityManagerFactory produceEntityManagerFactory(InjectionPoint injectionPoint) throws BaseException {
-
         HibernatePersistenceConfig hibernatePersistenceConfig = AnnotationUtil.getAnnotation(injectionPoint, HibernatePersistenceConfig.class)
                 .orElseThrow(() -> new BaseException(CoffeeFaultType.INVALID_INPUT, "PersisteneUnitName annotation have to have configKey value!"));
-        HibernateConfig hibernateConfig = CDI.current()
-                .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(hibernatePersistenceConfig.persistenceUnitName()))
-                .get();
-
+        HibernateConfig hibernateConfig = getHibernateConfig(hibernatePersistenceConfig.persistenceUnitName());
         return getEntityManagerFactory(hibernateConfig);
     }
 
-    private EntityManagerFactory getEntityManagerFactory(HibernateConfig hibernateConfig) {
+    private HibernateConfig getHibernateConfig(String persistenceUnitName) {
+        return CDI.current().select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(persistenceUnitName)).get();
+    }
 
-        if (entityManagerFactoryCache.containsKey(hibernateConfig.getConfigKey())) {
-            return entityManagerFactoryCache.get(hibernateConfig.getConfigKey());
-        } else {
-            return createNewEntityManagerFactory(hibernateConfig);
-        }
+    /**
+     * Retrieves the {@link EntityManagerFactory} associated with the specified {@link HibernateConfig}. If an EntityManagerFactory is already cached
+     * for the given HibernateConfig, it is returned. Otherwise, a new EntityManagerFactory is created using the provided HibernateConfig, added to
+     * the cache, and returned.
+     *
+     * @param hibernateConfig
+     *            The Hibernate configuration used to identify the EntityManagerFactory.
+     * @return The EntityManagerFactory associated with the specified HibernateConfig.
+     */
+    private EntityManagerFactory getEntityManagerFactory(HibernateConfig hibernateConfig) {
+        return entityManagerFactoryCache.computeIfAbsent(hibernateConfig.getConfigKey(), key -> createNewEntityManagerFactory(hibernateConfig));
     }
 
     private EntityManagerFactory createNewEntityManagerFactory(HibernateConfig hibernateConfig) {
@@ -151,22 +163,6 @@ public class EntityManagerFactoryProducer {
         props.values().removeIf(Objects::isNull);
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(hibernateConfig.getConfigKey(), props);
-        entityManagerFactoryCache.put(hibernateConfig.getConfigKey(), entityManagerFactory);
         return entityManagerFactory;
-    }
-
-    /**
-     * When a context is about to be destroyed, we gracefully close entityManagerFactories.
-     *
-     * @param init
-     *            ignored
-     */
-    public void onApplicationDestroyed(@Observes @BeforeDestroyed(ApplicationScoped.class) Object init) {
-        for (var entry : entityManagerFactoryCache.entrySet()) {
-            EntityManagerFactory entityManagerFactory = entry.getValue();
-            if (null != entityManagerFactory && entityManagerFactory.isOpen()) {
-                entityManagerFactory.close();
-            }
-        }
     }
 }
