@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,10 +26,10 @@ package hu.icellmobilsoft.roaster.hibernate.producer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.Disposes;
 import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.CDI;
@@ -59,8 +59,23 @@ public class EntityManagerFactoryProducer {
 
     private final Logger logger = Logger.getLogger(EntityManagerFactoryProducer.class);
 
+    private static final Map<String, EntityManagerFactory> entityManagerFactoryCache = new ConcurrentHashMap<>();
+
     @Inject
     private BeanManager beanManager;
+
+    /**
+     * Registers a shutdown hook to ensure graceful cleanup of resources associated with EntityManagerFactory instances when the JVM is shutting down.
+     */
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            entityManagerFactoryCache.forEach((configKey, entityManagerFactory) -> {
+                if (entityManagerFactory != null && entityManagerFactory.isOpen()) {
+                    entityManagerFactory.close();
+                }
+            });
+        }));
+    }
 
     /**
      * Default constructor, constructs a new object.
@@ -79,9 +94,7 @@ public class EntityManagerFactoryProducer {
     @Produces
     @Dependent
     public EntityManagerFactory produceDefaultEntityManagerFactory(InjectionPoint injectionPoint) {
-        HibernateConfig hibernateConfig = CDI.current()
-                .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(HibernateConfig.DEFAULT_PERSISTENCE_UNIT_NAME)).get();
-
+        HibernateConfig hibernateConfig = getHibernateConfig(HibernateConfig.DEFAULT_PERSISTENCE_UNIT_NAME);
         return getEntityManagerFactory(hibernateConfig);
     }
 
@@ -99,19 +112,34 @@ public class EntityManagerFactoryProducer {
     @Dependent
     @HibernatePersistenceConfig
     public EntityManagerFactory produceEntityManagerFactory(InjectionPoint injectionPoint) throws BaseException {
-
         HibernatePersistenceConfig hibernatePersistenceConfig = AnnotationUtil.getAnnotation(injectionPoint, HibernatePersistenceConfig.class)
                 .orElseThrow(() -> new BaseException(CoffeeFaultType.INVALID_INPUT, "PersistenceUnitName annotation have to have configKey value!"));
-        HibernateConfig hibernateConfig = CDI.current()
-                .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(hibernatePersistenceConfig.persistenceUnitName())).get();
-
+        HibernateConfig hibernateConfig = getHibernateConfig(hibernatePersistenceConfig.persistenceUnitName());
         return getEntityManagerFactory(hibernateConfig);
     }
 
+    private HibernateConfig getHibernateConfig(String persistenceUnitName) {
+        return CDI.current().select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(persistenceUnitName)).get();
+    }
+
+    /**
+     * Retrieves the {@link EntityManagerFactory} associated with the specified {@link HibernateConfig}. If an EntityManagerFactory is already cached
+     * for the given HibernateConfig, it is returned. Otherwise, a new EntityManagerFactory is created using the provided HibernateConfig, added to
+     * the cache, and returned.
+     *
+     * @param hibernateConfig
+     *            The Hibernate configuration used to identify the EntityManagerFactory.
+     * @return The EntityManagerFactory associated with the specified HibernateConfig.
+     */
     private EntityManagerFactory getEntityManagerFactory(HibernateConfig hibernateConfig) {
+        return entityManagerFactoryCache.computeIfAbsent(hibernateConfig.getConfigKey(), key -> createNewEntityManagerFactory(hibernateConfig));
+    }
+
+    private EntityManagerFactory createNewEntityManagerFactory(HibernateConfig hibernateConfig) {
         Map<String, Object> props = new HashMap<>();
 
-// TODO jakartaEE atalasnal, valosiznu kiszeheto - https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#beans-cdi
+        // TODO jakartaEE atalasnal, valosiznu kiszeheto -
+        // https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#beans-cdi
         // Set CDI Bean manager
         props.put(Environment.CDI_BEAN_MANAGER, beanManager);
 
@@ -119,9 +147,9 @@ public class EntityManagerFactoryProducer {
         props.put(Environment.JAKARTA_TRANSACTION_TYPE, "RESOURCE_LOCAL");
         props.put(Environment.JAKARTA_PERSISTENCE_PROVIDER, "org.hibernate.jpa.HibernatePersistenceProvider");
 
-// TODO jakartaEE atalasnal nincs ilyen opcio
-//        //
-//        props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false);
+        // TODO jakartaEE atalasnal nincs ilyen opcio
+        // //
+        // props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false);
 
         // Set settings from Roaster config
         props.put(Environment.DIALECT, hibernateConfig.getDialect());
@@ -140,32 +168,7 @@ public class EntityManagerFactoryProducer {
         // If any config value is null, remove it from config map
         props.values().removeIf(Objects::isNull);
 
-        return Persistence.createEntityManagerFactory(hibernateConfig.getConfigKey(), props);
-    }
-
-    /**
-     * Close EntityManagerFactory instance
-     * 
-     * @param entityManagerFactory
-     *            instance
-     */
-    public void close(@Disposes @HibernatePersistenceConfig(persistenceUnitName = "") EntityManagerFactory entityManagerFactory) {
-        if (entityManagerFactory != null) {
-            logger.trace("Closing EntityManagerFactory...");
-            entityManagerFactory.close();
-        }
-    }
-
-    /**
-     * Close EntityManagerFactory instance
-     *
-     * @param entityManagerFactory
-     *            instance
-     */
-    public void defaultClose(@Disposes EntityManagerFactory entityManagerFactory) {
-        if (entityManagerFactory != null) {
-            logger.trace("Closing EntityManagerFactory...");
-            entityManagerFactory.close();
-        }
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(hibernateConfig.getConfigKey(), props);
+        return entityManagerFactory;
     }
 }
