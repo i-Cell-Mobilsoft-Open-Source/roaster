@@ -29,7 +29,7 @@ import io.restassured.config.RestAssuredConfig;
 import io.restassured.path.json.mapper.factory.Jackson2ObjectMapperFactory;
 
 /**
- * JSON RestAssuredConfig beállításainál használt ObjectMapperConfig producer
+ * Producer for ObjectMapperConfig used in JSON RestAssuredConfig settings.
  * 
  * @author imre.scheffer
  * @since 0.2.0
