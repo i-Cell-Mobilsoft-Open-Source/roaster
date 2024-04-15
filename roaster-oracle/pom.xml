@@ -27,6 +27,10 @@
 			<groupId>hu.icellmobilsoft.roaster</groupId>
 			<artifactId>roaster-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>hu.icellmobilsoft.roaster</groupId>
+			<artifactId>roaster-common-config</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.zaxxer</groupId>
