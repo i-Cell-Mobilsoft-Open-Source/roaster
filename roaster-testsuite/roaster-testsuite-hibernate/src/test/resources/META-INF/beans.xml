@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/beans_1_1.xsd"
+	version="1.1" bean-discovery-mode="annotated">
+
+</beans>
