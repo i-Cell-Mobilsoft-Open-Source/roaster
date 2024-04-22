@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,11 +35,12 @@ import jakarta.enterprise.context.Dependent;
 import org.apache.commons.lang3.StringUtils;
 
 import hu.icellmobilsoft.coffee.dto.exception.BONotFoundException;
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.function.BaseExceptionFunction;
+import hu.icellmobilsoft.coffee.se.function.BaseExceptionFunction2;
 import hu.icellmobilsoft.coffee.se.logging.Logger;
-import hu.icellmobilsoft.coffee.tool.common.FunctionalInterfaces;
 import hu.icellmobilsoft.roaster.oracle.connection.JDBCConnection;
 
 /**
@@ -192,7 +193,7 @@ public class OracleJDBCSelectorService {
      * @throws BaseException
      *             exception
      */
-    public <T> T selectFirstObject(String sql, FunctionalInterfaces.BaseExceptionFunction<ResultSet, T> converter) throws BaseException {
+    public <T> T selectFirstObject(String sql, BaseExceptionFunction<ResultSet, T> converter) throws BaseException {
         if (StringUtils.isBlank(sql)) {
             throw new BaseException(CoffeeFaultType.INVALID_INPUT, ERROR_MSG_SQL_STRING_IS_BLANK);
         }
@@ -238,7 +239,7 @@ public class OracleJDBCSelectorService {
      * @throws BaseException
      *             exception
      */
-    public <T> List<T> selectAllObjects(String sql, FunctionalInterfaces.BaseExceptionFunction<ResultSet, T> converter) throws BaseException {
+    public <T> List<T> selectAllObjects(String sql, BaseExceptionFunction<ResultSet, T> converter) throws BaseException {
         if (StringUtils.isBlank(sql)) {
             throw new BaseException(CoffeeFaultType.INVALID_INPUT, ERROR_MSG_SQL_STRING_IS_BLANK);
         }
@@ -258,7 +259,7 @@ public class OracleJDBCSelectorService {
         }
     }
 
-    private <T> T getFirstValue(String sql, String columnName, FunctionalInterfaces.BaseExceptionFunction2<ResultSet, String, T> function)
+    private <T> T getFirstValue(String sql, String columnName, BaseExceptionFunction2<ResultSet, String, T> function)
             throws BaseException {
         if (StringUtils.isBlank(sql)) {
             throw new BaseException(CoffeeFaultType.INVALID_INPUT, ERROR_MSG_SQL_STRING_IS_BLANK);
@@ -335,7 +336,7 @@ public class OracleJDBCSelectorService {
 
     /**
      * Sets the new jdbcConnection value
-     * 
+     *
      * @param jdbcConnection
      *            new jdbcConnection value
      */

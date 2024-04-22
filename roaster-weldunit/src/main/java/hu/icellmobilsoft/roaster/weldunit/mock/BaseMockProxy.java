@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,13 +25,13 @@ import java.util.List;
 
 import org.mockito.ArgumentCaptor;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
-import hu.icellmobilsoft.coffee.tool.common.FunctionalInterfaces;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.function.BaseExceptionSupplier;
 import hu.icellmobilsoft.roaster.api.Condition;
 
 /**
  * Base mock proxy
- * 
+ *
  * @param <S>
  *            service class
  * @param <D>
@@ -43,7 +43,7 @@ public abstract class BaseMockProxy<S, D extends BaseMockProxy> {
 
     /**
      * Initializes the object with serviceClass
-     * 
+     *
      * @param serviceClass
      *            the class of the service
      */
@@ -54,14 +54,14 @@ public abstract class BaseMockProxy<S, D extends BaseMockProxy> {
 
     /**
      * Returns self
-     * 
+     *
      * @return self
      */
     protected abstract D self();
 
     /**
      * Returns the service class mock
-     * 
+     *
      * @return the service class mock
      * @throws BaseException
      *             on error
@@ -70,7 +70,7 @@ public abstract class BaseMockProxy<S, D extends BaseMockProxy> {
 
     /**
      * Service class
-     * 
+     *
      * @return the class of the service
      */
     public final Class<S> getServiceClass() {
@@ -92,7 +92,7 @@ public abstract class BaseMockProxy<S, D extends BaseMockProxy> {
      * @throws BaseException
      *             exception
      */
-    protected final <E> E getEntityResult(final FunctionalInterfaces.BaseExceptionSupplier<E> supplier, final E entity) throws BaseException {
+    protected final <E> E getEntityResult(final BaseExceptionSupplier<E> supplier, final E entity) throws BaseException {
         Condition.expected(entity != null,
                 MessageFormat.format("Service proxy [{0}] should have an provided result entity.", serviceClass.getSimpleName()));
         return (supplier != null) ? supplier.get() : entity;
@@ -113,7 +113,7 @@ public abstract class BaseMockProxy<S, D extends BaseMockProxy> {
      * @throws BaseException
      *             exception
      */
-    protected final <E> E getCapturedEntityResult(final FunctionalInterfaces.BaseExceptionSupplier<E> supplier, final ArgumentCaptor<E> entityCaptor)
+    protected final <E> E getCapturedEntityResult(final BaseExceptionSupplier<E> supplier, final ArgumentCaptor<E> entityCaptor)
             throws BaseException {
         return (supplier != null) ? supplier.get() : entityCaptor.getValue();
     }
@@ -134,7 +134,7 @@ public abstract class BaseMockProxy<S, D extends BaseMockProxy> {
      * @throws BaseException
      *             exception
      */
-    protected final <E> List<E> getEntityListResult(final FunctionalInterfaces.BaseExceptionSupplier<List<E>> supplier, final E entity)
+    protected final <E> List<E> getEntityListResult(final BaseExceptionSupplier<List<E>> supplier, final E entity)
             throws BaseException {
         Condition.expected(entity != null,
                 MessageFormat.format("Service proxy [{0}] should have an provided result entity.", serviceClass.getSimpleName()));
