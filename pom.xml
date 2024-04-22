@@ -212,6 +212,27 @@
 						</dependency>
 					</dependencies>
 				</plugin>
+				<plugin>
+					<groupId>io.smallrye</groupId>
+					<artifactId>jandex-maven-plugin</artifactId>
+					<version>3.1.5</version>
+					<executions>
+						<execution>
+							<id>make-index</id>
+							<goals>
+								<goal>jandex</goal>
+							</goals>
+							<configuration>
+								<fileSets>
+									<fileSet>
+										<directory>${project.build.directory}/classes</directory>
+									</fileSet>
+								</fileSets>
+								<processDefaultFileSet>false</processDefaultFileSet>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 
@@ -242,6 +263,10 @@
 					<ignoreNoFileToScan>true</ignoreNoFileToScan>
 					<projectName>Coffee</projectName>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>io.smallrye</groupId>
+				<artifactId>jandex-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
