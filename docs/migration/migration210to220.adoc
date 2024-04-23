@@ -13,4 +13,5 @@ Vágólap tartalmának elérése Chrome böngészőből, local és remote futtat
 
 ==  roaster-hibernate
 
-Persistence contextenként csak egyszer jön létre EntityManagerFactory és cachelve marad. A korábbi EntityManager injection során a database connection poolban lévő kapcsolatok elfogytak, mert minden EntityManagerFactory saját connection poolt hozott létre.
+Persistence contextenként csak egyszer jön létre EntityManagerFactory és cachelve marad amíg `@ApplicationScoped EntityManagerFactoryProducer` példány él a containerben.
+ A korábbi EntityManager injection során a database connection poolban lévő kapcsolatok elfogytak, mert minden EntityManagerFactory saját connection poolt hozott létre.

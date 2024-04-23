@@ -1,0 +1,13 @@
+roaster:
+    hibernate:
+        defaultPU:
+            jdbc:
+                driver: org.h2.Driver
+                url: jdbc:h2:mem:test;MODE=HSQLDB;USER=admin;PASSWORD=admin;INIT=RUNSCRIPT FROM 'classpath:META-INF/init-db.sql'
+                user: admin
+                password: admin
+            hibernate:
+                default_schema: MY_SCHEMA
+                dialect: org.hibernate.dialect.H2Dialect
+                show_sql: true
+                format_sql: true
