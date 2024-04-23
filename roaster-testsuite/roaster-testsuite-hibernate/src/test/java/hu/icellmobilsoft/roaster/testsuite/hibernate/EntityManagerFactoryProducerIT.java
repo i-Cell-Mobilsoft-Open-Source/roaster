@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.testsuite.hibernate.model.MyTable;
 import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
