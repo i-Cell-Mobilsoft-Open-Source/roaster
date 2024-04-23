@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
+import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.Produces;
@@ -42,7 +43,6 @@ import org.hibernate.cfg.Environment;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
-import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.coffee.tool.utils.annotation.AnnotationUtil;
 import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig;
 import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
@@ -57,24 +57,22 @@ import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
 @ApplicationScoped
 public class EntityManagerFactoryProducer {
 
-    private final Logger logger = Logger.getLogger(EntityManagerFactoryProducer.class);
-
-    private static final Map<String, EntityManagerFactory> entityManagerFactoryCache = new ConcurrentHashMap<>();
+    private final Map<String, EntityManagerFactory> entityManagerFactoryCache = new ConcurrentHashMap<>();
 
     @Inject
     private BeanManager beanManager;
 
     /**
-     * Registers a shutdown hook to ensure graceful cleanup of resources associated with EntityManagerFactory instances when the JVM is shutting down.
+     * Cleanup of the cache and resources associated with EntityManagerFactory instances.
      */
-    static {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            entityManagerFactoryCache.forEach((configKey, entityManagerFactory) -> {
-                if (entityManagerFactory != null && entityManagerFactory.isOpen()) {
-                    entityManagerFactory.close();
-                }
-            });
-        }));
+    @PreDestroy
+    public void preDestroy() {
+        entityManagerFactoryCache.forEach((configKey, entityManagerFactory) -> {
+            if (entityManagerFactory != null && entityManagerFactory.isOpen()) {
+                entityManagerFactory.close();
+            }
+        });
+        entityManagerFactoryCache.clear();
     }
 
     /**
