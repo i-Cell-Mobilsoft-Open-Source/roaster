@@ -20,7 +20,7 @@ Example:
 [source,properties]
 .META-INF/microprofile-config.properties
 ----
-coffee.redis.default.host=hubphq-nejp-sandbox-d001.icellmobilsoft.hu
+coffee.redis.default.host=example.com
 coffee.redis.default.port=6379
 coffee.redis.default.password=redispass
 coffee.redis.default.database=0
@@ -34,7 +34,7 @@ coffee.redis.default.pool.maxidle=32
 coffee:
     redis:
         default:
-            host: hubphq-nejp-sandbox-d001.icellmobilsoft.hu
+            host: example.com
             port: 6379
             password: redispass
             database: 0
