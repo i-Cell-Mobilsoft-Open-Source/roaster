@@ -30,8 +30,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.eclipse.microprofile.config</groupId>
-			<artifactId>microprofile-config-api</artifactId>
+			<groupId>hu.icellmobilsoft.roaster</groupId>
+			<artifactId>roaster-common-config</artifactId>
 		</dependency>
 
 		<dependency>
