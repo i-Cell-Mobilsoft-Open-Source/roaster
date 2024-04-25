@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.oracle.config;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 
 /**
  * DB configuration values
@@ -32,7 +32,7 @@ public interface DBConfig {
      * <p>
      * getUrl.
      * </p>
-     * 
+     *
      * @return url value
      * @throws BaseException
      *             exception
@@ -43,7 +43,7 @@ public interface DBConfig {
      * <p>
      * getUser.
      * </p>
-     * 
+     *
      * @return user value
      * @throws BaseException
      *             exception
@@ -54,7 +54,7 @@ public interface DBConfig {
      * <p>
      * getPassword.
      * </p>
-     * 
+     *
      * @return password value
      * @throws BaseException
      *             exception
@@ -63,7 +63,7 @@ public interface DBConfig {
 
     /**
      * Returns the maximus size of the connection pool
-     * 
+     *
      * @return the maximus size of the connection pool
      * @throws BaseException
      *             exception

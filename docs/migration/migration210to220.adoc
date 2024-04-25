@@ -6,6 +6,11 @@
 
 ==== BOM verzió emelések:
 * com.codeborne:selenide: 6.18.0 -> 6.19.1
+* hu.icellmobilsoft.coffee:coffee: 2.3.0 -> 2.7.0 , szükséges változásokat lásd:
+** https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_3_0_v2_4_0[coffee 2.3.0 -> 2.4.0] 
+** https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_4_0_v2_5_0[coffee 2.4.0 -> 2.5.0]
+** https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_5_0_v2_6_0[coffee 2.5.0 -> 2.6.0]
+** https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_6_0_v2_7_0[coffee 2.6.0 -> 2.7.0]
 
 ==  roaster-selenide
 
