@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -19,15 +19,12 @@
  */
 package hu.icellmobilsoft.roaster.api;
 
-import jakarta.enterprise.inject.Vetoed;
-
 /**
  * Exception class indicating errors regarding the Roaster configuration.
  *
  * @author martin.nagy
  * @since 0.2.0
  */
-@Vetoed
 public class InvalidConfigException extends TestException {
 
     /**

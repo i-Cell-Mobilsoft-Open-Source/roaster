@@ -261,7 +261,7 @@
 						<include>**/*.java</include>
 					</includes>
 					<ignoreNoFileToScan>true</ignoreNoFileToScan>
-					<projectName>Coffee</projectName>
+					<projectName>Roaster</projectName>
 				</configuration>
 			</plugin>
 			<plugin>

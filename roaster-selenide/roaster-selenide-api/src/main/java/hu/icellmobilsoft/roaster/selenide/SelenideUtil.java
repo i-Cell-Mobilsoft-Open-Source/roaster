@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 - 2023 i-Cell Mobilsoft Zrt.
  * %%
@@ -19,11 +19,8 @@
  */
 package hu.icellmobilsoft.roaster.selenide;
 
-import jakarta.enterprise.inject.Vetoed;
-
-import org.openqa.selenium.JavascriptExecutor;
-
 import com.codeborne.selenide.WebDriverRunner;
+import org.openqa.selenium.JavascriptExecutor;
 
 /**
  * Selenide utils
@@ -31,7 +28,6 @@ import com.codeborne.selenide.WebDriverRunner;
  * @author gyorgy.krnyan
  * @since 2.2.0
  */
-@Vetoed
 public class SelenideUtil {
     /**
      * Selenide Utility class

@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -21,15 +21,12 @@ package hu.icellmobilsoft.roaster.zephyr.common.config;
 
 import java.util.Optional;
 
-import jakarta.enterprise.inject.Vetoed;
-
 /**
  * Configuration interface for the TM4J reporter behaviour.
  *
  * @author martin.nagy
  * @since 0.10.0
  */
-@Vetoed
 public interface IZephyrReporterConfig {
     /**
      * Returns {@literal true} if the TM4J reporting is enabled
