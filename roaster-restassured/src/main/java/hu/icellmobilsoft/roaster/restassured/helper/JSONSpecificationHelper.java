@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -19,13 +19,10 @@
  */
 package hu.icellmobilsoft.roaster.restassured.helper;
 
-import jakarta.enterprise.inject.Vetoed;
-import jakarta.enterprise.inject.spi.CDI;
-
-import org.apache.commons.lang3.StringUtils;
-
 import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
 import io.restassured.specification.RequestSpecification;
+import jakarta.enterprise.inject.spi.CDI;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 
@@ -34,7 +31,6 @@ import io.restassured.specification.RequestSpecification;
  * @author tamas.cserhati
  *
  */
-@Vetoed
 public class JSONSpecificationHelper {
 
     private static final String HEADER_LOGIN = "login";

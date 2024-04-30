@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -29,11 +29,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrAuthHeadersFactory;
-import hu.icellmobilsoft.roaster.zephyr.common.jsonb.CustomJsonbContextResolver;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
 
 /**
@@ -46,7 +44,6 @@ import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
  */
 @RegisterRestClient(baseUri = "https://api.zephyrscale.smartbear.com/v2")
 @RegisterClientHeaders(ZephyrAuthHeadersFactory.class)
-@RegisterProvider(CustomJsonbContextResolver.class)
 public interface ZephyrRestClient {
 
     /**

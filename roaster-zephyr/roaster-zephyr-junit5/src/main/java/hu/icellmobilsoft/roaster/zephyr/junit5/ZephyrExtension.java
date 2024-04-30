@@ -1,8 +1,8 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
- * Copyright (C) 2020 - 2022 i-Cell Mobilsoft Zrt.
+ * Copyright (C) 2020 - 2024 i-Cell Mobilsoft Zrt.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,24 +19,20 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.junit5;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Supplier;
-
-import jakarta.enterprise.inject.Vetoed;
+import hu.icellmobilsoft.roaster.zephyr.common.api.TestCaseId;
+import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestCaseData;
+import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestResultReporter;
 import jakarta.enterprise.inject.spi.CDI;
-
-import org.jboss.resteasy.microprofile.client.RestClientExtension;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
 
-import hu.icellmobilsoft.roaster.zephyr.common.api.TestCaseId;
-import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestCaseData;
-import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestResultReporter;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * JUnit 5 extension to publish the test result to a TM4J server.
@@ -46,7 +42,6 @@ import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestResultReporter;
  * @see TestCaseId
  * @since 0.2.0
  */
-@Vetoed
 public class ZephyrExtension implements TestWatcher, BeforeTestExecutionCallback, AfterTestExecutionCallback {
     /**
      * Constant used as JUnit storage key for test run start time

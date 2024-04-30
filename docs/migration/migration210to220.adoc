@@ -4,6 +4,11 @@
 
 === Általános
 
+* license-maven-plugin -ba javítva lett a projectName Roaster-re
+* törölve lettek a @Vetoed annotációk.
+
+
+
 ==== BOM verzió emelések:
 * com.codeborne:selenide: 6.18.0 -> 6.19.1
 * hu.icellmobilsoft.coffee:coffee: 2.3.0 -> 2.7.0 , szükséges változásokat lásd:

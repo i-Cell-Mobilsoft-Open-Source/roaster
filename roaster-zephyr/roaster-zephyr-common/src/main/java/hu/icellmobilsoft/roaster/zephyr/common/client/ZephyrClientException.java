@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -19,8 +19,6 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.client;
 
-import jakarta.enterprise.inject.Vetoed;
-
 import hu.icellmobilsoft.roaster.api.TestException;
 
 /**
@@ -29,7 +27,6 @@ import hu.icellmobilsoft.roaster.api.TestException;
  * @author martin.nagy
  * @since 0.2.0
  */
-@Vetoed
 public class ZephyrClientException extends TestException {
 
     /**

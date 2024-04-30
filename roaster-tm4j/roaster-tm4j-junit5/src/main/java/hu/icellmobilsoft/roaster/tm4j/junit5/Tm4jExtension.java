@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -19,14 +19,10 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.junit5;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Supplier;
-
-import jakarta.enterprise.inject.Vetoed;
+import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
 import jakarta.enterprise.inject.spi.CDI;
-
 import org.jboss.resteasy.microprofile.client.RestClientExtension;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
@@ -35,9 +31,10 @@ import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.jupiter.api.extension.TestWatcher;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * JUnit 5 extension to publish the test result to a TM4J server.
@@ -47,7 +44,6 @@ import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
  * @see TestCaseId
  * @since 0.2.0
  */
-@Vetoed
 @Deprecated(since = "0.11.0")
 public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback, AfterTestExecutionCallback {
     /**

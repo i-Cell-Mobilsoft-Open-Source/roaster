@@ -1,8 +1,8 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
- * Copyright (C) 2020 - 2022 i-Cell Mobilsoft Zrt.
+ * Copyright (C) 2020 - 2024 i-Cell Mobilsoft Zrt.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,17 +19,14 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.helper;
 
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
+import org.apache.commons.text.StringEscapeUtils;
+
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
-
-import jakarta.enterprise.inject.Vetoed;
-
-import org.apache.commons.text.StringEscapeUtils;
-
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
 
 /**
  * Helper class containing common methods used by test reporters.
@@ -37,7 +34,6 @@ import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
  * @author mark.vituska
  * @since 0.11.0
  */
-@Vetoed
 public class TestReporterHelper {
 
     private static final String BR = "<br>";

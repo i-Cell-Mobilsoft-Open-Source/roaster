@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -19,12 +19,10 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common;
 
-import java.util.Optional;
-
-import jakarta.enterprise.inject.Vetoed;
-
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
 import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
+
+import java.util.Optional;
 
 /**
  * {@code TestResultReporter} implementation that does nothing on callback calls. Can be used for disabling the default functionality for example the
@@ -33,7 +31,6 @@ import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
  * @author martin.nagy
  * @since 0.2.0
  */
-@Vetoed
 public class NoopTestResultReporter implements TestResultReporter {
 
     /**

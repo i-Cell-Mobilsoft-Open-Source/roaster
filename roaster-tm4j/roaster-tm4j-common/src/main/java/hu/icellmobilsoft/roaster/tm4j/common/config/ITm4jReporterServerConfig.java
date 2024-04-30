@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -19,8 +19,6 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.common.config;
 
-import jakarta.enterprise.inject.Vetoed;
-
 import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 
 /**
@@ -29,7 +27,6 @@ import hu.icellmobilsoft.roaster.api.InvalidConfigException;
  * @author martin.nagy
  * @since 0.10.0
  */
-@Vetoed
 public interface ITm4jReporterServerConfig {
 
     /**
