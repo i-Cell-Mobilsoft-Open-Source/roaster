@@ -58,6 +58,17 @@ public interface ZephyrRestClient {
     Response getTestCase(@PathParam("testCaseKey") String testCaseKey);
 
     /**
+     * Return the test steps of the given test case
+     *
+     * @param testCaseKey
+     *            test case key to find
+     * @return response containing HTTP status {@literal 200} if the test case exists or {@literal 404} if not
+     */
+    @GET
+    @Path("/testcases/{testCaseKey}/teststeps")
+    Response getTestCaseSteps(@PathParam("testCaseKey") String testCaseKey);
+
+    /**
      * Checks if the given test cycle exists
      *
      * @param testCycleKey
