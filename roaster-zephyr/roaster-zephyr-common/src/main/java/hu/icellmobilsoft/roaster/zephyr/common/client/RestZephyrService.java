@@ -30,11 +30,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
-import org.apache.http.util.EntityUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.icellmobilsoft.roaster.zephyr.common.client.api.JiraRestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.client.api.ZephyrRestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IJiraReporterServerConfig;
@@ -114,20 +111,13 @@ public class RestZephyrService {
      * @return number of test steps from the test case with the given key on the server
      */
     public int numberOfTestSteps(String key) {
-        Response response = zephyrClient.getTestCaseSteps(Objects.requireNonNull(key));
-        ObjectMapper objectMapper = new ObjectMapper();
-        TestSteps testSteps = null;
-        try {
-            testSteps = objectMapper.readValue(response.readEntity(String.class), TestSteps.class);
-            BigInteger total = testSteps.getTotal();
-            if (total != null) {
-                return total.intValue();
-            } else {
-                // required field in response
-                return testSteps.getMaxResults().intValue();
-            }
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+        TestSteps testSteps = zephyrClient.getTestCaseSteps(Objects.requireNonNull(key));
+        BigInteger total = testSteps.getTotal();
+        if (total != null) {
+            return total.intValue();
+        } else {
+            // required field in response
+            return testSteps.getMaxResults().intValue();
         }
     }
 
