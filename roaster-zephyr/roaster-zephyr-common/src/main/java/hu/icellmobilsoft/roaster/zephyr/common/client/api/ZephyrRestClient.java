@@ -33,6 +33,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrAuthHeadersFactory;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestSteps;
 
 /**
  * Interface for microprofile rest client. <br>
@@ -56,6 +57,18 @@ public interface ZephyrRestClient {
     @GET
     @Path("/testcases/{testCaseKey}")
     Response getTestCase(@PathParam("testCaseKey") String testCaseKey);
+
+    /**
+     * Return the test steps of the given test case
+     *
+     * @param testCaseKey
+     *            test case key to find
+     * @return response containing HTTP status {@literal 200} if the test case exists or {@literal 404} if not
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/testcases/{testCaseKey}/teststeps")
+    TestSteps getTestCaseSteps(@PathParam("testCaseKey") String testCaseKey);
 
     /**
      * Checks if the given test cycle exists

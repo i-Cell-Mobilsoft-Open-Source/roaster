@@ -2,7 +2,9 @@
 = Zephyr Scale Cloud
 
 A modul célja, hogy az automatán futtatott tesztesetek eredménye automatikusan jelentve legyen
-egy felhőben futó JIRA felületen Zephyr Scale Cloud környezeten.
+egy felhőben futó JIRA felületen Zephyr Scale Cloud környezeten. A tesztek kimenetelétől függően
+a tesztesetekhez tartozó összes tesztlépést is egységesen sikeresnek vagy sikertelennek állítja be
+a JIRA-ban.
 
 == Konfiguráció
 

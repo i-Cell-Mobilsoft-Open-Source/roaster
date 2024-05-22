@@ -19,6 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.client;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -35,6 +36,7 @@ import hu.icellmobilsoft.roaster.zephyr.common.client.api.JiraRestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.client.api.ZephyrRestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IJiraReporterServerConfig;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestSteps;
 
 /**
  * Class for handling the Zephyr Cloud client calls
@@ -99,6 +101,24 @@ public class RestZephyrService {
     public boolean isTestCaseExist(String key) {
         Response response = zephyrClient.getTestCase(Objects.requireNonNull(key));
         return isEntityExistsBasedOnResponseStatus(response.getStatusInfo());
+    }
+
+    /**
+     * Returns number of test steps from the test case with the given key on the server
+     *
+     * @param key
+     *            test case key used at the search on the server
+     * @return number of test steps from the test case with the given key on the server
+     */
+    public int numberOfTestSteps(String key) {
+        TestSteps testSteps = zephyrClient.getTestCaseSteps(Objects.requireNonNull(key));
+        BigInteger total = testSteps.getTotal();
+        if (total != null) {
+            return total.intValue();
+        } else {
+            // required field in response
+            return testSteps.getMaxResults().intValue();
+        }
     }
 
     /**
