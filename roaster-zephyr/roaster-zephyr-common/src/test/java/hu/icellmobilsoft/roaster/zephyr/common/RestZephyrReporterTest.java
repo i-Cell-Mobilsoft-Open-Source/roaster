@@ -92,6 +92,8 @@ public class RestZephyrReporterTest {
                 .thenReturn(true);
         when(restZephyrService.isTestCaseExist("ABC-T1"))
                 .thenReturn(true);
+        when(restZephyrService.numberOfTestSteps("ABC-T1"))
+                .thenReturn(1);
         TestCaseData record = createRecord();
 
         // when
@@ -120,6 +122,8 @@ public class RestZephyrReporterTest {
                 .thenReturn(true);
         when(restZephyrService.isTestCaseExist("ABC-T1"))
                 .thenReturn(true);
+        when(restZephyrService.numberOfTestSteps("ABC-T1"))
+                .thenReturn(1);
         TestCaseData record = createRecord();
         AssertionError error = new AssertionError("error foo bar <x>");
 

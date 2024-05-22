@@ -37,6 +37,7 @@ import hu.icellmobilsoft.roaster.zephyr.common.client.RestZephyrService;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IZephyrReporterConfig;
 import hu.icellmobilsoft.roaster.zephyr.common.helper.TestReporterHelper;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestScriptResultType;
 
 /**
  * Implementation of the {@code TestResultReporter} used with Zephyr Cloud.
@@ -76,6 +77,7 @@ public class RestZephyrReporter implements TestResultReporter {
             Execution execution = createExecution(testCaseData, testCaseId);
             execution.setStatusName(PASS);
             execution.setComment(TestReporterHelper.createCommentBase(testCaseData.getId()));
+            reportTestSteps(testCaseId, execution, PASS);
             publishZephyrResult(execution, testCaseData.getTags());
         }
     }
@@ -90,6 +92,7 @@ public class RestZephyrReporter implements TestResultReporter {
                     TestReporterHelper.createCommentBase(testCaseData.getId()) +
                             TestReporterHelper.createFailureComment(cause)
             );
+            reportTestSteps(testCaseId, execution, FAIL);
             publishZephyrResult(execution, testCaseData.getTags());
         }
     }
@@ -105,6 +108,15 @@ public class RestZephyrReporter implements TestResultReporter {
                             TestReporterHelper.createDisabledTestComment(reason)
             );
             publishZephyrResult(execution, testCaseData.getTags());
+        }
+    }
+
+    private void reportTestSteps(String testCaseId, Execution execution, String status) {
+        int numberOfTestSteps = restZephyrService.numberOfTestSteps(testCaseId);
+        for (int i = 0; i < numberOfTestSteps; i++) {
+            TestScriptResultType result = new TestScriptResultType();
+            result.setStatusName(status);
+            execution.getTestScriptResults().add(result);
         }
     }
 
