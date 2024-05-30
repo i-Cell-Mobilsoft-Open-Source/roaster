@@ -30,7 +30,7 @@
 
     <xs:complexType name="TestCaseType">
         <xs:sequence>
-            <xs:element name="self" type="InlineType" minOccurs="0"/>
+            <xs:element name="self" type="xs:string" minOccurs="0"/>
             <xs:element name="testCaseKey" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>

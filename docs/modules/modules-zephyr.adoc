@@ -4,7 +4,9 @@
 A modul célja, hogy az automatán futtatott tesztesetek eredménye automatikusan jelentve legyen
 egy felhőben futó JIRA felületen Zephyr Scale Cloud környezeten. A tesztek kimenetelétől függően
 a tesztesetekhez tartozó összes tesztlépést is egységesen sikeresnek vagy sikertelennek állítja be
-a JIRA-ban.
+a JIRA-ban. A teszteseteknél kezeljük a beágyazott teszteseteket is, amikor az adott teszteset
+tesztlépései újabb teszteseteket tartalmaznak. Ezek bejárását rekurzív módon végezzük, de csak
+beégetett 3 mélységig. (0-tól indexelve.)
 
 == Konfiguráció
 

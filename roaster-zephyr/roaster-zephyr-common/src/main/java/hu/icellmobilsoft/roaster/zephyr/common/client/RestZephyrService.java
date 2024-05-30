@@ -37,6 +37,7 @@ import hu.icellmobilsoft.roaster.zephyr.common.client.api.ZephyrRestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IJiraReporterServerConfig;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestSteps;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.ValueType;
 
 /**
  * Class for handling the Zephyr Cloud client calls
@@ -46,6 +47,11 @@ import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestSteps;
  */
 @ApplicationScoped
 public class RestZephyrService {
+
+    /**
+     * Maximum depth of the test case structure
+     */
+    public static final int MAX_TEST_CASE_DEPTH = 2;
 
     @Inject
     @RestClient
@@ -108,17 +114,24 @@ public class RestZephyrService {
      *
      * @param key
      *            test case key used at the search on the server
+     * @param depth
+     *            actual depth of the test case structure
      * @return number of test steps from the test case with the given key on the server
      */
-    public int numberOfTestSteps(String key) {
-        TestSteps testSteps = zephyrClient.getTestCaseSteps(Objects.requireNonNull(key));
-        BigInteger total = testSteps.getTotal();
-        if (total != null) {
-            return total.intValue();
-        } else {
-            // required field in response
-            return testSteps.getMaxResults().intValue();
+    public int numberOfTestSteps(String key, int depth) {
+        if (depth > MAX_TEST_CASE_DEPTH) {
+            throw new ZephyrClientException("Maximum test case depth reached: " + MAX_TEST_CASE_DEPTH);
         }
+        TestSteps testSteps = zephyrClient.getTestCaseSteps(Objects.requireNonNull(key));
+        int numberOfTestSteps = 0;
+        for (ValueType value : testSteps.getValues()) {
+            if (value.isSetTestCase()) {
+                numberOfTestSteps += numberOfTestSteps(value.getTestCase().getTestCaseKey(), depth + 1);
+            } else {
+                numberOfTestSteps += 1;
+            }
+        }
+        return numberOfTestSteps;
     }
 
     /**

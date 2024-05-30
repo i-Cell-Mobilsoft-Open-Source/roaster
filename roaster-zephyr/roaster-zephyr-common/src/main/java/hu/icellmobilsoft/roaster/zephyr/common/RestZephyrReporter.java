@@ -112,7 +112,7 @@ public class RestZephyrReporter implements TestResultReporter {
     }
 
     private void reportTestSteps(String testCaseId, Execution execution, String status) {
-        int numberOfTestSteps = restZephyrService.numberOfTestSteps(testCaseId);
+        int numberOfTestSteps = restZephyrService.numberOfTestSteps(testCaseId, 0);
         for (int i = 0; i < numberOfTestSteps; i++) {
             TestScriptResultType result = new TestScriptResultType();
             result.setStatusName(status);
