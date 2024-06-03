@@ -43,6 +43,11 @@ public interface RoasterConfigKeys {
     String TEST_CYCLE_KEY = "roaster.zephyr.testCycleKey";
 
     /**
+     * TM4J test case depth key.
+     */
+    String TEST_CASE_DEPTH_KEY = "roaster.zephyr.testCaseDepth";
+
+    /**
      * TM4J test cycle key pattern for test tags
      */
     String TAG_TEST_CYCLE_KEY_PATTERN = "roaster.zephyr.cycle.{0}";
