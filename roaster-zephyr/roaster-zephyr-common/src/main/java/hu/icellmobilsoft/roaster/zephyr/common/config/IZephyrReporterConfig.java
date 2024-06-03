@@ -50,6 +50,13 @@ public interface IZephyrReporterConfig {
     String getDefaultTestCycleKey();
 
     /**
+     * Returns the default TM4J test case depth.
+     *
+     * @return the default TM4J test case depth
+     */
+    Integer getDefaultTestCaseDepth();
+
+    /**
      * Returns the test cycle for the given tag
      * 
      * @param tag

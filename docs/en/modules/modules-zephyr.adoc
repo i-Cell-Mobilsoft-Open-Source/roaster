@@ -2,6 +2,8 @@
 = Zephyr Scale Cloud
 
 The purpose of this module is to automatically report the results of automated test cases to a Zephyr Scale Cloud environment on a JIRA interface running in the cloud.
+Depending on the outcome of the tests it also sets the same result (successful or unsuccessful) for all the test steps belonging to the test cases in JIRA. For test cases,
+we also handle nested test cases when the given test case its test steps contain more test cases. The maximum depth of this test structure can be parameterized.
 
 == Configuration
 
@@ -22,6 +24,7 @@ roaster:
       cycle:
          foo: ABC-C2 #<10>
          bar: ABC-C3
+      testCaseDepth: 3 #<11>
 ----
 <1> The Zephyr server call can be disabled with this flag (default: false).
 <2> Jira project key. It is usually the prefix of Jira issues.
@@ -35,6 +38,7 @@ roaster:
 <10> Possibility to specify different Zephyr test cycles per test tag.
 If a test is tagged with a tag that is listed here (e.g., `@Tag("foo")` in JUnit 5), the result will be reported to the specified cycle instead of the default test cycle (testCycleKey configuration key).
 If a test has multiple tags, the result will be reported to each corresponding cycle.
+<11> Depth limit for nested test cases. Default 3, if not specified.
 
 For more detailed information on generating tokens, please refer to the following links:
 
