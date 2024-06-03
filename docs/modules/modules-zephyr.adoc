@@ -5,8 +5,8 @@ A modul célja, hogy az automatán futtatott tesztesetek eredménye automatikusa
 egy felhőben futó JIRA felületen Zephyr Scale Cloud környezeten. A tesztek kimenetelétől függően
 a tesztesetekhez tartozó összes tesztlépést is egységesen sikeresnek vagy sikertelennek állítja be
 a JIRA-ban. A teszteseteknél kezeljük a beágyazott teszteseteket is, amikor az adott teszteset
-tesztlépései újabb teszteseteket tartalmaznak. Ezek bejárását rekurzív módon végezzük, de csak
-beégetett 3 mélységig. (0-tól indexelve.)
+tesztlépései újabb teszteseteket tartalmaznak. Ezek bejárását rekurzív módon végezzük paraméterben
+megadható mélységig.
 
 == Konfiguráció
 
@@ -27,6 +27,7 @@ roaster:
       cycle:
          foo: ABC-C2 #<10>
          bar: ABC-C3
+      testCaseDepth: 3 #<11>
 ----
 <1> A TM4J szerver hívást lehet kikapcsolni ezzel a flag-gel (default: false)
 <2> Jira project key. Ez szokott a Jira issue-k prefixe is lenni.
@@ -41,6 +42,7 @@ roaster:
 Ha a teszt meg van tag-elve egy olyan tag-gel (JUnit 5-ben `@Tag("foo")`), ami itt szerepel, akkor a default test cycle
 (`testCycleKey` konfig kulcs) helyett az itt megadott cycle-be fog report-álni.
 Ha több tag van egy teszten, akkor mindegyik cycle-be bekerül az eredmény.
+<11> Beágyazott test case-ek mélységi korlátja. Ha nem adjuk meg, akkor default 3.
 
 A tokenek generálásáról részletesebb leírás az alább linkeken:
 

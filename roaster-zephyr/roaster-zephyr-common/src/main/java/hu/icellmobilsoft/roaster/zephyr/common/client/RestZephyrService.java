@@ -19,7 +19,6 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.client;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -35,6 +34,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.client.api.JiraRestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.client.api.ZephyrRestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IJiraReporterServerConfig;
+import hu.icellmobilsoft.roaster.zephyr.common.config.IZephyrReporterConfig;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestSteps;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.ValueType;
@@ -48,11 +48,6 @@ import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.ValueType;
 @ApplicationScoped
 public class RestZephyrService {
 
-    /**
-     * Maximum depth of the test case structure
-     */
-    public static final int MAX_TEST_CASE_DEPTH = 2;
-
     @Inject
     @RestClient
     private ZephyrRestClient zephyrClient;
@@ -63,6 +58,9 @@ public class RestZephyrService {
 
     @Inject
     private IJiraReporterServerConfig serverConfig;
+
+    @Inject
+    private IZephyrReporterConfig zephyrConfig;
 
     private static final Set<String> existingTestCycleKeys = new HashSet<>();
 
@@ -119,8 +117,8 @@ public class RestZephyrService {
      * @return number of test steps from the test case with the given key on the server
      */
     public int numberOfTestSteps(String key, int depth) {
-        if (depth > MAX_TEST_CASE_DEPTH) {
-            throw new ZephyrClientException("Maximum test case depth reached: " + MAX_TEST_CASE_DEPTH);
+        if (depth > zephyrConfig.getDefaultTestCaseDepth()) {
+            throw new ZephyrClientException("Maximum test case depth reached: " + zephyrConfig.getDefaultTestCaseDepth());
         }
         TestSteps testSteps = zephyrClient.getTestCaseSteps(Objects.requireNonNull(key));
         int numberOfTestSteps = 0;
