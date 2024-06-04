@@ -57,6 +57,13 @@ public interface IZephyrReporterConfig {
     Integer getDefaultTestCaseDepth();
 
     /**
+     * Returns the maximum number of results to return.
+     *
+     * @return the maximum number of results to return
+     */
+    Integer getDefaultMaxResults();
+
+    /**
      * Returns the test cycle for the given tag
      * 
      * @param tag

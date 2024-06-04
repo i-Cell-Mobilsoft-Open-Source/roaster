@@ -120,7 +120,7 @@ public class RestZephyrService {
         if (depth > zephyrConfig.getDefaultTestCaseDepth()) {
             throw new ZephyrClientException("Maximum test case depth reached: " + zephyrConfig.getDefaultTestCaseDepth());
         }
-        TestSteps testSteps = zephyrClient.getTestCaseSteps(Objects.requireNonNull(key));
+        TestSteps testSteps = zephyrClient.getTestCaseSteps(Objects.requireNonNull(key), zephyrConfig.getDefaultMaxResults());
         int numberOfTestSteps = 0;
         for (ValueType value : testSteps.getValues()) {
             if (value.isSetTestCase()) {

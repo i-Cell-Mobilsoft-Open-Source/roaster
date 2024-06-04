@@ -48,6 +48,11 @@ public interface RoasterConfigKeys {
     String TEST_CASE_DEPTH_KEY = "roaster.zephyr.testCaseDepth";
 
     /**
+     * TM4J max results key.
+     */
+    String MAX_RESULTS_KEY = "roaster.zephyr.maxResults";
+
+    /**
      * TM4J test cycle key pattern for test tags
      */
     String TAG_TEST_CYCLE_KEY_PATTERN = "roaster.zephyr.cycle.{0}";
