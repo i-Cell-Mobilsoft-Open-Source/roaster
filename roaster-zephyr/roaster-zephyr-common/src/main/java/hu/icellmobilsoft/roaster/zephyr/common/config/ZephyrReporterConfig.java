@@ -43,6 +43,11 @@ public class ZephyrReporterConfig implements IZephyrReporterConfig {
      */
     public static final int DEFAULT_TEST_CASE_DEPTH = 3;
 
+    /**
+     * Maximum number of results to return
+     */
+    public static final int DEFAULT_MAX_RESULTS = 100;
+
     private final Config config = ConfigProvider.getConfig();
 
     /**
@@ -70,9 +75,15 @@ public class ZephyrReporterConfig implements IZephyrReporterConfig {
     }
 
     @Override
-    public Integer getDefaultTestCaseDepth() {
-        return config.getOptionalValue(RoasterConfigKeys.TEST_CASE_DEPTH_KEY, Integer.class)
+    public Integer getDefaultTestStepsTestCaseDepth() {
+        return config.getOptionalValue(RoasterConfigKeys.TEST_STEPS_TEST_CASE_DEPTH_KEY, Integer.class)
                 .orElse(DEFAULT_TEST_CASE_DEPTH);
+    }
+
+    @Override
+    public Integer getDefaultTestStepsMaxResults() {
+        return config.getOptionalValue(RoasterConfigKeys.TEST_STEPS_MAX_RESULTS_KEY, Integer.class)
+                .orElse(DEFAULT_MAX_RESULTS);
     }
 
     @Override

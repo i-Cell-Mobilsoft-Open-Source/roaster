@@ -25,6 +25,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -63,12 +64,14 @@ public interface ZephyrRestClient {
      *
      * @param testCaseKey
      *            test case key to find
+     * @param maxResults
+     *            maximum number of results to return
      * @return response containing HTTP status {@literal 200} if the test case exists or {@literal 404} if not
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/testcases/{testCaseKey}/teststeps")
-    TestSteps getTestCaseSteps(@PathParam("testCaseKey") String testCaseKey);
+    TestSteps getTestCaseSteps(@PathParam("testCaseKey") String testCaseKey, @QueryParam("maxResults") Integer maxResults);
 
     /**
      * Checks if the given test cycle exists
