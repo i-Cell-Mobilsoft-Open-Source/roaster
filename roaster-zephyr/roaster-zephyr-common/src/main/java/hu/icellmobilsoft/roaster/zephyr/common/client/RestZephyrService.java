@@ -117,10 +117,10 @@ public class RestZephyrService {
      * @return number of test steps from the test case with the given key on the server
      */
     public int numberOfTestSteps(String key, int depth) {
-        if (depth > zephyrConfig.getDefaultTestCaseDepth()) {
-            throw new ZephyrClientException("Maximum test case depth reached: " + zephyrConfig.getDefaultTestCaseDepth());
+        if (depth > zephyrConfig.getDefaultTestStepsTestCaseDepth()) {
+            throw new ZephyrClientException("Maximum test case depth reached: " + zephyrConfig.getDefaultTestStepsTestCaseDepth());
         }
-        TestSteps testSteps = zephyrClient.getTestCaseSteps(Objects.requireNonNull(key), zephyrConfig.getDefaultMaxResults());
+        TestSteps testSteps = zephyrClient.getTestCaseSteps(Objects.requireNonNull(key), zephyrConfig.getDefaultTestStepsMaxResults());
         int numberOfTestSteps = 0;
         for (ValueType value : testSteps.getValues()) {
             if (value.isSetTestCase()) {

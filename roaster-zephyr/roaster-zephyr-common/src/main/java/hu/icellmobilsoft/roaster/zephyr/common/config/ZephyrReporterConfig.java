@@ -75,14 +75,14 @@ public class ZephyrReporterConfig implements IZephyrReporterConfig {
     }
 
     @Override
-    public Integer getDefaultTestCaseDepth() {
-        return config.getOptionalValue(RoasterConfigKeys.TEST_CASE_DEPTH_KEY, Integer.class)
+    public Integer getDefaultTestStepsTestCaseDepth() {
+        return config.getOptionalValue(RoasterConfigKeys.TEST_STEPS_TEST_CASE_DEPTH_KEY, Integer.class)
                 .orElse(DEFAULT_TEST_CASE_DEPTH);
     }
 
     @Override
-    public Integer getDefaultMaxResults() {
-        return config.getOptionalValue(RoasterConfigKeys.MAX_RESULTS_KEY, Integer.class)
+    public Integer getDefaultTestStepsMaxResults() {
+        return config.getOptionalValue(RoasterConfigKeys.TEST_STEPS_MAX_RESULTS_KEY, Integer.class)
                 .orElse(DEFAULT_MAX_RESULTS);
     }
 
