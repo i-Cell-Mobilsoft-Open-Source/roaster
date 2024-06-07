@@ -50,6 +50,13 @@ public interface IZephyrReporterConfig {
     String getDefaultTestCycleKey();
 
     /**
+     * Returns {@literal true} if the TM4J reporting is enabled
+     *
+     * @return {@literal true} if the TM4J reporting is enabled
+     */
+    boolean isTestStepsEnabled();
+
+    /**
      * Returns the default test case depth in the step case structure.
      *
      * @return the default test case depth in the step case structure

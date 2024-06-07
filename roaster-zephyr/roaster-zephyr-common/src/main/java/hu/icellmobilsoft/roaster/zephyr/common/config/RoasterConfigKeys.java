@@ -43,6 +43,11 @@ public interface RoasterConfigKeys {
     String TEST_CYCLE_KEY = "roaster.zephyr.testCycleKey";
 
     /**
+     * The detailed reporting with test steps (and rest calls) can be turned off using this flag
+     */
+    String TEST_STEPS_ENABLED = "roaster.zephyr.testSteps.enabled";
+
+    /**
      * TM4J test case depth key.
      */
     String TEST_STEPS_TEST_CASE_DEPTH_KEY = "roaster.zephyr.testSteps.testCaseDepth";
