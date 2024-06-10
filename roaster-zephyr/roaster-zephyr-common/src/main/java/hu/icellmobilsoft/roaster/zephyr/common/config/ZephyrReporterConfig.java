@@ -75,6 +75,11 @@ public class ZephyrReporterConfig implements IZephyrReporterConfig {
     }
 
     @Override
+    public boolean isTestStepsEnabled() {
+        return config.getOptionalValue(RoasterConfigKeys.TEST_STEPS_ENABLED, Boolean.class).orElse(false);
+    }
+
+    @Override
     public Integer getDefaultTestStepsTestCaseDepth() {
         return config.getOptionalValue(RoasterConfigKeys.TEST_STEPS_TEST_CASE_DEPTH_KEY, Integer.class)
                 .orElse(DEFAULT_TEST_CASE_DEPTH);

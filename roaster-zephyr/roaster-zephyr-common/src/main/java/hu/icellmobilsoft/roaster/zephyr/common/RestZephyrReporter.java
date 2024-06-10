@@ -77,7 +77,7 @@ public class RestZephyrReporter implements TestResultReporter {
             Execution execution = createExecution(testCaseData, testCaseId);
             execution.setStatusName(PASS);
             execution.setComment(TestReporterHelper.createCommentBase(testCaseData.getId()));
-            reportTestSteps(testCaseId, execution, PASS);
+            reportTestSteps(testCaseId, execution, PASS, testCaseData);
             publishZephyrResult(execution, testCaseData.getTags());
         }
     }
@@ -92,7 +92,7 @@ public class RestZephyrReporter implements TestResultReporter {
                     TestReporterHelper.createCommentBase(testCaseData.getId()) +
                             TestReporterHelper.createFailureComment(cause)
             );
-            reportTestSteps(testCaseId, execution, FAIL);
+            reportTestSteps(testCaseId, execution, FAIL, testCaseData);
             publishZephyrResult(execution, testCaseData.getTags());
         }
     }
@@ -111,9 +111,10 @@ public class RestZephyrReporter implements TestResultReporter {
         }
     }
 
-    private void reportTestSteps(String testCaseId, Execution execution, String status) {
+    private void reportTestSteps(String testCaseId, Execution execution, String status, TestCaseData testCaseData) {
         int numberOfTestSteps = restZephyrService.numberOfTestSteps(testCaseId, 1);
-        for (int i = 0; i < numberOfTestSteps; i++) {
+        long calculatedTestExecutionCount = numberOfTestSteps * testCaseData.getTestDataCount();
+        for (int i = 0; i < calculatedTestExecutionCount; i++) {
             TestScriptResultType result = new TestScriptResultType();
             result.setStatusName(status);
             execution.getTestScriptResults().add(result);

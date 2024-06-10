@@ -65,6 +65,12 @@ public class TestCaseData {
     private Collection<String> tags;
 
     /**
+     * The number of test data of the parameterized tests,
+     * which is the number of executions of the test case, is 1 by default.
+     */
+    private long testDataCount;
+
+    /**
      * Default constructor, constructs a new object.
      */
     public TestCaseData() {
@@ -183,5 +189,24 @@ public class TestCaseData {
      */
     public void setTags(Collection<String> tags) {
         this.tags = tags;
+    }
+
+    /**
+     * Getter for the field {@code testDataCount}.
+     *
+     * @return testDataCount
+     */
+    public long getTestDataCount() {
+        return testDataCount;
+    }
+
+    /**
+     * Sets the new testDataCount value
+     *
+     * @param testDataCount
+     *            new testDataCount value
+     */
+    public void setTestDataCount(long testDataCount) {
+        this.testDataCount = testDataCount;
     }
 }
