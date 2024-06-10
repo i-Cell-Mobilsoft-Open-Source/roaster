@@ -19,21 +19,30 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.junit5;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import jakarta.enterprise.inject.Vetoed;
 import jakarta.enterprise.inject.spi.CDI;
 
-import org.jboss.resteasy.microprofile.client.RestClientExtension;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
+import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.roaster.zephyr.common.api.TestCaseId;
 import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestCaseData;
 import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestResultReporter;
@@ -52,6 +61,8 @@ public class ZephyrExtension implements TestWatcher, BeforeTestExecutionCallback
      * Constant used as JUnit storage key for test run start time
      */
     protected static final String START_TIME = "START_TIME";
+
+    private final Logger log = Logger.getLogger(ZephyrExtension.class);
 
     private final Supplier<TestResultReporter> reporterSupplier;
 
@@ -108,6 +119,7 @@ public class ZephyrExtension implements TestWatcher, BeforeTestExecutionCallback
         record.setStartTime(getStartTime(context));
         record.setEndTime(LocalDateTime.now(ZoneId.systemDefault()));
         record.setTags(context.getTags());
+        record.setTestDataCount(getTestDataListCount(context));
         return record;
     }
 
@@ -117,5 +129,68 @@ public class ZephyrExtension implements TestWatcher, BeforeTestExecutionCallback
 
     private ExtensionContext.Store getStore(ExtensionContext context) {
         return context.getStore(ExtensionContext.Namespace.create(getClass(), context.getRequiredTestMethod()));
+    }
+
+    /**
+     * Returns the number of the parameters for the test running, this number will multiply the number of the test steps,
+     * so it's default 1, it the none of the annotations exist
+     *
+     * @param context {@code ExtensionContext} context of the test execution
+     */
+    private long getTestDataListCount(ExtensionContext context) {
+        long testDataListCount = 1;
+        try {
+            for (Annotation annotation : context.getRequiredTestMethod().getDeclaredAnnotations()) {
+                if (annotation instanceof MethodSource) {
+                    testDataListCount = getTestDataListCount((MethodSource) annotation);
+                } else if (annotation instanceof EnumSource) {
+                    testDataListCount = getTestDataListCount((EnumSource) annotation);
+                } else if (annotation instanceof ArgumentsSource) {
+                    testDataListCount = getTestDataListCount((ArgumentsSource) annotation, context);
+                } else if (annotation instanceof ValueSource) {
+                    testDataListCount = getTestDataListCount((ValueSource) annotation);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error occurred at parameter source annotation processing", e);
+        }
+        return testDataListCount;
+    }
+
+    private long getTestDataListCount(MethodSource ms) throws Exception {
+        String[] values = ms.value();
+        if (values != null && values.length > 0) {
+            String[] split = values[0].split("#");
+            Method staticMethod = Class.forName(split[0]).getDeclaredMethod(split[1]);
+            Stream<Arguments> result = (Stream<Arguments>) staticMethod.invoke(null);
+            return result.count();
+        } else {
+            return 1;
+        }
+    }
+
+    private long getTestDataListCount(EnumSource es) {
+        String[] names = es.names();
+        if (names.length > 0) {
+            return names.length;
+        } else {
+            Class<? extends Enum<?>> enumClass = es.value();
+            return enumClass.getEnumConstants().length;
+        }
+    }
+
+    private long getTestDataListCount(ArgumentsSource as, ExtensionContext context) throws Exception {
+        Class<? extends ArgumentsProvider> providerClass = as.value();
+        Stream<? extends Arguments> result = providerClass.getConstructor().newInstance().provideArguments(context);
+        return result.count();
+    }
+
+    private long getTestDataListCount(ValueSource vs) {
+        //Now limited only use strings
+        if (vs.strings().length > 0) {
+            return vs.strings().length;
+        } else {
+            return 1;
+        }
     }
 }

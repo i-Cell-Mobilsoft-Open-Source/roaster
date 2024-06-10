@@ -117,6 +117,9 @@ public class RestZephyrService {
      * @return number of test steps from the test case with the given key on the server
      */
     public int numberOfTestSteps(String key, int depth) {
+        if (!zephyrConfig.isTestStepsEnabled()) {
+            return 0;
+        }
         if (depth > zephyrConfig.getDefaultTestStepsTestCaseDepth()) {
             throw new ZephyrClientException("Maximum test case depth reached: " + zephyrConfig.getDefaultTestStepsTestCaseDepth());
         }
