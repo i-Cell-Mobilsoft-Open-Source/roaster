@@ -28,10 +28,11 @@ roaster:
          foo: ABC-C2 #<10>
          bar: ABC-C3
       testSteps:
-         testCaseDepth: 3 #<11>
-         maxResults: 100 #<12>
+         enabled: true #<11>
+         testCaseDepth: 3 #<12>
+         maxResults: 100 #<13>
 ----
-<1> A TM4J szerver hívást lehet kikapcsolni ezzel a flag-gel (default: false)
+<1> A TM4J szerver hívást lehet bekapcsolni ezzel a flag-gel (default: false)
 <2> Jira project key. Ez szokott a Jira issue-k prefixe is lenni.
 <3> TM4J test cycle key. Pl.: ABC-C1 ahol az ABC a project key.
 <4> (Opcionális) A neve az aktuális környezetnek, ahol a tesztek futnak. (Jira-ban létre kell hozni)
@@ -44,8 +45,9 @@ roaster:
 Ha a teszt meg van tag-elve egy olyan tag-gel (JUnit 5-ben `@Tag("foo")`), ami itt szerepel, akkor a default test cycle
 (`testCycleKey` konfig kulcs) helyett az itt megadott cycle-be fog report-álni.
 Ha több tag van egy teszten, akkor mindegyik cycle-be bekerül az eredmény.
-<11> Beágyazott test case-ek mélységi korlátja. Ha nem adjuk meg, akkor default 3.
-<12> A Zephyr API teststeps válaszában szereplő elemek maximális száma. Ha nem adjuk meg, akkor default 100.
+<11> A tesztlépésekkel kiegészített részletesebb szerver hívást lehet bekapcsolni ezzel a flag-gel (default: false)
+<12> Beágyazott test case-ek mélységi korlátja. Ha nem adjuk meg, akkor default 3.
+<13> A Zephyr API teststeps válaszában szereplő elemek maximális száma. Ha nem adjuk meg, akkor default 100.
 
 A tokenek generálásáról részletesebb leírás az alább linkeken:
 

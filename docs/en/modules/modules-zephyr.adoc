@@ -25,10 +25,11 @@ roaster:
          foo: ABC-C2 #<10>
          bar: ABC-C3
       testSteps:
-         testCaseDepth: 3 #<11>
-         maxResults: 100 #<12>
+         enabled: true #<11>
+         testCaseDepth: 3 #<12>
+         maxResults: 100 #<13>
 ----
-<1> The Zephyr server call can be disabled with this flag (default: false).
+<1> The Zephyr server call can be enabled with this flag (default: false).
 <2> Jira project key. It is usually the prefix of Jira issues.
 <3> Zephyr test cycle key. For example, ABC-C1 where ABC is the project key.
 <4> (Optional) The name of the current environment where the tests are running. (Needs to be created in Jira)
@@ -40,8 +41,9 @@ roaster:
 <10> Possibility to specify different Zephyr test cycles per test tag.
 If a test is tagged with a tag that is listed here (e.g., `@Tag("foo")` in JUnit 5), the result will be reported to the specified cycle instead of the default test cycle (testCycleKey configuration key).
 If a test has multiple tags, the result will be reported to each corresponding cycle.
-<11> Depth limit for nested test cases. Default 3, if not specified.
-<12> Maximum number of results to return in Zephyr API teststeps. Default 100, if not specified.
+<11> The detailed Zephyr server call with test steps data can be enabled with this flag (default: false).
+<12> Depth limit for nested test cases. Default 3, if not specified.
+<13> Maximum number of results to return in Zephyr API teststeps. Default 100, if not specified.
 
 For more detailed information on generating tokens, please refer to the following links:
 

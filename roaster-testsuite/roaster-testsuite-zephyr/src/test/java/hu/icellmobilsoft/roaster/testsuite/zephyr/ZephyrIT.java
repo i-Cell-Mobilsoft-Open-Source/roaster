@@ -64,6 +64,7 @@ class ZephyrIT extends BaseWeldUnitType {
 
         System.setProperty("roaster.zephyr.server/mp-rest/url", MOCK_SERVER.getEndpoint());
         System.setProperty("hu.icellmobilsoft.roaster.zephyr.common.client.api.ZephyrRestClient/mp-rest/url", MOCK_SERVER.getEndpoint());
+        System.setProperty("roaster.zephyr.testSteps.enabled", "true");
 
         Headers jiraClientHeaders = new Headers(
                 new Header("Accept", "application/json"),
