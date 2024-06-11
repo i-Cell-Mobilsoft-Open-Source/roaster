@@ -9,7 +9,7 @@
 
 	<groupId>hu.icellmobilsoft.roaster</groupId>
 	<artifactId>roaster</artifactId>
-	<version>2.1.2-SNAPSHOT</version>
+	<version>2.1.2</version>
 
 	<packaging>pom</packaging>
 
@@ -50,7 +50,7 @@
 		<connection>scm:git:git@github.com:i-Cell-Mobilsoft-Open-Source/roaster.git</connection>
 		<developerConnection>scm:git:git@github.com:i-Cell-Mobilsoft-Open-Source/roaster.git</developerConnection>
 		<url>https://github.com/i-Cell-Mobilsoft-Open-Source/roaster</url>
-		<tag>HEAD</tag>
+		<tag>roaster-2.1.2</tag>
 	</scm>
 
 	<issueManagement>
