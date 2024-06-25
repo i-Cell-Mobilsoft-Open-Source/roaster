@@ -27,6 +27,7 @@
 		<module>roaster-jaxrs</module>
 		<module>roaster-restassured</module>
 		<module>roaster-selenide</module>
+        <module>roaster-testdoc</module>
 		<module>roaster-tm4j</module>
 		<module>roaster-zephyr</module>
 		<module>roaster-hibernate</module>

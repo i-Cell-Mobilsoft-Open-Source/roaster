@@ -17,6 +17,8 @@
 		<version.testcontainers>1.17.6</version.testcontainers>
 		<version.mockserver-client-java>5.14.0</version.mockserver-client-java>
 
+        <version.commons-collections>3.2.2</version.commons-collections>
+        <version.commons-io>2.11.0</version.commons-io>
 		<version.org.apache.commons.commons-lang3>3.14.0</version.org.apache.commons.commons-lang3>
 		<version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
 		<version.io.rest-assured>5.0.0</version.io.rest-assured>
@@ -146,6 +148,11 @@
 				<artifactId>roaster-mongodb</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>hu.icellmobilsoft.roaster</groupId>
+                <artifactId>roaster-testdoc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 			<!-- bom imports -->
 			<dependency>
@@ -176,6 +183,16 @@
 			</dependency>
 
 			<!-- common imports -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${version.commons-io}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${version.commons-collections}</version>
+            </dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>

@@ -1,0 +1,6 @@
+= 2.2.0 -> 2.3.0
+
+== Újdonságok
+
+Létrejött egy új modul: *roaster-testdoc*, melynek célja, hogy teszt osztályokból asciidoc dokumentációt generáljon.
+Bővebb leírás a <<TestDoc>> fejezetben olvasható.

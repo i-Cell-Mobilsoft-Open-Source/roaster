@@ -1,0 +1,131 @@
+= TestDoc
+
+A TestDoc modul célja, hogy teszt osztályokból asciidoc dokumentációt generáljon.
+
+== Használat
+
+A TestDoc modul aktiválásához az alábbi függőséget kell meghivatkozni a pom.xml-ben:
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-testdoc</artifactId>
+</dependency>
+----
+
+Ezután a dokumentálni kívánt teszt osztályokat @TestDoc annotációval kell ellátni.
+
+Ha ezzel megvagyunk alapértelmezetten a fordításkor az elkészült `.jar` fájlba bekerül a generált asciidoc a `META-INF/test_doc.adoc` néven.
+Az egyes teszt osztályok külön táblázatonként jelennek meg a generált dokumentumban.
+
+== Példa
+
+*Input:*
+
+[source,java]
+----
+@TestDoc(titleHeadingLevel = 3) // <1>
+@DisplayName("Example test class")
+class TestDocExampleTest {
+
+    @Test // <2>
+    @DisplayName("Example test method in TestDocExampleTest class")
+    @Disabled("only for example")
+    void exampleTestMethod() {
+        Assertions.assertTrue(true);
+    }
+
+    @ParameterizedTest // <2>
+    @NullSource
+    @DisplayName("Example parameterized test method in TestDocExampleTest class")
+    @Disabled("only for example")
+    void exampleParameterizedTestMethod(String param) {
+        Assertions.assertNull(param);
+    }
+}
+
+
+
+
+@TestDoc(titleHeadingLevel = 3)  // <1>
+@DisplayName("Testing TestDoc functions")
+class TestDocTest {
+
+    @Test // <2>
+    @DisplayName("Generated file should contain the test data")
+    void generatedFileShouldContainTestData() throws URISyntaxException, IOException {
+        URL generatedFileUrl = getClass().getResource("/" + TestDocConfig.DEFAULT_OUTPUT_PATH + TestDocConfig.DEFAULT_OUTPUT_FILE_NAME);
+        assertNotNull(generatedFileUrl);
+
+        String generatedFile = Files.readString(Paths.get(generatedFileUrl.toURI()));
+
+        // classes
+        assertTrue(generatedFile.contains("Testing TestDoc functions"));
+        assertTrue(generatedFile.contains("Example test class"));
+
+        // methods
+        assertTrue(generatedFile.contains("generatedFileShouldContainTestData"));
+        assertTrue(generatedFile.contains("exampleTestMethod"));
+
+        // display names
+        assertTrue(generatedFile.contains("Generated file should contain the test data"));
+        assertTrue(generatedFile.contains("Example test method in TestDocExampleTest class"));
+    }
+}
+----
+
+<1> A generálást egy osztályon a `@TestDoc` annotációval aktiváljuk.
+A `titleHeadingLevel` paraméterrel állíthatjuk a generált táblázat címsorának a szintjét(opcionális).
+<2> A `@Test`, valamint `@ParameterizedTest` annotációval ellátott metódusok fognak bekerülni a generált táblázatba.
+
+A generált dokumentumba osztályonként egy táblázat fog létrejönni.
+A táblázatok tesztenként a teszt metódus nevét és a hozzá tartozó `@DisplayName` értékét fogják tartalmazni.
+
+*Output:*
+
+=== Example test class
+[cols="1,3",options=header,stripes=even]
+|===
+|Method name|Display name
+|exampleTestMethod|Example test method in TestDocExampleTest class
+|exampleParameterizedTestMethod|Example parameterized test method in TestDocExampleTest class
+|===
+=== Testing TestDoc functions
+[cols="1,3",options=header,stripes=even]
+|===
+|Method name|Display name
+|generatedFileShouldContainTestData|Generated file should contain the test data
+|===
+
+== Konfiguráció
+
+Mivel a generálás annotation processor-t használ, ezért konfigurálni a fordítás során a `-A` kapcsolóval lehet.
+Ezt maven esetén a `maven-compiler-plugin`-on keresztül lehet megadni:
+
+.pom.xml példa
+[source,xml]
+----
+<build>
+    <plugins>
+        <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <compilerArgs>
+                    <arg>-Aroaster.testDoc.outputDir=${project.basedir}/../docs/</arg> #<1>
+                    <arg>-Aroaster.testDoc.outputFileName=${project.name}_test_doc.adoc</arg> #<2>
+                    <arg>-Aroaster.testDoc.outputToClassPath=false</arg> #<3>
+                </compilerArgs>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+----
+
+<1> A mappa ahova a genrált fájlt rakjuk.
+Default: `META-INF/`
+<2> A generált fájl neve.
+Default: `test_doc.adoc`
+<3> A generált fájlt a classpath-ra kell-e rakni, azaz szeretnénk-e, hogy az elkészült jar fájlba bekerüljön.
+Default: `true`
