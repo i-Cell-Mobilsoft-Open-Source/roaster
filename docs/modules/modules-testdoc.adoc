@@ -81,6 +81,7 @@ A `titleHeadingLevel` paraméterrel állíthatjuk a generált táblázat címsor
 <2> A `@Test`, valamint `@ParameterizedTest` annotációval ellátott metódusok fognak bekerülni a generált táblázatba.
 
 A generált dokumentumba osztályonként egy táblázat fog létrejönni.
+A táblázatok címsora elsődlegesen az osztály `@DisplayName` értéke lesz, ha ez nincs kitöltve, akkor pedig az osztály neve.
 A táblázatok tesztenként a teszt metódus nevét és a hozzá tartozó `@DisplayName` értékét fogják tartalmazni.
 
 *Output:*
