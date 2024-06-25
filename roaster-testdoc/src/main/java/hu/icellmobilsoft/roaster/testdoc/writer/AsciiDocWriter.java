@@ -62,7 +62,7 @@ public class AsciiDocWriter {
     public void write(Map<String, TestClassDocData> testDocData, Writer writer) throws IOException {
         for (Map.Entry<String, TestClassDocData> testClassData : testDocData.entrySet()) {
             writeHeader(writer, testClassData.getValue());
-            for (TestCaseDocData testCaseDocData : testClassData.getValue().testCaseDocDataList()) {
+            for (TestCaseDocData testCaseDocData : testClassData.getValue().getTestCaseDocDataList()) {
                 writeLine(testCaseDocData, writer);
             }
             writer.write(ASCIIDOC_TABLE_START_END);
@@ -70,8 +70,8 @@ public class AsciiDocWriter {
     }
 
     private void writeHeader(Writer writer, TestClassDocData testClassDocData) throws IOException {
-        String title = testClassDocData.displayName();
-        writeTitleHeadingLevel(writer, testClassDocData.titleHeadingLevel());
+        String title = testClassDocData.getDisplayName();
+        writeTitleHeadingLevel(writer, testClassDocData.getTitleHeadingLevel());
         writer.write(title);
         writeColumns(writer);
     }
@@ -114,24 +114,38 @@ public class AsciiDocWriter {
     }
 
     private int getColumnWidth(TestDocColumn column) {
-        return switch (column) {
-        case METHOD_NAME -> 1;
-        case DISPLAY_NAME -> 3;
-        };
+        switch (column) {
+            case METHOD_NAME: return 1;
+            case DISPLAY_NAME: return 3;
+            default:
+                throw newInvalidColumnException(column);
+        }
     }
 
     private String getColumnDisplayName(TestDocColumn column) {
-        return switch (column) {
-        case METHOD_NAME -> "Method name";
-        case DISPLAY_NAME -> "Display name";
-        };
+        switch (column) {
+            case METHOD_NAME:
+                return "Method name";
+            case DISPLAY_NAME:
+                return "Display name";
+            default:
+                throw newInvalidColumnException(column);
+        }
     }
 
     private String getColumnValue(TestCaseDocData testCaseDocData, TestDocColumn column) {
-        return switch (column) {
-        case METHOD_NAME -> Objects.toString(testCaseDocData.methodName(), "");
-        case DISPLAY_NAME -> Objects.toString(testCaseDocData.displayName(), "");
-        };
+        switch (column) {
+            case METHOD_NAME:
+                return Objects.toString(testCaseDocData.getMethodName(), "");
+            case DISPLAY_NAME:
+                return Objects.toString(testCaseDocData.getDisplayName(), "");
+            default:
+                throw newInvalidColumnException(column);
+        }
+    }
+
+    private IllegalStateException newInvalidColumnException(TestDocColumn column) {
+        return new IllegalStateException("Invalid column: " + column);
     }
 
 }

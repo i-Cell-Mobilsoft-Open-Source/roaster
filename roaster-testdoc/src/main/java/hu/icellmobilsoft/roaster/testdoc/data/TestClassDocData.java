@@ -29,5 +29,65 @@ import hu.icellmobilsoft.roaster.testdoc.TestDoc;
  * @author janos.hamrak
  * @since 2.3.0
  */
-public record TestClassDocData(String className, String displayName, int titleHeadingLevel, List<TestCaseDocData> testCaseDocDataList) {
+public class TestClassDocData {
+
+    private final String className;
+    private final String displayName;
+    private final int titleHeadingLevel;
+    private final List<TestCaseDocData> testCaseDocDataList;
+
+    /**
+     * All args constructor.
+     *
+     * @param className
+     *            test class name
+     * @param displayName
+     *            test class display name
+     * @param titleHeadingLevel
+     *            document table title heading level
+     * @param testCaseDocDataList
+     *            test cases doc data
+     */
+    public TestClassDocData(String className, String displayName, int titleHeadingLevel, List<TestCaseDocData> testCaseDocDataList) {
+        this.className = className;
+        this.displayName = displayName;
+        this.titleHeadingLevel = titleHeadingLevel;
+        this.testCaseDocDataList = testCaseDocDataList;
+    }
+
+    /**
+     * Returns test class name
+     * 
+     * @return test class name
+     */
+    public String getClassName() {
+        return className;
+    }
+
+    /**
+     * Returns test class display name
+     * 
+     * @return test class display name
+     */
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    /**
+     * Returns document table title heading level
+     *
+     * @return document table title heading level
+     */
+    public int getTitleHeadingLevel() {
+        return titleHeadingLevel;
+    }
+
+    /**
+     * Returns test cases doc data
+     *
+     * @return test cases doc data
+     */
+    public List<TestCaseDocData> getTestCaseDocDataList() {
+        return testCaseDocDataList;
+    }
 }

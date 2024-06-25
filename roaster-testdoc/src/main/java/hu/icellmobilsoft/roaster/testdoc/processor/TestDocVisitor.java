@@ -26,7 +26,7 @@ import java.util.Optional;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.ElementKindVisitor14;
+import javax.lang.model.util.ElementKindVisitor9;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ import hu.icellmobilsoft.roaster.testdoc.data.TestClassDocData;
  * @author janos.hamrak
  * @since 2.3.0
  */
-public class TestDocVisitor extends ElementKindVisitor14<Void, Map<String, TestClassDocData>> {
+public class TestDocVisitor extends ElementKindVisitor9<Void, Map<String, TestClassDocData>> {
 
     private static final int DEFAULT_TITLE_HEADING_LEVEL = 2;
 
@@ -104,7 +104,7 @@ public class TestDocVisitor extends ElementKindVisitor14<Void, Map<String, TestC
         Optional<DisplayName> displayNameAnnotation = Optional.ofNullable(element.getAnnotation(DisplayName.class));
         String displayName = displayNameAnnotation.isPresent() ? displayNameAnnotation.get().value() : "";
 
-        testDocDataByClassName.get(enclosingClassName).testCaseDocDataList().add(new TestCaseDocData(methodName, displayName));
+        testDocDataByClassName.get(enclosingClassName).getTestCaseDocDataList().add(new TestCaseDocData(methodName, displayName));
     }
 
 }

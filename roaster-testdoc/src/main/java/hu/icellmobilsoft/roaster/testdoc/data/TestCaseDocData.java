@@ -27,5 +27,38 @@ import hu.icellmobilsoft.roaster.testdoc.TestDoc;
  * @author janos.hamrak
  * @since 2.3.0
  */
-public record TestCaseDocData(String methodName, String displayName) {
+public class TestCaseDocData {
+    private final String methodName;
+    private final String displayName;
+
+    /**
+     * All args constructor.
+     *
+     * @param methodName
+     *            test method name
+     * @param displayName
+     *            test method display name
+     */
+    public TestCaseDocData(String methodName, String displayName) {
+        this.methodName = methodName;
+        this.displayName = displayName;
+    }
+
+    /**
+     * Returns test method name
+     * 
+     * @return test method name
+     */
+    public String getMethodName() {
+        return methodName;
+    }
+
+    /**
+     * Returns test method display name
+     *
+     * @return test method display name
+     */
+    public String getDisplayName() {
+        return displayName;
+    }
 }
