@@ -46,6 +46,13 @@ public class TestDocVisitor extends ElementKindVisitor9<Void, Map<String, TestCl
 
     private static final int DEFAULT_TITLE_HEADING_LEVEL = 2;
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public TestDocVisitor() {
+        super();
+    }
+
     @Override
     public Void visitTypeAsClass(TypeElement e, Map<String, TestClassDocData> testDocDataByClassName) {
         processClass(e, testDocDataByClassName);

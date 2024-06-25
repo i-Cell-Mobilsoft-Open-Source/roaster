@@ -51,6 +51,13 @@ import hu.icellmobilsoft.roaster.testdoc.writer.AsciiDocWriter;
 @AutoService(Processor.class)
 public class TestDocProcessor extends AbstractProcessor {
 
+    /**
+     * Default constructor, constructs a new object.
+     */
+    public TestDocProcessor() {
+        super();
+    }
+
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         return Set.of(TestDoc.class.getCanonicalName());
