@@ -57,6 +57,7 @@ public class AsciiDocWriter {
      * @param writer
      *            asciidoc writer
      * @throws IOException
+     *             if write error
      */
     public void write(Map<String, TestClassDocData> testDocData, Writer writer) throws IOException {
         for (Map.Entry<String, TestClassDocData> testClassData : testDocData.entrySet()) {
