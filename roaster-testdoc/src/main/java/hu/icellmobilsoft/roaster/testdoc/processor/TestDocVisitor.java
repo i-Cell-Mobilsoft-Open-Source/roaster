@@ -87,7 +87,7 @@ public class TestDocVisitor extends ElementKindVisitor9<Void, Map<String, TestCl
         String className = clazz.getSimpleName().toString();
         Optional<DisplayName> displayNameAnnotation = Optional.ofNullable(clazz.getAnnotation(DisplayName.class));
         String displayName = displayNameAnnotation.isPresent() ? displayNameAnnotation.get().value() : "";
-        int titleHeadingLevel = testDocAnnotation.map(TestDoc::titleHeadingLevel).orElse(DEFAULT_TITLE_HEADING_LEVEL);
+        int titleHeadingLevel = testDocAnnotation.get().titleHeadingLevel();
         testDocDataByClassName.put(className, new TestClassDocData(className, displayName, titleHeadingLevel, new ArrayList<>()));
     }
 

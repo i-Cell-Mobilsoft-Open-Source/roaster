@@ -41,6 +41,10 @@ public class TestDocConfig {
      * Default output file name
      */
     public static final String DEFAULT_OUTPUT_FILE_NAME = "test_doc.adoc";
+    /**
+     * Default title heading level of the generated table in the adoc file
+     */
+    public static final int DEFAULT_TITLE_HEADING_LEVEL = 2;
     private static final String CONFIG_PREFIX = "roaster.testDoc.";
     private static final String OUTPUT_DIR_KEY = CONFIG_PREFIX + "outputDir";
     private static final String OUTPUT_FILE_NAME_KEY = CONFIG_PREFIX + "outputFileName";

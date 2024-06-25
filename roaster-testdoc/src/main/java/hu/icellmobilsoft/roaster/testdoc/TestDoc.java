@@ -25,6 +25,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import hu.icellmobilsoft.roaster.testdoc.config.TestDocConfig;
+
 /**
  * Documentation file will be generated based on the annotated test classes.
  *
@@ -37,11 +39,12 @@ import java.lang.annotation.Target;
 public @interface TestDoc {
 
     /**
-     * (Optional) The level of the generated table in the adoc file. If given it needs to be in the range of [0,5] otherwise we use fallback to 2.
+     * (Optional) The level of the generated table in the adoc file. If given it needs to be in the range of [0,5] otherwise we use fallback to
+     * {@value TestDocConfig#DEFAULT_TITLE_HEADING_LEVEL}.
      *
      * @return the title level value
      * @since 2.3.0
      */
-    int titleHeadingLevel() default 2;
+    int titleHeadingLevel() default TestDocConfig.DEFAULT_TITLE_HEADING_LEVEL;
 
 }

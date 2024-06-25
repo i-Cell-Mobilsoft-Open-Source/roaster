@@ -79,6 +79,9 @@ public class AsciiDocWriter {
     }
 
     private void writeTitleHeadingLevel(Writer writer, int titleHeadingLevel) throws IOException {
+        if (titleHeadingLevel < 0 || titleHeadingLevel > 5) {
+            titleHeadingLevel = TestDocConfig.DEFAULT_TITLE_HEADING_LEVEL;
+        }
         for (int i = 0; i < titleHeadingLevel; i++) {
             writer.write("=");
             if (i == titleHeadingLevel - 1) {
@@ -131,7 +134,7 @@ public class AsciiDocWriter {
         case METHOD_NAME:
             return "Method name";
         case DISPLAY_NAME:
-            return "Display name";
+            return "Description";
         default:
             throw newInvalidColumnException(column);
         }

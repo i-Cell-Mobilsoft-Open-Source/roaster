@@ -77,7 +77,9 @@ class TestDocTest {
 ----
 
 <1> A generálást egy osztályon a `@TestDoc` annotációval aktiváljuk.
-A `titleHeadingLevel` paraméterrel állíthatjuk a generált táblázat címsorának a szintjét(opcionális).
+A `titleHeadingLevel` paraméterrel állíthatjuk a generált táblázat címsorának a szintjét, melynek megadása opcionális.
+Ha megadjuk, az értékének a [0,5] intervallumba kell esnie.
+Ha nem adjuk meg, vagy az intervalumon kívül esik a megadott érték, akkor alapértelmezetten 2 lesz az értéke.
 <2> A `@Test`, valamint `@ParameterizedTest` annotációval ellátott metódusok fognak bekerülni a generált táblázatba.
 
 A generált dokumentumba osztályonként egy táblázat fog létrejönni.
