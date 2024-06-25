@@ -24,6 +24,8 @@ import java.io.Writer;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
+
 import hu.icellmobilsoft.roaster.testdoc.config.TestDocColumn;
 import hu.icellmobilsoft.roaster.testdoc.config.TestDocConfig;
 import hu.icellmobilsoft.roaster.testdoc.data.TestCaseDocData;
@@ -70,7 +72,7 @@ public class AsciiDocWriter {
     }
 
     private void writeHeader(Writer writer, TestClassDocData testClassDocData) throws IOException {
-        String title = testClassDocData.getDisplayName();
+        String title = StringUtils.defaultIfBlank(testClassDocData.getDisplayName(), testClassDocData.getClassName());
         writeTitleHeadingLevel(writer, testClassDocData.getTitleHeadingLevel());
         writer.write(title);
         writeColumns(writer);
@@ -115,32 +117,34 @@ public class AsciiDocWriter {
 
     private int getColumnWidth(TestDocColumn column) {
         switch (column) {
-            case METHOD_NAME: return 1;
-            case DISPLAY_NAME: return 3;
-            default:
-                throw newInvalidColumnException(column);
+        case METHOD_NAME:
+            return 1;
+        case DISPLAY_NAME:
+            return 3;
+        default:
+            throw newInvalidColumnException(column);
         }
     }
 
     private String getColumnDisplayName(TestDocColumn column) {
         switch (column) {
-            case METHOD_NAME:
-                return "Method name";
-            case DISPLAY_NAME:
-                return "Display name";
-            default:
-                throw newInvalidColumnException(column);
+        case METHOD_NAME:
+            return "Method name";
+        case DISPLAY_NAME:
+            return "Display name";
+        default:
+            throw newInvalidColumnException(column);
         }
     }
 
     private String getColumnValue(TestCaseDocData testCaseDocData, TestDocColumn column) {
         switch (column) {
-            case METHOD_NAME:
-                return Objects.toString(testCaseDocData.getMethodName(), "");
-            case DISPLAY_NAME:
-                return Objects.toString(testCaseDocData.getDisplayName(), "");
-            default:
-                throw newInvalidColumnException(column);
+        case METHOD_NAME:
+            return Objects.toString(testCaseDocData.getMethodName(), "");
+        case DISPLAY_NAME:
+            return Objects.toString(testCaseDocData.getDisplayName(), "");
+        default:
+            throw newInvalidColumnException(column);
         }
     }
 
