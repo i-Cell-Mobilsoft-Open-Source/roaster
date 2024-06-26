@@ -83,6 +83,7 @@ Ha nem adjuk meg, vagy az intervalumon kívül esik a megadott érték, akkor al
 <2> A `@Test`, valamint `@ParameterizedTest` annotációval ellátott metódusok fognak bekerülni a generált táblázatba.
 
 A generált dokumentumba osztályonként egy táblázat fog létrejönni.
+A táblázatok sorrendje a teszt osztályok nevei szerint alakul.
 A táblázatok címsora elsődlegesen az osztály `@DisplayName` értéke lesz, ha ez nincs kitöltve, akkor pedig az osztály neve.
 A táblázatok tesztenként a teszt metódus nevét és a hozzá tartozó `@DisplayName` értékét fogják tartalmazni.
 

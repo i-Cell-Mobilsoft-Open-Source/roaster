@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Processor;
@@ -84,7 +84,7 @@ public class TestDocProcessor extends AbstractProcessor {
     private Map<String, TestClassDocData> collectTestDocData(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         var visitor = new TestDocVisitor();
 
-        Map<String, TestClassDocData> testDocDataByClassName = new HashMap<>();
+        Map<String, TestClassDocData> testDocDataByClassName = new TreeMap<>();
         for (TypeElement annotation : annotations) {
             for (Element element : roundEnv.getElementsAnnotatedWith(annotation)) {
                 visitor.visit(element, testDocDataByClassName);
