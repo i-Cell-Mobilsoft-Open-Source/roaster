@@ -1,7 +1,7 @@
 coffee:
   redis:
     test:
-      # host es port kodilag allitjuk be mivel dinamikus a teszt futas alatt 
+      # We set the host and port programmatically because they are dynamic during test execution
       # host: 172.17.0.4
       # port: 6379
       # password: nincs

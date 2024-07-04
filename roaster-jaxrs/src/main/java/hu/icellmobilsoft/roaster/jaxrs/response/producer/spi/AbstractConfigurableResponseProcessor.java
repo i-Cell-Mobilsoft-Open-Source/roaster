@@ -123,7 +123,7 @@ public class AbstractConfigurableResponseProcessor<RESPONSE> extends ResponsePro
 
     @Override
     protected Builder clientBuilderCustomization(Builder clientBuilder) {
-        // beallitjuk a headereket egyenkent, nem irjuk felul a benne levoket
+        // we set the headers one by one, without overriding the existing ones
         headers.forEach(clientBuilder::header);
         return clientBuilder;
     }

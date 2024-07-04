@@ -1,6 +1,6 @@
 example-project:
   example-service:
-    # Ez a testben felul van irva mert dinamikus a MockServerContainer altal
+    # This is overridden in the test because it's dynamic by MockServerContainer
     url: http://localhost:8080
 testsuite:
   rest:

@@ -78,10 +78,10 @@ class JaxbPostMultipartIT extends BaseWeldUnitType {
     static void beforeAll() {
         MOCK_SERVER.start();
 
-        // microprofile-config beallitasok
+        // microprofile-config settings
         System.setProperty("roaster.tm4j.server/mp-rest/url", MOCK_SERVER.getEndpoint());
 
-        // MockServerContainer-ben beallitjuk a expectations-t
+        // We set the expectations in the MockServerContainer
         MockServerClient expectation = new MockServerClient(MOCK_SERVER.getHost(), MOCK_SERVER.getServerPort());
         String jsonResponse = JsonUtil.toJson(RESPONSE_DTO);
         expectation.when(HttpRequest.request().withPath("/rest/testService/test/jsonEntityId"))

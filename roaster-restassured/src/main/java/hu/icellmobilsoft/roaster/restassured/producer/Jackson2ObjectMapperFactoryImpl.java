@@ -32,9 +32,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import io.restassured.path.json.mapper.factory.Jackson2ObjectMapperFactory;
 
 /**
- * CDI Jackson2ObjectMapperFactory implementáció.<br>
+ * CDI Jackson2ObjectMapperFactory implementation.<br>
  * <br>
- * Nagyobb scope kell rajta mint @Đependent, mert akkor nem lessz meg az objectMapper lekerésdezés lehetősége és azon állítása
+ * We need a bigger scope than `@Dependent` because then we won't have access to retrieve and manipulate the objectMapper.
  * 
  * @author imre.scheffer
  * @since 0.2.0
@@ -64,12 +64,11 @@ public class Jackson2ObjectMapperFactoryImpl implements Jackson2ObjectMapperFact
         objectMapper = new ObjectMapper().findAndRegisterModules();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        // az időt ne default "timestamp": 1600871093.907000000 formátumban írja hanem rendes ISO
+        // the time is not written in default "timestamp": 1600871093.907000000 format but in normal ISO format
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-        // isSet...() miatt nem tudja szépen kezelni a jackson (vagy bekerül plusz
-        // propertyként az isSet éstéke, vagy nem kerülnek bele a
-        // primitív típusok)
+        // Due to `isSet...()` methods, Jackson cannot handle it properly
+        // (either the `isSet` value is included as an additional property, or primitive types are excluded)
         objectMapper.setVisibility(PropertyAccessor.IS_GETTER, JsonAutoDetect.Visibility.NONE);
         objectMapper.setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE);
         objectMapper.setVisibility(PropertyAccessor.SETTER, JsonAutoDetect.Visibility.NONE);
@@ -77,11 +76,11 @@ public class Jackson2ObjectMapperFactoryImpl implements Jackson2ObjectMapperFact
     }
 
     /**
-     * Belső default ObjectMapper felülírása
+     * Overwrite internal default ObjectMapper
      * 
      * @param objectMapper
-     *            saját ObjectMapper
-     * @return önmaga
+     *            Own ObjectMapper
+     * @return itself
      */
     public Jackson2ObjectMapperFactoryImpl withObjectMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -89,9 +88,9 @@ public class Jackson2ObjectMapperFactoryImpl implements Jackson2ObjectMapperFact
     }
 
     /**
-     * Getter az {@code objectMapper} mezőhöz, lazy init történhet
+     * Getter for {@code objectMapper} field, lazy init can happen
      * 
-     * @return objectMapper mező értéke
+     * @return value of objectMapper field
      */
     public ObjectMapper getObjectMapper() {
         if (objectMapper == null) {

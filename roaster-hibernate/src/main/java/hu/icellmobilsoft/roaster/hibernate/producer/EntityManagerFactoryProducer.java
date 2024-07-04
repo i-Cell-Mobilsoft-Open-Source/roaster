@@ -136,7 +136,7 @@ public class EntityManagerFactoryProducer {
     private EntityManagerFactory createNewEntityManagerFactory(HibernateConfig hibernateConfig) {
         Map<String, Object> props = new HashMap<>();
 
-        // TODO jakartaEE atalasnal, valosiznu kiszeheto -
+        // TODO by jakartaEE atalas, it is probably removable -
         // https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#beans-cdi
         // Set CDI Bean manager
         props.put(Environment.CDI_BEAN_MANAGER, beanManager);
@@ -145,7 +145,7 @@ public class EntityManagerFactoryProducer {
         props.put(Environment.JAKARTA_TRANSACTION_TYPE, "RESOURCE_LOCAL");
         props.put(Environment.JAKARTA_PERSISTENCE_PROVIDER, "org.hibernate.jpa.HibernatePersistenceProvider");
 
-        // TODO jakartaEE atalasnal nincs ilyen opcio
+        // TODO no such option with jakartaEE atalas
         // //
         // props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false);
 
