@@ -13,7 +13,7 @@ The project is based on these technologies:
 More detailed description can be found on this page: https://i-cell-mobilsoft-open-source.github.io/roaster/[roaster documentation]
 
 == Maven central
-The Roaster can also be found in the official Maven repository.
+The roaster can also be found in the official Maven repository.
 To include it in your project, simply import the BOM that manages all the modules:
 
 .dependencyManagement settings
