@@ -1,14 +1,11 @@
 [#modules-zephyr]
 = Zephyr Scale Cloud
 
-A modul célja, hogy az automatán futtatott tesztesetek eredménye automatikusan jelentve legyen
-egy felhőben futó JIRA felületen Zephyr Scale Cloud környezeten. A tesztek kimenetelétől függően
-a tesztesetekhez tartozó összes tesztlépést is egységesen sikeresnek vagy sikertelennek állítja be
-a JIRA-ban. A teszteseteknél kezeljük a beágyazott teszteseteket is, amikor az adott teszteset
-tesztlépései újabb teszteseteket tartalmaznak. Ezek bejárását rekurzív módon végezzük paraméterben
-megadható mélységig.
+The purpose of this module is to automatically report the results of automated test cases to a Zephyr Scale Cloud environment on a JIRA interface running in the cloud.
+Depending on the outcome of the tests it also sets the same result (successful or unsuccessful) for all the test steps belonging to the test cases in JIRA. For test cases,
+we also handle nested test cases when the given test case its test steps contain more test cases. The maximum depth of this test structure can be parameterized.
 
-== Konfiguráció
+== Configuration
 
 [source,yaml]
 .META-INF/roaster-defaults.yml
@@ -32,39 +29,35 @@ roaster:
          testCaseDepth: 3 #<12>
          maxResults: 100 #<13>
 ----
-<1> A TM4J szerver hívást lehet bekapcsolni ezzel a flag-gel (default: false)
-<2> Jira project key. Ez szokott a Jira issue-k prefixe is lenni.
-<3> TM4J test cycle key. Pl.: ABC-C1 ahol az ABC a project key.
-<4> (Opcionális) A neve az aktuális környezetnek, ahol a tesztek futnak. (Jira-ban létre kell hozni)
-<5> Remote Jira szerver url
+<1> The Zephyr server call can be enabled with this flag (default: false).
+<2> Jira project key. It is usually the prefix of Jira issues.
+<3> Zephyr test cycle key. For example, ABC-C1 where ABC is the project key.
+<4> (Optional) The name of the current environment where the tests are running. (Needs to be created in Jira)
+<5> Remote Jira server URL.
 <6> base64(email + ":" + apiToken)
-<7> Jira felhasználóhoz kötött email cím. Ezzel a felhasználóval kell kigenerálni az apiToken-t és a bearerToken-t.
-<8> ApiToken a remote Jira funkcionalitások használatához. Jira profil felületen kell kigenerálni.
-<9> Zephyr Scale Bearer Token. Remote Jira felületen, a saját fülén kell generálni.
-<10> Teszt tag-enként eltérő TM4J test cycle-ök megadási lehetősége.
-Ha a teszt meg van tag-elve egy olyan tag-gel (JUnit 5-ben `@Tag("foo")`), ami itt szerepel, akkor a default test cycle
-(`testCycleKey` konfig kulcs) helyett az itt megadott cycle-be fog report-álni.
-Ha több tag van egy teszten, akkor mindegyik cycle-be bekerül az eredmény.
-<11> A tesztlépésekkel kiegészített részletesebb szerver hívást lehet bekapcsolni ezzel a flag-gel (default: false)
-<12> Beágyazott test case-ek mélységi korlátja. Ha nem adjuk meg, akkor default 3.
-<13> A Zephyr API teststeps válaszában szereplő elemek maximális száma. Ha nem adjuk meg, akkor default 100.
+<7> Email address associated with the Jira user. This user should be used to generate the apiToken and bearerToken.
+<8> ApiToken for using remote Jira functionalities. It needs to be generated in the Jira profile interface.
+<9> Zephyr Scale Bearer Token. It needs to be generated on the remote Jira interface, in your own profile section.
+<10> Possibility to specify different Zephyr test cycles per test tag.
+If a test is tagged with a tag that is listed here (e.g., `@Tag("foo")` in JUnit 5), the result will be reported to the specified cycle instead of the default test cycle (testCycleKey configuration key).
+If a test has multiple tags, the result will be reported to each corresponding cycle.
+<11> The detailed Zephyr server call with test steps data can be enabled with this flag (default: false).
+<12> Depth limit for nested test cases. Default 3, if not specified.
+<13> Maximum number of results to return in Zephyr API teststeps. Default 100, if not specified.
 
-A tokenek generálásáról részletesebb leírás az alább linkeken:
+For more detailed information on generating tokens, please refer to the following links:
 
-https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/[Manage Api Tokens for your Atlassian Account]
+[Manage Api Tokens for your Atlassian Account](https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/)
 
-https://support.smartbear.com/zephyr-scale-cloud/docs/rest-api/generating-api-access-tokens.html[Generating API Access Tokens (Bearer Token)]
-
+[Generating API Access Tokens (Bearer Token)](https://support.smartbear.com/zephyr-scale-cloud/docs/rest-api/generating-api-access-tokens.html)
 
 [TIP]
-Biztonsági okokból célszerű az authToken-t és az api tokeneket nem a konfigurációs fájlba beleírni,
-hanem parancssori argumentumként átadni a maven-nek. +
-Pl.: `$ mvn test -Droaster.zephyr.server/authToken=secret`
+For security reasons, it is recommended not to include the authToken and api tokens directly in the configuration file. Instead, you can pass them as command-line arguments to Maven.
+For example: `$ mvn test -Droaster.zephyr.server/authToken=secret`
 
+== Usage with JUnit 5
 
-== Használtata JUnit 5-tel
-
-A modul használatához hozzá kell adni az alábbi maven függőséget a pom.xml-hez:
+To use the module, you need to add the following Maven dependency to your pom.xml:
 
 [source,xml]
 .pom.xml
@@ -75,18 +68,17 @@ A modul használatához hozzá kell adni az alábbi maven függőséget a pom.xm
 </dependency>
 ----
 
-'''
-
-Ez után már csak fel kell annotálni azokat a teszt osztályokat/metódusokat
-amelyek eredményét jelenteni szeretnénk:
+After that, you just need to annotate the test classes/methods that you want to report the results of:
 
 [source,java]
 ----
-@ExtendWith(ZephyrExtension.class) // Zephyr extension aktiválása a tesztosztályon
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(ZephyrExtension.class) // Activate the Zephyr extension on the test class
+@TestInstance(Test
+
+Instance.Lifecycle.PER_CLASS)
 class ExampleTest extends BaseWeldUnitType {
     @Test
-    @TestCaseId("ABC-T1") // Zephyr teszteset összerendelés
+    @TestCaseId("ABC-T1") // Link the test case to Zephyr
     void testOne() {
         assertTrue(1 + 1 == 2);
     }

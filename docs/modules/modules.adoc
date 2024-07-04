@@ -1,4 +1,4 @@
-= Modulok:
+= Modules:
 include::modules-api.adoc[leveloffset=+1]
 include::modules-jaxrs.adoc[leveloffset=+1]
 include::modules-restassured.adoc[leveloffset=+1]

@@ -1,6 +1,6 @@
 = Jaxrs
 
-A Jaxrs modul használatához csak be kell hivatkozni a pom.xml-ben
+To use the JAX-RS module, you just need to reference it in the pom.xml file.
 
 [source,xml]
 .pom.xml
@@ -11,53 +11,46 @@ A Jaxrs modul használatához csak be kell hivatkozni a pom.xml-ben
 </dependency>
 ----
 
-== Jaxrs használata
+== Using Jaxrs
 
-A teszt fájlok a JakartaEE JAX-RS specifikációt követik,
-konktrétan a RestEasy implementációját használák.
+The test files adhere to the Jakarta EE JAX-RS specification, specifically using the RestEasy implementation.
 
-=== RestAssured default beállításai
+=== RestAssured default settings
 
-Alapértelmezetten XML vagy JSON formátumra van támogatás a rendszerben.
+By default, the system supports XML or JSON formats.
 
-.JSON response beállítások
+.JSON response settings
 
-* A response HTTP status 200 és "application/json" accept.
+* The response HTTP status is 200 and "application/json" is accepted.
 
-.XML response beállítások
+.XML response settings
 
-* A response HTTP status 200 és "application/xml" accept.
+* The response HTTP status is 200 and "application/xml" is accepted.
 
 === ResponseProcessor
 
-==== Implementálása
+==== Implementation
 
-Egy adott endpoint tesztelésének segítésére született meg a `hu.icellmobilsoft.roaster.jaxrs.response.ResponseProcessor` absztrakt osztály.
-Leszármazástatáskor meg kell adni a Response típusát generikus paraméterben,
-valamint implementálni kell 2 String-et visszaadó metódust, hogy az endpoint-ot azonosítsuk:
+The abstract class `hu.icellmobilsoft.roaster.jaxrs.response.ResponseProcessor` was created to assist in testing a specific endpoint.
+When inheriting, you need to specify the Response type as a generic parameter and implement two methods that return strings to identify the endpoint.
 
-* `baseUriKey`: A Roaster konfigurációban használt kulcs, ami megadja az endpoint baseUri-jét
-* `path`: Az endpoint path. Pl.: http://localhost/foo/bar esetén: /foo/bar
+* `baseUriKey`: The key used in Roaster configuration to specify the base URI of the endpoint
+* `path`: The endpoint path. For example, in http://localhost/foo/bar, it would be: /foo/bar
 
-Opcionálisan az osztály többi metódusa is felülírható,
-hogy a request-et vagy a response foldolgozását személyre szabhassuk.
+Optionally, the other methods of the class can also be overridden to customize request or response processing.
 
-==== Használata
+==== Usage
 
-A `ResponseProcessor` implementáció `getOctetStream`, `postMultipartJson`, `postMultipartXml`, stb. metódusait
-használva tudjuk meghívni az endpoint-ot és automatán parse-olni a választ.
+Using methods like `getOctetStream`, `postMultipartJson`, `postMultipartXml`, etc., implemented in the `ResponseProcessor`, we can invoke the endpoint and automatically parse the response.
 
 === ConfigurableResponseProcessor
 
-Annak érdekében, hogy ne kelljen minden rest végponthoz külön `ResponseProcessor`-t implementálni,
-létrejött a `ConfigurableResponseProcessor` osztály, ami konfigurációból olvassa ki a szükséges értékeket
-például a `baseUriKey`-t és a `path`-t.
+To avoid implementing a separate `ResponseProcessor` for each REST endpoint, the `ConfigurableResponseProcessor` class was created. This class reads necessary values from configuration, such as `baseUriKey` and `path`.
 
-==== Használata
+==== Usage
 
-A konfigurációban fel kell venni közös prefix alá a `baseUriKey`-t és a `path`-t.
-Opcionálisan itt `headers` is megadható.
-YAML formátum esetén ez így néz ki:
+In the configuration, the `baseUriKey` and `path` should be added under a common prefix. Optionally, `headers` can also be specified here.
+In YAML format, it looks like this:
 
 [source,yml]
 ----
@@ -75,8 +68,7 @@ testsuite:
                     - "User-Agent: roaster/0.8 restassured"
 ----
 
-A tesztosztályba a `ConfigurableResponseProcessor`-t a `@RestProcessor`
-qualifier-rel lehet inject-álni a konfig prefixet megadva:
+You can inject the `ConfigurableResponseProcessor` into the test class using the `@RestProcessor` qualifier, specifying the configuration prefix.
 
 [source,java]
 ----
@@ -103,15 +95,15 @@ class ExampleTest {
     }
 }
 ----
-<1> Alap `ConfigurableResponseProcessor` inject példa
-<2> Opcionálisan az elvárt válasz státusz kód is megadható az annotációban (default: `200 OK`)
-<3> `ConfigurableResponseProcessor`-ban a query paramétereket is meg lehet adni
+<1> Basic example of injecting `ConfigurableResponseProcessor`:
+<2> Optionally, the expected response status code can also be specified in the annotation (default: `200 OK`).
+<3> In `ConfigurableResponseProcessor`, you can also specify the query parameters.
 
-==== Saját implementáció
+==== Own implementation
 
-Ha az adott projekten belül ki szeretnénk egészíteni a `ConfigurableResponseProcessor` működését
-(pl: login, vagy egyéb projekt specifikus header kezeléshez),
-azt első lépésben az `AbstractConfigurableResponseProcessor` implementálásával tehetjük meg:
+If you want to extend the functionality of ConfigurableResponseProcessor within the project,
+(for example: for handling login or other project-specific header operations),
+you can do so by first implementing `AbstractConfigurableResponseProcessor`:
 
 [source,java]
 ----
@@ -120,11 +112,11 @@ import hu.icellmobilsoft.roaster.jaxrs.response.producer.spi.AbstractConfigurabl
 @Dependent
 public class CustomConfigurableResponseProcessor<RESPONSE> extends AbstractConfigurableResponseProcessor<RESPONSE> {
 
-    // Felülírunk amit kell...
+    // We override what is necessary...
 }
 ----
 
-Ezek után egy CDI producer-t kell létrehozni, ami kiszolgálja a konfigurált példányokat:
+After this, you need to create a CDI producer that provides the configured instances:
 
 [source,java]
 ----
@@ -145,10 +137,10 @@ public class CustomConfigurableResponseProcessorProducer<RESPONSE> extends Abstr
     }
 }
 ----
-<1> Létre kell hozni egy producer-t (a `createCustomResponseProcessor`-t meghívva már egy bekonfigurált példányt kapunk)
-<2> Felül kell írni a `getBaseResponseProcessor`-t, hogy a mi típusunkat adja vissza (ezt fogja a `createCustomResponseProcessor` konfigurálni)
+<1> You need to create a producer method (`createCustomResponseProcessor` where you can obtain a pre-configured instance when invoked)
+<2> You need to override the `getBaseResponseProcessor` method to return our type (which will be configured by `createCustomResponseProcessor`)
 
-Ez után már használhatjuk is a saját impelmentációnkat, akár a default megoldással együtt, egy tesztben is:
+After this, you can use your own implementation, either alongside the default solution, in a test.
 
 [source,java]
 ----
@@ -163,15 +155,13 @@ class ExampleTest {
 ----
 
 == Microprofile Rest Client
-Maga a Microprofile Rest Client a Jaxrs alapokat használja,
-így a jaxrs implementációk is natívan támogatják.
-RestEasy esetében például itt:
+The MicroProfile Rest Client itself uses the JAX-RS fundamentals, so JAX-RS implementations inherently support it.
+For example, in the case of RestEasy, a more detailed description can be found here:
 https://docs.jboss.org/resteasy/docs/4.7.5.Final/userguide/html/MicroProfile_Rest_Client.html[MicroProfile Rest Client]
-olvasható konkrétabb leírás.
 
-A Roaster dependency támogatást nyújt a MicroProfile Rest Client használathoz.
+The Roaster dependency provides support for using the MicroProfile Rest Client.
 
-.Egyszerű MicroProfile Rest Client API minta
+.Simple MicroProfile Rest Client API example
 [source,java]
 ----
 import javax.ws.rs.Consumes;
@@ -196,7 +186,7 @@ public interface TestMpRestApi {
 }
 ----
 
-.MicroProfile Rest Client API használata
+.Using MicroProfile Rest Client API
 [source,java]
 ----
 TestMpRestApi testMpRestApiImpl = RestClientBuilder.newBuilder()

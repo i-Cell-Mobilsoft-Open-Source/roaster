@@ -1,14 +1,13 @@
 = -> 2.0.0
 
-== Verzió emelések
-rest-assured: 3.3.0 -> 5.0.0 (jakarta-s dto-k xml marshall/unmarshall-ja miatt)
+== Version upgrades
+rest-assured: 3.3.0 -> 5.0.0 (because of jakarta dto xml marshall/unmarshall)
 
 == WARNING
 
 === roaster-hibernate
-Hibernate 6 válással a kongiurációk is megváltoztak a
-`hu.icellmobilsoft.roaster.hibernate.producer.EntityManagerFactoryProducer` osztályban.
-Valamire volt alapból leírás, de a következő kettő további figyelmet kell hogy kapjon:
+Hibernate 6 brings changes to configurations in the `hu.icellmobilsoft.roaster.hibernate.producer.EntityManagerFactoryProducer` class.
+Something was already described by default, but the following two need additional attention:
 
 [source,java]
 ----
@@ -19,19 +18,19 @@ Valamire volt alapból leírás, de a következő kettő további figyelmet kell
         props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false); <2>
 ...
 ----
-<1> Valószinű natív támogatást kapott (https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#beans-cdi)
-<2> Megszünt, nemtudni mit kell tenni...
+<1> It probably received native support (https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#beans-cdi)
+<2> It has been discontinued; it's unclear what needs to be done....
 
 == BUG
 
 === roaster-testsuite-tm4j
 
-Valami probléma (Dependency, Jakarta upgrade) miatt a 
+Because of some problem (Dependency, Jakarta upgrade) these tests
 
 * hu.icellmobilsoft.roaster.testsuite.tm4j.Tm4jIT
 * hu.icellmobilsoft.roaster.testsuite.tm4j.Tm4jTagCycleIT
 
-tesztek ki lettek kapcsolva amíg nem valaki nem javítja a hibát:
+have been disabled until someone fixes the issue:
 
 [source,bash]
 ----

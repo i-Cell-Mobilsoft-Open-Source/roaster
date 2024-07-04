@@ -1,6 +1,6 @@
 = RestAssured
 
-A RestAssured modul használatához csak be kell hivatkozni a pom.xml-ben
+To use the RestAssured module, you just need to reference it in the pom.xml file.
 
 [source,xml]
 .pom.xml
@@ -11,9 +11,9 @@ A RestAssured modul használatához csak be kell hivatkozni a pom.xml-ben
 </dependency>
 ----
 
-== RestAssured használata
+== Using RestAssured
 
-A teszt fájlok a következő mintát követik:
+The test files follow the following pattern:
 
 [source,java]
 ----
@@ -65,26 +65,26 @@ public class PostSampleRequestIT extends BaseConfigurableWeldIT {
 }
 ----
 
-=== RestAssured default beállításai
+=== Default settings of RestAssured
 
-Alapértelmezetten XML vagy JSON formátumra van támogatás a rendszerben.
-A beállításokat a következő osztályok kezelik:
+By default, the system supports XML or JSON formats.
+The settings are managed by the following classes:
 
 * RestAssuredConfigProducer
 * RequestSpecificationProducer
 * ResponseSpecificationProducer
 
-Mind szabadon módosíthatóak az implementáló projekten.
+All of them can be freely modified in the implementing project.
 
-==== JSON default beállításai
+==== Default settings of JSON
 
-* A request content-type és accept "application/json".
-* A response HTTP status 200 és "application/json" accept.
-* A default beállításokat a Jackson2ObjectMapperFactoryImpl foglalja össze.
+* The request content-type and accept headers are "application/json".
+* The response HTTP status is 200 and "application/json" is accepted.
+* The default settings are summarized by Jackson2ObjectMapperFactoryImpl.
 
-Ha igény van egy saját ObjectMapperConfig-ra,
-mint ami a ObjectMapperConfigProducer-ben keletkezik,
-akkor minta megoldásnak használható például:
+If there is a need for a custom ObjectMapperConfig,
+similar to what is generated in ObjectMapperConfigProducer,
+a sample solution could be:
 
 [source,java]
 ----
@@ -96,35 +96,31 @@ private RestAssuredConfig restAssuredConfig;
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 ----
 
-==== XML default beállításai
+==== Default settings of XML
 
-* Kódolás UTF-8.
-* A request content-type és accept "application/xml".
-* A response HTTP status 200 és "application/xml" accept.
+* Encoding UTF-8.
+* The request content-type and accept headers are "application/xml".
+* The response HTTP status is 200 and "application/xml" is accepted.
 
 
 === ResponseProcessor
 
-==== Implementálása
+==== Implementation
 
-Egy adott endpoint tesztelésének segítésére született meg a `ResponseProcessor` absztrakt osztály.
-Leszármazástatáskor meg kell adni a Response típusát generikus paraméterben,
-valamint implementálni kell 2 String-et visszaadó metódust, hogy az endpoint-ot azonosítsuk:
+The `ResponseProcessor` abstract class was created to assist in testing a specific endpoint.
+When subclassing, you need to specify the response type in a generic parameter and implement two methods that return strings to identify the endpoint:
 
-* `baseUriKey`: A Roaster konfigurációban használt kulcs, ami megadja az endpoint baseUri-jét
-* `path`: Az endpoint path. Pl.: http://localhost/foo/bar esetén: /foo/bar
+* `baseUriKey`: The key used in the Roaster configuration that specifies the baseURI of the endpoint
+* `path`: The endpoint path. For example, in http://localhost/foo/bar, it would be: /foo/bar
 
-Opcionálisan az osztály többi metódusa is felülírható,
-hogy a request-et vagy a response foldolgozását személyre szabhassuk.
-Például a `createRequestSpecification` metódust felülírva
-módosíthatjuk a request header-öket, sütiket, stb.
+Optionally, other methods of the class can also be overridden to customize the processing of requests or responses.
+For example, by overriding the `createRequestSpecification` method, you can modify the request headers, cookies, etc.
 
-==== Használata
+==== Usage
 
-A `ResponseProcessor` implementáció `getJson`, `postJson`, `getXml`, `postXml` metódusait
-használva tudjuk meghívni az endpoint-ot és automatán parse-olni a választ.
+Using the `getJson`, `postJson`, `getXml`, `postXml` methods of the `ResponseProcessor` implementation, we can invoke the endpoint and automatically parse the response.
 
-==== Példa
+==== Example
 
 [source,java]
 ----
@@ -132,7 +128,7 @@ public class ExampleQueryResponseProcessor extends ResponseProcessor<ExampleQuer
 
     @Override
     public String baseUriKey() {
-        return "example-project.example-service.url"; // értéke pl.: http://localhost:8080
+        return "example-project.example-service.url"; // value e.g: http://localhost:8080
     }
 
     @Override
@@ -140,7 +136,7 @@ public class ExampleQueryResponseProcessor extends ResponseProcessor<ExampleQuer
         return "/example/foo/{id}";
     }
 
-    @Override // Példa extra header hozzáadására
+    @Override // Example of adding an extra header
     protected RequestSpecification createRequestSpecification(RequestSpecification initRequestSpecification) {
         return super.createRequestSpecification(initRequestSpecification)
                 .header("Authorization", "Basic dXNlcjpwYXNz");
@@ -158,15 +154,14 @@ public class ExampleQueryResponseProcessor extends ResponseProcessor<ExampleQuer
 
 === ConfigurableResponseProcessor
 
-Annak érdekében, hogy ne kelljen minden rest végponthoz külön `ResponseProcessor`-t implementálni,
-létrejött a `ConfigurableResponseProcessor` osztály, ami konfigurációból olvassa ki a szükséges értékeket
-például a `baseUriKey`-t és a `path`-t.
+To avoid implementing a separate `ResponseProcessor` for each REST endpoint,
+the `ConfigurableResponseProcessor` class has been created. It reads necessary values from configuration,
+such as `baseUriKey` and `path`.
 
-==== Használata
+==== Usage
 
-A konfigurációban fel kell venni közös prefix alá a `baseUriKey`-t és a `path`-t.
-Opcionálisan itt `headers` is megadható.
-YAML formátum esetén ez így néz ki:
+To configure, you need to include `baseUriKey` and `path` under a common prefix.
+Optionally, `headers` can also be provided. In YAML format, it looks like this:
 
 [source,yml]
 ----
@@ -184,9 +179,8 @@ testsuite:
                     - "User-Agent: roaster/0.5 restassured"
 ----
 
-A tesztosztályba a `ConfigurableResponseProcessor`-t a `@RestProcessor`
-qualifier-rel lehet inject-álni a konfig prefixet megadva:
-
+In the test class, you can inject the `ConfigurableResponseProcessor` using the `@RestProcessor` qualifier,
+providing the configuration prefix:
 [source,java]
 ----
 import hu.icellmobilsoft.roaster.restassured.response.producer.impl.ConfigurableResponseProcessor;
@@ -210,15 +204,14 @@ class ExampleTest {
     }
 }
 ----
-<1> Alap `ConfigurableResponseProcessor` inject példa
-<2> Opcionálisan az elvárt válasz státusz kód is megadható az annotációban (default: `200 OK`)
-<3> `ConfigurableResponseProcessor`-ban a query paramétereket is meg lehet adni
+<1> Basic example of injecting `ConfigurableResponseProcessor`
+<2> Optionally, the expected response status code can also be specified in the annotation (default: `200 OK`)
+<3> In `ConfigurableResponseProcessor`, you can also specify query parameters
 
-==== Saját implementáció
+==== Own implementation
 
-Ha az adott projekten belül ki szeretnénk egészíteni a `ConfigurableResponseProcessor` működését
-(pl: login, vagy egyéb projekt specifikus header kezeléshez),
-azt első lépésben az `AbstractConfigurableResponseProcessor` implementálásával tehetjük meg:
+If you want to extend the functionality of `ConfigurableResponseProcessor` within your project (e.g., for handling login or other project-specific headers),
+you can first implement `AbstractConfigurableResponseProcessor`:
 
 [source,java]
 ----
@@ -238,7 +231,7 @@ public class LoginConfigurableResponseProcessor<RESPONSE> extends AbstractConfig
 }
 ----
 
-Ezek után egy CDI producer-t kell létrehozni, ami kiszolgálja a konfigurált példányokat:
+After this, you need to create a CDI producer that serves the configured instances:
 
 [source,java]
 ----
@@ -259,10 +252,10 @@ public class LoginConfigurableResponseProcessorProducer<RESPONSE> extends Abstra
     }
 }
 ----
-<1> Létre kell hozni egy producer-t (a `getConfiguredResponseProcessor`-t meghívva már egy bekonfigurált példányt kapunk)
-<2> Felül kell írni a `getBaseResponseProcessor`-t, hogy a mi típusunkat adja vissza (ezt fogja a `getConfiguredResponseProcessor` konfigurálni)
+<1> You need to create a producer (invoking `getConfiguredResponseProcessor` will provide you with a configured instance)
+<2> Override the `getBaseResponseProcessor` method to return our type (this will be configured by `getConfiguredResponseProcessor`).
 
-Ez után már használhatjuk is a saját impelmentációnkat, akár a default megoldással együtt, egy tesztben is:
+After this, you can use your own implementation, either alongside the default solution, even in a single test:
 
 [source,java]
 ----

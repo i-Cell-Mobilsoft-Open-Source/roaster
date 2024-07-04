@@ -1,7 +1,7 @@
 [#modules-hibernate]
 = Hibernate
 
-A Hibernate modul használatához első sorban be kell hivatkozni a pom.xml-ben a következő függőséget:
+To use the Hibernate module, you first need to reference the following dependency in your pom.xml file:
 
 [source,xml]
 .pom.xml
@@ -12,11 +12,11 @@ A Hibernate modul használatához első sorban be kell hivatkozni a pom.xml-ben 
 </dependency>
 ----
 
-Ezen kívül szükséges még hozzá a megfelelő jdbc driver hozzáadása, mely felhasználási helyenként eltérhet.
-Javasolt a következők használata:
+In addition, you also need to add the appropriate JDBC driver, which may vary depending on the usage context.
+It is recommended to use the following:
 
 [source,xml]
-.pom.xml Oracle19 esetén
+.pom.xml in case of Oracle19 
 ----
 
         <dependency>
@@ -33,7 +33,7 @@ Javasolt a következők használata:
 ----
 
 [source,xml]
-.pom.xml Mysql esetén
+.pom.xml in case of Mysql
 ----
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
@@ -45,7 +45,7 @@ Javasolt a következők használata:
 ----
 
 [source,xml]
-.pom.xml H2 esetén
+.pom.xml in case of H2
 ----
         <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
         <dependency>
@@ -58,7 +58,7 @@ Javasolt a következők használata:
 
 
 [source,xml]
-.pom.xml PostgreSQL esetén
+.pom.xml in case of PostgreSQL
 ----
         <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
@@ -69,14 +69,14 @@ Javasolt a következők használata:
 
 ----
 
-Ezen kívül a következő konfigurációkat kell elvégezni:
+In addition, the following configurations need to be performed:
 
-== Hibernate Konfigurációs paraméterek
+== Hibernate configuration parameters
 
-A hibernate használatához projekt szinten szükséges létrehozni a resource-ok közt a META-INF mappában a persistence.xml-t.
-Ha a *defaultPU* névvel van létrehozva (ahogy a példában), akkor az EntityManager extra annotáció nélkül inject-telhető.
+To use Hibernate, it is necessary to create the `persistence.xml` file at the project level within the `META-INF` folder among resources.
+If it is created with the name *defaultPU* (as in the example), then the EntityManager can be injected without any extra annotations.
 
-Példák:
+Example:
 
 [source,xml]
 .META-INF/persistence.xml
@@ -96,14 +96,14 @@ Példák:
 ----
 
 [TIP]
-A persistence.xml-be szükséges megadni az entitásokat mindenképpen!
-További egyedi beállításhoz egyszerű leírás itt található: https://vladmihalcea.com/jpa-persistence-xml/
-Ami a microprofile-config-on keresztül megadásra kerül azok lesznek használva, felülírva a persistence.xml -ben lévő azonos property-ket.
-Ha egy adott rész nincs a microprofile-config-on beállítva, de a persistence.xml-ben igen, akkor a megadottak lesznek érvényesek.
+In the `persistence.xml`, it is necessary to specify the entities regardless!
+For further custom settings, you can find a simple description here: https://vladmihalcea.com/jpa-persistence-xml/
+Settings provided through microprofile-config will be used, overriding identical properties in the persistence.xml.
+If a specific part is not configured in microprofile-config but is configured in persistence.xml, then the settings in persistence.xml will be applied.
 
-A microprofile-config segítségével paraméterezhetőek a Hibernate beállítási adatok:
+Hibernate configuration settings can be parameterized using microprofile-config.
 
-Példák:
+Example:
 
 [source,properties]
 .META-INF/microprofile-config.properties
@@ -142,15 +142,15 @@ roaster.hiberante.defaultPU.hibernate.generate_statistics=true
           generate_statistics: true
 ----
 
-== Használati példa
+== Example of usage
 
 [source,java]
-.HibernateTest példa osztály
+.HibernateTest example class
 ----
 public class HibernateTest extends BaseWeldUnitType {
 
     @Inject
-    // A háttérben ez érvényesedik: @HibernatePersistenceConfig(persistenceUnitName = "defaultPU")
+    // This applies in the background: @HibernatePersistenceConfig(persistenceUnitName = "defaultPU")
     private EntityManager userEntityManager;
 
     @Inject
