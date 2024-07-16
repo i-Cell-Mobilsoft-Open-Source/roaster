@@ -91,8 +91,8 @@ public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback, 
 
     @Override
     public void afterTestExecution(ExtensionContext context) {
-        // Ha maven-ből több tesztet futtatunk, akkor a második teszttől kezdve a RestClientExtension-ben ragad a régi, leállított CDI bean manager,
-        // így elszállna exception-nel. Ezért minden teszt végén ezt clear-elni kell.
+        // When running multiple tests from Maven, starting from the second test, the RestClientExtension gets stuck with the old,
+        // stopped CDI bean manager, potentially causing exceptions. Therefore, it's necessary to clear this at the end of every test.
         RestClientExtension.clearBeanManager();
     }
 

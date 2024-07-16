@@ -1,7 +1,7 @@
 [#modules-selenide]
 = Selenide
 
-A Selenide modul használatához csak be kell hivatkozni a pom.xml-ben
+To use the Selenide module, you just need to reference it in the pom.xml file.
 
 [source,xml]
 .pom.xml
@@ -12,13 +12,13 @@ A Selenide modul használatához csak be kell hivatkozni a pom.xml-ben
 </dependency>
 ----
 
-*A Selenide modul nem használható Internet Explorerrel!!*
+*The Selenide module is not compatible with Internet Explorer!!*
 
-== Selenide Konfigurációs paraméterek
+== Selenide Configuration Parameters
 
-A microprofile-config segítségével paraméterezhetőek a Selenide valamint a WebDriver paraméterei.
+The Selenide and WebDriver parameters can be configured using microprofile-config.
 
-Példák:
+Examples:
 
 [source,properties]
 .META-INF/microprofile-config.properties
@@ -39,30 +39,30 @@ roaster.selenide.browser.decision.height=768
 # Minimal Roaster config for Selenide
 roaster:
   selenide:
-    homepage: https://google.com # böngészőben megnyíló oldal címe
-    timeout: 3000 # alap timeoutja a WebDrivernek
+    homepage: https://google.com # URL of the page that opens in the browser
+    timeout: 3000 # default timeout for WebDriver
     selenium:
-      url: # wd hub linkje ha remote webdriverrel szükséges futtatni a teszteket
+      url: # URL of wd hub if tests need to be run with remote WebDriver
     browser:
-      type: chrome # lehetséges értékek: chrome, edge, opera, safari
+      type: chrome # possible values: chrome, edge, opera, safari
       headless: false
-      device: # Galaxy S5 vagy iPad Pro (Lehetőségeket lásd itt: https://github.com/DevExpress/device-specs/blob/master/devices.md)
+      device: # Galaxy S5 or iPad Pro (See options here: https://github.com/DevExpress/device-specs/blob/master/devices.md)
       decision:
-        width: # példa 1024
-        height: # példa: 768
+        width: # example: 1024
+        height: # example: 768
 ----
 
-Fontos megjegyezni, hogyha a *roaster.selenide.selenium.url* nincs kitöltve, akkor nem remote módban indul.
+It's important to note that if *roaster.selenide.selenium.url* is not filled, it won't run in remote mode.
 
-Fontos megjegyezni, hogyha a *roaster.selenide.browser.device* kivan töltve, akkor chrome böngésző indul el, és a device-hoz beírt nevű eszközt emulálva próbál a chrome elindulni.
-Fontos ehhez a beállításhoz megjegyezni, hogy mivel az emulált eszköznek fix képernyő nagysága van, az lesz használva, ilyenkor nem veszi figyelembe a felbontási beállításokat.
+It's important to note that if *roaster.selenide.browser.device* is filled, the Chrome browser will be launched, emulating the device with the specified name.
+It's important to remember that since the emulated device has a fixed screen size, that will be used, and it won't take into account the resolution settings.
 
-Fontos megjegyezni, hogyha a *roaster.selenide.browser.device.width* és *roaster.selenide.browser.device.height* ki van töltve akkor a böngésző nem lesz a képernyőhöz igazítva.
+It's important to note that if *roaster.selenide.browser.device.width* and *roaster.selenide.browser.device.height* are filled, the browser won't be adjusted to the screen.
 
-== Használati példa
+== Usage Example
 
 [source,java]
-.GoogleIcellMobilsoftTest példa osztály
+.GoogleIcellMobilsoftTest sample class
 ----
 @Tag(TestSuiteGroup.SELENIDE)
 @Disabled("Only for testing!!!")
@@ -72,7 +72,7 @@ public class GoogleIcellMobilsoftTest extends BaseSelenideTestCase {
     @DisplayName("Search 'icellmobilsoft' word on Google.com")
     @Disabled("Only for testing!!!")
     public void testGoogleWithIcellmobilsoftSearch() {
-        // You don't have to use Selenide.open(<url>), it come from configuration, and do it automatically
+        // You don't have to use Selenide.open(<url>), it comes from the configuration and does it automatically
         SelenideElement qInput = Selenide.$("input[name='q']");
         qInput.setValue("icellmobilsoft").pressEnter();
 
@@ -83,11 +83,13 @@ public class GoogleIcellMobilsoftTest extends BaseSelenideTestCase {
 }
 ----
 
-== Selenide Angular modul
+== Selenide Angular Module
 
-A modul célja az Angular-ban használt komplexebb komponensek támogatása.
+The purpose of this module is to support more complex components used in Angular.
 
-Használatához a következő maven modult kell bekötni:
+To use it, you need
+
+ to include the following Maven module:
 
 [source,xml]
 .pom.xml
@@ -98,12 +100,12 @@ Használatához a következő maven modult kell bekötni:
 </dependency>
 ----
 
-Jelenleg támogatott komponensek:
+Currently supported components:
 
 === <mat-checkbox>
 
 [source,java]
-.példa
+.example
 ----
 MatCheckbox checkbox = new MatCheckbox(Selenide.$(MatCheckbox.TAG_NAME));
 assertFalse(checkbox.getValue());
@@ -114,7 +116,7 @@ assertTrue(checkbox.getValue());
 === <mat-radio-group>
 
 [source,java]
-.példa
+.example
 ----
 MatRadioGroup radioGroup = new MatRadioGroup(Selenide.$(MatRadioGroup.TAG_NAME));
 assertTrue(radioGroup.getSelected().isEmpty());
@@ -126,7 +128,7 @@ assertIterableEquals(List.of("Option 1", "Option 2"), radioGroup.getOptions());
 === <mat-select>
 
 [source,java]
-.példa
+.example
 ----
 MatSelect multiSelect = new MatSelect(Selenide.$("#select-multiple " + MatSelect.TAG_NAME));
 multiSelect.select("Onion", "Pepperoni");
@@ -139,7 +141,7 @@ assertEquals(6, multiSelect.getOptions().size());
 === <mat-slide-toggle>
 
 [source,java]
-.példa
+.example
 ----
 MatSlideToggle checkbox = new MatSlideToggle(Selenide.$(MatSlideToggle.TAG_NAME));
 assertFalse(checkbox.getValue());

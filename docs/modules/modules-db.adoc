@@ -1,6 +1,6 @@
 = Oracle DB
 
-A Oracle DB modul használatához csak be kell hivatkozni a pom.xml-ben
+To use the Oracle DB module, you just need to reference it in the pom.xml file
 
 [source,xml]
 .pom.xml
@@ -11,11 +11,11 @@ A Oracle DB modul használatához csak be kell hivatkozni a pom.xml-ben
 </dependency>
 ----
 
-== Oracle DB Konfigurációs paraméterek
+== Oracle DB configuration parameters
 
-A microprofile-config segítségével paraméterezhetőek az Oracle DB eléréséhez szükséges adatok.
+With MicroProfile Config, the necessary data for accessing Oracle DB can be parameterized.
 
-Példák:
+Examples:
 
 [source,properties]
 .META-INF/microprofile-config.properties
@@ -37,26 +37,26 @@ roaster:
                 password: db_pass
                 maximumPoolSize: 10 #<1>
 ----
-<1> (Opcionális) a connection pool max mérete (default: 5)
+<1> (Optional) The maximum value of the connection pool (default: 5)
 
-== OracleJDBCSelectorService használata
+== Using OracleJDBCSelectorService
 
-Először is injektálni kell a service osztályt.
+First, you need to inject the service class.
 
 [source,java]
-.OracleJDBCSelectorService injektálása
+.Injecting OracleJDBCSelectorService
 ----
     @Inject
     @DBConnection(configKey = DBConstants.Schema.APPLICATION)
     private OracleJDBCSelectorService service;
 ----
 
-=== OracleJDBCSelectorService műveletei
+=== Operations of OracleJDBCSelectorService
 
-A OracleJDBCSelectorService-en keresztül érhetőek el a műveletek, amik meghívásakor, ha még nem létezik nyitott kapcsolat, létrehoz egy újat az adatbázissal, majd a művelet végén be is zárja azt.
+Through OracleJDBCSelectorService, operations can be accessed. When these operations are invoked and if there is no open connection yet, it creates a new one with the database. At the end of the operation, it closes the connection.
 
-IMPORTANT: A selecttel kezdődő metódusok, csak SELECT-tel kezdődő sql utasításokat fogadnak be!
-A selectFirst pedig, ha több találat jön DBből, akkor csak az első sort adja vissza.
+IMPORTANT: Methods starting with "select" accept only SQL statements that begin with "SELECT"!
+The `selectFirst` method returns only the first row if there are multiple results from the database.
 
 * selectFirstStringValue(sql select string, columnName)
 * selectFirstIntegerValue(sql select string, columnName)
@@ -68,7 +68,7 @@ A selectFirst pedig, ha több találat jön DBből, akkor csak az első sort adj
 * selectAllObjects(sql select string, converter)
 
 [source,java]
-.művelet hívásokra példa
+.Examples of operation calls
 ----
 String name = service.selectFirstStringValue("SELECT * FROM EXAMPLE WHERE X__ID = '0'", "NAME");
 int rowCount = service.selectRowCount("SELECT * FROM EXAMPLE WHERE X__ID = '0'");
@@ -76,7 +76,7 @@ List<Example> exampleList = service.selectAllObjects("SELECT * FROM EXAMPLE", ex
 ----
 
 [source,java]
-.Converter-re példa
+.Examples of Converter
 ----
 private T convert(ResultSet rs) throws BaseException {
     try {
@@ -90,7 +90,7 @@ private T convert(ResultSet rs) throws BaseException {
 }
 ----
 
-=== Kapcsolat kezeléshez szükséges metódusok
+=== Methods necessary for managing connections
 
 * getJdbcConnection()
 * setJdbcConnection(JDBCConnection)

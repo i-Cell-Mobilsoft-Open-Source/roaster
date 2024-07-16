@@ -1,22 +1,22 @@
 # roaster
 Developer and Intergration test framework based on coff:ee
 
-A roaster egy Java SE+ teszt framework, melynek célja, hogy az fejlesztőknek a tesztek írásánál gyakori algoritmusait összegyűjtse,
-azokra egy alapvető megoldást nyújtson, melyet, ha szükséges saját igényeinkre szabhatunk.
+The roaster is a Java SE+ testing framework designed to collect common algorithms used by developers when writing tests.
+It provides fundamental solutions that can be customized according to our specific needs.
 
-A projekt ezeken a technológiákon alapszik:
+The project is based on these technologies:
 
 * Java 11+
 * CDI 2.0+
 * https://rest-assured.io[REST-assured]
 
-Bővebb leírás a https://i-cell-mobilsoft-open-source.github.io/roaster/[roaster dokumentáció] oldalon található.
+More detailed description can be found on this page: https://i-cell-mobilsoft-open-source.github.io/roaster/[roaster documentation]
 
 == Maven central
-A roaster megtalálható az official maven repository-ban is,
-a projekten elég behúzni a BOM-ot mely minden almodult lekezel:
+The roaster can also be found in the official Maven repository.
+To include it in your project, simply import the BOM that manages all the modules:
 
-.dependencyManagement beállítások
+.dependencyManagement settings
 [source, xml]
 ----
 <dependencyManagement>
@@ -30,7 +30,7 @@ a projekten elég behúzni a BOM-ot mely minden almodult lekezel:
 </dependencyManagement>
 ----
 
-.modulok használata
+.use of modules
 [source, xml]
 ----
 <dependencies>
@@ -42,10 +42,10 @@ a projekten elég behúzni a BOM-ot mely minden almodult lekezel:
         <groupId>hu.icellmobilsoft.roaster</groupId>
         <artifactId>roaster-oracle</artifactId>
     </dependency>
-    ...egyéb roaster modulok...
+    ...other roaster modules...
 </dependencies>
 ----
 
-Bővebb leírás a https://i-cell-mobilsoft-open-source.github.io/roaster/[roaster dokumentáció] oldalon található.
+More detailed description can be found on this page: https://i-cell-mobilsoft-open-source.github.io/roaster/[roaster documentation]
 
 Copyright (C) 2020 i-Cell Mobilsoft Zrt.

@@ -62,10 +62,10 @@ class MprestclientIT extends BaseWeldUnitType {
     static void beforeAll() {
         MOCK_SERVER.start();
 
-        // microprofile-config beallitasok
+        // microprofile-config settings
         System.setProperty(URI_KEY, MOCK_SERVER.getEndpoint());
 
-        // MockServerContainer-ben beallitjuk a expectations-t
+        // We set the expectations in the MockServerContainer
         MockServerClient expectation = new MockServerClient(MOCK_SERVER.getHost(), MOCK_SERVER.getServerPort());
         expectation.when(HttpRequest.request().withPath("/mp/rest/client/post"))
                 .respond(HttpResponse.response().withStatusCode(200).withBody(BODY, MediaType.APPLICATION_JSON));

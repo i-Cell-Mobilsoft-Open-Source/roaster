@@ -79,11 +79,11 @@ public abstract class ResponseProcessor<RESPONSE> {
      * @return response object cast to responseClass
      */
     public RESPONSE getJson(Class<RESPONSE> responseClass, Object... pathParams) {
-        // REST beallitasok
+        // REST settings
         RequestSpecification rSpec = createJsonRequestSpecification();
         // HTTP
         Response response = rSpec.get(path(), pathParams);
-        // response feldolgozas
+        // response processing
         return toJsonResponse(response, responseClass);
     }
 
@@ -150,11 +150,11 @@ public abstract class ResponseProcessor<RESPONSE> {
      * @return response object cast to responseClass
      */
     public RESPONSE getXml(Class<RESPONSE> responseClass, Object... pathParams) {
-        // REST beallitasok
+        // REST settings
         RequestSpecification rSpec = createXmlRequestSpecification();
         // HTTP
         Response response = rSpec.get(path(), pathParams);
-        // response feldolgozas
+        // response processing
         return toXmlResponse(response, responseClass);
     }
 

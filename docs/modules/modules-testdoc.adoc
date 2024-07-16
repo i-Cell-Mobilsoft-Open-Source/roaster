@@ -1,10 +1,10 @@
 = TestDoc
 
-A TestDoc modul célja, hogy teszt osztályokból asciidoc dokumentációt generáljon.
+The purpose of the TestDoc module is to generate AsciiDoc documentation from test classes.
 
-== Használat
+== Usage
 
-A TestDoc modul aktiválásához az alábbi függőséget kell meghivatkozni a pom.xml-ben:
+To activate the TestDoc module, you need to reference the following dependency in your pom.xml:
 
 [source,xml]
 .pom.xml
@@ -15,12 +15,12 @@ A TestDoc modul aktiválásához az alábbi függőséget kell meghivatkozni a p
 </dependency>
 ----
 
-Ezután a dokumentálni kívánt teszt osztályokat @TestDoc annotációval kell ellátni.
+Afterwards, annotate the test classes you want to document with the @TestDoc annotation.
 
-Ha ezzel megvagyunk alapértelmezetten a fordításkor az elkészült `.jar` fájlba bekerül a generált asciidoc a `META-INF/test_doc.adoc` néven.
-Az egyes teszt osztályok külön táblázatonként jelennek meg a generált dokumentumban.
+Once you've done this, by default, during compilation, the generated AsciiDoc will be included in the resulting `.jar` file under the name `META-INF/test_doc.adoc`.
+Each test class appears in a separate table in the generated document.
 
-== Példa
+== Example
 
 *Input:*
 
@@ -76,16 +76,16 @@ class TestDocTest {
 }
 ----
 
-<1> A generálást egy osztályon a `@TestDoc` annotációval aktiváljuk.
-A `titleHeadingLevel` paraméterrel állíthatjuk a generált táblázat címsorának a szintjét, melynek megadása opcionális.
-Ha megadjuk, az értékének a [0,5] intervallumba kell esnie.
-Ha nem adjuk meg, vagy az intervalumon kívül esik a megadott érték, akkor alapértelmezetten 2 lesz az értéke.
-<2> A `@Test`, valamint `@ParameterizedTest` annotációval ellátott metódusok fognak bekerülni a generált táblázatba.
+<1> The generation is activated on a class using the `@TestDoc` annotation.
+The `titleHeadingLevel` parameter is used to set the heading level of the generated table's title row, and its specification is optional.
+If specified, the value must fall within the interval [0, 5].
+If not specified or if the provided value falls outside the interval, the default value will be 2.
+<2> Methods annotated with `@Test` and `@ParameterizedTest` will be included in the generated table.
 
-A generált dokumentumba osztályonként egy táblázat fog létrejönni.
-A táblázatok sorrendje a teszt osztályok nevei szerint alakul.
-A táblázatok címsora elsődlegesen az osztály `@DisplayName` értéke lesz, ha ez nincs kitöltve, akkor pedig az osztály neve.
-A táblázatok tesztenként a teszt metódus nevét és a hozzá tartozó `@DisplayName` értékét fogják tartalmazni.
+Each class will have a separate table generated in the resulting document.
+The order of tables will follow the names of the test classes.
+The heading of the tables will primarily be based on the `@DisplayName` value of the class. If this is not filled out, then it will default to the class name.
+The tables will contain the test method name and its corresponding `@DisplayName` value, if provided.
 
 *Output:*
 
@@ -103,12 +103,12 @@ A táblázatok tesztenként a teszt metódus nevét és a hozzá tartozó `@Disp
 |generatedFileShouldContainTestData|Generated file should contain the test data
 |===
 
-== Konfiguráció
+== Configuration
 
-Mivel a generálás annotation processor-t használ, ezért konfigurálni a fordítás során a `-A` kapcsolóval lehet.
-Ezt maven esetén a `maven-compiler-plugin`-on keresztül lehet megadni:
+Since the generation uses an annotation processor, you can configure it during compilation using the `-A` switch.
+For Maven, this can be done via `maven-compiler-plugin`:
 
-.pom.xml példa
+.pom.xml example
 [source,xml]
 ----
 <build>
@@ -127,9 +127,9 @@ Ezt maven esetén a `maven-compiler-plugin`-on keresztül lehet megadni:
 </build>
 ----
 
-<1> A mappa ahova a genrált fájlt rakjuk.
+<1> The folder where the generated file will be placed.
 Default: `META-INF/`
-<2> A generált fájl neve.
+<2> The name of the generated file.
 Default: `test_doc.adoc`
-<3> A generált fájlt a classpath-ra kell-e rakni, azaz szeretnénk-e, hogy az elkészült jar fájlba bekerüljön.
+<3> Should the generated file be placed on the classpath, meaning do we want it to be included in the resulting JAR file?
 Default: `true`

@@ -49,8 +49,8 @@ public class RestAssuredConfigProducer {
 
     /**
      * Produce JSON content setting config<br>
-     * Ha igény van egy saját ObjectMapperConfig-ra, mint ami a ObjectMapperConfigProducer-ben keletkezik, akkor minta megoldásnak használható
-     * például:
+     * If there is a need for a custom ObjectMapperConfig, similar to what is generated in ObjectMapperConfigProducer, it can serve as a sample solution.
+     * Example:
      * 
      * <pre>
      * &#64;Inject

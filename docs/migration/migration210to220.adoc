@@ -1,17 +1,17 @@
 = 2.1.0 -> 2.2.0
 
-== Változások
+== Changes
 
-=== Általános
+=== General
 
-* license-maven-plugin -ba javítva lett a projectName Roaster-re
-* törölve lettek a @Vetoed annotációk.
+* projectName has been fixed to Roaster in license-maven-plugin
+* The @Vetoed annotations have been removed..
 
 
 
-==== BOM verzió emelések:
+==== BOM version upgrades:
 * com.codeborne:selenide: 6.18.0 -> 6.19.1
-* hu.icellmobilsoft.coffee:coffee: 2.3.0 -> 2.7.0 , szükséges változásokat lásd:
+* hu.icellmobilsoft.coffee:coffee: 2.3.0 -> 2.7.0 , See necessary changes:
 ** https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_3_0_v2_4_0[coffee 2.3.0 -> 2.4.0] 
 ** https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_4_0_v2_5_0[coffee 2.4.0 -> 2.5.0]
 ** https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_5_0_v2_6_0[coffee 2.5.0 -> 2.6.0]
@@ -19,9 +19,9 @@
 
 ==  roaster-selenide
 
-Vágólap tartalmának elérése Chrome böngészőből, local és remote futtatás során is
+Accessing the clipboard content in Chrome browser, both during local and remote execution.
 
 ==  roaster-hibernate
 
-Persistence contextenként csak egyszer jön létre EntityManagerFactory és cachelve marad amíg `@ApplicationScoped EntityManagerFactoryProducer` példány él a containerben.
- A korábbi EntityManager injection során a database connection poolban lévő kapcsolatok elfogytak, mert minden EntityManagerFactory saját connection poolt hozott létre.
+In each persistence context, the EntityManagerFactory is created only once and remains cached as long as the `@ApplicationScoped EntityManagerFactoryProducer` instance lives in the container.
+ During previous EntityManager injections, the database connection pool ran out because each EntityManagerFactory created its own connection pool.

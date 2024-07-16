@@ -1,6 +1,6 @@
-= Migrációs leírás
+= Migration Description
 
-Következő szekció a verzió kiadások közötti változásokat írja le.
+Next section describes the changes between releases.
 
 include::migration/migration010to020.adoc[leveloffset=+1]
 include::migration/migration020to030.adoc[leveloffset=+1]

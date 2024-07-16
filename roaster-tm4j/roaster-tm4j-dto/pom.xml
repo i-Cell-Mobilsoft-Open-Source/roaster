@@ -23,12 +23,12 @@
     <build>
         <plugins>
             <plugin>
-<!-- eredeti plugin: ez nem tudja a jaxb3 vagy 4-et
+<!-- Original plugin: it does not support JAXB 3 or 4.
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
                 <artifactId>maven-jaxb2-plugin</artifactId>
                 <version>0.15.1</version>
 -->
-<!-- forkolt es releaselt plugin a felsobol kiindulva: ez csak a jaxb3-at tudja, 4-et nem de lagalabb jakarta csomagok vannak hasznalva -->
+<!-- Forked and released plugin based on the above: it only supports JAXB 3, not 4, but at least Jakarta packages are used. -->
                 <groupId>com.evolvedbinary.maven.jvnet</groupId>
                 <artifactId>jaxb30-maven-plugin</artifactId>
                 <version>0.15.0</version>
@@ -39,7 +39,7 @@
                         </goals>
                     </execution>
                 </executions>
-                <!-- mas fajta megkozelites, csak igy akkor kezzel kell extra definialas a xsd-kben
+                <!-- Different approach, but then extra definitions in XSDs have to be manually defined.
                 https://stackoverflow.com/questions/35359260/springfox-swagger-make-definition-properties-required-with-xsd-model -->
                 <configuration>
                     <schemaDirectory>src/main/resources</schemaDirectory>

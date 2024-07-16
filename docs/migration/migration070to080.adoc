@@ -1,50 +1,40 @@
 = 0.7.0 -> 0.8.0
 
-== Újdonságok
+== What's new
 
-Létrejött egy új modul: *roaster-jaxrs*.
-A fő célja hogy JAXRS szintú specifikációt használva megoldásokat nyújcson olyan igényekre,
-melyek a *roaster-restassured* nem tud.
-Ilyen például a multipart kezelés,
-vagy a *microprofile-rest-client* lehetősége,
-ami sok customizálást tud pótolni.
-A *roaster-jaxrs* modulhoz készült leírás <<Jaxrs>> és testsuite is.
+A new module has been created: *roaster-jaxrs*.
+Its main objective is to provide solutions using JAX-RS specifications for needs that *roaster-restassured* cannot meet.
+For example, it handles multipart handling and leverages the capabilities of *microprofile-rest-client*, which can fulfill many customization needs.
+The *roaster-jaxrs* module has been accompanied by documentation titled <<Jaxrs>> and a testsuite.
 
-== Változások
+== Changes
 
-=== Általános
-* hu.icellmobilsoft.roaster.common.util.FileUtil kiegészült `InputStream` olvasó paraméterekkel,
-hibakezelést megoldja maga a funkció.
+=== General
+* The `hu.icellmobilsoft.roaster.common.util.FileUtil` has been enhanced with `InputStream` reading parameters, and it handles error management within the function itself.
 
-==== BOM verzió emelések
+==== BOM version upgrades
 * coffee v1.8.0 -> https://i-cell-mobilsoft-open-source.github.io/coffee/#_v1_9_0_v1_10_0[v1.10.2]
 * deltaspike 1.9.1 -> 1.9.6 
 
 === roaster-restassured
-* A `HealthCheckTestHelper` módosult, a továbbiakban az általános `/health` végpont hívás mellett lehetőség van a tipizált probe hivásokat használni:
+* The `HealthCheckTestHelper` has been modified to support typed probe calls in addition to the general `/health` endpoint call.
 - `/health/ready`
 - `/health/live`
 - `/health/started`
-* Az új *roaster-jaxrs* modul dependencia-ként lett bekötve,
-mivel a konfigurációjuk és a használatuk közös (azonos osztályok).
-Ez okoz apró változásokat a java path elérésében.
+* The new *roaster-jaxrs* module has been integrated as a dependency due to shared configuration and usage (common classes). This causes minor changes in the Java path access.
 
-=== Átállás
-A változtatás igényel apró változásokat,
-mégpedig a következő java path-ok változtak:
+=== Migration
+The change requires minor adjustments, specifically the following Java paths have been updated:
 
 * hu.icellmobilsoft.roaster.*restassured*.response.producer.ManagedResponseProcessorConfig -> hu.icellmobilsoft.roaster.*jaxrs*.response.producer.ManagedResponseProcessorConfig
 * hu.icellmobilsoft.roaster.*restassured*.response.producer.ResponseProcessorConfig -> hu.icellmobilsoft.roaster.*jaxrs*.response.producer.ResponseProcessorConfig
 * hu.icellmobilsoft.roaster.*restassured*.response.producer.RestProcessor -> hu.icellmobilsoft.roaster.*jaxrs*.response.producer.RestProcessor
 
-Egyébként nincs semmi működési változás, minden más érintettlen, visszafelé kompatibilis.
+Otherwise, there are no operational changes; everything else remains unchanged and backwards compatible.
 
 === roaster-redis
-A Coff:ee frissítése változást okozott a `hu.icellmobilsoft.roaster.redis.RedisHandler`
-osztályban (coffee-ban kivezetésre került a `RedisService`).
-Apró változásokat okozott az átvezetés,
-és mégpedig hogy a metódusok visszatérése `Optional` értékkel jön az eddigi `String` vagy `void` helyett.
+The update to Coff:ee caused a change in the `hu.icellmobilsoft.roaster.redis.RedisHandler` class (`RedisService` was deprecated in Coffee).
+The migration caused minor changes where method return types are now `Optional` instead of the previous `String` or `void`.
 
-=== Átállás
-A változtatás apró korrekciókat igényelhet a visszatérési értekek típusánál,
-egyébként visszafelé kompatibilis.
+=== Migration
+The change may require minor adjustments to return value types, otherwise it remains backward compatible.

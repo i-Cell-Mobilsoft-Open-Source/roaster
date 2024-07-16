@@ -1,24 +1,22 @@
 = 0.2.0 -> 0.3.0
 
-== Változások
+== Changes
 
-=== Általános
-coff:ee frissítés 1.2.1 → 1.3.0
+=== General
+coff:ee upgrade 1.2.1 → 1.3.0
 
 === roaster-hibernate
-Az `EntityManagerProducer` osztályban az `EntityManagerFactory` injectálás törlésre került és a
-`produceDefaultEntityManager()` metódus magában állítja elő, amikor szükség van rá.
-Így mostantól már csak akkor jön létre alapértelmezett beállításokkal `EntityManagerFactory`,
-ha `@HibernatePersistenceConfig` annotáció nélkül injectálunk `EntityManager`-t.
+In the `EntityManagerProducer` class, injection of `EntityManagerFactory` has been removed, and the `produceDefaultEntityManager()` method now creates it internally when needed
+So from now on, the `EntityManagerFactory` with default settings is only created when injecting `EntityManager` without the `@HibernatePersistenceConfig` annotation
 
-=== Átállás
-A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+=== Migration
+The changes do not require any migration work and are backwards compatible
 
 === roaster-tm4j
-* Bugfix: Több teszt maven futtatása során már nem jön exception
-* Bugfix: TM4J `Executed by` értékét újra töltik a tesztek
-* TM4J environment értékét töltik a tesztek config paraméter alapján
+* Bugfix: Running more test maven no longer cause exception
+* Bugfix: TM4J `Executed by` value is reloaded by the tests
+* They load the TM4J environment value based on the test configuration parameter
 
-=== Átállás
-* A tesztosztályt (vagy ősét) fel kell annotálni a következővel: `@TestInstance(TestInstance.Lifecycle.PER_CLASS)`
-* `roaster.tm4j.environment` config paraméterben megadott értéket létre kell hozni TM4J felületen amennyiben nem létezik
+=== Migration
+* The test class (or its superclass) must be annotated with `@TestInstance(TestInstance.Lifecycle.PER_CLASS)`
+* The value provided in the `roaster.tm4j.environment` configuration parameter must be created in the TM4J interface if it does not exist

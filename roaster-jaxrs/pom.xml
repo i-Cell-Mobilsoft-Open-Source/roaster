@@ -38,8 +38,8 @@
             <groupId>org.eclipse.microprofile.health</groupId>
             <artifactId>microprofile-health-api</artifactId>
         </dependency>
-        <!-- aktivalja a java8 datum konvertereket, default nincs benne -->
-<!-- resteasy-json-binding-provider valoszinu lekezeli
+        <!-- Activate Java 8 date converters, by default they are not included -->
+<!-- resteasy-json-binding-provider probably handles that
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
@@ -54,7 +54,7 @@
             <artifactId>weld-junit5</artifactId>
         </dependency>
 
-        <!-- multipart rest miatt kell -->
+        <!-- needed due to multipart rest -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-multipart-provider</artifactId>

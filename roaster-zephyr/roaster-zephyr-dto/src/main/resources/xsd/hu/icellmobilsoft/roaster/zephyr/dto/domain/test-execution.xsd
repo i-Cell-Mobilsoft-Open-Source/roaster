@@ -13,7 +13,7 @@
 
     <xs:complexType name="CustomFieldsType">
         <xs:sequence>
-            <!--Az xsd típus miatt lett berakva egy element. Szerencsére ezt a blokkot üresen kapjuk.-->
+            <!--The element was added due to the XSD type. Fortunately, we receive this block empty.-->
             <xs:element name="Tester" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>

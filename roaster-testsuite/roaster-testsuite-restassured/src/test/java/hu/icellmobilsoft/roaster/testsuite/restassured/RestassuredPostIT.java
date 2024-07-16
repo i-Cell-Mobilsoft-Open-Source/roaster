@@ -75,12 +75,12 @@ class RestassuredPostIT extends BaseWeldUnitType {
     static void beforeAll() {
         MOCK_SERVER.start();
 
-        // microprofile-config beallitasok
+        // microprofile-config settings
         System.setProperty("roaster.tm4j.server/mp-rest/url", MOCK_SERVER.getEndpoint());
 
         String jsonResponse = JsonUtil.toJson(RESPONSE_DTO);
 
-        // MockServerContainer-ben beallitjuk a expectations-t
+        // We set the expectations in the MockServerContainer
         MockServerClient expectation = new MockServerClient(MOCK_SERVER.getHost(), MOCK_SERVER.getServerPort());
         expectation.when(HttpRequest.request().withPath("/rest/testService/test/entityIdJson"))
                 .respond(HttpResponse.response().withStatusCode(200).withBody(jsonResponse, MediaType.APPLICATION_JSON_UTF_8));
