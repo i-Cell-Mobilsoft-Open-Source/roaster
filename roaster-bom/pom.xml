@@ -3,19 +3,23 @@
 	<parent>
 		<groupId>hu.icellmobilsoft.roaster</groupId>
 		<artifactId>roaster</artifactId>
-		<version>2.2.0-SNAPSHOT</version>
+		<version>2.3.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>roaster-bom</artifactId>
 	<packaging>pom</packaging>
 
 	<properties>
-		<version.org.eclipse.microprofile>6.0</version.org.eclipse.microprofile>
-		<version.hu.icellmobilsoft.coffee>2.3.0</version.hu.icellmobilsoft.coffee>
+		<version.org.eclipse.microprofile.health>4.0</version.org.eclipse.microprofile.health>
+		<version.org.eclipse.microprofile.openapi>3.1</version.org.eclipse.microprofile.openapi>
+		<version.hu.icellmobilsoft.coffee>2.7.0</version.hu.icellmobilsoft.coffee>
 		<version.org.junit>5.9.1</version.org.junit>
 		<version.testcontainers>1.17.6</version.testcontainers>
 		<version.mockserver-client-java>5.14.0</version.mockserver-client-java>
 
+        <version.commons-collections>3.2.2</version.commons-collections>
+        <version.commons-io>2.11.0</version.commons-io>
+		<version.org.apache.commons.commons-lang3>3.14.0</version.org.apache.commons.commons-lang3>
 		<version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
 		<version.io.rest-assured>5.0.0</version.io.rest-assured>
 		<version.io.smallrye.config>3.1.1</version.io.smallrye.config>
@@ -35,10 +39,10 @@
 		<version.com.google.guava>32.1.1-jre</version.com.google.guava>
 
 		<!-- Selenide -->
-		<version.codeborn.selenide>6.18.0</version.codeborn.selenide>
+		<version.codeborn.selenide>6.19.1</version.codeborn.selenide>
 
 		<!-- Hibernate -->
-		<version.org.hibernate>6.1.6.Final</version.org.hibernate>
+		<version.org.hibernate>6.2.13.Final</version.org.hibernate>
 
 		<!-- Jaxrs impl -->
 		<version.org.jboss.resteasy>6.2.2.Final</version.org.jboss.resteasy>
@@ -144,11 +148,16 @@
 				<artifactId>roaster-mongodb</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>hu.icellmobilsoft.roaster</groupId>
+                <artifactId>roaster-testdoc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 			<!-- bom imports -->
 			<dependency>
 				<groupId>hu.icellmobilsoft.coffee</groupId>
-				<artifactId>coffee-bom</artifactId>
+				<artifactId>coffee-bom-project</artifactId>
 				<version>${version.hu.icellmobilsoft.coffee}</version>
 				<type>pom</type>
 				<scope>import</scope>
@@ -166,13 +175,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>org.eclipse.microprofile</groupId>
-				<artifactId>microprofile</artifactId>
-				<version>${version.org.eclipse.microprofile}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
 				<groupId>org.junit</groupId>
 				<artifactId>junit-bom</artifactId>
 				<version>${version.org.junit}</version>
@@ -181,6 +183,21 @@
 			</dependency>
 
 			<!-- common imports -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${version.commons-io}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${version.commons-collections}</version>
+            </dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${version.org.apache.commons.commons-lang3}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-text</artifactId>
@@ -270,7 +287,7 @@
 				<artifactId>microprofile-rest-client</artifactId>
 				<version>${version.org.jboss.resteasy.microprofile-rest-client}</version>
 				<exclusions>
-					<!-- 3.0.0 verziot akarja behuzni ami nem a jakarta.platform:jakarta.jakartaee-api:10.0.0 csomag resze -->
+					<!-- It wants to bring in version 3.0.0 which is not part of the jakarta.platform:jakarta.jakartaee-api:10.0.0 package -->
 					<exclusion>
 						<groupId>jakarta.ws.rs</groupId>
 						<artifactId>jakarta.ws.rs-api</artifactId>
@@ -327,6 +344,18 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
 				<version>${version.org.hibernate}</version>
+			</dependency>
+		
+			<!-- Microprofile -->
+			<dependency>
+				<groupId>org.eclipse.microprofile.health</groupId>
+				<artifactId>microprofile-health-api</artifactId>
+				<version>${version.org.eclipse.microprofile.health}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.microprofile.openapi</groupId>
+				<artifactId>microprofile-openapi-api</artifactId>
+				<version>${version.org.eclipse.microprofile.openapi}</version>
 			</dependency>
 
 			<!-- testcontainers -->

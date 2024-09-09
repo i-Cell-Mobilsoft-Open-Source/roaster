@@ -1,6 +1,6 @@
 = API
 
-Az API modul használatához csak be kell hivatkozni a pom.xml-ben
+To use the API module, you just need to reference it in the pom.xml file
 
 [source,xml]
 .pom.xml
@@ -11,13 +11,13 @@ Az API modul használatához csak be kell hivatkozni a pom.xml-ben
 </dependency>
 ----
 
-== API használata
+== Using the API
 
 === BaseBuilder
 
-A request builder-ek közös ősének van szánva ez az osztály.
+This class is intended to be the common ancestor of request builders
 
-==== Példa implementáció
+==== Example implementation
 
 [source,java]
 ----

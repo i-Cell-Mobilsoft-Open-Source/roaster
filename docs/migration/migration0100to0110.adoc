@@ -1,14 +1,14 @@
 = 0.10.0 -> 0.11.0
 
-== Változások
+== Changes
 
 === roaster-zephyr
 
-* Megjelent a Roaster Zephyr modul. Segítségével felhős jira használata esetén Zephyr Scale tesztuffatások eredményeit lehet megjeleníteni a felületen. Használatához a következő változtatásokat kell eszközölni:
-. pom.xml-ben le kell cserélni a roaster-tm4j-junit5 modult a roaster-zephyr-junit5 modulra.
-. A tesztosztályokban le kell cserélni az extension-t a ZephyrExtension-re és a zephyr csomagban található @TestCaseId annotációt kell használni a teszteken.
-. A roaster yml fájlokban le kell váltani a tm4j konfigurációt a zephyr configurációra.
-.. Ki kell generálni felhős jira-ban a teszteket feltöltő user accountjával az api kulcsokat jira-hoz és zephyr-hez
-.. server/authToken értékének a base64(email + ":" + jiraApiToken) műveletből megkapott kulcsot kell beállítani
-... Alternatívan megadható a server/email és a server/apiToken kulcsoknak külön-külön a jira user email címe és a generált api token, ilyenkor nem szabad megadni authTokent.
-.. cloud/bearerToken értékének a Zephyr Scale Cloud felületén kigenerált JWT tokent kell megadni
+* The Roaster Zephyr module has been released. With its help, when using cloud-based Jira, you can display the test execution results of Zephyr Scale on the interface. To use it, the following changes need to be made:
+. In the pom.xml, you need to replace the roaster-tm4j-junit5 module with the roaster-zephyr-junit5 module.
+. In the test classes, you need to replace the extension with ZephyrExtension, and use the @TestCaseId annotation from the zephyr package in your tests.
+. In the roaster yml files, you need to switch the TM4J configuration to the Zephyr configuration.
+.. You need to generate API keys in Cloud Jira for the user account that uploads tests, for both Jira and Zephyr.
+.. You should set the `server/authToken` value to the key obtained from the base64(email + ":" + jiraApiToken) operation.
+... Alternatively, you can separately provide the `server/email` and `server/apiToken` keys with the Jira user email and the generated API token respectively. In this case, you should not provide the `authToken`.
+.. The value of `cloud/bearerToken` should be set to the JWT token generated in the Zephyr Scale Cloud interface.

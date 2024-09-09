@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -49,8 +49,8 @@ public class RestAssuredConfigProducer {
 
     /**
      * Produce JSON content setting config<br>
-     * If there is a need for a custom ObjectMapperConfig, such as the one created in the ObjectMapperConfigProducer, it can be used as a template solution.
-     * for example:
+     * If there is a need for a custom ObjectMapperConfig, similar to what is generated in ObjectMapperConfigProducer, it can serve as a sample solution.
+     * Example:
      * 
      * <pre>
      * &#64;Inject

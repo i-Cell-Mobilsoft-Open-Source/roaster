@@ -1,8 +1,8 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
- * Copyright (C) 2020 - 2022 i-Cell Mobilsoft Zrt.
+ * Copyright (C) 2020 - 2024 i-Cell Mobilsoft Zrt.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ import hu.icellmobilsoft.roaster.zephyr.common.client.RestZephyrService;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IZephyrReporterConfig;
 import hu.icellmobilsoft.roaster.zephyr.common.helper.TestReporterHelper;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestScriptResultType;
 
 /**
  * Implementation of the {@code TestResultReporter} used with Zephyr Cloud.
@@ -76,6 +77,7 @@ public class RestZephyrReporter implements TestResultReporter {
             Execution execution = createExecution(testCaseData, testCaseId);
             execution.setStatusName(PASS);
             execution.setComment(TestReporterHelper.createCommentBase(testCaseData.getId()));
+            reportTestSteps(testCaseId, execution, PASS, testCaseData);
             publishZephyrResult(execution, testCaseData.getTags());
         }
     }
@@ -90,6 +92,7 @@ public class RestZephyrReporter implements TestResultReporter {
                     TestReporterHelper.createCommentBase(testCaseData.getId()) +
                             TestReporterHelper.createFailureComment(cause)
             );
+            reportTestSteps(testCaseId, execution, FAIL, testCaseData);
             publishZephyrResult(execution, testCaseData.getTags());
         }
     }
@@ -105,6 +108,16 @@ public class RestZephyrReporter implements TestResultReporter {
                             TestReporterHelper.createDisabledTestComment(reason)
             );
             publishZephyrResult(execution, testCaseData.getTags());
+        }
+    }
+
+    private void reportTestSteps(String testCaseId, Execution execution, String status, TestCaseData testCaseData) {
+        int numberOfTestSteps = restZephyrService.numberOfTestSteps(testCaseId, 1);
+        long calculatedTestExecutionCount = numberOfTestSteps * testCaseData.getTestDataCount();
+        for (int i = 0; i < calculatedTestExecutionCount; i++) {
+            TestScriptResultType result = new TestScriptResultType();
+            result.setStatusName(status);
+            execution.getTestScriptResults().add(result);
         }
     }
 

@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -23,15 +23,12 @@ import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-import jakarta.enterprise.inject.Vetoed;
-
 /**
  * Defines the common data describing a test case and run parameters.
  *
  * @author martin.nagy
  * @since 0.2.0
  */
-@Vetoed
 public class TestCaseData {
 
     /**

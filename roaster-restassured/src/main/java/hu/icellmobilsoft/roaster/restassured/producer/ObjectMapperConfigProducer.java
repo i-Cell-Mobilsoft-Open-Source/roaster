@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -29,7 +29,7 @@ import io.restassured.config.RestAssuredConfig;
 import io.restassured.path.json.mapper.factory.Jackson2ObjectMapperFactory;
 
 /**
- * Producer for ObjectMapperConfig used in JSON RestAssuredConfig settings.
+ * ObjectMapperConfig producer used in JSON RestAssuredConfig settings
  * 
  * @author imre.scheffer
  * @since 0.2.0
@@ -46,7 +46,7 @@ public class ObjectMapperConfigProducer {
     }
 
     /**
-     * JSON típusú ObjectMapperConfig
+     * JSON type ObjectMapperConfig
      * 
      * @return ObjectMapperConfig
      */

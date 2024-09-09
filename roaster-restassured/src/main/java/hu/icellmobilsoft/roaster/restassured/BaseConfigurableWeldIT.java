@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -52,7 +52,6 @@ public abstract class BaseConfigurableWeldIT {
         Weld weld = WeldInitiator.createWeld()//
                 .enableDiscovery() //
                 .addExtensions(ConfigExtension.class);
-        ;
         configureWeld(weld);
 
         WeldInitiator.Builder weldInitiatorBuilder = WeldInitiator.from(weld);

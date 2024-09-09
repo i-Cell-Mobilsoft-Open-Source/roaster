@@ -1,10 +1,10 @@
 = 0.8.0 -> 0.9.0
 
-== Változások
+== Changes
 
-=== Általános
+=== General
 
-==== BOM verzió emelések
+==== BOM version upgrades
 * jackson-datatype-jsr310 2.13.3 -> 2.13.4
 * jackson-jaxrs-json-provider 2.13.3 -> 2.13.4
 * jackson-annotations 2.13.3 -> 2.13.4
@@ -12,14 +12,14 @@
 * commons-text 1.8 -> 1.10.0
 * coffee v1.10.2 -> https://i-cell-mobilsoft-open-source.github.io/coffee/#_v1_11_0_v1_12_0[v1.12.1]
 
-=== Átállás
-A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+=== Migration
+The changes do not require any migration work and are backwards compatible
 
 === roaster-jaxrs
 
-* Dependencybe bekerült a `jakarta.servlet:jakarta.servlet-api`.
-Ez egy kötelező API, amit például a Resteasy dependencyk használnak.
-Hiányában egy nem informatív hibaüzenettel száltak el a tesztek.
+* Added `jakarta.servlet:jakarta.servlet-api` to the dependency.
+This is a mandatory API, used for example by Resteasy dependencies.
+In its absence, the tests were terminated with an uninformative error message.
 
-=== Átállás
-A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+=== Migration
+The changes do not require any migration work and are backwards compatible

@@ -1,8 +1,8 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
- * Copyright (C) 2020 - 2022 i-Cell Mobilsoft Zrt.
+ * Copyright (C) 2020 - 2024 i-Cell Mobilsoft Zrt.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.config;
 
-import jakarta.enterprise.inject.Vetoed;
-
 import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 
 /**
@@ -29,7 +27,6 @@ import hu.icellmobilsoft.roaster.api.InvalidConfigException;
  * @author mark.vituska
  * @since 0.11.0
  */
-@Vetoed
 public interface IReporterServerConfig {
 
     /**

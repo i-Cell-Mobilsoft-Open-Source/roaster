@@ -1,8 +1,8 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
- * Copyright (C) 2020 - 2022 i-Cell Mobilsoft Zrt.
+ * Copyright (C) 2020 - 2024 i-Cell Mobilsoft Zrt.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,6 +64,7 @@ class ZephyrIT extends BaseWeldUnitType {
 
         System.setProperty("roaster.zephyr.server/mp-rest/url", MOCK_SERVER.getEndpoint());
         System.setProperty("hu.icellmobilsoft.roaster.zephyr.common.client.api.ZephyrRestClient/mp-rest/url", MOCK_SERVER.getEndpoint());
+        System.setProperty("roaster.zephyr.testSteps.enabled", "true");
 
         Headers jiraClientHeaders = new Headers(
                 new Header("Accept", "application/json"),
@@ -85,9 +86,23 @@ class ZephyrIT extends BaseWeldUnitType {
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/testcases/XXX-T1").withHeaders(zephyrClientHeaders))
                 .respond(HttpResponse.response().withStatusCode(200));
 
+        MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/testcases/XXX-T1/teststeps").withHeaders(zephyrClientHeaders))
+                .respond(HttpResponse.response().withContentType(MediaType.APPLICATION_JSON).withBody("{\"startAt\":\"0\",\"maxResults\":\"1\",\"total\":\"1\",\"values\":[{\"inline\":null,\"testCase\":{\"self\":\"https://api.zephyrscale.smartbear.com/v2/testcases/XXX-T2/teststeps\",\"testCaseKey\":\"XXX-T2\"}}]}"));
+
+        MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/testcases/XXX-T2/teststeps").withHeaders(zephyrClientHeaders))
+                .respond(HttpResponse.response().withContentType(MediaType.APPLICATION_JSON).withBody("{\"startAt\":\"0\",\"maxResults\":\"2\",\"total\":\"2\"}"));
+
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withMethod("POST").withPath("/testexecutions").withHeaders(zephyrClientHeaders))
                 .respond(HttpResponse.response().withStatusCode(200));
 
+        MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/testcases/XXX-T3").withHeaders(zephyrClientHeaders))
+                .respond(HttpResponse.response().withStatusCode(200));
+        MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/testcases/XXX-T3/teststeps").withHeaders(zephyrClientHeaders))
+                .respond(HttpResponse.response().withContentType(MediaType.APPLICATION_JSON).withBody("{\"startAt\":\"0\",\"maxResults\":\"1\",\"total\":\"1\",\"values\":[{\"inline\":null,\"testCase\":{\"self\":\"https://api.zephyrscale.smartbear.com/v2/testcases/XXX-T31/teststeps\",\"testCaseKey\":\"XXX-T31\"}}]}"));
+        MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/testcases/XXX-T31/teststeps").withHeaders(zephyrClientHeaders))
+                .respond(HttpResponse.response().withContentType(MediaType.APPLICATION_JSON).withBody("{\"startAt\":\"0\",\"maxResults\":\"1\",\"total\":\"1\",\"values\":[{\"inline\":null,\"testCase\":{\"self\":\"https://api.zephyrscale.smartbear.com/v2/testcases/XXX-T32/teststeps\",\"testCaseKey\":\"XXX-T32\"}}]}"));
+        MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/testcases/XXX-T32/teststeps").withHeaders(zephyrClientHeaders))
+                .respond(HttpResponse.response().withContentType(MediaType.APPLICATION_JSON).withBody("{\"startAt\":\"0\",\"maxResults\":\"1\",\"total\":\"1\",\"values\":[{\"inline\":null,\"testCase\":{\"self\":\"https://api.zephyrscale.smartbear.com/v2/testcases/XXX-T33/teststeps\",\"testCaseKey\":\"XXX-T33\"}}]}"));
     }
 
     @AfterAll
@@ -100,6 +115,11 @@ class ZephyrIT extends BaseWeldUnitType {
     @TestCaseId("XXX-T1")
     void dummyTest() {
         assertEquals(2, 1 + 1);
+    }
+
+    @Test
+    @TestCaseId("XXX-T3")
+    void dummyTest2() {assertEquals(2, 1 + 1);
     }
 
 }

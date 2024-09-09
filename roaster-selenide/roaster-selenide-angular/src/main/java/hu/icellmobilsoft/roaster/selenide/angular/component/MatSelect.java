@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 - 2021 i-Cell Mobilsoft Zrt.
  * %%
@@ -74,7 +74,7 @@ public class MatSelect extends AbstractBaseComponent {
      */
     public List<String> getSelected() {
         openOverlay();
-        List<String> selected = getSelectPanel().$$("mat-option.mat-selected .mat-option-text").stream().map(SelenideElement::getText)
+        List<String> selected = getSelectPanel().$$("mat-option.mat-selected .mat-option-text").asFixedIterable().stream().map(SelenideElement::getText)
                 .collect(Collectors.toList());
         closeOverlay();
         return selected;
@@ -87,7 +87,7 @@ public class MatSelect extends AbstractBaseComponent {
      */
     public List<String> getOptions() {
         openOverlay();
-        List<String> options = getSelectPanel().$$("mat-option .mat-option-text").stream().map(SelenideElement::getText).collect(Collectors.toList());
+        List<String> options = getSelectPanel().$$("mat-option .mat-option-text").asFixedIterable().stream().map(SelenideElement::getText).collect(Collectors.toList());
         closeOverlay();
         return options;
     }

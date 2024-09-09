@@ -1,0 +1,6 @@
+= 2.2.0 -> 2.3.0
+
+== What's new
+
+A new module has been created: *roaster-testdoc*, which aims to generate AsciiDoc documentation from test classes.
+For more details, check the <<TestDoc>> chapter.  

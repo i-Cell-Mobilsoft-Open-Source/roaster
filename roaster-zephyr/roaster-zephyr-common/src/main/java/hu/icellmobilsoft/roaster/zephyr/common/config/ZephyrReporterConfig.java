@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -38,6 +38,16 @@ import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 @Dependent
 public class ZephyrReporterConfig implements IZephyrReporterConfig {
 
+    /**
+     * Default depth of the test case structure
+     */
+    public static final int DEFAULT_TEST_CASE_DEPTH = 3;
+
+    /**
+     * Maximum number of results to return
+     */
+    public static final int DEFAULT_MAX_RESULTS = 100;
+
     private final Config config = ConfigProvider.getConfig();
 
     /**
@@ -62,6 +72,23 @@ public class ZephyrReporterConfig implements IZephyrReporterConfig {
     public String getDefaultTestCycleKey() {
         return config.getOptionalValue(RoasterConfigKeys.TEST_CYCLE_KEY, String.class)
                 .orElseThrow(() -> new InvalidConfigException("testCycleKey parameter is missing"));
+    }
+
+    @Override
+    public boolean isTestStepsEnabled() {
+        return config.getOptionalValue(RoasterConfigKeys.TEST_STEPS_ENABLED, Boolean.class).orElse(false);
+    }
+
+    @Override
+    public Integer getDefaultTestStepsTestCaseDepth() {
+        return config.getOptionalValue(RoasterConfigKeys.TEST_STEPS_TEST_CASE_DEPTH_KEY, Integer.class)
+                .orElse(DEFAULT_TEST_CASE_DEPTH);
+    }
+
+    @Override
+    public Integer getDefaultTestStepsMaxResults() {
+        return config.getOptionalValue(RoasterConfigKeys.TEST_STEPS_MAX_RESULTS_KEY, Integer.class)
+                .orElse(DEFAULT_MAX_RESULTS);
     }
 
     @Override

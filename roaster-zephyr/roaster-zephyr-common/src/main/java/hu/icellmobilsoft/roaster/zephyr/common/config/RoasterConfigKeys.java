@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -41,6 +41,21 @@ public interface RoasterConfigKeys {
      * TM4J test cycle key. E.g. {@literal ABC-C1} where ABC is the project key.
      */
     String TEST_CYCLE_KEY = "roaster.zephyr.testCycleKey";
+
+    /**
+     * The detailed reporting with test steps (and rest calls) can be turned off using this flag
+     */
+    String TEST_STEPS_ENABLED = "roaster.zephyr.testSteps.enabled";
+
+    /**
+     * TM4J test case depth key.
+     */
+    String TEST_STEPS_TEST_CASE_DEPTH_KEY = "roaster.zephyr.testSteps.testCaseDepth";
+
+    /**
+     * TM4J max results key.
+     */
+    String TEST_STEPS_MAX_RESULTS_KEY = "roaster.zephyr.testSteps.maxResults";
 
     /**
      * TM4J test cycle key pattern for test tags

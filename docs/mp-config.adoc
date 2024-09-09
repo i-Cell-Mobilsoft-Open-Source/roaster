@@ -1,18 +1,18 @@
-= Konfigurációs paraméterek
+= Configuration parameters
 
-A tesztek microprofile-config segítségével paraméterezhetőek,
-ehhez elegendő, ha a teszt osztály kiterjeszti a `BaseConfigurableWeldIT` vagy a `BaseWeldUnitType` absztrakt osztályt;
-majd a megszokott módon CDI-on keresztül inject-eljük a kívánt konfig paramétert.
-A konfigurációs paraméterek `META-INF/roaster-defaults.yml` konfigurációs yaml fájlon keresztül beállíthatóak.
-A `roaster-defaults.yml` yaml mellé létrehozhatunk külön profile-okra alkalmazandó yml-oket is `roaster-{profile}.yml` néven,
-a futtandó profil(oka)t valamely default mp-config forráson keresztül állíthatjuk be a `profile` kulccsal.
-Megadható több profil is vesszővel (`,`) elválasztva. Ilyenkor a konfig kulcsok felolvasása
-mindig a legelső profil-al kezdődik és az utolsó találatig tart.
+The tests can be parameterized using microprofile-config.
+To achieve this, it is sufficient for the test class to extend either the `BaseConfigurableWeldIT` or `BaseWeldUnitType` abstract class.
+Then, you can inject the desired configuration parameter using CDI in the usual way.
+The configuration parameters can be set through the `META-INF/roaster-defaults.yml` configuration YAML file.
+We can create additional YAML files for profiles alongside `roaster-defaults.yml`, named `roaster-{profile}.yml`.
+The profiles to be executed can be set via the `profile` key on any default MP-Config source.
+Multiple profiles can be specified separated by commas (`,`).
+In this case, configuration keys are read starting from the first profile specified and continuing until the last one.
 
-NOTE: Amennyiben szükséges a mp-config megengedi uj config-source-ok felvételét.
-Így ha a projekt igényli lehetséges az ETCD-ből vagy DB-ből felolvasott konfigok használata.
+NOTE: If necessary, microprofile-Config allows adding new config sources.
+So if the project requires it, it is possible to use configurations read from ETCD or a database.
 
-Példa:
+Example:
 [source,yaml]
 .META-INF/roaster-defaults.yml
 ----
@@ -63,14 +63,14 @@ public class GetSampleIT extends BaseConfigurableWeldIT {
 
 
 [source,bash]
-.Profile futtatás
+.Profile running
 ----
 ~/project-backend/project-testsuite$ mvn verify -Dprofile=sandbox,local #<1>
 ----
-<1> profile futtatás: beolvasott yaml-ok sorrendje: roaster-sandbox.yml, roaster-local.yml, roaster-defaults.yml
+<1> Profile running: Order of read YAMLs: roaster-sandbox.yml, roaster-local.yml, roaster-defaults.yml
 +
-Felolvasott értékek:
+Read values:
 +
-* `sampleUrl = http://roaster-sandbox.hu` (`roaster-sandbox.yml` konfigból)
-* `samplePort = 8084` (`roaster-sandbox.yml`-ben nincs, ezért `roaster-local.yml` konfigból)
-* `samplePass = secret` (`roaster-sandbox.yml` és `roaster-local.yml`-ben nincs, ezért `roaster-defaults.yml` konfigból)
+* `sampleUrl = http://roaster-sandbox.hu` (`roaster-sandbox.yml` from config)
+* `samplePort = 8084` (In `roaster-sandbox.yml`, there are no values, so the configuration is read from `roaster-local.yml`)
+* `samplePass = secret` (In `roaster-sandbox.yml` and `roaster-local.yml`, there are no values defined, so the configuration is read from `roaster-defaults.yml`)

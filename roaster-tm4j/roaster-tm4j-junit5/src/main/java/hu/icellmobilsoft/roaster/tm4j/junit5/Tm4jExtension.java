@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -19,14 +19,10 @@
  */
 package hu.icellmobilsoft.roaster.tm4j.junit5;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Supplier;
-
-import jakarta.enterprise.inject.Vetoed;
+import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
+import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
 import jakarta.enterprise.inject.spi.CDI;
-
 import org.jboss.resteasy.microprofile.client.RestClientExtension;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
@@ -35,9 +31,10 @@ import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.jupiter.api.extension.TestWatcher;
 
-import hu.icellmobilsoft.roaster.tm4j.common.api.TestCaseId;
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestCaseData;
-import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * JUnit 5 extension to publish the test result to a TM4J server.
@@ -47,7 +44,6 @@ import hu.icellmobilsoft.roaster.tm4j.common.api.reporter.TestResultReporter;
  * @see TestCaseId
  * @since 0.2.0
  */
-@Vetoed
 @Deprecated(since = "0.11.0")
 public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback, AfterTestExecutionCallback {
     /**
@@ -94,9 +90,9 @@ public class Tm4jExtension implements TestWatcher, BeforeTestExecutionCallback, 
     }
 
     @Override
-    public void afterTestExecution(ExtensionContext context) { 
-		// If we run multiple tests from Maven, starting from the second test, the old, stopped CDI bean manager gets stuck in the RestClientExtension,
-		// causing it to throw an exception. That's why we need to clear it at the end of each test.
+    public void afterTestExecution(ExtensionContext context) {
+        // When running multiple tests from Maven, starting from the second test, the RestClientExtension gets stuck with the old,
+        // stopped CDI bean manager, potentially causing exceptions. Therefore, it's necessary to clear this at the end of every test.
         RestClientExtension.clearBeanManager();
     }
 

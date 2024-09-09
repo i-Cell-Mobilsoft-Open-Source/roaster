@@ -1,8 +1,8 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
- * Copyright (C) 2020 - 2022 i-Cell Mobilsoft Zrt.
+ * Copyright (C) 2020 - 2024 i-Cell Mobilsoft Zrt.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,10 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.client.api.JiraRestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.client.api.ZephyrRestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IJiraReporterServerConfig;
+import hu.icellmobilsoft.roaster.zephyr.common.config.IZephyrReporterConfig;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestSteps;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.ValueType;
 
 /**
  * Class for handling the Zephyr Cloud client calls
@@ -55,6 +58,9 @@ public class RestZephyrService {
 
     @Inject
     private IJiraReporterServerConfig serverConfig;
+
+    @Inject
+    private IZephyrReporterConfig zephyrConfig;
 
     private static final Set<String> existingTestCycleKeys = new HashSet<>();
 
@@ -99,6 +105,34 @@ public class RestZephyrService {
     public boolean isTestCaseExist(String key) {
         Response response = zephyrClient.getTestCase(Objects.requireNonNull(key));
         return isEntityExistsBasedOnResponseStatus(response.getStatusInfo());
+    }
+
+    /**
+     * Returns number of test steps from the test case with the given key on the server
+     *
+     * @param key
+     *            test case key used at the search on the server
+     * @param depth
+     *            actual depth of the test case structure
+     * @return number of test steps from the test case with the given key on the server
+     */
+    public int numberOfTestSteps(String key, int depth) {
+        if (!zephyrConfig.isTestStepsEnabled()) {
+            return 0;
+        }
+        if (depth > zephyrConfig.getDefaultTestStepsTestCaseDepth()) {
+            throw new ZephyrClientException("Maximum test case depth reached: " + zephyrConfig.getDefaultTestStepsTestCaseDepth());
+        }
+        TestSteps testSteps = zephyrClient.getTestCaseSteps(Objects.requireNonNull(key), zephyrConfig.getDefaultTestStepsMaxResults());
+        int numberOfTestSteps = 0;
+        for (ValueType value : testSteps.getValues()) {
+            if (value.isSetTestCase()) {
+                numberOfTestSteps += numberOfTestSteps(value.getTestCase().getTestCaseKey(), depth + 1);
+            } else {
+                numberOfTestSteps += 1;
+            }
+        }
+        return numberOfTestSteps;
     }
 
     /**

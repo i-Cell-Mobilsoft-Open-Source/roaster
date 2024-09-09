@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -21,15 +21,12 @@ package hu.icellmobilsoft.roaster.zephyr.common.config;
 
 import java.util.Optional;
 
-import jakarta.enterprise.inject.Vetoed;
-
 /**
  * Configuration interface for the TM4J reporter behaviour.
  *
  * @author martin.nagy
  * @since 0.10.0
  */
-@Vetoed
 public interface IZephyrReporterConfig {
     /**
      * Returns {@literal true} if the TM4J reporting is enabled
@@ -51,6 +48,27 @@ public interface IZephyrReporterConfig {
      * @return the default TM4J test cycle key
      */
     String getDefaultTestCycleKey();
+
+    /**
+     * Returns {@literal true} if the TM4J reporting is enabled
+     *
+     * @return {@literal true} if the TM4J reporting is enabled
+     */
+    boolean isTestStepsEnabled();
+
+    /**
+     * Returns the default test case depth in the step case structure.
+     *
+     * @return the default test case depth in the step case structure
+     */
+    Integer getDefaultTestStepsTestCaseDepth();
+
+    /**
+     * Returns the maximum number of results to return at the test steps call.
+     *
+     * @return the maximum number of results to return at the test steps call
+     */
+    Integer getDefaultTestStepsMaxResults();
 
     /**
      * Returns the test cycle for the given tag

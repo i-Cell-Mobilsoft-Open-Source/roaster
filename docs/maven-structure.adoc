@@ -1,12 +1,12 @@
-= Maven struktúra
+= Maven structure
 
 == Project repository
 
-A tesztek a projekttel egy repositoryba kerülhetnek,
-a fő pom alatt külön testsuite modulba.
-Érdemes a "testsuite" csomópontot inaktiválható profilba rakni, például:
+The tests can reside in the same repository as the project,
+under a separate module named "testsuite" under the main pom.
+It is recommended to put the "testsuite" node in an inactivable profile, for example:
 
-.Fő projekt pom.xml
+.Main project pom.xml
 [source,xml]
 ----
 <profiles>
@@ -23,7 +23,7 @@ a fő pom alatt külön testsuite modulba.
 ----
 
 [subs="quotes"]
-.Ajánlott példa project maven struktúra
+.Recommended example project maven structure
 ----
 project-backend
 +-- project-bom
@@ -34,15 +34,15 @@ project-backend
 
 == Testsuite module
 
-A testsuite modulon belül a child pomok követik a projekt szerinti strukúrát.
-Azaz ha pl. a projecten egy service a `project-backend/project-sample/project-sample-service` modulban található,
-akkor a service-hez tartozó tesztek `project-backend/project-testsuite/project-testsuite-sample/project-testsuite-sample-service` pom alá kerülnek.
+Within the testsuite module, the child POMs follow the structure defined by the project.
+So, if a service in the project is located under project-backend/project-sample/project-sample-service,
+then the tests corresponding to this service will be placed under project-backend/project-testsuite/project-testsuite-sample/project-testsuite-sample-service POM.
 
-A service-hez tartozó testsuite maven module-t további almodulokra bontjuk a service-ben található REST interface-eknek megfelelően,
-ezekbe az almodulokba kerülnek az operációnként külön teszt osztályok.
+We further divide the testsuite Maven module for the service into submodules according to the REST interfaces found in the service.
+Each submodule will contain test classes corresponding to operations.
 
 [subs="quotes"]
-.Példa testsuite modul felépítése
+.Example testsuite module structure
 ----
 *project-backend*
 +-- *project-bom*
@@ -70,8 +70,8 @@ ezekbe az almodulokba kerülnek az operációnként külön teszt osztályok.
                     \-- hu.icellmobilsoft.project.testsuite.sample.service.rest
                         \-- _GetSampleIT_ //<5>
 ----
-<1> sample-service `IUserRest` interface-e. A testsuite-ban külön pom tartozik hozzá: `project-testsuite-sample-service-user-rest`
-<2> `IUserRest.postUser()` operáció. Testsuite-ban a user-rest pom alatt saját tesztosztály tartozik hozzá: `PostUserIT`
-<3> `IUserRest._putUser()` operáció. Testsuite-ban a user-rest pom alatt saját tesztosztály tartozik hozzá: `PutUserIT`
-<4> sample-service `ISampleRest` interface-e. A testsuite-ban külön pom tartozik hozzá: `project-testsuite-sample-service-sample-rest`
-<5> `IUserRest._getSample()` operáció. Testsuite-ban a sample-rest pom alatt saját tesztosztály tartozik hozzá: `GetSampleIT`
+<1> The `IUserRest` interface of the `sample-service`. It has a separate pom in the testsuite: `project-testsuite-sample-service-user-rest`
+<2> The `IUserRest.postUser()` operation. In the testsuite, it has its own test class under the `user-rest` pom: `PostUserIT`
+<3> The `IUserRest._putUser()` operation. In the testsuite, it has its own test class under the `user-rest` pom: `PutUserIT`
+<4> The `ISampleRest` interface in the `sample-service`. It has its own pom in the testsuite: `project-testsuite-sample-service-sample-rest`
+<5> `IUserRest.getSample()` operation. It has its own test class under the `sample-rest` pom in the testsuite: `GetSampleIT`.

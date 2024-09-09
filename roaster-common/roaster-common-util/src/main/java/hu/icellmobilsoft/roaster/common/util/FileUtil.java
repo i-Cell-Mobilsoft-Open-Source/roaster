@@ -1,15 +1,15 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,12 +32,12 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.roaster.api.TestException;
 
 /**
  * File utils for test environment
- * 
+ *
  * @author imre.scheffer
  */
 public class FileUtil {
@@ -58,13 +58,13 @@ public class FileUtil {
 
     /**
      * Read file by java.nio (java 11+)
-     * 
+     *
      * @param first
      *            first the path string or initial part of the path string
      * @param more
      *            more additional strings to be joined to form the path string
      * @return file content
-     * 
+     *
      * @see Path#of(String, String...)
      */
     public static String readFile(String first, String... more) {
@@ -74,7 +74,7 @@ public class FileUtil {
 
     /**
      * Read file by java.nio (java 11+) from ClassLoader.getSystemResourceAsStream
-     * 
+     *
      * @param fileName
      *            filename like token.xml, in src/main/resources source directory
      * @return file content
@@ -96,7 +96,7 @@ public class FileUtil {
     /**
      * Read file by java.nio (java 11+) from ClassLoader.getSystemResourceAsStream <br>
      * Sample:
-     * 
+     *
      * <pre>
      * public void read(InputStream inputStream) throws BaseException, IOException {
      *     content = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -107,7 +107,7 @@ public class FileUtil {
      *     String content = reader.getContent();
      * }
      * </pre>
-     * 
+     *
      * @param fileName
      *            filename like token.xml, in src/main/resources source directory
      * @param function
@@ -134,7 +134,7 @@ public class FileUtil {
     /**
      * Read file by java.nio (java 11+) <br>
      * Sample:
-     * 
+     *
      * <pre>
      * public void read(InputStream inputStream) throws BaseException, IOException {
      *     content = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -145,13 +145,13 @@ public class FileUtil {
      *     String content = reader.getContent();
      * }
      * </pre>
-     * 
+     *
      * @param path
      *            the path to the file
      * @param function
      *            read InputStream consumer. All exception is handled to {@code TestException}
      * @see Files#readString(Path)
-     * 
+     *
      */
     public static void readFile(Path path, ExceptionConsumer<InputStream, Exception> function) {
         if (path == null) {
@@ -171,11 +171,11 @@ public class FileUtil {
 
     /**
      * Read file by java.nio (java 11+)
-     * 
+     *
      * @param path
      *            the path to the file
      * @return file content
-     * 
+     *
      * @see Files#readString(Path)
      */
     public static String readFile(Path path) {

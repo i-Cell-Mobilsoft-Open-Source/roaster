@@ -1,23 +1,23 @@
 = 0.6.0 -> 0.7.0
 
-== Változások
+== Changes
 
-=== Általános
+=== General
 
-==== BOM verzió emelések
+==== BOM version upgrades
 * junit5 v5.6.2 -> v5.8.2
 * selenide v6.1.2 -> v6.3.0
 
 === roaster-common-config
-* A `RoasterYmlConfigSourceProvider`-ben használt `public YamlConfigSource(String name, InputStream stream, int defaultOrdinal) throws IOException` hívás `@Deprecated` lett ezért ettől a verziótól a `public YamlConfigSource(String name, String source, int ordinal)` hívása történik
+* The call `public YamlConfigSource(String name, InputStream stream, int defaultOrdinal) throws IOException` used in `RoasterYmlConfigSourceProvider` has been @deprecated. From this version onwards, the call `public YamlConfigSource(String name, String source, int ordinal)` is used instead.
 
-=== Átállás
-A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+=== Migration
+The changes do not require any migration work and are backwards compatible
 
 
 === roaster-tm4j
-* A `MissingResourceException` javításra került
+* The `MissingResourceException` has been fixed.
 
-=== Átállás
-A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+=== Migration
+The changes do not require any migration work and are backwards compatible
 

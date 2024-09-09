@@ -1,8 +1,8 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
- * Copyright (C) 2020 - 2022 i-Cell Mobilsoft Zrt.
+ * Copyright (C) 2020 - 2024 i-Cell Mobilsoft Zrt.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,6 +81,9 @@ class ZephyrTagCycleIT extends BaseWeldUnitType {
 
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/testcases/XXX-T1").withHeaders(zephyrClientHeaders))
                 .respond(HttpResponse.response().withStatusCode(200));
+
+        MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/testcases/XXX-T1/teststeps").withHeaders(zephyrClientHeaders))
+                .respond(HttpResponse.response().withContentType(MediaType.APPLICATION_JSON).withBody("{\"startAt\":\"0\",\"maxResults\":\"1\",\"total\":\"1\"}"));
 
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withMethod("POST").withPath("/testexecutions").withHeaders(zephyrClientHeaders))
                 .respond(HttpResponse.response().withStatusCode(200));

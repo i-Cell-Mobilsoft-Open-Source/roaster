@@ -1,19 +1,19 @@
 = 0.4.0 -> 0.5.0
 
-== Változások
+== Changes
 
-=== Általános
-coff:ee frissítés 1.5.0 → 1.6.0
+=== General
+coff:ee upgrade 1.5.0 → 1.6.0
 
 === roaster-restassured
-* Microprofile konfigból állítható injektálható ResponseProcessor (`@RestProcessor`, `ConfigurableResponseProcessor`)
-* Az OpenAPITestHelper osztály `testOpenAPI` metódusa kiegészült `expectedOpenapiVersion` paraméterrel, hogy projekt szinten lehessen állítani.
-Túlterheléssel megmaradt az eredeti szintaxis is, ezt hívva alapértelmezetten `3.0.3` az elvárt openapi verzió.
-* Az OpenAPITestHelper osztályba bevezetésre került két felülírható metódus `decorateRequestSpecification`, `decorateValidatableResponse`.
-Default működés esetén request és response logolást intézi, projekt szinten kikapcsolható/konfigurálható a logolás az osztály leszármaztatásával.
+* Injectable ResponseProcessor configurable from Microprofile Config (`@RestProcessor`, `ConfigurableResponseProcessor`)
+* The `testOpenAPI` method in the OpenAPITestHelper class has been enhanced with an `expectedOpenapiVersion` parameter to allow project-wide configuration.
+With overloading, the original syntax is preserved, calling it defaults to 3.0.3, which is the expected openapi version.
+* Two overrideable methods `decorateRequestSpecification` and `decorateValidatableResponse` have been introduced in the OpenAPITestHelper class.
+By default, the class handles logging for requests and responses. Logging can be disabled or configured at the project level by subclassing the class.
 +
 [source,java]
-.Példa response log kikapcsolásra
+.Example of disabling response logging
 ----
 @Model
 @Alternative
@@ -28,12 +28,12 @@ public class ProjectOpenApiTestHelper extends OpenAPITestHelper {
 }
 ----
 
-=== Átállás
-* `OpenAPITestHelper.testOpenAPI(java.lang.String)` a továbbiakban `3.0.1` helyett `3.0.3` OpenAPI verzióra futtat assertet.
-Amennyiben ez projekt szinten nem felel meg a `OpenAPITestHelper.testOpenAPI(java.lang.String, java.lang.String)` metódussal felülírható az elvárt verzió.
+=== Migration
+* In `OpenAPITestHelper.testOpenAPI(java.lang.String)`, assertions are now run against `3.0.3` OpenAPI version instead of `3.0.1`.
+If this does not meet the project requirements, the `OpenAPITestHelper.testOpenAPI(java.lang.String, java.lang.String)` method can be used to override the expected version.
 +
 [source,java]
-.Példa response log kikapcsolásra
+.Example of disabling response logging
 ----
     @Test
     @DisplayName("Testing Sampple service /openapi")

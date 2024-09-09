@@ -11,6 +11,37 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="CustomFieldsType">
+        <xs:sequence>
+            <!--The element was added due to the XSD type. Fortunately, we receive this block empty.-->
+            <xs:element name="Tester" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="InlineType">
+        <xs:sequence>
+            <xs:element name="description" type="xs:string" minOccurs="0"/>
+            <xs:element name="testData" type="xs:string" minOccurs="0"/>
+            <xs:element name="expectedResult" type="xs:string" minOccurs="0"/>
+            <xs:element name="customFields" type="CustomFieldsType" minOccurs="0"/>
+            <xs:element name="reflectRef" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TestCaseType">
+        <xs:sequence>
+            <xs:element name="self" type="xs:string" minOccurs="0"/>
+            <xs:element name="testCaseKey" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ValueType">
+        <xs:sequence>
+            <xs:element name="inline" type="InlineType" minOccurs="0"/>
+            <xs:element name="testCase" type="TestCaseType" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:element name="Execution">
         <xs:complexType>
             <xs:sequence>
@@ -25,6 +56,19 @@
                 <xs:element name="executedById" type="xs:string" minOccurs="0"/>
                 <xs:element name="assignedToId" type="xs:string" minOccurs="0"/>
                 <xs:element name="comment" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TestSteps">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="next" type="xs:string" minOccurs="0"/>
+                <xs:element name="startAt" type="xs:integer"/>
+                <xs:element name="maxResults" type="xs:integer"/>
+                <xs:element name="total" type="xs:integer" minOccurs="0"/>
+                <xs:element name="isLast" type="xs:boolean" minOccurs="0"/>
+                <xs:element name="values" type="ValueType" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

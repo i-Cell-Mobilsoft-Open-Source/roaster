@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -32,8 +32,8 @@ import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.enterprise.inject.spi.InjectionPoint;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.coffee.tool.utils.annotation.AnnotationUtil;
 import hu.icellmobilsoft.roaster.oracle.annotation.DBConnection;
@@ -61,7 +61,7 @@ public class DBConnectionProducer {
 
     /**
      * Creates or gets Connection for the given configKey
-     * 
+     *
      * @param injectionPoint
      *            CDI injection point
      * @return created object

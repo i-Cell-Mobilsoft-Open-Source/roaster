@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 - 2021 i-Cell Mobilsoft Zrt.
  * %%

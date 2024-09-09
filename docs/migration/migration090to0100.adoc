@@ -1,27 +1,25 @@
 = 0.9.0 -> 0.10.0
 
-== Változások
+== Changes
 
 === roaster-tm4j
 
-* Teszt tag-enként eltérő TM4J test cycle-ök megadási lehetősége a `roaster.tm4j.cycle.{0}` konfig kulcs segítségével
-* `roaster-restassured` modullal való közös használata miatti exception javításra került
+* The ability to specify different TM4J test cycles per test tag is now available using the `roaster.tm4j.cycle.{0}` configuration key
+* The exception related to the joint usage with the `roaster-restassured` module has been fixed
 
-=== Átállás
-A változtatások nem eredményeznek átállási munkálatokat, visszafelé kompatibilis.
+=== Migration
+The changes do not require any migration work and are backwards compatible
 
 === JDK 17 support
-A projekt mostmár támogatja a java 17 verziót,
-így használható ilyen java alapon lévő projektben is.
-A problémás részek legtöbb helyen dependency frissítéssel és javadoc bővítéssel megjavult.
+The project now supports Java 17, making it usable in projects based on this Java version
+The problematic parts have been fixed in most places through dependency updates and expanded javadocs
 
 .java 11 && 17
-A roaster továbbra is java 11-el lesz kompilálva,
-de kap fordítási és tesztelési ellenőrzéseket java 17-re is.
-Így minimalizálni fogjuk a java verzió külömbségi problémákat.
+Roaster will continue to be compiled with Java 11, but it will receive compilation and testing checks for Java 17 as well
+This will help minimize Java version compatibility issues
 
-==== BOM verzió emelések:
+==== BOM version upgrades:
 * `org.jboss.weld:weld-junit5` 2.0.1.Final -> 2.0.2.Final
 * `org.jboss.weld:weld-core-impl` 3.1.5.Final -> 3.1.9.Final
 * `io.smallrye.config` 2.0.2 -> 2.13.0
-* `com.google.guava:guava` 30.1.1-jre -> 31.1-jre (a használt selenide verzió már nem kompatibilis a régivel)
+* `com.google.guava:guava` 30.1.1-jre -> 31.1-jre (The currently used Selenide version is no longer compatible with the old one)

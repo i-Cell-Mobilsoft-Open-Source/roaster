@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -27,8 +27,8 @@ import jakarta.enterprise.inject.Produces;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.enterprise.inject.spi.InjectionPoint;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.annotation.AnnotationUtil;
 import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig;
 import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
@@ -50,7 +50,7 @@ public class HibernateConfigProducer {
 
     /**
      * Creates HibernateConfigImpl for the injected configKey
-     * 
+     *
      * @param injectionPoint
      *            CDI injection point
      * @return created class

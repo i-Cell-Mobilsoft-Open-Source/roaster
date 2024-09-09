@@ -1,6 +1,6 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
  * Copyright (C) 2020 i-Cell Mobilsoft Zrt.
  * %%
@@ -34,7 +34,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import com.codeborne.selenide.Browsers;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.roaster.api.TestException;
 import hu.icellmobilsoft.roaster.selenide.config.SelenideConfig;
@@ -63,8 +64,7 @@ public class SelenideConfiguration {
     /**
      * Handle container Initialized event
      *
-     * @param containerInitialized
-     *            instance
+     * @param containerInitialized instance
      */
     public void observesContainerInitialized(@Observes ContainerInitialized containerInitialized) {
         initDriver();
@@ -74,7 +74,6 @@ public class SelenideConfiguration {
 
         logger.debug(">> initDriver()");
         String browserType = selenideConfig.getBrowserType();
-
         if (StringUtils.equalsAnyIgnoreCase(browserType, Browsers.IE, Browsers.INTERNET_EXPLORER)) {
             throw new TestException(MessageFormat.format("{0} not supported!", browserType));
         }
@@ -83,19 +82,24 @@ public class SelenideConfiguration {
         String device = selenideConfig.getBrowserDevice();
         Integer decisionWidth = selenideConfig.getBrowserDecisionWidth();
         Integer decisionHeight = selenideConfig.getBrowserDecisionHeight();
-
         if (StringUtils.isNotBlank(device)) {
             Configuration.browser = Browsers.CHROME;
-
             Map<String, String> mobileEmulation = new HashMap<>();
             mobileEmulation.put("deviceName", device);
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
+            addClipboardPrefsToChromeOptions(chromeOptions);
             Configuration.browserCapabilities = chromeOptions;
         } else {
             Configuration.browser = browserType;
             if (decisionWidth != null && decisionHeight != null) {
                 Configuration.browserSize = MessageFormat.format("{0}x{1}", String.valueOf(decisionWidth), String.valueOf(decisionHeight));
+            }
+
+            if (browserType.equals(Browsers.CHROME)) {
+                ChromeOptions chromeOptions = new ChromeOptions();
+                addClipboardPrefsToChromeOptions(chromeOptions);
+                Configuration.browserCapabilities = chromeOptions;
             }
         }
 
@@ -109,4 +113,27 @@ public class SelenideConfiguration {
         logger.debug("<< initDriver()");
     }
 
+    private void addClipboardPrefsToChromeOptions(ChromeOptions options) {
+        Map<String, Object> prefs = new HashMap<String, Object>();
+        //0 is default , 1 is enable and 2 is disable
+        prefs.put("profile.content_settings.exceptions.clipboard", getClipBoardSettingsMap(1));
+        options.setExperimentalOption("prefs", prefs);
+    }
+
+    private Map<String, Object> getClipBoardSettingsMap(int settingValue) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("last_modified", String.valueOf(System.currentTimeMillis()));
+        map.put("setting", settingValue);
+        Map<String, Object> cbPreference = new HashMap<>();
+        cbPreference.put("[*.],*", map);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+        try {
+            json = objectMapper.writeValueAsString(cbPreference);
+        } catch (JsonProcessingException e) {
+            logger.error("Json processing exception. " + e);
+        }
+        logger.info("clipboardSettingJson: " + json);
+        return cbPreference;
+    }
 }

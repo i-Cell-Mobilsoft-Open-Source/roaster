@@ -1,0 +1,27 @@
+= 2.1.0 -> 2.2.0
+
+== Changes
+
+=== General
+
+* projectName has been fixed to Roaster in license-maven-plugin
+* The @Vetoed annotations have been removed..
+
+
+
+==== BOM version upgrades:
+* com.codeborne:selenide: 6.18.0 -> 6.19.1
+* hu.icellmobilsoft.coffee:coffee: 2.3.0 -> 2.7.0 , See necessary changes:
+** https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_3_0_v2_4_0[coffee 2.3.0 -> 2.4.0] 
+** https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_4_0_v2_5_0[coffee 2.4.0 -> 2.5.0]
+** https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_5_0_v2_6_0[coffee 2.5.0 -> 2.6.0]
+** https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_6_0_v2_7_0[coffee 2.6.0 -> 2.7.0]
+
+==  roaster-selenide
+
+Accessing the clipboard content in Chrome browser, both during local and remote execution.
+
+==  roaster-hibernate
+
+In each persistence context, the EntityManagerFactory is created only once and remains cached as long as the `@ApplicationScoped EntityManagerFactoryProducer` instance lives in the container.
+ During previous EntityManager injections, the database connection pool ran out because each EntityManagerFactory created its own connection pool.

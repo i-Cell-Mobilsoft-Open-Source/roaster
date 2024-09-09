@@ -1,6 +1,6 @@
 = REDIS
 
-A REDIS modul használatához csak be kell hivatkozni a pom.xml-ben
+To use the Redis module, you just need to reference it in the pom.xml file.
 
 [source,xml]
 .pom.xml
@@ -11,16 +11,16 @@ A REDIS modul használatához csak be kell hivatkozni a pom.xml-ben
 </dependency>
 ----
 
-== REDIS Konfigurációs paraméterek
+== REDIS Configuration Parameters
 
-A microprofile-config segítségével paraméterezhetőek a REDIS eléréséhez szükséges adatok.
+The necessary data for accessing Redis can be parameterized using microprofile-config.
 
-Példák:
+Example:
 
 [source,properties]
 .META-INF/microprofile-config.properties
 ----
-coffee.redis.default.host=hubphq-nejp-sandbox-d001.icellmobilsoft.hu
+coffee.redis.default.host=example.com
 coffee.redis.default.port=6379
 coffee.redis.default.password=redispass
 coffee.redis.default.database=0
@@ -34,7 +34,7 @@ coffee.redis.default.pool.maxidle=32
 coffee:
     redis:
         default:
-            host: hubphq-nejp-sandbox-d001.icellmobilsoft.hu
+            host: example.com
             port: 6379
             password: redispass
             database: 0
@@ -43,24 +43,24 @@ coffee:
                 maxidle: 32
 ----
 
-== REDIS használata
+== Using REDIS
 
-Először is injektálni kell a handler osztályt.
+First, you need to inject the handler class.
 
 [source,java]
-.Handler injektálása
+.Injecting the handler
 ----
     @Inject
     private RedisHandler redisHandler;
 ----
 
-=== RedisHandler műveletei
-A RedisHandler-en keresztül érhetőek el a műveletek, amik meghívásakor mindig létrejon CDI-t használva, a redisConfigKey által meghatározott adatokkal egy RedisService, aminek továbbítva vannak a műveletek.
+=== Operations of RedisHandler
+Through RedisHandler, operations are accessed, creating a RedisService using CDI each time they are invoked. RedisService is instantiated with the data defined by redisConfigKey, and operations are forwarded to it.
 
-A redisConfigKey a microprofile-config.properties-ben megadott kulcsokban szereplő harmadik tag, pl:
+The redisConfigKey is the third tag in the keys specified in microprofile-config.properties, e.g:
 coffee.redis.default.host -> default
 
-RedisService-től átvett műveletek:
+Operations taken from RedisService:
 
 * getRedisData(redisConfigKey, valueKey, class)
 * getRedisDataOpt(redisConfigKey, valueKey, class)
@@ -71,7 +71,7 @@ RedisService-től átvett műveletek:
 * removeAllRedisData(redisConfigKey)
 
 [source,java]
-.művelet hívásokra példa
+.Example of operation calls
 ----
 String data = redisHandler.getRedisData("default", "1234", String.class);
 String newData = redisHandler.setRedisData("default", "1234", "new data");

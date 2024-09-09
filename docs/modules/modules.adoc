@@ -1,4 +1,4 @@
-= Modulok:
+= Modules:
 include::modules-api.adoc[leveloffset=+1]
 include::modules-jaxrs.adoc[leveloffset=+1]
 include::modules-restassured.adoc[leveloffset=+1]
@@ -9,3 +9,4 @@ include::modules-zephyr.adoc[leveloffset=+1]
 include::modules-selenide.adoc[leveloffset=+1]
 include::modules-hibernate.adoc[leveloffset=+1]
 include::modules-mongodb.adoc[leveloffset=+1]
+include::modules-testdoc.adoc[leveloffset=+1]

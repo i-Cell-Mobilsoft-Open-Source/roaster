@@ -1,8 +1,8 @@
 /*-
  * #%L
- * Coffee
+ * Roaster
  * %%
- * Copyright (C) 2020 - 2022 i-Cell Mobilsoft Zrt.
+ * Copyright (C) 2020 - 2024 i-Cell Mobilsoft Zrt.
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,12 +98,12 @@ public abstract class ResponseProcessor<RESPONSE> {
      * @return response object cast to responseClass
      */
     public RESPONSE getOctetStream(Class<RESPONSE> responseClass, Object... pathParams) {
-        // REST kliens megszerzese
+        // REST obtaining client
         ResteasyClient client = (ResteasyClient) ClientBuilder.newClient();
         ResteasyWebTarget target = client.target(UriBuilder.fromUri(baseUri() + path()).build(pathParams));
         target.register(MultipartFormDataWriter.class);
         CDI<Object> cdi = CDI.current();
-        // ez csak MP rest clientnel tud mukodni
+        // It can only work with MP Rest Client.
         // target.register(RoasterRestClientBuilderListener.class);
         target.register(cdi.select(DefaultLoggerClientRequestFilter.class).get());
         target.register(cdi.select(DefaultLoggerClientResponseFilter.class).get());
@@ -183,14 +183,14 @@ public abstract class ResponseProcessor<RESPONSE> {
         ResteasyWebTarget target = client.target(uriBuilder.build(pathParams));
         target.register(MultipartFormDataWriter.class);
         CDI<Object> cdi = CDI.current();
-        // ez csak MP rest clientnel tud mukodni
+        // It can only work with MP Rest Client.
         target.register(cdi.select(DefaultLoggerClientRequestFilter.class).get());
         target.register(cdi.select(DefaultLoggerClientResponseFilter.class).get());
         target.register(DefaultBaseExceptionResponseExceptionMapper.class);
-        // alap beallitasok
+        // basic settings
         Invocation.Builder builder = target.request().accept(responseMediaType);
         builder = clientBuilderCustomization(builder);
-        // POST kuldese
+        // Sending POST
         Response response = builder.post(Entity.entity(requestMultipartForm, MediaType.MULTIPART_FORM_DATA_TYPE));
         return processResponse(response, responseClass);
     }

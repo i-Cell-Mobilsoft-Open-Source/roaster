@@ -1,10 +1,9 @@
 [#modules-tm4j]
 = TM4J
 
-A modul célja, hogy az automatán futtatott tesztesetek eredménye automatikusan jelentve legyen
-egy bekonfigurált TM4J (Test Management for Jira) szerverre.
+The purpose of this module is to automatically report the results of automated test cases to a configured TM4J (Test Management for Jira) server.
 
-== Konfiguráció
+== Configuration
 
 [source,yaml]
 .META-INF/roaster-defaults.yml
@@ -23,27 +22,24 @@ roaster:
          foo: ABC-C2 #<8>
          bar: ABC-C3
 ----
-<1> A TM4J szerver hívást lehet kikapcsolni ezzel a flag-gel (default: false)
-<2> Jira project key. Ez szokott a Jira issue-k prefixe is lenni.
-<3> TM4J test cycle key. Pl.: ABC-C1 ahol az ABC a project key.
-<4> (Opcionális) A neve az aktuális környezetnek, ahol a tesztek futnak. (Jira-ban létre kell hozni)
-<5> TM4J szerver url
+<1> The TM4J server call can be disabled with this flag (default: false).
+<2> Jira project key. It is usually the prefix of Jira issues.
+<3> TM4J test cycle key. For example, ABC-C1 where ABC is the project key.
+<4> (Optional) The name of the current environment where the tests are running. (Needs to be created in Jira)
+<5> TM4J server URL.
 <6> base64(userName + ":" + password)
-<7> A szerver autentikációs adatok megadásához lehet használni a server/userName + server/password vagy a server/basicAuthToken paramétert
-<8> Teszt tag-enként eltérő TM4J test cycle-ök megadási lehetősége.
-Ha a teszt meg van tag-elve egy olyan tag-gel (JUnit 5-ben `@Tag("foo")`), ami itt szerepel, akkor a default test cycle
-(`testCycleKey` konfig kulcs) helyett az itt megadott cycle-be fog report-álni.
-Ha több tag van egy teszten, akkor mindegyik cycle-be bekerül az eredmény.
+<7> You can use either the server/userName + server/password or server/basicAuthToken parameters to provide server authentication information.
+<8> Possibility to specify different TM4J test cycles per test tag.
+If a test is tagged with a tag that is listed here (e.g., `@Tag("foo")` in JUnit 5), the result will be reported to the specified cycle instead of the default test cycle (testCycleKey configuration key).
+If a test has multiple tags, the result will be reported to each corresponding cycle.
 
 [TIP]
-Biztonsági okokból célszerű a basicAuthToken-t és a jelszót nem a konfigurációs fájlba beleírni,
-hanem parancssori argumentumként átadni a maven-nek. +
-Pl.: `$ mvn test -Droaster.tm4j.server/password=secret`
+For security reasons, it is recommended not to include the basicAuthToken and password directly in the configuration file. Instead, you can pass them as command-line arguments to Maven.
+For example: `$ mvn test -Droaster.tm4j.server/password=secret`
 
+== Usage with JUnit 5
 
-== Használtata JUnit 5-tel
-
-A modul használatához hozzá kell adni az alábbi maven függőséget a pom.xml-hez:
+To use the module, you need to add the following Maven dependency to your pom.xml:
 
 [source,xml]
 .pom.xml
@@ -54,18 +50,15 @@ A modul használatához hozzá kell adni az alábbi maven függőséget a pom.xm
 </dependency>
 ----
 
-'''
-
-Ez után már csak fel kell annotálni azokat a teszt osztályokat/metódusokat
-amelyek eredményét jelenteni szeretnénk:
+After that, you just need to annotate the test classes/methods that you want to report the results of:
 
 [source,java]
 ----
-@ExtendWith(Tm4jExtension.class) // TM4J extension aktiválása a tesztosztályon
+@ExtendWith(Tm4jExtension.class) // Activate the TM4J extension on the test class
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ExampleTest extends BaseWeldUnitType {
     @Test
-    @TestCaseId("ABC-T1") // TM4J teszteset összerendelés
+    @TestCaseId("ABC-T1") // Link the test case to TM4J
     void testOne() {
         assertTrue(1 + 1 == 2);
     }
