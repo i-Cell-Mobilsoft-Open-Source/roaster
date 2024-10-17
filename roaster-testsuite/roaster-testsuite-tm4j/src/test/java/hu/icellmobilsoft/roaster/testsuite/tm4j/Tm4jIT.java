@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,7 +46,7 @@ import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 
 /**
  * Starts a mockserver with testcontainers to validate the TM4J rest calls
- * 
+ *
  * @author martin.nagy
  * @since 0.7.0
  */
@@ -74,7 +74,7 @@ class Tm4jIT extends BaseWeldUnitType {
                 .respond(
                         HttpResponse.response()
                                 .withContentType(MediaType.APPLICATION_JSON)
-                                .withBody("{\"displayName\":\"Teszt Elek\",\"key\":\"test-user-1\"}"));
+                                .withBody("{\"name\":\"Teszt Elek\",\"key\":\"test-user-1\"}"));
 
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/rest/atm/1.0/testrun/XXX-C123").withHeaders(headers))
                 .respond(HttpResponse.response().withStatusCode(200));
