@@ -4,8 +4,3 @@
 
 A new module has been created: *roaster-testdoc*, which aims to generate AsciiDoc documentation from test classes.
 For more details, check the <<TestDoc>> chapter.
-
-== roaster-hibernate
-
-The `EntityManagerProducer` now makes sure that only one `EntityManager` instance will be created per persistence unit,
-as opposed to creating a new `EntityManager` instance after each injection.

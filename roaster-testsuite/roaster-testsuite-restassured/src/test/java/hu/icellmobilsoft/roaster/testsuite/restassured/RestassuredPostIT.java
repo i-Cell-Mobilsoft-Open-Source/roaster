@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,9 +39,10 @@ import hu.icellmobilsoft.coffee.dto.common.commonservice.BaseRequest;
 import hu.icellmobilsoft.coffee.dto.common.commonservice.BaseResponse;
 import hu.icellmobilsoft.coffee.dto.common.commonservice.ContextType;
 import hu.icellmobilsoft.coffee.dto.common.commonservice.FunctionCodeType;
-import hu.icellmobilsoft.coffee.tool.gson.JsonUtil;
+import hu.icellmobilsoft.coffee.se.api.exception.JsonConversionException;
+import hu.icellmobilsoft.coffee.se.util.string.RandomUtil;
 import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
-import hu.icellmobilsoft.coffee.tool.utils.string.RandomUtil;
+import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
 import hu.icellmobilsoft.roaster.restassured.response.producer.impl.ConfigurableResponseProcessor;
@@ -49,7 +50,7 @@ import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 
 /**
  * Starts a mockserver with testcontainers to validate the restassured calls
- * 
+ *
  * @author imre.scheffer
  * @since 0.8.0
  */
@@ -72,7 +73,7 @@ class RestassuredPostIT extends BaseWeldUnitType {
             .withContext(new ContextType().withRequestId(RandomUtil.generateId()).withTimestamp(DateUtil.nowUTC())).withFuncCode(FunctionCodeType.OK);
 
     @BeforeAll
-    static void beforeAll() {
+    static void beforeAll() throws JsonConversionException {
         MOCK_SERVER.start();
 
         // microprofile-config settings
@@ -97,7 +98,7 @@ class RestassuredPostIT extends BaseWeldUnitType {
 
     @Test
     @DisplayName("HTTP 200 Json request and response")
-    void httpJson200() {
+    void httpJson200() throws JsonConversionException {
         BaseRequest requestBody = new BaseRequest()
                 .withContext(new ContextType().withRequestId(RandomUtil.generateId()).withTimestamp(DateUtil.nowUTC()));
         BaseResponse response = processor.postJson(requestBody, BaseResponse.class, "entityIdJson");
@@ -106,7 +107,7 @@ class RestassuredPostIT extends BaseWeldUnitType {
 
     @Test
     @DisplayName("HTTP 500 Json request and response")
-    void httpJson500() {
+    void httpJson500() throws JsonConversionException {
         BaseRequest requestBody = new BaseRequest()
                 .withContext(new ContextType().withRequestId(RandomUtil.generateId()).withTimestamp(DateUtil.nowUTC()));
         BaseResponse response = processor500.postJson(requestBody, BaseResponse.class, "entityIdJson500");
