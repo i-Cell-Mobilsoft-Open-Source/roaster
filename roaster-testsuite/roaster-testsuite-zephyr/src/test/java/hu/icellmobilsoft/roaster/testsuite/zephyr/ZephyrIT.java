@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,7 +45,7 @@ import hu.icellmobilsoft.roaster.zephyr.junit5.ZephyrExtension;
 
 /**
  * Starts a mockserver with testcontainers to validate the Zephyr rest calls
- * 
+ *
  * @author czenczl
  * @since 2.1.0
  */
@@ -81,7 +81,7 @@ class ZephyrIT extends BaseWeldUnitType {
                 .respond(
                         HttpResponse.response()
                                 .withContentType(MediaType.APPLICATION_JSON)
-                                .withBody("{\"displayName\":\"Teszt Elek\",\"key\":\"test-user-1\"}"));
+                                .withBody("{\"emailAddress\":\"tesztelek@test.ts\",\"accountId\":\"test-user-1\"}"));
 
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/testcases/XXX-T1").withHeaders(zephyrClientHeaders))
                 .respond(HttpResponse.response().withStatusCode(200));
