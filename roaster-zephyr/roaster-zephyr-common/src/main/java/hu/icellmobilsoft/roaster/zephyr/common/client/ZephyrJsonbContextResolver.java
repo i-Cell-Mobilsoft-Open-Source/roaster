@@ -40,6 +40,13 @@ public class ZephyrJsonbContextResolver implements ContextResolver<Jsonb> {
 
     private static final Jsonb jsonb = JsonbBuilder.newBuilder().withConfig(new YassonConfig().withFailOnUnknownProperties(false)).build();
 
+    /**
+     * Default constructor
+     */
+    public ZephyrJsonbContextResolver() {
+        super();
+    }
+
     @Override
     public Jsonb getContext(Class<?> type) {
         return jsonb;
