@@ -1,0 +1,12 @@
+= 2.4.0 -> 2.5.0
+
+== What's new
+
+=== roaster-zephyr
+
+bugfix: The test reporting threw
+`jakarta.json.bind.JsonbException: Json property self can not be mapped to a class class hu.icellmobilsoft.roaster.zephyr.dto.domain.jira.User` exception
+
+==== Migration
+
+Changes are backwards compatible doesn't need any migration.
