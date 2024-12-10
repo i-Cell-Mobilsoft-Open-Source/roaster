@@ -25,9 +25,11 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
+import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import hu.icellmobilsoft.roaster.zephyr.common.client.JiraAuthHeadersFactory;
+import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrJsonbContextResolver;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.jira.User;
 
 /**
@@ -40,6 +42,7 @@ import hu.icellmobilsoft.roaster.zephyr.dto.domain.jira.User;
  */
 @RegisterRestClient(configKey = "roaster.zephyr.server")
 @RegisterClientHeaders(JiraAuthHeadersFactory.class)
+@RegisterProvider(ZephyrJsonbContextResolver.class)
 @Path("/rest/api/3")
 public interface JiraRestClient {
 

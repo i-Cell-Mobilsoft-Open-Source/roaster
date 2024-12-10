@@ -30,9 +30,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
+import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrAuthHeadersFactory;
+import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrJsonbContextResolver;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestSteps;
 
@@ -46,6 +48,7 @@ import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestSteps;
  */
 @RegisterRestClient(baseUri = "https://api.zephyrscale.smartbear.com/v2")
 @RegisterClientHeaders(ZephyrAuthHeadersFactory.class)
+@RegisterProvider(ZephyrJsonbContextResolver.class)
 public interface ZephyrRestClient {
 
     /**

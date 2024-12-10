@@ -81,7 +81,7 @@ class ZephyrIT extends BaseWeldUnitType {
                 .respond(
                         HttpResponse.response()
                                 .withContentType(MediaType.APPLICATION_JSON)
-                                .withBody("{\"emailAddress\":\"tesztelek@test.ts\",\"accountId\":\"test-user-1\"}"));
+                                .withBody("{\"emailAddress\":\"tesztelek@test.ts\",\"accountId\":\"test-user-1\",\"extraField\":\"dummy\"}"));
 
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/testcases/XXX-T1").withHeaders(zephyrClientHeaders))
                 .respond(HttpResponse.response().withStatusCode(200));
@@ -108,6 +108,7 @@ class ZephyrIT extends BaseWeldUnitType {
     @AfterAll
     static void afterAll() {
         MOCK_SERVER_CLIENT.verify(HttpRequest.request().withMethod("GET").withPath("/testcases/XXX-T1"));
+        MOCK_SERVER_CLIENT.verify(HttpRequest.request().withMethod("POST").withPath("/testexecutions"));
         MOCK_SERVER.close();
     }
 
