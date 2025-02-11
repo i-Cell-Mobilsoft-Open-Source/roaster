@@ -18,7 +18,7 @@
 		<version.mockserver-client-java>5.14.0</version.mockserver-client-java>
 
         <version.commons-collections>3.2.2</version.commons-collections>
-        <version.commons-io>2.11.0</version.commons-io>
+        <version.commons-io>2.14.0</version.commons-io>
 		<version.org.apache.commons.commons-lang3>3.14.0</version.org.apache.commons.commons-lang3>
 		<version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
 		<version.io.rest-assured>5.0.0</version.io.rest-assured>
