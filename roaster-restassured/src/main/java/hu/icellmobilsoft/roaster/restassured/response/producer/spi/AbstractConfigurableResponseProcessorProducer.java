@@ -19,6 +19,8 @@
  */
 package hu.icellmobilsoft.roaster.restassured.response.producer.spi;
 
+import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.tool.utils.annotation.AnnotationUtil;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.enterprise.inject.spi.InjectionPoint;
 
@@ -64,7 +66,8 @@ public abstract class AbstractConfigurableResponseProcessorProducer<T extends Ab
      */
     protected T createConfiguredResponseProcessor(InjectionPoint injectionPoint) throws BaseException {
         T responseProcessor = getBaseResponseProcessor();
-        RestProcessor annotation = injectionPoint.getAnnotated().getAnnotation(RestProcessor.class);
+        RestProcessor annotation = AnnotationUtil.getAnnotation(injectionPoint, RestProcessor.class)
+                .orElseThrow(() -> new BaseException(CoffeeFaultType.INVALID_INPUT, "RestProcessor annotation not found!"));
         ResponseProcessorConfig config = getConfig(annotation.configKey());
 
         responseProcessor.setConfig(config);
