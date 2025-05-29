@@ -19,6 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.testsuite.jaxb;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataOutput;
@@ -144,5 +145,17 @@ class JaxbPostMultipartIT extends BaseWeldUnitType {
         multipartbody.addFormData("part2", "part2Body", jakarta.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
         String response = processor500.postMultipartXml(multipartbody, String.class, "xmlEntityId500");
         Assertions.assertEquals(MarshallingUtil.marshall(RESPONSE_DTO), response);
+    }
+
+    @Test
+    @DisplayName("HTTP 200 Json response with cdi client")
+    void http200jsonWithCdiClient() {
+        MultipartFormDataOutput multipartbody = new MultipartFormDataOutput();
+        multipartbody.addFormData("part1", "part1Body", jakarta.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
+        multipartbody.addFormData("part2", "part2Body", jakarta.ws.rs.core.MediaType.APPLICATION_JSON_TYPE);
+        ConfigurableResponseProcessor<String> cdiProcessor = CDI.current()
+                .select(ConfigurableResponseProcessor.class, new RestProcessor.Literal("testsuite.rest.test")).get();
+        String response = cdiProcessor.postMultipartJson(multipartbody, String.class, "jsonEntityId");
+        Assertions.assertEquals(JsonUtil.toJsonOpt(RESPONSE_DTO).orElse(null), response);
     }
 }

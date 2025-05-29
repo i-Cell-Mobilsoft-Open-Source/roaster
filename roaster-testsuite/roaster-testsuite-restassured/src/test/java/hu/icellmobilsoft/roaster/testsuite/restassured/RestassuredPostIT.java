@@ -19,6 +19,7 @@
  */
 package hu.icellmobilsoft.roaster.testsuite.restassured;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
 import org.junit.jupiter.api.AfterAll;
@@ -111,6 +112,17 @@ class RestassuredPostIT extends BaseWeldUnitType {
         BaseRequest requestBody = new BaseRequest()
                 .withContext(new ContextType().withRequestId(RandomUtil.generateId()).withTimestamp(DateUtil.nowUTC()));
         BaseResponse response = processor500.postJson(requestBody, BaseResponse.class, "entityIdJson500");
+        Assertions.assertEquals(JsonUtil.toJson(RESPONSE_DTO), JsonUtil.toJson(response));
+    }
+
+    @Test
+    @DisplayName("HTTP 200 Json request and response with cdi client")
+    void httpJson200WithCdiClient() throws JsonConversionException {
+        BaseRequest requestBody = new BaseRequest()
+                .withContext(new ContextType().withRequestId(RandomUtil.generateId()).withTimestamp(DateUtil.nowUTC()));
+        ConfigurableResponseProcessor<BaseResponse> cdiProcessor = CDI.current()
+                .select(ConfigurableResponseProcessor.class, new RestProcessor.Literal("testsuite.rest.test")).get();
+        BaseResponse response = cdiProcessor.postJson(requestBody, BaseResponse.class, "entityIdJson");
         Assertions.assertEquals(JsonUtil.toJson(RESPONSE_DTO), JsonUtil.toJson(response));
     }
 }
