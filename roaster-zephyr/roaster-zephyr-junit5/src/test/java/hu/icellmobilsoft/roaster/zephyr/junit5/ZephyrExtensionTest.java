@@ -68,7 +68,7 @@ class ZephyrExtensionTest {
 
         ExtensionContext.Store store = mock(ExtensionContext.Store.class);
         testStartTime = LocalDateTime.of(1234, Month.MAY, 6, 12, 34, 56);
-        when(store.remove(START_TIME, LocalDateTime.class))
+        when(store.get(START_TIME, LocalDateTime.class))
                 .thenReturn(testStartTime);
         when(extensionContext.getStore(any()))
                 .thenReturn(store);

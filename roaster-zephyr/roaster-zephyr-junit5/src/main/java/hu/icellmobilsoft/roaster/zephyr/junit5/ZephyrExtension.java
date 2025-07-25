@@ -122,7 +122,7 @@ public class ZephyrExtension implements TestWatcher, BeforeTestExecutionCallback
     }
 
     private LocalDateTime getStartTime(ExtensionContext context) {
-        return getStore(context).remove(START_TIME, LocalDateTime.class);
+        return getStore(context).get(START_TIME, LocalDateTime.class);
     }
 
     private ExtensionContext.Store getStore(ExtensionContext context) {

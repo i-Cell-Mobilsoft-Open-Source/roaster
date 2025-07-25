@@ -2,10 +2,41 @@
 
 == What's new
 
-=== roaster-jaxrs/roaster-estassured
+=== Dependencies
+
+* JUnit upgraded from `5.9.1` to `5.13.4`. Changes:
+** https://docs.junit.org/5.10.0/release-notes/[JUnit 5.10.0]
+** https://docs.junit.org/5.11.0/release-notes/[JUnit 5.11.0]
+*** https://docs.junit.org/current/user-guide/#writing-tests-built-in-extensions-AutoClose[@AutoClose] annotation to automatically close field resources in tests
+** https://docs.junit.org/5.12.0/release-notes/[JUnit 5.12.0]
+** https://docs.junit.org/5.13.0/release-notes/[JUnit 5.13.0]
+* Testcontainers upgraded from `1.17.6` to `1.21.3`.
+See: https://github.com/testcontainers/testcontainers-java/releases/tag/1.18.0[1.18.0],
+https://github.com/testcontainers/testcontainers-java/releases/tag/1.19.0[1.19.0],
+https://github.com/testcontainers/testcontainers-java/releases/tag/1.20.0[1.20.0],
+https://github.com/testcontainers/testcontainers-java/releases/tag/1.21.0[1.21.0]
+* Mockito upgraded from `4.10.0` to https://github.com/mockito/mockito/releases/tag/v4.11.0[4.11.0]
+(It's the newest version in the 4.x.x branch, but not the newest overall)
+* Weld-junit upgraded from `4.0.0.Final` to https://github.com/weld/weld-testing/releases/tag/4.0.5.Final[4.0.5.Final] to support newer JUnit versions. See: https://github.com/weld/weld-testing/pull/266
+
+==== Migration
+
+If you get a `Unable to load proxy class for bean Implicit Bean` exception in weld tests you should open the `java.base` module:
+[source,xml]
+----
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <configuration>
+        <argLine>--add-opens=java.base/java.lang=ALL-UNNAMED</argLine>
+    </configuration>
+</plugin>
+----
+
+=== roaster-jaxrs/roaster-restassured
 
 * The `RestProcessor` qualifier search is replaced in `AbstractConfigurableResponseProcessorProducer`.
 
 ==== Migration
 
-Changes are backwards compatible doesn't need any migration.
+Changes are backwards compatible, doesn't need any migration.
