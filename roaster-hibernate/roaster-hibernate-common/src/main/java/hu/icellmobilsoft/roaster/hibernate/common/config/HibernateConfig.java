@@ -17,9 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.hibernate.config;
-
-import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig;
+package hu.icellmobilsoft.roaster.hibernate.common.config;
 
 /**
  * Configuration for hibernate config
@@ -30,7 +28,7 @@ import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig
 public interface HibernateConfig {
 
     /**
-     * Default value for {@link HibernatePersistenceConfig#persistenceUnitName}
+     * Name of the default persistence unit
      */
     String DEFAULT_PERSISTENCE_UNIT_NAME = "defaultPU";
 
@@ -40,14 +38,6 @@ public interface HibernateConfig {
      * @return configKey config key
      */
     String getConfigKey();
-
-    /**
-     * Set configKey
-     * 
-     * @param configKey
-     *            config key
-     */
-    void setConfigKey(String configKey);
 
     /**
      * 'hibernate.dialect' setting

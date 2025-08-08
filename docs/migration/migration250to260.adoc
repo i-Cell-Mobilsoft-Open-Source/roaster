@@ -40,3 +40,38 @@ If you get a `Unable to load proxy class for bean Implicit Bean` exception in we
 ==== Migration
 
 Changes are backwards compatible, doesn't need any migration.
+
+=== roaster-hibernate
+
+* The hibernate module was split into two variants: hibernate-cdi and hibernate-se. The CDI one contains the old functionality,
+the SE one is new, which can be used without a CDI container.
+
+==== Migration
+
+For minimal migration in every `pom.xml` the artifactId should be replaced from `roaster-hibernate` to `roaster-hibernate-cdi`.
+The imports should be the same.
+
+For full migration the `roaster-hibernate` artifactId should be `roaster-hibernate-se`.
+After that the imports should be replaced from
+
+`import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig;`
+
+to
+
+`import hu.icellmobilsoft.roaster.hibernate.se.EntityManagerCache;`
+
+And the `EntityManager` fields should be transformed with the following regex replace:
+
+[source,java]
+----
+    @Inject
+    @HibernatePersistenceConfig\(persistenceUnitName = ([^)]+)\)
+    ((?:private )|(?:protected )|(?:public ))?EntityManager (.+);
+----
+
+to:
+
+[source,java]
+----
+    $2EntityManager $3 = EntityManagerCache.getForPersistenceUnit($1);
+----
