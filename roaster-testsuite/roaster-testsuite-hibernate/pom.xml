@@ -54,7 +54,7 @@
         </dependency>
         <dependency>
             <groupId>hu.icellmobilsoft.roaster</groupId>
-            <artifactId>roaster-hibernate</artifactId>
+            <artifactId>roaster-hibernate-cdi</artifactId>
         </dependency>
 
     </dependencies>

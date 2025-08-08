@@ -8,7 +8,7 @@ To use the Hibernate module, you first need to reference the following dependenc
 ----
 <dependency>
     <groupId>hu.icellmobilsoft.roaster</groupId>
-    <artifactId>roaster-hibernate</artifactId>
+    <artifactId>roaster-hibernate-cdi</artifactId>
 </dependency>
 ----
 
@@ -16,7 +16,7 @@ In addition, you also need to add the appropriate JDBC driver, which may vary de
 It is recommended to use the following:
 
 [source,xml]
-.pom.xml in case of Oracle19 
+.pom.xml in case of Oracle19
 ----
 
         <dependency>
@@ -55,7 +55,6 @@ It is recommended to use the following:
         </dependency>
 
 ----
-
 
 [source,xml]
 .pom.xml in case of PostgreSQL
@@ -196,3 +195,35 @@ public class HibernateTest extends BaseWeldUnitType {
 
 }
 ----
+
+== Hibernate SE module
+
+There is a newer module, where we can use the configured Hibernate without a CDI/Weld container.
+This method can be faster and can be applied in multithreaded environments, i.e. in parallel tests.
+
+To use this module we should add this dependency to the pom.xml instead of `roaster-hibernate-cdi`:
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-hibernate-se</artifactId>
+</dependency>
+----
+
+After that the previous example can be rewritten like this:
+
+[source,java]
+----
+public class HibernateTest extends BaseWeldUnitType {
+
+    private EntityManager userEntityManager = EntityManagerCache.getForDefaultPersistenceUnit();
+    private EntityManager otherEntityManager = EntityManagerCache.getForPersistenceUnit("otherPu");
+
+    // ...
+}
+----
+
+The `EntityManagerCache` closes all created `EntityManagerFactory`-s so the DB connection pools at the shutdown of the JVM, even if the test run was canceled.
+The entity audit data can be customized by calling the `EntityManagerFactoryCache#setPrincipalSupplier` method.

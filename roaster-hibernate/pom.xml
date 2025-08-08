@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>roaster</artifactId>
         <groupId>hu.icellmobilsoft.roaster</groupId>
         <version>2.6.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>roaster-hibernate</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>roaster-hibernate-common</module>
+        <module>roaster-hibernate-se</module>
+        <module>roaster-hibernate-cdi</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>
@@ -20,29 +27,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-
-        <dependency>
-            <groupId>hu.icellmobilsoft.coffee</groupId>
-            <artifactId>coffee-se-logging</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>hu.icellmobilsoft.coffee</groupId>
-            <artifactId>coffee-tool</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.weld</groupId>
-            <artifactId>weld-junit5</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-        </dependency>
-
-    </dependencies>
 
 </project>

@@ -43,7 +43,7 @@ import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.coffee.tool.utils.annotation.AnnotationUtil;
 import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig;
-import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
+import hu.icellmobilsoft.roaster.hibernate.common.config.HibernateConfig;
 
 /**
  * Producer for creating or obtaining {@link EntityManager}

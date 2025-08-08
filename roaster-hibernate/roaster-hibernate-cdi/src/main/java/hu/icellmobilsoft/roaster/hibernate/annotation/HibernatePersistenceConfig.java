@@ -28,7 +28,7 @@ import jakarta.enterprise.util.AnnotationLiteral;
 import jakarta.enterprise.util.Nonbinding;
 import jakarta.inject.Qualifier;
 
-import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
+import hu.icellmobilsoft.roaster.hibernate.common.config.HibernateConfig;
 
 /**
  * Qualifier for set ConfigKey for setup Hibernate over EntityManager

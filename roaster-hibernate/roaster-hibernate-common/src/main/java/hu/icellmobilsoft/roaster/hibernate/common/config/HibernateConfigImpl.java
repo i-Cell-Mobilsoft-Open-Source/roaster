@@ -17,12 +17,10 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.roaster.hibernate.config;
-
-import jakarta.enterprise.context.Dependent;
-import jakarta.inject.Inject;
+package hu.icellmobilsoft.roaster.hibernate.common.config;
 
 import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
 
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 
@@ -47,28 +45,10 @@ import hu.icellmobilsoft.coffee.se.logging.Logger;
  *         show_sql: true
  *         format_sql: true
  * </pre>
- * <p>
- * The upper configuration is injectable with:
- *
- * <pre>
- * &#64;Inject
- * &#64;HibernatePersistenceConfig(persistenceUnitName = "myPersistenceUnitNam")
- * HibernateConfig hibernateConfig;
- * </pre>
- * <p>
- *
- * or:
- *
- * <pre>
- * HibernateConfig hibernateConfig = CDI.current()
- *         .select(HibernateConfig.class, new HibernatePersistenceConfig.Literal("myPersistenceUnitNam"))
- *         .get();
- * </pre>
- *
+ * 
  * @author speter555
  * @author csaba.balogh
  */
-@Dependent
 public class HibernateConfigImpl implements HibernateConfig {
 
     /**
@@ -95,126 +75,87 @@ public class HibernateConfigImpl implements HibernateConfig {
     private static final String JDBC_DRIVER = "jdbc.driver";
     private static final String JDBC_LOG_WARNINGS = "jdbc.log_warnings";
 
-    private Logger logger = Logger.getLogger(HibernateConfigImpl.class);
-
-    private String configKey = DEFAULT_PERSISTENCE_UNIT_NAME;
-
-    @Inject
-    private Config config;
+    private final Logger logger = Logger.getLogger(HibernateConfigImpl.class);
+    private final Config config = ConfigProvider.getConfig();
+    private final String configKey;
 
     /**
-     * Default constructor, constructs a new object.
+     * Default constructor. Uses {@link #DEFAULT_PERSISTENCE_UNIT_NAME} as persistence unit name.
      */
     public HibernateConfigImpl() {
-        super();
+        this(DEFAULT_PERSISTENCE_UNIT_NAME);
     }
 
     /**
-     * {@inheritDoc}
+     * Constructor with persistence unit name.
+     * 
+     * @param configKey
+     *            persistence unit name used for config lookup
      */
+    public HibernateConfigImpl(String configKey) {
+        this.configKey = configKey;
+    }
+
+    @Override
     public String getConfigKey() {
         return configKey;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setConfigKey(String configKey) {
-        this.configKey = configKey;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getDialect() {
         return getConfigValue(DIALECT);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getPoolSize() {
         return getConfigValue(POOL_SIZE);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getShowSql() {
         return getConfigValue(SHOW_SQL);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getFormatSql() {
         return getConfigValue(FORMAT_SQL);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getDefaultSchema() {
         return getConfigValue(DEFAULT_SCHEMA);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getJpaJdbcUrl() {
         return getConfigValue(JDBC_URL);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getJpaJdbcUser() {
         return getConfigValue(JDBC_USER);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getJpaJdbcPassword() {
         return getConfigValue(JDBC_PASSWORD);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getJpaJdbcDriver() {
         return getConfigValue(JDBC_DRIVER);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean getLogSessionMetrics() {
         return getBooleanConfigValue(LOG_SESSION_METRICS);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean getLogJdbcWarnings() {
         return getBooleanConfigValue(JDBC_LOG_WARNINGS);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean getGenerateStatistics() {
         return getBooleanConfigValue(GENERATE_STATISTICS);
