@@ -26,6 +26,8 @@ package hu.icellmobilsoft.roaster.hibernate.producer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.hibernate.cfg.Environment;
+
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.annotation.AnnotationUtil;
@@ -38,7 +40,9 @@ import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.InjectionPoint;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManagerFactory;
 
 /**
@@ -50,6 +54,9 @@ import jakarta.persistence.EntityManagerFactory;
  */
 @ApplicationScoped
 public class EntityManagerFactoryProducer {
+
+    @Inject
+    private BeanManager beanManager;
 
     private final Map<String, EntityManagerFactory> entityManagerFactoryCache = new ConcurrentHashMap<>();
 
@@ -140,6 +147,10 @@ public class EntityManagerFactoryProducer {
      * @return a new {@link EntityManagerFactory} instance configured with the specified {@link HibernateConfig}
      */
     protected EntityManagerFactory createNewEntityManagerFactory(HibernateConfig hibernateConfig) {
-        return EntityManagerFactoryFactory.createNewEntityManagerFactory(hibernateConfig, null);
+        return EntityManagerFactoryFactory.createNewEntityManagerFactory(hibernateConfig, this::initBeanManager);
+    }
+
+    private void initBeanManager(Map<String, Object> props) {
+        props.put(Environment.CDI_BEAN_MANAGER, beanManager);
     }
 }
