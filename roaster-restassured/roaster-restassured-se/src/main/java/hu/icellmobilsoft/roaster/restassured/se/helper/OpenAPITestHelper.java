@@ -19,6 +19,8 @@
  */
 package hu.icellmobilsoft.roaster.restassured.se.helper;
 
+import jakarta.enterprise.context.Dependent;
+
 import org.junit.jupiter.api.Assertions;
 
 import hu.icellmobilsoft.roaster.restassured.se.path.MicroprofilePath;
@@ -28,8 +30,6 @@ import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-
-import jakarta.enterprise.context.Dependent;
 
 /**
  * Helper class for /openapi endpoint restassured testing

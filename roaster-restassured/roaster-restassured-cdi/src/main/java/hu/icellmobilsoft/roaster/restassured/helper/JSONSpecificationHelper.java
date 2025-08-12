@@ -19,12 +19,12 @@
  */
 package hu.icellmobilsoft.roaster.restassured.helper;
 
+import jakarta.enterprise.inject.spi.CDI;
+
 import org.apache.commons.lang3.StringUtils;
 
 import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
 import io.restassured.specification.RequestSpecification;
-
-import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * 

@@ -19,11 +19,11 @@
  */
 package hu.icellmobilsoft.roaster.restassured.helper;
 
-import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
-import io.restassured.config.RestAssuredConfig;
-
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
+
+import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
+import io.restassured.config.RestAssuredConfig;
 
 /**
  * Helper class for /versionInfo endpoint restassured testing

@@ -19,14 +19,14 @@
  */
 package hu.icellmobilsoft.roaster.restassured.producer;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.CDI;
+
 import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
 import io.restassured.config.ObjectMapperConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.path.json.mapper.factory.Jackson2ObjectMapperFactory;
-
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Produces;
-import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * ObjectMapperConfig producer used in JSON RestAssuredConfig settings

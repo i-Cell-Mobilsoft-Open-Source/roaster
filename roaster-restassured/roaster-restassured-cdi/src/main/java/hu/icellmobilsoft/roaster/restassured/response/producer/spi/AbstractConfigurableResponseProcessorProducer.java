@@ -19,6 +19,8 @@
  */
 package hu.icellmobilsoft.roaster.restassured.response.producer.spi;
 
+import jakarta.enterprise.inject.spi.InjectionPoint;
+
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.annotation.AnnotationUtil;
@@ -26,8 +28,6 @@ import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
 import hu.icellmobilsoft.roaster.jaxrs.se.response.ProcessorConfigImpl;
 import hu.icellmobilsoft.roaster.jaxrs.se.response.ResponseProcessorConfig;
 import hu.icellmobilsoft.roaster.restassured.se.response.ConfigurableResponseProcessor;
-
-import jakarta.enterprise.inject.spi.InjectionPoint;
 
 /**
  * Base class for {@link ConfigurableResponseProcessor} CDI producers

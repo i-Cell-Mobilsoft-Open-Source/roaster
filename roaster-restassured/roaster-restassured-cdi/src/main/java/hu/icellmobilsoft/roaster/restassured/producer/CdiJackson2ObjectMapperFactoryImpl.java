@@ -19,10 +19,10 @@
  */
 package hu.icellmobilsoft.roaster.restassured.producer;
 
-import hu.icellmobilsoft.roaster.restassured.se.producer.Jackson2ObjectMapperFactoryImpl;
-
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.Model;
+
+import hu.icellmobilsoft.roaster.restassured.se.producer.Jackson2ObjectMapperFactoryImpl;
 
 /**
  * CDI Jackson2ObjectMapperFactory implementation.<br>

@@ -19,6 +19,11 @@
  */
 package hu.icellmobilsoft.roaster.restassured.response.producer.impl;
 
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.InjectionPoint;
+
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
 import hu.icellmobilsoft.roaster.jaxrs.se.response.ResponseProcessorConfig;
@@ -27,11 +32,6 @@ import hu.icellmobilsoft.roaster.restassured.annotation.XML;
 import hu.icellmobilsoft.roaster.restassured.response.producer.spi.AbstractConfigurableResponseProcessorProducer;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-
-import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.Produces;
-import jakarta.enterprise.inject.spi.CDI;
-import jakarta.enterprise.inject.spi.InjectionPoint;
 
 /**
  * CDI producer for {@link ConfigurableResponseProcessor} default implementation

@@ -23,15 +23,6 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
 
-import org.eclipse.microprofile.config.ConfigProvider;
-import org.jboss.resteasy.client.jaxrs.ResteasyClient;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataOutput;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataWriter;
-
-import hu.icellmobilsoft.coffee.module.mp.restclient.provider.DefaultBaseExceptionResponseExceptionMapper;
-import hu.icellmobilsoft.roaster.api.TestException;
-
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.Invocation;
@@ -40,6 +31,15 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.core.UriBuilder;
+
+import org.eclipse.microprofile.config.ConfigProvider;
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataOutput;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataWriter;
+
+import hu.icellmobilsoft.coffee.module.mp.restclient.provider.DefaultBaseExceptionResponseExceptionMapper;
+import hu.icellmobilsoft.roaster.api.TestException;
 
 /**
  * Base Response REST handler based on JXRS

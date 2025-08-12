@@ -19,12 +19,12 @@
  */
 package hu.icellmobilsoft.roaster.restassured.helper;
 
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
+
 import hu.icellmobilsoft.roaster.restassured.annotation.JSON;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-
-import jakarta.enterprise.context.Dependent;
-import jakarta.inject.Inject;
 
 /**
  * Helper class for /openapi endpoint restassured testing

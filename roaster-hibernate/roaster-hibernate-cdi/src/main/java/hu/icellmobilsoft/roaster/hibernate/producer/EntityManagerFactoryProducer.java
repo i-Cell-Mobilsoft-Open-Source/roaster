@@ -26,6 +26,15 @@ package hu.icellmobilsoft.roaster.hibernate.producer;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import jakarta.annotation.PreDestroy;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.inject.spi.InjectionPoint;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManagerFactory;
+
 import org.hibernate.cfg.Environment;
 
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
@@ -35,15 +44,6 @@ import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig
 import hu.icellmobilsoft.roaster.hibernate.common.config.EntityManagerFactoryFactory;
 import hu.icellmobilsoft.roaster.hibernate.common.config.HibernateConfig;
 import hu.icellmobilsoft.roaster.hibernate.common.config.HibernateConfigImpl;
-
-import jakarta.annotation.PreDestroy;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.Produces;
-import jakarta.enterprise.inject.spi.BeanManager;
-import jakarta.enterprise.inject.spi.InjectionPoint;
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManagerFactory;
 
 /**
  * Producer for creating or obtaining {@link EntityManagerFactory} from myPu persistenceUnit from META-INF/persistence.xml

@@ -21,17 +21,17 @@ package hu.icellmobilsoft.roaster.jaxrs.response.producer.impl;
 
 import java.util.List;
 
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.spi.InjectionPoint;
+
 import hu.icellmobilsoft.coffee.module.mp.restclient.provider.DefaultLoggerClientRequestFilter;
 import hu.icellmobilsoft.coffee.module.mp.restclient.provider.DefaultLoggerClientResponseFilter;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.spi.AbstractConfigurableResponseProcessorProducer;
 import hu.icellmobilsoft.roaster.jaxrs.se.response.ResponseProcessorConfig;
-
-import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.Produces;
-import jakarta.enterprise.inject.spi.CDI;
-import jakarta.enterprise.inject.spi.InjectionPoint;
 
 /**
  * CDI producer for {@link ConfigurableResponseProcessor} default implementation
