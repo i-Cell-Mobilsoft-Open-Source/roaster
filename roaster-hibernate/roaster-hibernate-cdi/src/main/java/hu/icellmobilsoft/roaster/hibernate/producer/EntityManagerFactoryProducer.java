@@ -23,21 +23,8 @@
  */
 package hu.icellmobilsoft.roaster.hibernate.producer;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-
-import jakarta.annotation.PreDestroy;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.Produces;
-import jakarta.enterprise.inject.spi.BeanManager;
-import jakarta.enterprise.inject.spi.CDI;
-import jakarta.enterprise.inject.spi.InjectionPoint;
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 
 import org.hibernate.cfg.Environment;
 
@@ -45,7 +32,18 @@ import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.annotation.AnnotationUtil;
 import hu.icellmobilsoft.roaster.hibernate.annotation.HibernatePersistenceConfig;
-import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
+import hu.icellmobilsoft.roaster.hibernate.common.config.EntityManagerFactoryFactory;
+import hu.icellmobilsoft.roaster.hibernate.common.config.HibernateConfig;
+import hu.icellmobilsoft.roaster.hibernate.common.config.HibernateConfigImpl;
+
+import jakarta.annotation.PreDestroy;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.inject.spi.InjectionPoint;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManagerFactory;
 
 /**
  * Producer for creating or obtaining {@link EntityManagerFactory} from myPu persistenceUnit from META-INF/persistence.xml
@@ -57,10 +55,10 @@ import hu.icellmobilsoft.roaster.hibernate.config.HibernateConfig;
 @ApplicationScoped
 public class EntityManagerFactoryProducer {
 
-    private final Map<String, EntityManagerFactory> entityManagerFactoryCache = new ConcurrentHashMap<>();
-
     @Inject
     private BeanManager beanManager;
+
+    private final Map<String, EntityManagerFactory> entityManagerFactoryCache = new ConcurrentHashMap<>();
 
     /**
      * Cleanup of the cache and resources associated with EntityManagerFactory instances.
@@ -116,8 +114,15 @@ public class EntityManagerFactoryProducer {
         return getEntityManagerFactory(hibernateConfig);
     }
 
-    private HibernateConfig getHibernateConfig(String persistenceUnitName) {
-        return CDI.current().select(HibernateConfig.class, new HibernatePersistenceConfig.Literal(persistenceUnitName)).get();
+    /**
+     * Creates a new {@link HibernateConfig} instance using the specified persistenceUnitName.
+     *
+     * @param persistenceUnitName
+     *            the name of the persistence unit for which a {@link HibernateConfig} instance is to be created
+     * @return a new {@link HibernateConfig} instance configured with the specified persistenceUnitName
+     */
+    protected HibernateConfig getHibernateConfig(String persistenceUnitName) {
+        return new HibernateConfigImpl(persistenceUnitName);
     }
 
     /**
@@ -133,40 +138,19 @@ public class EntityManagerFactoryProducer {
         return entityManagerFactoryCache.computeIfAbsent(hibernateConfig.getConfigKey(), key -> createNewEntityManagerFactory(hibernateConfig));
     }
 
-    private EntityManagerFactory createNewEntityManagerFactory(HibernateConfig hibernateConfig) {
-        Map<String, Object> props = new HashMap<>();
+    /**
+     * Creates a new {@link EntityManagerFactory} instance using the provided {@link HibernateConfig}.<br>
+     * This method delegates the creation process to {@link EntityManagerFactoryFactory#createNewEntityManagerFactory} with a null customizer.
+     *
+     * @param hibernateConfig
+     *            the {@link HibernateConfig} instance containing configuration details for the {@link EntityManagerFactory}
+     * @return a new {@link EntityManagerFactory} instance configured with the specified {@link HibernateConfig}
+     */
+    protected EntityManagerFactory createNewEntityManagerFactory(HibernateConfig hibernateConfig) {
+        return EntityManagerFactoryFactory.createNewEntityManagerFactory(hibernateConfig, this::initBeanManager);
+    }
 
-        // TODO by jakartaEE atalas, it is probably removable -
-        // https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#beans-cdi
-        // Set CDI Bean manager
+    private void initBeanManager(Map<String, Object> props) {
         props.put(Environment.CDI_BEAN_MANAGER, beanManager);
-
-        // JPA use in JAVA SE
-        props.put(Environment.JAKARTA_TRANSACTION_TYPE, "RESOURCE_LOCAL");
-        props.put(Environment.JAKARTA_PERSISTENCE_PROVIDER, "org.hibernate.jpa.HibernatePersistenceProvider");
-
-        // TODO no such option with jakartaEE atalas
-        // //
-        // props.put(Environment.USE_NEW_ID_GENERATOR_MAPPINGS, false);
-
-        // Set settings from Roaster config
-        props.put(Environment.DIALECT, hibernateConfig.getDialect());
-        props.put(Environment.POOL_SIZE, hibernateConfig.getPoolSize());
-        props.put(Environment.SHOW_SQL, hibernateConfig.getShowSql());
-        props.put(Environment.FORMAT_SQL, hibernateConfig.getFormatSql());
-        props.put(Environment.DEFAULT_SCHEMA, hibernateConfig.getDefaultSchema());
-        props.put(Environment.JAKARTA_JDBC_URL, hibernateConfig.getJpaJdbcUrl());
-        props.put(Environment.JAKARTA_JDBC_USER, hibernateConfig.getJpaJdbcUser());
-        props.put(Environment.JAKARTA_JDBC_PASSWORD, hibernateConfig.getJpaJdbcPassword());
-        props.put(Environment.JAKARTA_JDBC_DRIVER, hibernateConfig.getJpaJdbcDriver());
-        props.put(Environment.LOG_SESSION_METRICS, hibernateConfig.getLogSessionMetrics());
-        props.put(Environment.LOG_JDBC_WARNINGS, hibernateConfig.getLogJdbcWarnings());
-        props.put(Environment.GENERATE_STATISTICS, hibernateConfig.getGenerateStatistics());
-
-        // If any config value is null, remove it from config map
-        props.values().removeIf(Objects::isNull);
-
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(hibernateConfig.getConfigKey(), props);
-        return entityManagerFactory;
     }
 }
