@@ -37,7 +37,7 @@ import org.testcontainers.utility.DockerImageName;
 
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
-import hu.icellmobilsoft.roaster.jaxrs.response.producer.impl.ConfigurableResponseProcessor;
+import hu.icellmobilsoft.roaster.jaxrs.se.response.ConfigurableResponseProcessor;
 import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 
 /**

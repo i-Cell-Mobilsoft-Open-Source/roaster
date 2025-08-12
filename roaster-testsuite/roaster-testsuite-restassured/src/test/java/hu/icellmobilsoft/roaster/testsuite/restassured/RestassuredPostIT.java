@@ -46,7 +46,7 @@ import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
 import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
-import hu.icellmobilsoft.roaster.restassured.response.producer.impl.ConfigurableResponseProcessor;
+import hu.icellmobilsoft.roaster.restassured.se.response.ConfigurableResponseProcessor;
 import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 
 /**

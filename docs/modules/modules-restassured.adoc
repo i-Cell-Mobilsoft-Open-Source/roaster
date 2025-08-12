@@ -7,7 +7,7 @@ To use the RestAssured module, you just need to reference it in the pom.xml file
 ----
 <dependency>
     <groupId>hu.icellmobilsoft.roaster</groupId>
-    <artifactId>roaster-restassured</artifactId>
+    <artifactId>roaster-restassured-cdi</artifactId>
 </dependency>
 ----
 
@@ -215,7 +215,7 @@ you can first implement `AbstractConfigurableResponseProcessor`:
 
 [source,java]
 ----
-import hu.icellmobilsoft.roaster.restassured.response.producer.spi.AbstractConfigurableResponseProcessor;
+import hu.icellmobilsoft.roaster.restassured.se.response.ConfigurableResponseProcessor;
 
 @Dependent
 public class LoginConfigurableResponseProcessor<RESPONSE> extends AbstractConfigurableResponseProcessor<RESPONSE> {
@@ -272,5 +272,37 @@ class ExampleTest {
             expectedStatusCode = HttpStatus.SC_UNAUTHORIZED
     )
     private ConfigurableResponseProcessor<ExampleResponse> noLoginResponseProcessor;
+}
+----
+
+== Restassured SE module
+
+There is a newer module, where we can use the configured Restassured without a CDI/Weld container.
+This method can be faster and can be applied in multithreaded environments, i.e. in parallel tests.
+
+To use this module we should add this dependency to the pom.xml instead of `roaster-restassured-cdi`:
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-restassured-se</artifactId>
+</dependency>
+----
+
+After that the previous example can be rewritten like this:
+
+[source,java]
+----
+import hu.icellmobilsoft.roaster.restassured.se.response.ConfigurableResponseProcessor;
+import hu.icellmobilsoft.roaster.restassured.se.response.ConfigurableResponseProcessorFactory;
+
+class ExampleTest {
+    private ConfigurableResponseProcessor<ExampleResponse> responseProcessor = ConfigurableResponseProcessorFactory
+            .create("testsuite.rest.exampleService.example");
+    private ConfigurableResponseProcessor<ExampleResponse> badRequestResponseProcessor = ConfigurableResponseProcessorFactory
+            .create("testsuite.rest.exampleService.example", HttpStatus.SC_BAD_REQUEST);
+    // ...
 }
 ----
