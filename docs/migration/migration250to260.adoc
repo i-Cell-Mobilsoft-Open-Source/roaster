@@ -78,7 +78,7 @@ to:
 
 === roaster-jaxrs
 
-* The hibernate module was split into two variants: roaster-jaxrs-cdi and roaster-jaxrs-se. The CDI one contains the old functionality,
+* The jaxrs module was split into two variants: roaster-jaxrs-cdi and roaster-jaxrs-se. The CDI one contains the old functionality,
 the SE one is new, which can be used without a CDI container.
 
 ==== Migration
@@ -132,7 +132,7 @@ to:
 
 === roaster-restassured
 
-* The hibernate module was split into two variants: roaster-restassured-cdi and roaster-restassured-se. The CDI one contains the old functionality,
+* The restassured module was split into two variants: roaster-restassured-cdi and roaster-restassured-se. The CDI one contains the old functionality,
 the SE one is new, which can be used without a CDI container.
 
 ==== Migration
