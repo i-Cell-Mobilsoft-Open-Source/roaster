@@ -32,7 +32,7 @@
         </dependency>
         <dependency>
             <groupId>hu.icellmobilsoft.roaster</groupId>
-            <artifactId>roaster-jaxrs</artifactId>
+            <artifactId>roaster-jaxrs-cdi</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>

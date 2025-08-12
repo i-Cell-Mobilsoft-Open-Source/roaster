@@ -7,7 +7,7 @@ To use the JAX-RS module, you just need to reference it in the pom.xml file.
 ----
 <dependency>
     <groupId>hu.icellmobilsoft.roaster</groupId>
-    <artifactId>roaster-jaxrs</artifactId>
+    <artifactId>roaster-jaxrs-cdi</artifactId>
 </dependency>
 ----
 
@@ -31,7 +31,7 @@ By default, the system supports XML or JSON formats.
 
 ==== Implementation
 
-The abstract class `hu.icellmobilsoft.roaster.jaxrs.response.ResponseProcessor` was created to assist in testing a specific endpoint.
+The abstract class `hu.icellmobilsoft.roaster.jaxrs.se.response.ResponseProcessor` was created to assist in testing a specific endpoint.
 When inheriting, you need to specify the Response type as a generic parameter and implement two methods that return strings to identify the endpoint.
 
 * `baseUriKey`: The key used in Roaster configuration to specify the base URI of the endpoint
@@ -107,10 +107,10 @@ you can do so by first implementing `AbstractConfigurableResponseProcessor`:
 
 [source,java]
 ----
-import hu.icellmobilsoft.roaster.jaxrs.response.producer.spi.AbstractConfigurableResponseProcessor;
+import hu.icellmobilsoft.roaster.jaxrs.response.producer.spi.ConfigurableResponseProcessor;
 
 @Dependent
-public class CustomConfigurableResponseProcessor<RESPONSE> extends AbstractConfigurableResponseProcessor<RESPONSE> {
+public class CustomConfigurableResponseProcessor<RESPONSE> extends ConfigurableResponseProcessor<RESPONSE> {
 
     // We override what is necessary...
 }
@@ -197,3 +197,47 @@ TestMpRestApi testMpRestApiImpl = RestClientBuilder.newBuilder()
 String response = testMpRestApiImpl.testPost(DtoHelper.createBaseRequest());
 ----
 
+== Jaxrs SE module
+
+There is a newer module, where we can use the configured Jaxrs without a CDI/Weld container.
+This method can be faster and can be applied in multithreaded environments, i.e. in parallel tests.
+
+To use this module we should add this dependency to the pom.xml instead of `roaster-jaxrs-cdi`:
+
+[source,java]
+----
+import hu.icellmobilsoft.roaster.jaxrs.se.response.ConfigurableResponseProcessor;
+import hu.icellmobilsoft.roaster.jaxrs.se.response.ConfigurableResponseProcessorFactory;
+
+class ExampleTest {
+    private ConfigurableResponseProcessor<ExampleResponse> responseProcessor = ConfigurableResponseProcessorFactory
+            .create("testsuite.rest.exampleService.example");
+    private ConfigurableResponseProcessor<ExampleResponse> badRequestResponseProcessor = ConfigurableResponseProcessorFactory
+            .create("testsuite.rest.exampleService.example", HttpStatus.SC_BAD_REQUEST);
+}
+----
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-jaxrs-se</artifactId>
+</dependency>
+----
+
+After that the previous example can be rewritten like this:
+
+[source,java]
+----
+import hu.icellmobilsoft.roaster.jaxrs.se.response.ConfigurableResponseProcessor;
+import hu.icellmobilsoft.roaster.jaxrs.se.response.ConfigurableResponseProcessorFactory;
+
+class ExampleTest {
+    private ConfigurableResponseProcessor<ExampleResponse> responseProcessor = ConfigurableResponseProcessorFactory
+            .create("testsuite.rest.exampleService.example");
+    private ConfigurableResponseProcessor<ExampleResponse> badRequestResponseProcessor = ConfigurableResponseProcessorFactory
+            .create("testsuite.rest.exampleService.example", HttpStatus.SC_BAD_REQUEST);
+    // ...
+}
+----

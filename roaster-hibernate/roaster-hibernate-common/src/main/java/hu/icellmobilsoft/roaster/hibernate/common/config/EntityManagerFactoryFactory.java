@@ -24,10 +24,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import org.hibernate.cfg.Environment;
-
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+
+import org.hibernate.cfg.Environment;
 
 /**
  * Factory class for creating {@link EntityManagerFactory}

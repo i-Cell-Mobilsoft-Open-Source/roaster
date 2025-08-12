@@ -7,6 +7,11 @@
     </parent>
 
     <artifactId>roaster-jaxrs</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>roaster-jaxrs-cdi</module>
+        <module>roaster-jaxrs-se</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>
@@ -48,10 +53,6 @@
         <dependency>
             <groupId>io.smallrye.config</groupId>
             <artifactId>smallrye-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.weld</groupId>
-            <artifactId>weld-junit5</artifactId>
         </dependency>
 
         <!-- needed due to multipart rest -->

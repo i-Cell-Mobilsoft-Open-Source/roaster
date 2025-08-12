@@ -8,6 +8,11 @@
 	</parent>
 
 	<artifactId>roaster-restassured</artifactId>
+	<packaging>pom</packaging>
+	<modules>
+		<module>roaster-restassured-se</module>
+		<module>roaster-restassured-cdi</module>
+	</modules>
 
 	<dependencyManagement>
 		<dependencies>
@@ -35,11 +40,6 @@
 	</build>
 
 	<dependencies>
-		<!-- specified imports -->
-		<dependency>
-			<groupId>hu.icellmobilsoft.roaster</groupId>
-			<artifactId>roaster-jaxrs</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>

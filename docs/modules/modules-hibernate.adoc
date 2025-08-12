@@ -216,7 +216,7 @@ After that the previous example can be rewritten like this:
 
 [source,java]
 ----
-public class HibernateTest extends BaseWeldUnitType {
+public class HibernateTest {
 
     private EntityManager userEntityManager = EntityManagerCache.getForDefaultPersistenceUnit();
     private EntityManager otherEntityManager = EntityManagerCache.getForPersistenceUnit("otherPu");
