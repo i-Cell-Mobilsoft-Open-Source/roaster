@@ -48,7 +48,7 @@ import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
 import hu.icellmobilsoft.coffee.tool.utils.marshalling.MarshallingUtil;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.jaxrs.response.producer.RestProcessor;
-import hu.icellmobilsoft.roaster.jaxrs.response.producer.impl.ConfigurableResponseProcessor;
+import hu.icellmobilsoft.roaster.jaxrs.se.response.ConfigurableResponseProcessor;
 import hu.icellmobilsoft.roaster.testsuite.jaxb.dto.DtoHelper;
 import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 

@@ -68,16 +68,29 @@
 				<artifactId>roaster-redis</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>hu.icellmobilsoft.roaster</groupId>
-				<artifactId>roaster-jaxrs</artifactId>
+				<artifactId>roaster-jaxrs-cdi</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>hu.icellmobilsoft.roaster</groupId>
-				<artifactId>roaster-restassured</artifactId>
+				<artifactId>roaster-jaxrs-se</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-restassured-cdi</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-restassured-se</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>hu.icellmobilsoft.roaster</groupId>
 				<artifactId>roaster-common-test</artifactId>

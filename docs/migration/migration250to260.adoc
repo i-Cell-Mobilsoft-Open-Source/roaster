@@ -75,3 +75,107 @@ to:
 ----
     $2EntityManager $3 = EntityManagerCache.getForPersistenceUnit($1);
 ----
+
+=== roaster-jaxrs
+
+* The jaxrs module was split into two variants: roaster-jaxrs-cdi and roaster-jaxrs-se. The CDI one contains the old functionality,
+the SE one is new, which can be used without a CDI container.
+
+==== Migration
+
+For minimal migration in every `pom.xml` the artifactId should be replaced from `roaster-jaxrs` to `roaster-jaxrs-cdi`.
+And replace the following imports:
+
+* `hu.icellmobilsoft.roaster.jaxrs.response.ResponseProcessor`
+to `hu.icellmobilsoft.roaster.jaxrs.se.response.ResponseProcessor`
+* `hu.icellmobilsoft.roaster.jaxrs.response.producer.ResponseProcessorConfig`
+to `hu.icellmobilsoft.roaster.jaxrs.se.response.ResponseProcessorConfig`
+* `hu.icellmobilsoft.roaster.jaxrs.response.producer.spi.AbstractConfigurableResponseProcessor`
+to `hu.icellmobilsoft.roaster.jaxrs.se.ConfigurableResponseProcessor`
+
+Also, you have to replace the following codes:
+
+* `extends AbstractConfigurableResponseProcessor` to `extends ConfigurableResponseProcessor`
+
+For full migration the `roaster-jaxrs` artifactId should be `roaster-jaxrs-se`.
+After that the `ConfigurableResponseProcessor` fields should be transformed with the following regex replace:
+
+[source,java]
+----
+    @Inject
+    @RestProcessor\(configKey = "([^"]+)"\)
+    ((?:private )|(?:protected )|(?:public ))?ConfigurableResponseProcessor<([^\)]+)> (.+);
+----
+
+to:
+
+[source,java]
+----
+    $2ConfigurableResponseProcessor<$3> $4 = hu.icellmobilsoft.roaster.jaxrs.se.response.ConfigurableResponseProcessorFactory
+            .create("$1");
+----
+
+and
+
+[source,java]
+----
+    @Inject
+    @RestProcessor\(configKey = "([^"]+)", expectedStatusCode = ([^\)]+)\)
+    ((?:private )|(?:protected )|(?:public ))?ConfigurableResponseProcessor<([^\)]+)> (.+);
+----
+to:
+[source,java]
+----
+    $3ConfigurableResponseProcessor<$4> $5 = hu.icellmobilsoft.roaster.jaxrs.se.response.ConfigurableResponseProcessorFactory
+            .create("$1", $2);
+----
+
+=== roaster-restassured
+
+* The restassured module was split into two variants: roaster-restassured-cdi and roaster-restassured-se. The CDI one contains the old functionality,
+the SE one is new, which can be used without a CDI container.
+
+==== Migration
+
+For minimal migration in every `pom.xml` the artifactId should be replaced from `roaster-restassured` to `roaster-restassured-cdi`.
+And replace the following imports:
+
+* `hu.icellmobilsoft.roaster.restassured.response.ResponseProcessor`
+to `hu.icellmobilsoft.roaster.restassured.se.response.ResponseProcessor`
+* `hu.icellmobilsoft.roaster.restassured.response.producer.spi.AbstractConfigurableResponseProcessor`
+to `hu.icellmobilsoft.roaster.restassured.se.response.ConfigurableResponseProcessor`
+
+Also, you have to replace the following codes:
+
+* `extends AbstractConfigurableResponseProcessor` to `extends ConfigurableResponseProcessor`
+
+For full migration the `roaster-restassured` artifactId should be `roaster-restassured-se`.
+After that the `ConfigurableResponseProcessor` fields should be transformed with the following regex replace:
+
+[source,java]
+----
+    @Inject
+    @RestProcessor\(configKey = "([^"]+)"\)
+    ((?:private )|(?:protected )|(?:public ))?ConfigurableResponseProcessor<([^\)]+)> (.+);
+----
+to:
+[source,java]
+----
+    $2ConfigurableResponseProcessor<$3> $4 = hu.icellmobilsoft.roaster.restassured.se.response.ConfigurableResponseProcessorFactory
+            .create("$1");
+----
+
+and
+
+[source,java]
+----
+    @Inject
+    @RestProcessor\(configKey = "([^"]+)", expectedStatusCode = ([^\)]+)\)
+    ((?:private )|(?:protected )|(?:public ))?ConfigurableResponseProcessor<([^\)]+)> (.+);
+----
+to:
+[source,java]
+----
+    $3ConfigurableResponseProcessor<$4> $5 = hu.icellmobilsoft.roaster.restassured.se.response.ConfigurableResponseProcessorFactory
+            .create("$1", $2);
+----

@@ -36,7 +36,7 @@ To include it in your project, simply import the BOM that manages all the module
 <dependencies>
     <dependency>
         <groupId>hu.icellmobilsoft.roaster</groupId>
-        <artifactId>roaster-restassured</artifactId>
+        <artifactId>roaster-restassured-cdi</artifactId>
     </dependency>
     <dependency>
         <groupId>hu.icellmobilsoft.roaster</groupId>

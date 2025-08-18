@@ -23,14 +23,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
+import jakarta.persistence.EntityManagerFactory;
+
 import org.hibernate.cfg.Environment;
 import org.hibernate.resource.beans.container.spi.BeanContainer;
 
 import hu.icellmobilsoft.roaster.hibernate.common.config.EntityManagerFactoryFactory;
 import hu.icellmobilsoft.roaster.hibernate.common.config.HibernateConfig;
 import hu.icellmobilsoft.roaster.hibernate.common.config.HibernateConfigImpl;
-
-import jakarta.persistence.EntityManagerFactory;
 
 /**
  * JVM level cache for {@link EntityManagerFactory} instances.
