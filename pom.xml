@@ -34,6 +34,7 @@
 		<module>roaster-zephyr</module>
 		<module>roaster-hibernate</module>
 		<module>roaster-mongodb</module>
+		<module>roaster-awaitility</module>
 		<module>roaster-testsuite</module>
 	</modules>
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>roaster</artifactId>
+        <groupId>hu.icellmobilsoft.roaster</groupId>
+        <version>2.6.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>roaster-awaitility</artifactId>
+    <packaging>pom</packaging>
+
+    <name>${project.artifactId}</name>
+
+    <modules>
+        <module>roaster-awaitility-common</module>
+        <module>roaster-awaitility-se</module>
+        <module>roaster-awaitility-cdi</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>hu.icellmobilsoft.roaster</groupId>
+                <artifactId>roaster-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

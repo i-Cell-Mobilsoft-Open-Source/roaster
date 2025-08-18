@@ -49,6 +49,9 @@
 		<!-- Jaxrs impl -->
 		<version.org.jboss.resteasy>6.2.2.Final</version.org.jboss.resteasy>
 		<version.org.jboss.resteasy.microprofile-rest-client>2.0.0.Final</version.org.jboss.resteasy.microprofile-rest-client>
+
+		<!-- Awaitility -->
+		<version.awaitility>4.2.0</version.awaitility>
 	</properties>
 
 	<dependencyManagement>
@@ -454,6 +457,12 @@
 						<artifactId>error_prone_annotations</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.awaitility</groupId>
+				<artifactId>awaitility</artifactId>
+				<version>${version.awaitility}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
