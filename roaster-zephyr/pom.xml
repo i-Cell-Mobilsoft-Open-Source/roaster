@@ -10,6 +10,8 @@
     <artifactId>roaster-zephyr</artifactId>
     <packaging>pom</packaging>
 
+    <name>${project.artifactId}</name>
+
     <modules>
         <module>roaster-zephyr-junit5</module>
         <module>roaster-zephyr-common</module>

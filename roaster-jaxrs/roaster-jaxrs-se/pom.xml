@@ -11,4 +11,6 @@
 
     <artifactId>roaster-jaxrs-se</artifactId>
 
+    <name>${project.artifactId}</name>
+
 </project>

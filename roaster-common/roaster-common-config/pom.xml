@@ -9,6 +9,8 @@
 
 	<artifactId>roaster-common-config</artifactId>
 
+	<name>${project.artifactId}</name>
+
 	<dependencies>
 		<dependency>
 			<groupId>hu.icellmobilsoft.coffee</groupId>

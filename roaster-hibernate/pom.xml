@@ -10,6 +10,8 @@
     <artifactId>roaster-hibernate</artifactId>
     <packaging>pom</packaging>
 
+    <name>${project.artifactId}</name>
+
     <modules>
         <module>roaster-hibernate-common</module>
         <module>roaster-hibernate-se</module>

@@ -8,6 +8,8 @@
 
     <artifactId>roaster-testsuite-redis</artifactId>
 
+    <name>${project.artifactId}</name>
+
     <build>
         <plugins>
             <plugin>

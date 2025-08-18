@@ -13,6 +13,8 @@
         <module>roaster-jaxrs-se</module>
     </modules>
 
+    <name>${project.artifactId}</name>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
