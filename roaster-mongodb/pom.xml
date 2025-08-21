@@ -9,6 +9,8 @@
 
     <artifactId>roaster-mongodb</artifactId>
 
+    <name>${project.artifactId}</name>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

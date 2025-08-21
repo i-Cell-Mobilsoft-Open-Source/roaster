@@ -8,6 +8,8 @@
 
     <artifactId>roaster-testsuite-restassured</artifactId>
 
+    <name>${project.artifactId}</name>
+
     <build>
         <plugins>
             <plugin>

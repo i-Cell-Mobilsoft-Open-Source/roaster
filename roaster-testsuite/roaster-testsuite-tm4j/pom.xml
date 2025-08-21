@@ -9,6 +9,8 @@
 
     <artifactId>roaster-testsuite-tm4j</artifactId>
 
+    <name>${project.artifactId}</name>
+
     <build>
         <plugins>
             <plugin>

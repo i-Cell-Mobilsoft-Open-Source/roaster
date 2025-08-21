@@ -14,6 +14,8 @@
 		<module>roaster-restassured-cdi</module>
 	</modules>
 
+	<name>${project.artifactId}</name>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

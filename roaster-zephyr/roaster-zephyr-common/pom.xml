@@ -9,6 +9,8 @@
 
     <artifactId>roaster-zephyr-common</artifactId>
 
+    <name>${project.artifactId}</name>
+
     <dependencies>
         <dependency>
             <groupId>hu.icellmobilsoft.roaster</groupId>

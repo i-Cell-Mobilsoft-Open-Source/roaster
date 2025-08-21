@@ -18,7 +18,8 @@ https://github.com/testcontainers/testcontainers-java/releases/tag/1.21.0[1.21.0
 * Mockito upgraded from `4.10.0` to https://github.com/mockito/mockito/releases/tag/v4.11.0[4.11.0]
 (It's the newest version in the 4.x.x branch, but not the newest overall)
 * Weld-junit upgraded from `4.0.0.Final` to https://github.com/weld/weld-testing/releases/tag/4.0.5.Final[4.0.5.Final] to support newer JUnit versions. See: https://github.com/weld/weld-testing/pull/266
-
+* parent-oss-pom upgraded from `1.4.0` to `1.5.0`
+* The `oss.sonatype.org` snapshot repository was replaced by `central.sonatype.com`, and module names were added for validations.
 ==== Migration
 
 If you get a `Unable to load proxy class for bean Implicit Bean` exception in weld tests you should open the `java.base` module:

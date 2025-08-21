@@ -9,6 +9,8 @@
 
     <artifactId>roaster-tm4j-dto</artifactId>
 
+    <name>${project.artifactId}</name>
+
     <dependencies>
         <dependency>
             <groupId>hu.icellmobilsoft.coffee</groupId>
