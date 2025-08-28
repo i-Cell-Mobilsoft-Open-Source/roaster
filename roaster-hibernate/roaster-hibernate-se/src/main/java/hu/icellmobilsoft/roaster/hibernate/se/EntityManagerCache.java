@@ -31,7 +31,7 @@ import jakarta.persistence.EntityManager;
  * @since 2.6.0
  */
 public class EntityManagerCache {
-    private static final Map<String, EntityManager> ENTITY_MANAGERS_BY_PU = new ConcurrentHashMap<>();
+    private static final Map<String, ThreadLocal<EntityManager>> ENTITY_MANAGERS_BY_PU = new ConcurrentHashMap<>();
 
     /**
      * Private constructor to prevent instantiation.
@@ -47,7 +47,10 @@ public class EntityManagerCache {
      * @return EntityManager for the given persistence unit name.
      */
     public static EntityManager getForPersistenceUnit(String persistenceUnitName) {
-        return ENTITY_MANAGERS_BY_PU
-                .computeIfAbsent(persistenceUnitName, key -> EntityManagerFactoryCache.getForPersistenceUnit(key).createEntityManager());
+        return ENTITY_MANAGERS_BY_PU.computeIfAbsent(persistenceUnitName, EntityManagerCache::getEntityManagerThreadLocal).get();
+    }
+
+    private static ThreadLocal<EntityManager> getEntityManagerThreadLocal(String persistenceUnitName) {
+        return ThreadLocal.withInitial(() -> EntityManagerFactoryCache.getForPersistenceUnit(persistenceUnitName).createEntityManager());
     }
 }
