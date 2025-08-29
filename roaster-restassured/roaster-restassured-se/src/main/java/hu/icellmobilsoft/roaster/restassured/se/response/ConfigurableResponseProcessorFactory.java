@@ -81,15 +81,12 @@ public class ConfigurableResponseProcessorFactory {
     /**
      * JSON response specification
      */
-    public static final ResponseSpecification JSON_RESPONSE_SPECIFICATION = new ResponseSpecBuilder().expectContentType(MEDIA_TYPE_APPLICATION_JSON)
-            .expectStatusCode(200)
-            .build();
+    public static final ResponseSpecification JSON_RESPONSE_SPECIFICATION = createJsonResponseSpecification(200);
+
     /**
      * XML response specification
      */
-    public static final ResponseSpecification XML_RESPONSE_SPECIFICATION = new ResponseSpecBuilder().expectContentType(MEDIA_TYPE_APPLICATION_XML)
-            .expectStatusCode(200)
-            .build();
+    public static final ResponseSpecification XML_RESPONSE_SPECIFICATION = createXmlResponseSpecification(200);
 
     /**
      * Private constructor to prevent instantiation.
@@ -126,9 +123,18 @@ public class ConfigurableResponseProcessorFactory {
                 new ProcessorConfigImpl(configKey),
                 JSON_REQUEST_SPECIFICATION,
                 XML_REQUEST_SPECIFICATION,
-                JSON_RESPONSE_SPECIFICATION,
-                XML_RESPONSE_SPECIFICATION);
+                createJsonResponseSpecification(expectedStatusCode),
+                createXmlResponseSpecification(expectedStatusCode));
         configurableResponseProcessor.setExpectedStatusCode(expectedStatusCode);
         return configurableResponseProcessor;
     }
+
+    private static ResponseSpecification createJsonResponseSpecification(int expectedStatusCode) {
+        return new ResponseSpecBuilder().expectContentType(MEDIA_TYPE_APPLICATION_JSON).expectStatusCode(expectedStatusCode).build();
+    }
+
+    private static ResponseSpecification createXmlResponseSpecification(int expectedStatusCode) {
+        return new ResponseSpecBuilder().expectContentType(MEDIA_TYPE_APPLICATION_XML).expectStatusCode(expectedStatusCode).build();
+    }
+
 }

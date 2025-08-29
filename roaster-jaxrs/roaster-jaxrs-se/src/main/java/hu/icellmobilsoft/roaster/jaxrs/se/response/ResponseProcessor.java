@@ -136,7 +136,7 @@ public abstract class ResponseProcessor<RESPONSE> {
             return response.readEntity(responseClass);
         } else {
             throw new TestException(
-                    MessageFormat.format("Excpected handled response status is [{0}], but real is [{1}]", expectedStatusCode, response.getStatus()));
+                    MessageFormat.format("Expected handled response status is [{0}], but real is [{1}]", expectedStatusCode, response.getStatus()));
         }
     }
 
