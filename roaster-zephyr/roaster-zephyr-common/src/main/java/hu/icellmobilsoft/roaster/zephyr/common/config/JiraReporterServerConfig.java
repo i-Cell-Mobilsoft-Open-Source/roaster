@@ -23,8 +23,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import jakarta.enterprise.context.Dependent;
-
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
@@ -38,7 +36,6 @@ import hu.icellmobilsoft.roaster.api.InvalidConfigException;
  * @author mark.vituska
  * @since 0.11.0
  */
-@Dependent
 public class JiraReporterServerConfig implements IJiraReporterServerConfig {
 
     private static final Charset CHARSET = StandardCharsets.UTF_8;

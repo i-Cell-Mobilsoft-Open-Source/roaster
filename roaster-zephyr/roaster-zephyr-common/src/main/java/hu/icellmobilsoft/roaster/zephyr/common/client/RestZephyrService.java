@@ -19,22 +19,25 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.client;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.net.URI;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
-import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.rest.client.spi.RestClientBuilderResolver;
+
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import hu.icellmobilsoft.roaster.zephyr.common.client.api.JiraRestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.client.api.ZephyrRestClient;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IJiraReporterServerConfig;
 import hu.icellmobilsoft.roaster.zephyr.common.config.IZephyrReporterConfig;
+import hu.icellmobilsoft.roaster.zephyr.common.config.JiraReporterServerConfig;
+import hu.icellmobilsoft.roaster.zephyr.common.config.ZephyrReporterConfig;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestSteps;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.ValueType;
@@ -45,26 +48,28 @@ import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.ValueType;
  * @author mark.vituska
  * @since 0.11.0
  */
-@ApplicationScoped
 public class RestZephyrService {
 
-    @Inject
-    @RestClient
-    private ZephyrRestClient zephyrClient;
+    private final ZephyrRestClient zephyrClient = RestClientBuilderResolver.instance()
+            .newBuilder()
+            .baseUri(
+                    ConfigProvider.getConfig()
+                            .getOptionalValue("ZephyrRestClient/mp-rest/url", URI.class)
+                            .orElseGet(() -> URI.create("https://api.zephyrscale.smartbear.com/v2")))
+            .followRedirects(true)
+            .build(ZephyrRestClient.class);
 
-    @Inject
-    @RestClient
-    private JiraRestClient jiraClient;
+    private final JiraRestClient jiraClient = RestClientBuilderResolver.instance()
+            .newBuilder()
+            .baseUri(ConfigProvider.getConfig().getValue("roaster.zephyr.server/mp-rest/url", URI.class))
+            .followRedirects(true)
+            .build(JiraRestClient.class);
 
-    @Inject
-    private IJiraReporterServerConfig serverConfig;
+    private final IJiraReporterServerConfig serverConfig = new JiraReporterServerConfig();
+    private final IZephyrReporterConfig zephyrConfig = new ZephyrReporterConfig();
 
-    @Inject
-    private IZephyrReporterConfig zephyrConfig;
-
-    private static final Set<String> existingTestCycleKeys = new HashSet<>();
-
-    private static final Map<String, String> accountIdsByUserName = new HashMap<>();
+    private static final Set<String> existingTestCycleKeys = Sets.newConcurrentHashSet();
+    private static final Map<String, String> accountIdsByUserName = Maps.newConcurrentMap();
 
     /**
      * Default constructor, constructs a new object.

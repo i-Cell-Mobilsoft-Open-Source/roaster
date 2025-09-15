@@ -31,14 +31,11 @@ import java.util.Optional;
  * @author martin.nagy
  * @since 0.2.0
  */
-public class NoopTestResultReporter implements TestResultReporter {
-
+public enum NoopTestResultReporter implements TestResultReporter {
     /**
-     * Default constructor, constructs a new object.
+     * Singleton instance of {@code NoopTestResultReporter}
      */
-    public NoopTestResultReporter() {
-        super();
-    }
+    INSTANCE;
 
     @Override
     public void reportSuccess(TestCaseData testCaseData) {
