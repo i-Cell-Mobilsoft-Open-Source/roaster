@@ -181,6 +181,12 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>hu.icellmobilsoft.roaster</groupId>
+                <artifactId>roaster-testname-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
 			<!-- bom imports -->
 			<dependency>
 				<groupId>hu.icellmobilsoft.coffee</groupId>
