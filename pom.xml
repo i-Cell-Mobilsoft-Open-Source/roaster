@@ -35,7 +35,8 @@
 		<module>roaster-hibernate</module>
 		<module>roaster-mongodb</module>
 		<module>roaster-testsuite</module>
-	</modules>
+        <module>roaster-testname-util</module>
+    </modules>
 
 	<properties>
 		<project.scm.id>icell-github-server</project.scm.id>

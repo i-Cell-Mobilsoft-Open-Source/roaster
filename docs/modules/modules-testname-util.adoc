@@ -1,0 +1,53 @@
+[#modules-testname-util]
+= Testname util
+
+If you use the `TestNameCaptorExtension` JUnit 5 extension in test the currently running test method and class is captured in thread local fields.
+Later the `TestNameCaptorExtension.getCurrentTestClass()` and `TestNameCaptorExtension.getCurrentTestMethod()`
+static method can be used to retrieve them.
+Alternatively you can retrieve the abbreviated name with the `TestNameUtil.getTestMethodName(int maxLength)` method.
+This can be used to track which test created the given request, log message, or database record.
+i.e. `record.setName(TestNameUtil.getTestMethodName(30));` or `record.setId(RandomUtil.generateId() + "_" + TestNameUtil.getTestMethodName(20));`
+
+.Example test class
+[source,java]
+----
+@ExtendWith(TestNameCaptorExtension.class)
+class TestNameCaptorExtensionTest {
+
+    @BeforeAll
+    static void beforeAll() {
+        assertEquals(TestNameCaptorExtensionTest.class, TestNameCaptorExtension.getCurrentTestClass());
+        assertNull(TestNameCaptorExtension.getCurrentTestMethod());
+
+        assertEquals("TestNameCaptorExtensionTest", TestNameUtil.getTestMethodName());
+        assertEquals("TNCET", TestNameUtil.getTestMethodName(20));
+        assertEquals("TNC", TestNameUtil.getTestMethodName(2));
+    }
+
+    @BeforeEach
+    void setUp() {
+        assertEquals(TestNameCaptorExtensionTest.class, TestNameCaptorExtension.getCurrentTestClass());
+        assertTrue(TestNameCaptorExtension.getCurrentTestMethod().getName().startsWith("testMethod"));
+    }
+
+    @Test
+    void testMethod1() {
+        assertEquals(TestNameCaptorExtensionTest.class, TestNameCaptorExtension.getCurrentTestClass());
+        assertEquals("testMethod1", TestNameCaptorExtension.getCurrentTestMethod().getName());
+
+        assertEquals("TestNameCaptorExtensionTest.testMethod1", TestNameUtil.getTestMethodName());
+        assertEquals("TNCET.testMethod1", TestNameUtil.getTestMethodName(20));
+        assertEquals("TNCET.TM", TestNameUtil.getTestMethodName(15));
+    }
+
+    @Test
+    void testMethod2() {
+        assertEquals(TestNameCaptorExtensionTest.class, TestNameCaptorExtension.getCurrentTestClass());
+        assertEquals("testMethod2", TestNameCaptorExtension.getCurrentTestMethod().getName());
+
+        assertEquals("TestNameCaptorExtensionTest.testMethod2", TestNameUtil.getTestMethodName());
+        assertEquals("TNCET.testMethod2", TestNameUtil.getTestMethodName(20));
+        assertEquals("TNCET.TM", TestNameUtil.getTestMethodName(15));
+    }
+}
+----
