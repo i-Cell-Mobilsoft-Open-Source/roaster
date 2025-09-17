@@ -80,14 +80,14 @@ public class TestNameUtil {
         }
         String abbreviatedMethodName = getUpperCaseLetters(StringUtils.capitalize(methodName));
         String abbreviatedFullName = abbreviatedTestClassName + "." + abbreviatedMethodName;
-        return StringUtils.substring(abbreviatedFullName, 0, maxLength + 1);
+        return StringUtils.substring(abbreviatedFullName, 0, maxLength);
     }
 
     private static String getSimpleAbbreviation(String name, int maxLength) {
         if (name.length() <= maxLength) {
             return name;
         }
-        return StringUtils.substring(getUpperCaseLetters(name), 0, maxLength + 1);
+        return StringUtils.substring(getUpperCaseLetters(name), 0, maxLength);
     }
 
     private static String getUpperCaseLetters(String string) {

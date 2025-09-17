@@ -38,7 +38,7 @@ class TestNameCaptorExtensionTest {
 
         assertEquals("TestNameCaptorExtensionTest", TestNameUtil.getTestMethodName());
         assertEquals("TNCET", TestNameUtil.getTestMethodName(20));
-        assertEquals("TNC", TestNameUtil.getTestMethodName(2));
+        assertEquals("TNC", TestNameUtil.getTestMethodName(3));
     }
 
     @BeforeEach
@@ -55,6 +55,7 @@ class TestNameCaptorExtensionTest {
         assertEquals("TestNameCaptorExtensionTest.testMethod1", TestNameUtil.getTestMethodName());
         assertEquals("TNCET.testMethod1", TestNameUtil.getTestMethodName(20));
         assertEquals("TNCET.TM", TestNameUtil.getTestMethodName(15));
+        assertEquals("TNC", TestNameUtil.getTestMethodName(3));
     }
 
     @Test
@@ -65,5 +66,6 @@ class TestNameCaptorExtensionTest {
         assertEquals("TestNameCaptorExtensionTest.testMethod2", TestNameUtil.getTestMethodName());
         assertEquals("TNCET.testMethod2", TestNameUtil.getTestMethodName(20));
         assertEquals("TNCET.TM", TestNameUtil.getTestMethodName(15));
+        assertEquals("TNC", TestNameUtil.getTestMethodName(3));
     }
 }
