@@ -85,11 +85,16 @@ public class ConfiguredAwaitility {
     }
 
     private static ConditionEvaluationListener<?> getConditionEvaluationListener(LogDetail logDetail) {
-        return switch (logDetail) {
-        case NONE -> null;
-        case SUCCESS -> ConfiguredAwaitility::logSuccessfulWait;
-        case ALL -> new ConditionEvaluationLogger(log::info);
-        };
+        switch (logDetail) {
+        case NONE:
+            return null;
+        case SUCCESS:
+            return ConfiguredAwaitility::logSuccessfulWait;
+        case ALL:
+            return new ConditionEvaluationLogger(log::info);
+        default:
+            throw new IllegalArgumentException("Invalid LogDetail: " + logDetail);
+        }
     }
 
     private static void logSuccessfulWait(EvaluatedCondition<?> condition) {
