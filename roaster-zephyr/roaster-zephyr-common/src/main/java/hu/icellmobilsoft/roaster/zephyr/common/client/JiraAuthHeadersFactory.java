@@ -19,12 +19,12 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.client;
 
+import jakarta.ws.rs.core.MultivaluedMap;
+
 import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
 
 import hu.icellmobilsoft.roaster.zephyr.common.config.IJiraReporterServerConfig;
 import hu.icellmobilsoft.roaster.zephyr.common.config.JiraReporterServerConfig;
-
-import jakarta.ws.rs.core.MultivaluedMap;
 
 /**
  * Sets the {@literal Authorization} header for the Jira rest client
