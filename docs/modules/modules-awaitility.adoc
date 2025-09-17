@@ -1,0 +1,48 @@
+[#modules-awaitility]
+= Awaitility
+
+This module integrates the http://www.awaitility.org/[Awaitility] (a useful tool for async process testing) and `roaster-common-config`, so we can use preconfigured `Awaitility` instances in the test code.
+
+== Configuration
+
+[source,yaml]
+.META-INF/roaster-defaults.yml
+----
+roaster:
+   awaitility:
+      timeout: 30s #<1>
+      pollDelay: 1s #<2>
+      pollInterval: 2s #<3>
+      waitLog: all #<4>
+----
+
+<1> Await at most this amount before throwing a timeout exception.
+<2> Specify the delay that will be used before Awaitility starts polling for the result the first time.
+If you don't specify a poll delay explicitly, it'll be the same as the poll interval.
+<3> The frequency in which the condition is checked for completion.
+If not specified, https://github.com/awaitility/awaitility/wiki/Usage#fibonacci-poll-interval[fibonacci polling] is used.
+<4> Specifies the logging details after the await finishes.
+Possible values: none (nothing is logged), success (only log after satisfied condition), all (log after satisfied condition and timeout too).
+This can be used to analise the logs and determine the optimal timeout for a given environment, so unnecessary wait times can be eliminated.
+
+Every time interval in the configuration uses `java.time.Duration`, so the ISO-8601 patterns can be used. i.e. `30s`, `2m`, `1h23m45s`, etc...
+
+== Examples
+
+[source,java]
+----
+class ExampleTest {
+    private final ConditionFactory awaitility = ConfiguredAwaitility.await();
+
+    @Test
+    void test() {
+        // WHEN
+        // call rest endpoint
+
+        // THEN
+        ExampleEntity entity = awaitility
+            .alias(MessageFormat.format("ExampleEntity [{0}] created", name))
+            .until(() -> ExampleRepository.findOptionalByName(name), Optional::isPresent).orElseThrow();
+    }
+}
+----
