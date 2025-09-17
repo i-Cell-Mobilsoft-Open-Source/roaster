@@ -35,6 +35,7 @@
 		<module>roaster-hibernate</module>
 		<module>roaster-mongodb</module>
 		<module>roaster-testsuite</module>
+		<module>roaster-awaitility</module>
         <module>roaster-testname-util</module>
     </modules>
 

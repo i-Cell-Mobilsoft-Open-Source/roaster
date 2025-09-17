@@ -39,6 +39,7 @@
 		<version.jakarta.servlet>6.0.0</version.jakarta.servlet>
 		<version.commons.logging>1.2</version.commons.logging>
 		<version.com.google.guava>32.1.1-jre</version.com.google.guava>
+		<version.awaitility>4.3.0</version.awaitility>
 
 		<!-- Selenide -->
 		<version.codeborn.selenide>6.19.1</version.codeborn.selenide>
@@ -460,6 +461,12 @@
 						<artifactId>error_prone_annotations</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.awaitility</groupId>
+				<artifactId>awaitility</artifactId>
+				<version>${version.awaitility}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
