@@ -36,7 +36,8 @@
 		<module>roaster-mongodb</module>
 		<module>roaster-testsuite</module>
 		<module>roaster-awaitility</module>
-	</modules>
+        <module>roaster-testname-util</module>
+    </modules>
 
 	<properties>
 		<project.scm.id>icell-github-server</project.scm.id>
