@@ -34,47 +34,28 @@ import java.util.Collections;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 
 import hu.icellmobilsoft.roaster.zephyr.common.api.TestCaseId;
 import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestCaseData;
 import hu.icellmobilsoft.roaster.zephyr.common.client.RestZephyrService;
-import hu.icellmobilsoft.roaster.zephyr.common.config.ZephyrReporterConfig;
+import hu.icellmobilsoft.roaster.zephyr.common.config.RoasterConfigKeys;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
 
-public class RestZephyrReporterTest {
+class RestZephyrReporterTest {
 
-    @Captor
-    private ArgumentCaptor<Execution> executionArgumentCaptor;
-
-    @Mock
-    private ZephyrReporterConfig config;
-
-    @Mock
-    private RestZephyrService restZephyrService;
-
-    @InjectMocks
-    private RestZephyrReporter testObj;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
+    private final ArgumentCaptor<Execution> executionArgumentCaptor = ArgumentCaptor.forClass(Execution.class);
+    private final RestZephyrService restZephyrService = Mockito.mock(RestZephyrService.class);
 
     @Test
     void shouldNotCallZephyrServiceWhenTestCaseKeyMissing() throws Exception {
         // given
         initMockConfig();
-        when(restZephyrService.isTestCycleExist("test_cycle"))
-                .thenReturn(true);
-        when(restZephyrService.isTestCaseExist("ABC-T1"))
-                .thenReturn(false);
+        RestZephyrReporter testObj = new RestZephyrReporter(restZephyrService);
+        when(restZephyrService.isTestCycleExist("test_cycle")).thenReturn(true);
+        when(restZephyrService.isTestCaseExist("ABC-T1")).thenReturn(false);
         TestCaseData record = createRecord();
 
         // when
@@ -88,12 +69,10 @@ public class RestZephyrReporterTest {
     void shouldCallZephyrServiceProperlyOnSuccessReport() throws Exception {
         // given
         initMockConfig();
-        when(restZephyrService.isTestCycleExist("test_cycle"))
-                .thenReturn(true);
-        when(restZephyrService.isTestCaseExist("ABC-T1"))
-                .thenReturn(true);
-        when(restZephyrService.numberOfTestSteps("ABC-T1", 0))
-                .thenReturn(1);
+        RestZephyrReporter testObj = new RestZephyrReporter(restZephyrService);
+        when(restZephyrService.isTestCycleExist("test_cycle")).thenReturn(true);
+        when(restZephyrService.isTestCaseExist("ABC-T1")).thenReturn(true);
+        when(restZephyrService.numberOfTestSteps("ABC-T1", 0)).thenReturn(1);
         TestCaseData record = createRecord();
 
         // when
@@ -106,7 +85,9 @@ public class RestZephyrReporterTest {
         assertAll(
                 () -> Assertions.assertEquals("pk", execution.getProjectKey()),
                 () -> Assertions.assertEquals("ABC-T1", execution.getTestCaseKey()),
-                () -> Assertions.assertEquals(ZonedDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.systemDefault()).toOffsetDateTime(), execution.getActualEndDate()),
+                () -> Assertions.assertEquals(
+                        ZonedDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.systemDefault()).toOffsetDateTime(),
+                        execution.getActualEndDate()),
                 () -> Assertions.assertEquals((4 * 60 + 20) * 1000, execution.getExecutionTime()),
                 () -> Assertions.assertEquals("Pass", execution.getStatusName()),
                 () -> assertNotNull(execution.getComment())
@@ -118,12 +99,10 @@ public class RestZephyrReporterTest {
     void shouldCallTm4jServiceProperlyOnFailReport() throws Exception {
         // given
         initMockConfig();
-        when(restZephyrService.isTestCycleExist("test_cycle"))
-                .thenReturn(true);
-        when(restZephyrService.isTestCaseExist("ABC-T1"))
-                .thenReturn(true);
-        when(restZephyrService.numberOfTestSteps("ABC-T1", 0))
-                .thenReturn(1);
+        RestZephyrReporter testObj = new RestZephyrReporter(restZephyrService);
+        when(restZephyrService.isTestCycleExist("test_cycle")).thenReturn(true);
+        when(restZephyrService.isTestCaseExist("ABC-T1")).thenReturn(true);
+        when(restZephyrService.numberOfTestSteps("ABC-T1", 0)).thenReturn(1);
         TestCaseData record = createRecord();
         AssertionError error = new AssertionError("error foo bar <x>");
 
@@ -137,21 +116,21 @@ public class RestZephyrReporterTest {
         assertAll(
                 () -> Assertions.assertEquals("pk", execution.getProjectKey()),
                 () -> Assertions.assertEquals("ABC-T1", execution.getTestCaseKey()),
-                () -> Assertions.assertEquals(ZonedDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.systemDefault()).toOffsetDateTime(), execution.getActualEndDate()),
+                () -> Assertions.assertEquals(
+                        ZonedDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.systemDefault()).toOffsetDateTime(),
+                        execution.getActualEndDate()),
                 () -> Assertions.assertEquals((4 * 60 + 20) * 1000, execution.getExecutionTime()),
                 () -> Assertions.assertEquals("Fail", execution.getStatusName()),
-                () -> Assertions.assertTrue(execution.getComment().contains("error foo bar &lt;x&gt;"))
-        );
+                () -> Assertions.assertTrue(execution.getComment().contains("error foo bar &lt;x&gt;")));
     }
 
     @Test
     void shouldCallTm4jServiceProperlyOnDisabledReport() throws Exception {
         // given
         initMockConfig();
-        when(restZephyrService.isTestCycleExist("test_cycle"))
-                .thenReturn(true);
-        when(restZephyrService.isTestCaseExist("ABC-T1"))
-                .thenReturn(true);
+        RestZephyrReporter testObj = new RestZephyrReporter(restZephyrService);
+        when(restZephyrService.isTestCycleExist("test_cycle")).thenReturn(true);
+        when(restZephyrService.isTestCaseExist("ABC-T1")).thenReturn(true);
         TestCaseData record = createRecord();
         Optional<String> reason = Optional.of("xxx");
 
@@ -165,11 +144,12 @@ public class RestZephyrReporterTest {
         assertAll(
                 () -> Assertions.assertEquals("pk", execution.getProjectKey()),
                 () -> Assertions.assertEquals("ABC-T1", execution.getTestCaseKey()),
-                () -> Assertions.assertEquals(ZonedDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.systemDefault()).toOffsetDateTime(), execution.getActualEndDate()),
+                () -> Assertions.assertEquals(
+                        ZonedDateTime.of(1970, 1, 1, 10, 4, 20, 0, ZoneOffset.systemDefault()).toOffsetDateTime(),
+                        execution.getActualEndDate()),
                 () -> Assertions.assertEquals((4 * 60 + 20) * 1000, execution.getExecutionTime()),
                 () -> Assertions.assertEquals("Blocked", execution.getStatusName()),
-                () -> Assertions.assertTrue(execution.getComment().contains("skipped by: xxx"))
-        );
+                () -> Assertions.assertTrue(execution.getComment().contains("skipped by: xxx")));
     }
 
     private TestCaseData createRecord() throws NoSuchMethodException {
@@ -183,9 +163,9 @@ public class RestZephyrReporterTest {
     }
 
     private void initMockConfig() {
-        when(config.getEnvironment()).thenReturn(Optional.of("dev"));
-        when(config.getProjectKey()).thenReturn("pk");
-        when(config.getDefaultTestCycleKey()).thenReturn("test_cycle");
+        System.setProperty(RoasterConfigKeys.ENVIRONMENT, "dev");
+        System.setProperty(RoasterConfigKeys.PROJECT_KEY, "pk");
+        System.setProperty(RoasterConfigKeys.TEST_CYCLE_KEY, "test_cycle");
     }
 
     static class TestClass {

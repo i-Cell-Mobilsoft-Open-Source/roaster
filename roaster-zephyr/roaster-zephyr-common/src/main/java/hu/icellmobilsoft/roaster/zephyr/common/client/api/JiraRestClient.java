@@ -19,18 +19,17 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.client.api;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
-
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
-import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import hu.icellmobilsoft.roaster.zephyr.common.client.JiraAuthHeadersFactory;
 import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrJsonbContextResolver;
 import hu.icellmobilsoft.roaster.zephyr.dto.domain.jira.User;
+
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
 /**
  * Interface for microprofile rest client. <br>
@@ -40,7 +39,6 @@ import hu.icellmobilsoft.roaster.zephyr.dto.domain.jira.User;
  * @author mark.vituska
  * @since 0.11.0
  */
-@RegisterRestClient(configKey = "roaster.zephyr.server")
 @RegisterClientHeaders(JiraAuthHeadersFactory.class)
 @RegisterProvider(ZephyrJsonbContextResolver.class)
 @Path("/rest/api/3")

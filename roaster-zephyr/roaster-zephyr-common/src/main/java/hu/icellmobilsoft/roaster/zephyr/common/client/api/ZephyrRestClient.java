@@ -19,6 +19,14 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.client.api;
 
+import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
+import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
+
+import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrAuthHeadersFactory;
+import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrJsonbContextResolver;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
+import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestSteps;
+
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -29,15 +37,6 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
-import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
-import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
-
-import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrAuthHeadersFactory;
-import hu.icellmobilsoft.roaster.zephyr.common.client.ZephyrJsonbContextResolver;
-import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.Execution;
-import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestSteps;
-
 /**
  * Interface for microprofile rest client. <br>
  * <br>
@@ -46,7 +45,6 @@ import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.TestSteps;
  * @author mark.vituska
  * @since 0.11.0
  */
-@RegisterRestClient(baseUri = "https://api.zephyrscale.smartbear.com/v2")
 @RegisterClientHeaders(ZephyrAuthHeadersFactory.class)
 @RegisterProvider(ZephyrJsonbContextResolver.class)
 public interface ZephyrRestClient {

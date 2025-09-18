@@ -25,10 +25,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
-
-import jakarta.enterprise.inject.spi.CDI;
 
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
@@ -42,9 +39,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import hu.icellmobilsoft.coffee.se.logging.Logger;
+import hu.icellmobilsoft.roaster.zephyr.common.NoopTestResultReporter;
+import hu.icellmobilsoft.roaster.zephyr.common.RestZephyrReporter;
 import hu.icellmobilsoft.roaster.zephyr.common.api.TestCaseId;
 import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestCaseData;
 import hu.icellmobilsoft.roaster.zephyr.common.api.reporter.TestResultReporter;
+import hu.icellmobilsoft.roaster.zephyr.common.config.ZephyrReporterConfig;
 
 /**
  * JUnit 5 extension to publish the test result to a TM4J server.
@@ -62,22 +62,23 @@ public class ZephyrExtension implements TestWatcher, BeforeTestExecutionCallback
 
     private final Logger log = Logger.getLogger(ZephyrExtension.class);
 
-    private final Supplier<TestResultReporter> reporterSupplier;
+    private final TestResultReporter reporter;
 
     /**
      * Creates an instance with a {@code TestResultReporter} using CDI to get the {@code TestResultReporter} dependency.
      */
     public ZephyrExtension() {
-        this(() -> CDI.current().select(TestResultReporter.class).get());
+        this(new ZephyrReporterConfig().isEnabled() ? new RestZephyrReporter() : NoopTestResultReporter.INSTANCE);
     }
 
     /**
-     * Creates an instance with a {@code TestResultReporter} supplier passed as a parameter.
+     * Creates an instance with a {@code TestResultReporter} passed as a parameter.
      *
-     * @param reporterSupplier {@code TestResultReporter} supplier defining callbacks for test lifecycle events
+     * @param reporter
+     *            {@code TestResultReporter} defining callbacks for test lifecycle events
      */
-    public ZephyrExtension(Supplier<TestResultReporter> reporterSupplier) {
-        this.reporterSupplier = Objects.requireNonNull(reporterSupplier);
+    public ZephyrExtension(TestResultReporter reporter) {
+        this.reporter = Objects.requireNonNull(reporter);
     }
 
     @Override
@@ -106,7 +107,7 @@ public class ZephyrExtension implements TestWatcher, BeforeTestExecutionCallback
     }
 
     private TestResultReporter getReporter() {
-        return reporterSupplier.get();
+        return reporter;
     }
 
     private TestCaseData createZephyrRecord(ExtensionContext context) {
@@ -184,7 +185,7 @@ public class ZephyrExtension implements TestWatcher, BeforeTestExecutionCallback
     }
 
     private long getTestDataListCount(ValueSource vs) {
-        //Now limited only use strings
+        // Now limited only use strings
         if (vs.strings().length > 0) {
             return vs.strings().length;
         } else {

@@ -73,9 +73,6 @@ After that, you just need to annotate the test classes/methods that you want to 
 [source,java]
 ----
 @ExtendWith(ZephyrExtension.class) // Activate the Zephyr extension on the test class
-@TestInstance(Test
-
-Instance.Lifecycle.PER_CLASS)
 class ExampleTest extends BaseWeldUnitType {
     @Test
     @TestCaseId("ABC-T1") // Link the test case to Zephyr

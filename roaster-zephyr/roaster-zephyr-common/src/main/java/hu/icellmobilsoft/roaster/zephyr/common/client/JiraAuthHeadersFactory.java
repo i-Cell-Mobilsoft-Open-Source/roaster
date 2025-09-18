@@ -19,14 +19,12 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.client;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.Dependent;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MultivaluedMap;
 
 import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
 
 import hu.icellmobilsoft.roaster.zephyr.common.config.IJiraReporterServerConfig;
+import hu.icellmobilsoft.roaster.zephyr.common.config.JiraReporterServerConfig;
 
 /**
  * Sets the {@literal Authorization} header for the Jira rest client
@@ -34,29 +32,22 @@ import hu.icellmobilsoft.roaster.zephyr.common.config.IJiraReporterServerConfig;
  * @author mark.vituska
  * @since 0.10.0
  */
-@Dependent
 public class JiraAuthHeadersFactory implements ClientHeadersFactory {
 
-    @Inject
-    private IJiraReporterServerConfig config;
+    private final IJiraReporterServerConfig config;
 
     /**
      * Default constructor, constructs a new object.
      */
     public JiraAuthHeadersFactory() {
         super();
-    }
-
-    /**
-     * Initializes the object, validates the config
-     */
-    @PostConstruct
-    public void init() {
+        config = new JiraReporterServerConfig();
         config.validate();
     }
 
     @Override
-    public MultivaluedMap<String, String> update(MultivaluedMap<String, String> incomingHeaders, MultivaluedMap<String, String> clientOutgoingHeaders) {
+    public MultivaluedMap<String, String> update(MultivaluedMap<String, String> incomingHeaders,
+            MultivaluedMap<String, String> clientOutgoingHeaders) {
         incomingHeaders.putSingle("Authorization", "Basic " + config.getAuthToken());
         return incomingHeaders;
     }

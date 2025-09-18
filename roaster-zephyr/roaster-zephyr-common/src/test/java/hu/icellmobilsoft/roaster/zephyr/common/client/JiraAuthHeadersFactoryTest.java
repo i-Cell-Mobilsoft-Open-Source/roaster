@@ -28,25 +28,14 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 
 import hu.icellmobilsoft.roaster.api.InvalidConfigException;
-import hu.icellmobilsoft.roaster.zephyr.common.config.JiraReporterServerConfig;
 import hu.icellmobilsoft.roaster.zephyr.common.config.RoasterConfigKeys;
 
-public class JiraAuthHeadersFactoryTest {
-
-    @Spy
-    private JiraReporterServerConfig config;
-
-    @InjectMocks
-    private JiraAuthHeadersFactory testObj;
+class JiraAuthHeadersFactoryTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
         System.clearProperty(RoasterConfigKeys.Server.API_TOKEN);
         System.clearProperty(RoasterConfigKeys.Server.AUTH_TOKEN);
         System.clearProperty(RoasterConfigKeys.Server.EMAIL);
@@ -55,7 +44,7 @@ public class JiraAuthHeadersFactoryTest {
     @Test
     void shouldThrowExceptionIfCredentialsConfigMissing() {
         // when
-        Executable executable = () -> testObj.init();
+        Executable executable = JiraAuthHeadersFactory::new;
 
         // then
         assertThrows(InvalidConfigException.class, executable);
@@ -68,7 +57,7 @@ public class JiraAuthHeadersFactoryTest {
         System.setProperty(RoasterConfigKeys.Server.EMAIL, "tim@examplemail.com");
 
         // when
-        Executable executable = () -> testObj.init();
+        Executable executable = JiraAuthHeadersFactory::new;
 
         // then
         assertThrows(InvalidConfigException.class, executable);
@@ -78,6 +67,7 @@ public class JiraAuthHeadersFactoryTest {
     void shouldCreateAuthHeaderWithAuthToken() {
         // given
         System.setProperty(RoasterConfigKeys.Server.AUTH_TOKEN, "dGltQGV4YW1wbGVtYWlsLmNvbTpzZWNyZXQ=");
+        JiraAuthHeadersFactory testObj = new JiraAuthHeadersFactory();
 
         MultivaluedHashMap<String, String> headers = new MultivaluedHashMap<>();
 
@@ -93,6 +83,7 @@ public class JiraAuthHeadersFactoryTest {
         // given
         System.setProperty(RoasterConfigKeys.Server.API_TOKEN, "secret");
         System.setProperty(RoasterConfigKeys.Server.EMAIL, "tim@examplemail.com");
+        JiraAuthHeadersFactory testObj = new JiraAuthHeadersFactory();
 
         MultivaluedHashMap<String, String> headers = new MultivaluedHashMap<>();
 

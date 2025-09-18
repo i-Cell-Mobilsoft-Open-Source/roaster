@@ -28,32 +28,21 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 
 import hu.icellmobilsoft.roaster.api.InvalidConfigException;
 import hu.icellmobilsoft.roaster.zephyr.common.config.RoasterConfigKeys;
-import hu.icellmobilsoft.roaster.zephyr.common.config.ZephyrReporterServerConfig;
 
-public class ZephyrAuthHeadersFactoryTest {
-
-    @Spy
-    private ZephyrReporterServerConfig config;
-
-    @InjectMocks
-    private ZephyrAuthHeadersFactory testObj;
+class ZephyrAuthHeadersFactoryTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
         System.clearProperty(RoasterConfigKeys.Cloud.BEARER_TOKEN);
     }
 
     @Test
     void shouldThrowExceptionIfCredentialsConfigMissing() {
         // when
-        Executable executable = () -> testObj.init();
+        Executable executable = ZephyrAuthHeadersFactory::new;
 
         // then
         assertThrows(InvalidConfigException.class, executable);
@@ -63,6 +52,7 @@ public class ZephyrAuthHeadersFactoryTest {
     void shouldCreateAuthHeaderWithBearerToken() {
         // given
         System.setProperty(RoasterConfigKeys.Cloud.BEARER_TOKEN, "dGltQGV4YW1wbGVtYWlsLmNvbTpzZWNyZXQ=");
+        ZephyrAuthHeadersFactory testObj = new ZephyrAuthHeadersFactory();
 
         MultivaluedHashMap<String, String> headers = new MultivaluedHashMap<>();
 

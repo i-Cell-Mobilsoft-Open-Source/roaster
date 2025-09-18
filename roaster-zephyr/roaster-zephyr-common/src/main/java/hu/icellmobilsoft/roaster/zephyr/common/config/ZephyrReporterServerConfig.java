@@ -19,11 +19,6 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.config;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-
-import jakarta.enterprise.context.Dependent;
-
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
@@ -37,10 +32,7 @@ import hu.icellmobilsoft.roaster.api.InvalidConfigException;
  * @author mark.vituska
  * @since 0.11.0
  */
-@Dependent
 public class ZephyrReporterServerConfig implements IZephyrReporterServerConfig {
-
-    private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     private final Config config = ConfigProvider.getConfig();
 
