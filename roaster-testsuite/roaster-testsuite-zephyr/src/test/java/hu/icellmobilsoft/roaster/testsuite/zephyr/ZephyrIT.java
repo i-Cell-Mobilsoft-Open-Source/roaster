@@ -62,7 +62,7 @@ class ZephyrIT extends BaseWeldUnitType {
         MOCK_SERVER_CLIENT = new MockServerClient(MOCK_SERVER.getHost(), MOCK_SERVER.getServerPort());
 
         System.setProperty("roaster.zephyr.server/mp-rest/url", MOCK_SERVER.getEndpoint());
-        System.setProperty("ZephyrRestClient/mp-rest/url", MOCK_SERVER.getEndpoint());
+        System.setProperty("hu.icellmobilsoft.roaster.zephyr.common.client.api.ZephyrRestClient/mp-rest/url", MOCK_SERVER.getEndpoint());
         System.setProperty("roaster.zephyr.testSteps.enabled", "true");
 
         return new ZephyrExtension();

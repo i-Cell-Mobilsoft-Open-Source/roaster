@@ -23,10 +23,12 @@ import java.net.URI;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.eclipse.microprofile.rest.client.spi.RestClientBuilderResolver;
 
 import com.google.common.collect.Maps;
@@ -50,19 +52,15 @@ import hu.icellmobilsoft.roaster.zephyr.dto.domain.test_execution.ValueType;
  */
 public class RestZephyrService {
 
-    private final ZephyrRestClient zephyrClient = RestClientBuilderResolver.instance()
-            .newBuilder()
+    private final ZephyrRestClient zephyrClient = createRestClientBuilder()
             .baseUri(
                     ConfigProvider.getConfig()
-                            .getOptionalValue("ZephyrRestClient/mp-rest/url", URI.class)
+                            .getOptionalValue("hu.icellmobilsoft.roaster.zephyr.common.client.api.ZephyrRestClient/mp-rest/url", URI.class)
                             .orElseGet(() -> URI.create("https://api.zephyrscale.smartbear.com/v2")))
-            .followRedirects(true)
             .build(ZephyrRestClient.class);
 
-    private final JiraRestClient jiraClient = RestClientBuilderResolver.instance()
-            .newBuilder()
+    private final JiraRestClient jiraClient = createRestClientBuilder()
             .baseUri(ConfigProvider.getConfig().getValue("roaster.zephyr.server/mp-rest/url", URI.class))
-            .followRedirects(true)
             .build(JiraRestClient.class);
 
     private final IJiraReporterServerConfig serverConfig = new JiraReporterServerConfig();
@@ -169,5 +167,13 @@ public class RestZephyrService {
             return false;
         }
         throw new ZephyrClientException("Rest endpoint responded with: " + statusType);
+    }
+
+    private RestClientBuilder createRestClientBuilder() {
+        return RestClientBuilderResolver.instance()
+                .newBuilder()
+                .followRedirects(true)
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(1, TimeUnit.MINUTES);
     }
 }
