@@ -9,3 +9,11 @@
 ==== Migration
 
 Changes are backwards compatible, doesn't need any migration.
+
+=== roaster-testname-util
+
+* The `roaster-testname-util` module was created. See documentation: #modules-testname-util[]
+
+==== Migration
+
+Changes are backwards compatible, doesn't need any migration.
