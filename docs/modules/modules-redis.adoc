@@ -1,3 +1,4 @@
+[#modules-redis]
 = REDIS
 
 To use the Redis module, you just need to reference it in the pom.xml file.
@@ -20,18 +21,18 @@ Example:
 [source,properties]
 .META-INF/microprofile-config.properties
 ----
-coffee.redis.default.host=example.com
-coffee.redis.default.port=6379
-coffee.redis.default.password=redispass
-coffee.redis.default.database=0
-coffee.redis.default.pool.maxtotal=128
-coffee.redis.default.pool.maxidle=32
+roaster.redis.default.host=example.com
+roaster.redis.default.port=6379
+roaster.redis.default.password=redispass
+roaster.redis.default.database=0
+roaster.redis.default.pool.maxtotal=8
+roaster.redis.default.pool.maxidle=4
 ----
 
 [source,yml]
 .META-INF/roaster-defaults.yml
 ----
-coffee:
+roaster:
     redis:
         default:
             host: example.com
@@ -39,8 +40,8 @@ coffee:
             password: redispass
             database: 0
             pool:
-                maxtotal: 128
-                maxidle: 32
+                maxtotal: 8
+                maxidle: 4
 ----
 
 == Using REDIS
@@ -52,6 +53,13 @@ First, you need to inject the handler class.
 ----
     @Inject
     private RedisHandler redisHandler;
+----
+
+Or you can instantiate with the new operator:
+
+[source,java]
+----
+    private final RedisHandler redisHandler = new RedisHandler();
 ----
 
 === Operations of RedisHandler
@@ -76,4 +84,34 @@ Operations taken from RedisService:
 String data = redisHandler.getRedisData("default", "1234", String.class);
 String newData = redisHandler.setRedisData("default", "1234", "new data");
 redisHandler.removeAllRedisData("default");
+----
+
+== Jedis
+
+To use jedis directly, you can get a connection from the `JedisConnectionCache`:
+
+[source,java]
+----
+    private final UnifiedJedis jedis = JedisConnectionCache.get("default");
+
+    void test() {
+        jedis.set(key, value);
+        jedis.get(key);
+    }
+----
+
+== Redis stream publish
+
+To publish to a redis stream, you can use the `hu.icellmobilsoft.roaster.redis.RedisStreamPublisher` class:
+
+[source,java]
+----
+    private final RedisStreamPublisher publisher = new RedisStreamPublisher(
+            "default",
+            "examplePreparator");
+
+    void test() {
+        publisher.publish(id);
+        publisher.publish(JsonUtil.toJsonEx(dto), Map.of(...));
+    }
 ----
