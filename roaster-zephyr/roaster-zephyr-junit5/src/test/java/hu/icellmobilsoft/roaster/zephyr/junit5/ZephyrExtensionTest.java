@@ -56,7 +56,7 @@ class ZephyrExtensionTest {
     void setUp() throws Exception {
         testResultReporter = mock(TestResultReporter.class);
         recordCaptor = ArgumentCaptor.forClass(TestCaseData.class);
-        testObj = new ZephyrExtension(() -> testResultReporter);
+        testObj = new ZephyrExtension(testResultReporter);
 
         extensionContext = mock(ExtensionContext.class);
         when(extensionContext.getUniqueId())

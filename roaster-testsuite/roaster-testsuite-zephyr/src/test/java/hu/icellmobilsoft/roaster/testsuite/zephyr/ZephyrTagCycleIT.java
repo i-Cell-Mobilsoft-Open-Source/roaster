@@ -25,8 +25,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.matchers.TimeToLive;
 import org.mockserver.matchers.Times;
@@ -50,21 +49,26 @@ import hu.icellmobilsoft.roaster.zephyr.junit5.ZephyrExtension;
  * @since 2.1.0
  */
 @Tag(TestSuiteGroup.INTEGRATION)
-@ExtendWith(ZephyrExtension.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ZephyrTagCycleIT extends BaseWeldUnitType {
 
     private static final MockServerContainer MOCK_SERVER = new MockServerContainer(DockerImageName.parse("mockserver/mockserver:mockserver-5.14.0"));
     private static MockServerClient MOCK_SERVER_CLIENT;
 
-    @BeforeAll
-    static void beforeAll() {
+    @RegisterExtension
+    static ZephyrExtension zephyrExtension = createZephyrExtension();
+
+    private static ZephyrExtension createZephyrExtension() {
         MOCK_SERVER.start();
         MOCK_SERVER_CLIENT = new MockServerClient(MOCK_SERVER.getHost(), MOCK_SERVER.getServerPort());
 
         System.setProperty("roaster.zephyr.server/mp-rest/url", MOCK_SERVER.getEndpoint());
         System.setProperty("hu.icellmobilsoft.roaster.zephyr.common.client.api.ZephyrRestClient/mp-rest/url", MOCK_SERVER.getEndpoint());
 
+        return new ZephyrExtension();
+    }
+
+    @BeforeAll
+    static void beforeAll() {
         Headers jiraClientHeaders = new Headers(
                 new Header("Accept", "application/json"),
                 new Header("Authorization", "Basic ZHVtbXlAZHVtbXkuaHU6WlhoaGJYQnNaUzExYzJWeU9uTmxZM0psZEE9PQ=="));
@@ -83,7 +87,10 @@ class ZephyrTagCycleIT extends BaseWeldUnitType {
                 .respond(HttpResponse.response().withStatusCode(200));
 
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withPath("/testcases/XXX-T1/teststeps").withHeaders(zephyrClientHeaders))
-                .respond(HttpResponse.response().withContentType(MediaType.APPLICATION_JSON).withBody("{\"startAt\":\"0\",\"maxResults\":\"1\",\"total\":\"1\"}"));
+                .respond(
+                        HttpResponse.response()
+                                .withContentType(MediaType.APPLICATION_JSON)
+                                .withBody("{\"startAt\":\"0\",\"maxResults\":\"1\",\"total\":\"1\"}"));
 
         MOCK_SERVER_CLIENT.when(HttpRequest.request().withMethod("POST").withPath("/testexecutions").withHeaders(zephyrClientHeaders))
                 .respond(HttpResponse.response().withStatusCode(200));

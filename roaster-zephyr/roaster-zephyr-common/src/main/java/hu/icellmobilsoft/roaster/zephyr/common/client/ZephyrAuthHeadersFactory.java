@@ -19,14 +19,12 @@
  */
 package hu.icellmobilsoft.roaster.zephyr.common.client;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.Dependent;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.core.MultivaluedMap;
-
 import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
 
 import hu.icellmobilsoft.roaster.zephyr.common.config.IZephyrReporterServerConfig;
+import hu.icellmobilsoft.roaster.zephyr.common.config.ZephyrReporterServerConfig;
+
+import jakarta.ws.rs.core.MultivaluedMap;
 
 /**
  * Sets the {@literal Authorization} header for the Zephyr rest client
@@ -34,29 +32,22 @@ import hu.icellmobilsoft.roaster.zephyr.common.config.IZephyrReporterServerConfi
  * @author mark.vituska
  * @since 0.10.0
  */
-@Dependent
 public class ZephyrAuthHeadersFactory implements ClientHeadersFactory {
 
-    @Inject
-    private IZephyrReporterServerConfig config;
+    private final IZephyrReporterServerConfig config;
 
     /**
      * Default constructor, constructs a new object.
      */
     public ZephyrAuthHeadersFactory() {
         super();
-    }
-
-    /**
-     * Initializes the object, validates the config
-     */
-    @PostConstruct
-    public void init() {
+        config = new ZephyrReporterServerConfig();
         config.validate();
     }
 
     @Override
-    public MultivaluedMap<String, String> update(MultivaluedMap<String, String> incomingHeaders, MultivaluedMap<String, String> clientOutgoingHeaders) {
+    public MultivaluedMap<String, String> update(MultivaluedMap<String, String> incomingHeaders,
+            MultivaluedMap<String, String> clientOutgoingHeaders) {
         incomingHeaders.putSingle("Authorization", "Bearer " + config.getBearerToken());
         return incomingHeaders;
     }
