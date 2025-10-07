@@ -37,6 +37,7 @@
 		<module>roaster-testsuite</module>
 		<module>roaster-awaitility</module>
         <module>roaster-testname-util</module>
+        <module>roaster-jaxb</module>
     </modules>
 
 	<properties>
