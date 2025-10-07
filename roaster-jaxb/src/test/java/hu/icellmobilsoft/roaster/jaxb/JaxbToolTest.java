@@ -35,14 +35,12 @@ import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
  * @since 2.7.0
  */
 class JaxbToolTest {
-    private static final String TEST_XML = """
-            <BaseResponse xmlns="http://common.dto.coffee.icellmobilsoft.hu/commonservice">
-                <message>hello</message>
-            </BaseResponse>""";
+    private static final String TEST_XML = "<BaseResponse xmlns=\"http://common.dto.coffee.icellmobilsoft.hu/commonservice\">\n" //
+            + "    <message>hello</message>\n" //
+            + "</BaseResponse>";
     private static final String SCHEMA_PATH = "xsd/hu/icellmobilsoft/coffee/dto/common/commonservice.xsd";
-    private static final String EXPECTED_ERROR_MESSAGE = """
-            cvc-complex-type.2.4.a: Invalid content was found starting with element '{"http://common.dto.coffee.icellmobilsoft.hu/commonservice":message}'.\
-             One of '{"http://common.dto.coffee.icellmobilsoft.hu/commonservice":context}' is expected.""";
+    private static final String EXPECTED_ERROR_MESSAGE = "cvc-complex-type.2.4.a: Invalid content was found starting with element '{\"http://common.dto.coffee.icellmobilsoft.hu/commonservice\":message}'." //
+            + " One of '{\"http://common.dto.coffee.icellmobilsoft.hu/commonservice\":context}' is expected.";
 
     private final JaxbTool jaxbTool = JaxbToolCache.getJaxbTool();
 
