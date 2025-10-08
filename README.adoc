@@ -6,7 +6,7 @@ It provides fundamental solutions that can be customized according to our specif
 
 The project is based on these technologies:
 
-* Java 11+
+* Java 17+
 * CDI 2.0+
 * https://rest-assured.io[REST-assured]
 

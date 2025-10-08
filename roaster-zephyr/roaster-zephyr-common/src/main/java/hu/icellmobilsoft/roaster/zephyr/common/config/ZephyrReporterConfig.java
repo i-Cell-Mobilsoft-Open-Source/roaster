@@ -22,8 +22,6 @@ package hu.icellmobilsoft.roaster.zephyr.common.config;
 import java.text.MessageFormat;
 import java.util.Optional;
 
-import jakarta.enterprise.context.Dependent;
-
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
@@ -35,7 +33,6 @@ import hu.icellmobilsoft.roaster.api.InvalidConfigException;
  * @author martin.nagy
  * @since 0.2.0
  */
-@Dependent
 public class ZephyrReporterConfig implements IZephyrReporterConfig {
 
     /**

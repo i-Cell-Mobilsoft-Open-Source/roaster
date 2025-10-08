@@ -41,6 +41,8 @@
 		<version.com.google.guava>32.1.1-jre</version.com.google.guava>
 		<version.awaitility>4.3.0</version.awaitility>
 
+		<version.org.glassfish.jaxb.jaxb-runtime>4.0.1</version.org.glassfish.jaxb.jaxb-runtime>
+
 		<!-- Selenide -->
 		<version.codeborn.selenide>6.19.1</version.codeborn.selenide>
 
@@ -168,6 +170,12 @@
 			<dependency>
 				<groupId>hu.icellmobilsoft.roaster</groupId>
 				<artifactId>roaster-hibernate-se</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>hu.icellmobilsoft.roaster</groupId>
+				<artifactId>roaster-jaxb</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -467,6 +475,13 @@
 				<groupId>org.awaitility</groupId>
 				<artifactId>awaitility</artifactId>
 				<version>${version.awaitility}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.glassfish.jaxb</groupId>
+				<artifactId>jaxb-runtime</artifactId>
+				<version>${version.org.glassfish.jaxb.jaxb-runtime}</version>
+				<scope>test</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

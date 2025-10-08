@@ -68,7 +68,7 @@ public class FileUtil {
      * @see Path#of(String, String...)
      */
     public static String readFile(String first, String... more) {
-        var path = Path.of(first, more);
+        Path path = Path.of(first, more);
         return readFile(path);
     }
 
@@ -84,7 +84,7 @@ public class FileUtil {
         if (StringUtils.isBlank(fileName)) {
             return null;
         }
-        try (var inputStream = ClassLoader.getSystemResourceAsStream(fileName)) {
+        try (InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName)) {
             String file = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
             LOG.info(() -> MessageFormat.format("File [{0}] from resources read!", ClassLoader.getSystemResource(fileName)));
             return file;
@@ -119,7 +119,7 @@ public class FileUtil {
             return;
         }
 
-        try (var inputStream = ClassLoader.getSystemResourceAsStream(fileName)) {
+        try (InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName)) {
             function.accept(inputStream);
             LOG.info(() -> MessageFormat.format("File [{0}] from resources read!", ClassLoader.getSystemResource(fileName)));
         } catch (IOException e) {
@@ -183,7 +183,7 @@ public class FileUtil {
             throw new TestException("path is null!");
         }
         try {
-            var file = Files.readString(path);
+            String file = Files.readString(path);
             LOG.info(() -> MessageFormat.format("File from path [{0}] read!", path.toAbsolutePath()));
             return file;
         } catch (IOException e) {

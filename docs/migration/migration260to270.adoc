@@ -2,6 +2,15 @@
 
 == What's new
 
+=== Java support
+
+* Java 11 support dropped
+* Added Java 25 (LTS) support
+
+==== Migration
+
+* Make sure you have at least JDK 17, and java 17 supported in your project
+
 === roaster-awaitility
 
 * The `roaster-awaitility` module was created. See documentation: #modules-testname-util[]
@@ -9,6 +18,55 @@
 ==== Migration
 
 Changes are backwards compatible, doesn't need any migration.
+
+=== roaster-jaxb
+
+* New `roaster-jaxb` module is created based on the existing coffee `JaxbTool` class.
+The difference is that it can be used without CDI. Documentation: #modules-jaxb[]
+
+==== Migration
+
+To upgrade to this roaster version, no action is needed.
+But if you want to use the `JaxbTool` without CDI, the following steps should be taken:
+
+:roaster-jaxb-migration-seq:
+{counter:roaster-jaxb-migration-seq}. In the test modules' pom.xml add the new module:
+
+[source, xml]
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-jaxb</artifactId>
+</dependency>
+----
+
+{counter:roaster-jaxb-migration-seq}. Replace the coffee `JaxbTool` to the roaster one:
+
+from:
+[source]
+----
+@Inject
+    (\S*) JaxbTool (.+);
+----
+to:
+[source]
+----
+$1 final JaxbTool $2 = JaxbToolCache.getJaxbTool();
+----
+
+from:
+
+`import hu.icellmobilsoft.coffee.rest.validation.xml.JaxbTool;`
+
+to:
+
+[source]
+----
+import hu.icellmobilsoft.roaster.jaxb.JaxbTool;
+import hu.icellmobilsoft.roaster.jaxb.JaxbToolCache;
+----
+
+{counter:roaster-jaxb-migration-seq}. Replace the `coffee.xml.catalog.path` config key to `roaster.xml.catalog.path` in the roaster config files (i.e. `microprofile-config.yml`)
 
 === roaster-redis
 
@@ -85,6 +143,14 @@ $2 final UnifiedJedis jedis = JedisConnectionCache.get($1);
 === roaster-testname-util
 
 * The `roaster-testname-util` module was created. See documentation: #modules-testname-util[]
+
+==== Migration
+
+Changes are backwards compatible, doesn't need any migration.
+
+=== roaster-zephyr
+
+* The zephyr module was changed, so itcan be used without a CDI container and can be used in parallel tests.
 
 ==== Migration
 
