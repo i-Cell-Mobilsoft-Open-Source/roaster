@@ -2,6 +2,15 @@
 
 == What's new
 
+=== Java support
+
+* Java 11 support dropped
+* Added Java 25 (LTS) support
+
+==== Migration
+
+* Make sure you have at least JDK 17, and java 17 supported in your project
+
 === roaster-awaitility
 
 * The `roaster-awaitility` module was created. See documentation: #modules-testname-util[]

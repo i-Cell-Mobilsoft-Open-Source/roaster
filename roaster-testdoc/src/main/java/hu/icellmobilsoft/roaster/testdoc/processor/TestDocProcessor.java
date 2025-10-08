@@ -82,7 +82,7 @@ public class TestDocProcessor extends AbstractProcessor {
     }
 
     private Map<String, TestClassDocData> collectTestDocData(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        var visitor = new TestDocVisitor();
+        TestDocVisitor visitor = new TestDocVisitor();
 
         Map<String, TestClassDocData> testDocDataByClassName = new TreeMap<>();
         for (TypeElement annotation : annotations) {
