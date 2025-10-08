@@ -1,0 +1,40 @@
+[#modules-jaxb]
+== JaxbTool
+The purpose of this class is to summarize the transformations and manipulations related to XML objects.
+Its structure is fully modular, you can customize everything to your test's needs with constructor parameters.
+The purpose of this module to provide similar functionality as the `JaxbTool` class in the `coffee` project,
+but without use of CDI. The `JaxbTool` class can be instantiated by calling one of its constructors,
+or by using the `JaxbToolCache.getJaxbTool()` method.
+Its modules provide this functionality by default:
+
+=== XSD error collection
+In the case of marshal (DTO -> XML String) or unmarshal (XML String/Stream -> DTO), you can request a check according to XSD.
+In this case `hu.icellmobilsoft.coffee.rest.validation.xml.exception.XsdProcessingException`
+to get a list of errors that violate XSD rules.
+These errors are handled and provided by the `*IXsdValidationErrorCollector*` interface.
+
+The implementing built-in and replaceable class is `hu.icellmobilsoft.coffee.rest.validation.xml.error.XsdValidationErrorCollector`.
+
+=== XSD Catalog schema management
+This section focuses on the activation in the code - XML validation using XSD catalog.
+
+The whole function is performed by the `JaxbTool` class.
+It is intentionally built in a modular way so that it can be easily adapted to needs.
+As described above, Coffee includes an implementation of `*IXsdResourceResolver*`,
+that can read the schema structure specified in the XSD Catalog.
+This class is called
+
+.project-defaults.yml
+[source,yml]
+----
+roaster:
+    xml:
+        catalog:
+            path: xsd/hu/icellmobilsoft/project/dto/super.catalog.xml
+----
+After that we are ready and the XSD Catalog will do the XSD schema reading.
+
+[NOTE]
+====
+You can add multiple catalog file separated with `,`
+====
