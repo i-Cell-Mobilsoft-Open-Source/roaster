@@ -68,6 +68,78 @@ import hu.icellmobilsoft.roaster.jaxb.JaxbToolCache;
 
 {counter:roaster-jaxb-migration-seq}. Replace the `coffee.xml.catalog.path` config key to `roaster.xml.catalog.path` in the roaster config files (i.e. `microprofile-config.yml`)
 
+=== roaster-redis
+
+* The existing roaster-redis module was enhanced so it can be used without CDI. Documentation: #modules-redis[]
+
+==== Migration
+
+To minimal migration you only need to replace the `coffee.redis` prefix to `roaster.redis` in the roaster config files (i.e. `microprofile-config.yml`)
+
+If you want to use redis without CDI, full migration is needed. The following steps should be taken:
+
+:roaster-redis-migration-seq:
+{counter:roaster-redis-migration-seq}. In the test modules replace the coffee redisstream module with the roaster one:
+
+from:
+[source, xml]
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.coffee</groupId>
+    <artifactId>coffee-module-redisstream</artifactId>
+</dependency>
+----
+to:
+[source, xml]
+----
+<dependency>
+    <groupId>hu.icellmobilsoft.roaster</groupId>
+    <artifactId>roaster-redis</artifactId>
+</dependency>
+----
+
+{counter:roaster-redis-migration-seq}. Replace the coffee `RedisStreamPublisher` to the roaster one:
+
+from:
+[source]
+----
+@Inject
+    @RedisStreamProducer\(configKey = (.+),
+            group = (.+)\)
+    (\S*) RedisStreamPublisher (.+);
+----
+to:
+[source]
+----
+$3 final RedisStreamPublisher $4 = new RedisStreamPublisher(
+            $1,
+            $2);
+----
+
+from:
+
+`import hu.icellmobilsoft.coffee.module.redisstream.publisher.RedisStreamPublisher;`
+
+to:
+
+`import hu.icellmobilsoft.roaster.redis.RedisStreamPublisher;`
+
+{counter:roaster-redis-migration-seq}. Migrate from RedisManager
+
+* Replace injected fields
+[source]
+----
+@Inject
+    @RedisConnection\(configKey = (.+)\)
+    (\S*) RedisManager (.+);
+----
+[source]
+----
+$2 final UnifiedJedis jedis = JedisConnectionCache.get($1);
+----
+
+* Migrate usages to the new solution
+
 === roaster-testname-util
 
 * The `roaster-testname-util` module was created. See documentation: #modules-testname-util[]
