@@ -19,12 +19,15 @@
  */
 package hu.icellmobilsoft.roaster.testsuite.redis;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.util.List;
 
 import jakarta.inject.Inject;
 
-import org.junit.Assert;
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AutoClose;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -33,14 +36,15 @@ import org.junit.jupiter.api.TestInstance;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
 
-import hu.icellmobilsoft.coffee.module.redis.annotation.RedisConnection;
-import hu.icellmobilsoft.coffee.module.redis.manager.RedisManager;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
+import hu.icellmobilsoft.roaster.redis.JedisConnectionCache;
 import hu.icellmobilsoft.roaster.redis.RedisHandler;
 import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Protocol;
+import redis.clients.jedis.UnifiedJedis;
 
 /**
  * Redis docker instance tests to validate the Redis calls
@@ -57,14 +61,11 @@ class RedisHandlerIT extends BaseWeldUnitType {
     public static final String TEST_KEY = "testKey";
     public static final String TEST_VALUE = "test value";
 
+    @AutoClose
     public static final GenericContainer<?> REDIS_SERVER = new GenericContainer<>(DockerImageName.parse("redis:alpine3.16")).withExposedPorts(6379)
             .withAccessToHost(true);
 
     private static RedisContainer redisCache;
-
-    @Inject
-    @RedisConnection(configKey = REDIS_KONFIG_KEY)
-    private RedisManager redisManager;
 
     @Inject
     private RedisHandler redisHandler;
@@ -73,23 +74,19 @@ class RedisHandlerIT extends BaseWeldUnitType {
     static void beforeAll() {
         REDIS_SERVER.start();
         Jedis jedis = new Jedis(REDIS_SERVER.getHost(), REDIS_SERVER.getMappedPort(6379));
-        System.setProperty("coffee.redis.test.host", REDIS_SERVER.getHost());
-        System.setProperty("coffee.redis.test.port", REDIS_SERVER.getMappedPort(6379).toString());
+        System.setProperty("roaster.redis.test.host", REDIS_SERVER.getHost());
+        System.setProperty("roaster.redis.test.port", REDIS_SERVER.getMappedPort(6379).toString());
         redisCache = new RedisContainer(jedis);
-    }
-
-    @AfterAll
-    static void afterAll() {
-        REDIS_SERVER.close();
     }
 
     @Test
     @DisplayName("Testing redis info response")
-    void info() throws BaseException {
-        String managerInfo = redisManager.runWithConnection(Jedis::info, "info").get();
+    void info() {
+        UnifiedJedis jedis = JedisConnectionCache.get(REDIS_KONFIG_KEY);
+        Object managerInfo = jedis.sendCommand(Protocol.Command.INFO);
         String jedisInfo = redisCache.getJedis().info();
-        Assert.assertNotNull(managerInfo);
-        Assert.assertNotNull(jedisInfo);
+        assertNotNull(managerInfo);
+        assertNotNull(jedisInfo);
     }
 
     @Test
@@ -98,7 +95,7 @@ class RedisHandlerIT extends BaseWeldUnitType {
         String key = TEST_KEY + "1";
         redisCache.getJedis().set(key, TEST_VALUE);
         String handlerData = redisHandler.getRedisData(REDIS_KONFIG_KEY, key, String.class);
-        Assert.assertEquals(TEST_VALUE, handlerData);
+        assertEquals(TEST_VALUE, handlerData);
     }
 
     @Test
@@ -107,7 +104,7 @@ class RedisHandlerIT extends BaseWeldUnitType {
         String key = TEST_KEY + "2";
         redisCache.getJedis().set(key, TEST_VALUE);
         String handlerData = redisHandler.getRedisDataOpt(REDIS_KONFIG_KEY, key, String.class).get();
-        Assert.assertEquals(TEST_VALUE, handlerData);
+        assertEquals(TEST_VALUE, handlerData);
     }
 
     @Test
@@ -116,8 +113,8 @@ class RedisHandlerIT extends BaseWeldUnitType {
         String key = TEST_KEY + "3";
         String handlerData = redisHandler.setRedisData(REDIS_KONFIG_KEY, key, TEST_VALUE).get();
         String jedisData = redisCache.getJedis().get(key);
-        Assert.assertEquals("OK", handlerData);
-        Assert.assertEquals(TEST_VALUE, JsonUtil.toObject(jedisData, String.class));
+        assertEquals("OK", handlerData);
+        assertEquals(TEST_VALUE, JsonUtil.toObject(jedisData, String.class));
     }
 
     @Test
@@ -126,8 +123,8 @@ class RedisHandlerIT extends BaseWeldUnitType {
         String key = TEST_KEY + "4";
         String handlerData = redisHandler.setRedisDataExp(REDIS_KONFIG_KEY, key, 60, TEST_VALUE).get();
         String jedisData = redisCache.getJedis().get(key);
-        Assert.assertEquals("OK", handlerData);
-        Assert.assertEquals(TEST_VALUE, JsonUtil.toObject(jedisData, String.class));
+        assertEquals("OK", handlerData);
+        assertEquals(TEST_VALUE, JsonUtil.toObject(jedisData, String.class));
     }
 
     @Test
@@ -137,8 +134,8 @@ class RedisHandlerIT extends BaseWeldUnitType {
         redisCache.getJedis().set(key, TEST_VALUE);
         long handlerData = redisHandler.removeRedisData(REDIS_KONFIG_KEY, key).get();
         String jedisData = redisCache.getJedis().get(key);
-        Assert.assertEquals(1, handlerData);
-        Assert.assertNull(jedisData);
+        assertEquals(1, handlerData);
+        assertNull(jedisData);
     }
 
     @Test
@@ -150,8 +147,8 @@ class RedisHandlerIT extends BaseWeldUnitType {
         redisCache.getJedis().set(key7, TEST_VALUE);
         long handlerData = redisHandler.removeAllRedisData(REDIS_KONFIG_KEY, List.of(key6, key7)).get();
         String jedisData = redisCache.getJedis().get(key6);
-        Assert.assertEquals(2, handlerData);
-        Assert.assertNull(jedisData);
+        assertEquals(2, handlerData);
+        assertNull(jedisData);
     }
 
     @Test
@@ -161,6 +158,6 @@ class RedisHandlerIT extends BaseWeldUnitType {
         redisCache.getJedis().set(key, TEST_VALUE);
         redisHandler.removeAllRedisData(REDIS_KONFIG_KEY);
         String jedisData = redisCache.getJedis().get(key);
-        Assert.assertNull(jedisData);
+        assertNull(jedisData);
     }
 }

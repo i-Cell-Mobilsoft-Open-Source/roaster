@@ -23,17 +23,13 @@ import java.util.List;
 import java.util.Optional;
 
 import jakarta.enterprise.inject.Model;
-import jakarta.enterprise.inject.spi.CDI;
 
 import org.apache.commons.lang3.StringUtils;
 
 import hu.icellmobilsoft.coffee.dto.exception.BONotFoundException;
-import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
-import hu.icellmobilsoft.coffee.module.redis.annotation.RedisConnection;
-import hu.icellmobilsoft.coffee.module.redis.manager.RedisManager;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
-import redis.clients.jedis.Jedis;
+import redis.clients.jedis.UnifiedJedis;
 
 /**
  * Class representing REDIS functionality
@@ -69,8 +65,8 @@ public class RedisHandler {
     @SuppressWarnings("unchecked")
     public <T> T getRedisData(String redisConfigKey, String valueKey, Class<T> c) throws BaseException {
         checkKey(valueKey);
-        RedisManager redis = getRedisManager(redisConfigKey);
-        Optional<String> result = redis.runWithConnection(Jedis::get, "get", valueKey);
+        UnifiedJedis jedis = JedisConnectionCache.get(redisConfigKey);
+        Optional<String> result = Optional.ofNullable(jedis.get(valueKey));
         if (result.isEmpty()) {
             throw new BONotFoundException("Invalid redis data found for key [" + valueKey + "] and type [" + c.getSimpleName() + "]!");
         } else if (c == String.class) {
@@ -99,8 +95,8 @@ public class RedisHandler {
     @SuppressWarnings("unchecked")
     public <T> Optional<T> getRedisDataOpt(String redisConfigKey, String valueKey, Class<T> c) throws BaseException {
         checkKey(valueKey);
-        RedisManager redis = getRedisManager(redisConfigKey);
-        Optional<String> result = redis.runWithConnection(Jedis::get, "get", valueKey);
+        UnifiedJedis jedis = JedisConnectionCache.get(redisConfigKey);
+        Optional<String> result = Optional.ofNullable(jedis.get(valueKey));
         if (result.isEmpty()) {
             return Optional.empty();
         } else if (c == String.class) {
@@ -128,8 +124,8 @@ public class RedisHandler {
     public <T> Optional<String> setRedisData(String redisConfigKey, String valueKey, T redisData) throws BaseException {
         checkKey(valueKey);
         String redisDataString = JsonUtil.toJson(redisData);
-        RedisManager redis = getRedisManager(redisConfigKey);
-        return redis.runWithConnection(Jedis::set, "set", valueKey, redisDataString);
+        UnifiedJedis jedis = JedisConnectionCache.get(redisConfigKey);
+        return Optional.ofNullable(jedis.set(valueKey, redisDataString));
     }
 
     /**
@@ -152,8 +148,8 @@ public class RedisHandler {
     public <T> Optional<String> setRedisDataExp(String redisConfigKey, String valueKey, int secondsToExpire, T redisData) throws BaseException {
         checkKey(valueKey);
         String redisDataString = JsonUtil.toJson(redisData);
-        RedisManager redis = getRedisManager(redisConfigKey);
-        return redis.runWithConnection(Jedis::setex, "setex", valueKey, secondsToExpire, redisDataString);
+        UnifiedJedis jedis = JedisConnectionCache.get(redisConfigKey);
+        return Optional.ofNullable(jedis.setex(valueKey, secondsToExpire, redisDataString));
     }
 
     /**
@@ -169,8 +165,8 @@ public class RedisHandler {
      */
     public Optional<Long> removeRedisData(String redisConfigKey, String valueKey) throws BaseException {
         checkKey(valueKey);
-        RedisManager redis = getRedisManager(redisConfigKey);
-        return redis.runWithConnection(Jedis::del, "del", valueKey);
+        UnifiedJedis jedis = JedisConnectionCache.get(redisConfigKey);
+        return Optional.of(jedis.del(valueKey));
     }
 
     /**
@@ -194,8 +190,8 @@ public class RedisHandler {
         String[] keys = new String[valueKeys.size()];
         keys = valueKeys.toArray(keys);
 
-        RedisManager redis = getRedisManager(redisConfigKey);
-        return redis.runWithConnection(Jedis::del, "del", keys);
+        UnifiedJedis jedis = JedisConnectionCache.get(redisConfigKey);
+        return Optional.of(jedis.del(keys));
     }
 
     /**
@@ -207,15 +203,8 @@ public class RedisHandler {
      *             exception
      */
     public void removeAllRedisData(String redisConfigKey) throws BaseException {
-        RedisManager redis = getRedisManager(redisConfigKey);
-        redis.runWithConnection(Jedis::flushDB, "flushDB");
-    }
-
-    private RedisManager getRedisManager(String redisConfigKey) throws BaseException {
-        if (StringUtils.isBlank(redisConfigKey)) {
-            throw new BaseException(CoffeeFaultType.INVALID_INPUT, "Redis config key is empty.");
-        }
-        return CDI.current().select(RedisManager.class, new RedisConnection.Literal(redisConfigKey)).get();
+        UnifiedJedis jedis = JedisConnectionCache.get(redisConfigKey);
+        jedis.flushDB();
     }
 
     private void checkKey(String valueKey) throws BONotFoundException {
