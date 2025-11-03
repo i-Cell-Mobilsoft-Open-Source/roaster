@@ -196,6 +196,40 @@ public class HibernateTest extends BaseWeldUnitType {
 }
 ----
 
+== TransactionHelper
+
+The `hu.icellmobilsoft.roaster.hibernate.common.helper.TransactionHelper` class can help with transaction management, and automatic rollback on exception.
+Example:
+
+[source,java]
+----
+TransactionHelper.runInTransaction(entityManager, () -> entityManager.persist(new ExampleEntity()));
+----
+
+== EntityContainer
+
+`hu.icellmobilsoft.roaster.hibernate.common.helper.EntityContainer` helps with automatic deletion of the newly created entities which are created in the test method.
+The entities saved through this class are deleted in reverse order at the `deleteAll` or `close` method call.
+
+[source,java]
+----
+import org.junit.jupiter.api.AutoClose;
+
+class ExampleTest {
+
+    @AutoClose //<1>
+    private final EntityContainer entityContainer = new EntityContainer(entityManager);
+
+    @Test
+    void test() {
+        entityContainer.insert(new ExampleEntity());
+        entityContainer.insert(new ExampleEntity());
+    }
+}
+----
+
+1. With `@AutoClose` annotation the created entities will be automatically deleted at the end of the test run.
+
 == Hibernate SE module
 
 There is a newer module, where we can use the configured Hibernate without a CDI/Weld container.

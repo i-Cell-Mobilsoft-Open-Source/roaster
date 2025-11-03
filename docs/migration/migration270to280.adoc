@@ -1,0 +1,11 @@
+= 2.7.0 -> 2.8.0
+
+== What's new
+
+=== roaster-hibernate
+
+* `EntityContainer` and `TransactionHelper` class created to help with temporary test entity and transaction management. For details and examples see: #modules-hibernate[]
+
+==== Migration
+
+Changes are backwards compatible, doesn't need any migration.
