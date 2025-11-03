@@ -20,6 +20,7 @@
 package hu.icellmobilsoft.roaster.hibernate.common.helper;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import jakarta.persistence.EntityManager;
@@ -33,7 +34,7 @@ import jakarta.persistence.EntityManager;
  * {@code
  * import org.junit.jupiter.api.AutoClose;
  *
- * @AutoClose
+ * &#64;AutoClose
  * private final EntityContainer entityContainer = new EntityContainer(entityManager);
  *
  * @Test
@@ -95,7 +96,11 @@ public class EntityContainer implements AutoCloseable {
             return;
         }
         synchronized (entities) {
-            TransactionHelper.runInTransaction(entityManager, () -> entities.reversed().forEach(entityManager::remove));
+            TransactionHelper.runInTransaction(entityManager, () -> {
+                for (ListIterator<Object> iterator = entities.listIterator(entities.size()); iterator.hasPrevious();) {
+                    entityManager.remove(iterator.previous());
+                }
+            });
             entities.clear();
         }
     }
