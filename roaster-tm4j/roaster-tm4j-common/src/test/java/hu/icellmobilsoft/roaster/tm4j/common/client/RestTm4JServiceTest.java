@@ -30,6 +30,7 @@ import java.util.List;
 
 import jakarta.ws.rs.core.Response;
 
+import org.junit.jupiter.api.AutoClose;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -48,9 +49,12 @@ class RestTm4JServiceTest {
     @InjectMocks
     private RestTm4jService testObj;
 
+    @AutoClose
+    private AutoCloseable autoCloseable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        autoCloseable = MockitoAnnotations.openMocks(this);
     }
 
     @Test

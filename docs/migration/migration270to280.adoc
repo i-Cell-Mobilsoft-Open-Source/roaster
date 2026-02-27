@@ -2,6 +2,18 @@
 
 == What's new
 
+=== Dependencies
+
+* JUnit upgraded from `5.13.4` to https://docs.junit.org/6.0.3/release-notes[JUnit 6.0.3]
+* Testcontainers upgraded from `1.21.3` to https://github.com/testcontainers/testcontainers-java/releases/tag/1.21.4[1.21.4].
+This release makes version 1.21.x works with recent Docker Engine changes.
+* Mockito upgraded from `4.11.0` to https://github.com/mockito/mockito/releases/tag/v5.21.0[5.21.0] to support JUnit5
+
+==== Migration
+
+* Replace old JUnit4 Mockito usages `@RunWith(MockitoJUnitRunner.class)` with `@ExtendWith(MockitoExtension.class)`
+* `MockitoAnnotations.initMocks(this);` is deprecated, replace with `MockitoAnnotations.openMocks(this);`
+
 === roaster-hibernate
 
 * `EntityContainer` and `TransactionHelper` class created to help with temporary test entity and transaction management. For details and examples see: #modules-hibernate[]

@@ -36,6 +36,7 @@ import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.Optional;
 
+import org.junit.jupiter.api.AutoClose;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -64,9 +65,12 @@ class RestTm4JReporterTest {
     @InjectMocks
     private RestTm4jReporter testObj;
 
+    @AutoClose
+    private AutoCloseable autoCloseable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        autoCloseable = MockitoAnnotations.openMocks(this);
     }
 
     @Test

@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 
+import org.junit.jupiter.api.AutoClose;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -44,9 +45,12 @@ class AuthHeadersFactoryTest {
     @InjectMocks
     private AuthHeadersFactory testObj;
 
+    @AutoClose
+    private AutoCloseable autoCloseable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        autoCloseable = MockitoAnnotations.openMocks(this);
         System.clearProperty(RoasterConfigKeys.Server.BASIC_AUTH_TOKEN);
         System.clearProperty(RoasterConfigKeys.Server.USER_NAME);
         System.clearProperty(RoasterConfigKeys.Server.PASSWORD);
