@@ -25,6 +25,7 @@ import static org.mockito.Mockito.when;
 
 import jakarta.inject.Provider;
 
+import org.junit.jupiter.api.AutoClose;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -43,9 +44,12 @@ class Tm4JReporterProducerTest {
     @InjectMocks
     private Tm4jReporterProducer testObj;
 
+    @AutoClose
+    private AutoCloseable autoCloseable;
+
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        autoCloseable = MockitoAnnotations.openMocks(this);
     }
 
     @Test
