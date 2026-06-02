@@ -8,6 +8,8 @@
 
     <artifactId>roaster-jaxrs</artifactId>
 
+    <name>${project.artifactId}</name>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

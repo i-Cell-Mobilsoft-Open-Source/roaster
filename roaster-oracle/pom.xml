@@ -9,6 +9,8 @@
 
 	<artifactId>roaster-oracle</artifactId>
 
+	<name>${project.artifactId}</name>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

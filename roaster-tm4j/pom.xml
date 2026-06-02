@@ -10,6 +10,8 @@
     <artifactId>roaster-tm4j</artifactId>
     <packaging>pom</packaging>
 
+    <name>${project.artifactId}</name>
+
     <modules>
         <module>roaster-tm4j-junit5</module>
         <module>roaster-tm4j-common</module>

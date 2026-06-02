@@ -8,6 +8,8 @@
 
     <artifactId>roaster-testsuite-jaxrs</artifactId>
 
+    <name>${project.artifactId}</name>
+
     <build>
         <plugins>
             <plugin>

@@ -9,6 +9,8 @@
 
 	<artifactId>roaster-restassured</artifactId>
 
+	<name>${project.artifactId}</name>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

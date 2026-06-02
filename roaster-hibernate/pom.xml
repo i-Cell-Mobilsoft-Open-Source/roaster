@@ -9,6 +9,7 @@
 
     <artifactId>roaster-hibernate</artifactId>
 
+    <name>${project.artifactId}</name>
     <dependencyManagement>
         <dependencies>
             <dependency>

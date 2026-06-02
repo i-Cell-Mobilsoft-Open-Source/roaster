@@ -10,6 +10,8 @@
     <artifactId>roaster-selenide</artifactId>
     <packaging>pom</packaging>
 
+    <name>${project.artifactId}</name>
+
     <modules>
         <module>roaster-selenide-api</module>
         <module>roaster-selenide-angular</module>
