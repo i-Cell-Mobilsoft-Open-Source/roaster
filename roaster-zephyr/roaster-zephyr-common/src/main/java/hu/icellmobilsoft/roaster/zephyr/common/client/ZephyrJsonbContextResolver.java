@@ -28,6 +28,8 @@ import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.ext.ContextResolver;
 import jakarta.ws.rs.ext.Provider;
 
+import hu.icellmobilsoft.coffee.tool.jsonb.FieldOnlyVisibilityStrategy;
+
 /**
  * Custom {@link Jsonb} {@link ContextResolver} for Zephyr rest clients
  *
@@ -38,7 +40,9 @@ import jakarta.ws.rs.ext.Provider;
 @Priority(Priorities.ENTITY_CODER)
 public class ZephyrJsonbContextResolver implements ContextResolver<Jsonb> {
 
-    private static final Jsonb jsonb = JsonbBuilder.newBuilder().withConfig(new YassonConfig().withFailOnUnknownProperties(false)).build();
+    private static final Jsonb jsonb = JsonbBuilder.newBuilder()
+            .withConfig(new YassonConfig().withFailOnUnknownProperties(false).withPropertyVisibilityStrategy(new FieldOnlyVisibilityStrategy()))
+            .build();
 
     /**
      * Default constructor
